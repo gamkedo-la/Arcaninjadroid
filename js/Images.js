@@ -36,10 +36,16 @@ function Images () {
         }
     }
 
-    Images.getImg = function (name) {
+    Images.getImage = function (name) {
 
-        if (typeof imageDict[name] === "undefined"){
-            console.log("Error: image with name '" + name + "' not found. Check Images module fileNames");
+        try {
+            var image = imageDict[name];
+            if (typeof image === "undefined") {
+                throw "Error: image with name '" + name + "' not found. Check Images module fileNames";
+            }
+        }
+        catch (err){
+            console.log(err);
         }
 
         return imageDict[name];
@@ -48,11 +54,12 @@ function Images () {
 }
 // IMPORTANT: The constructor, Images(), as well as Images.loadImages(), must be called in the Main.js file, after the game is started and canvas created
 
-//Your file names go here
+// Your file names go here
 var fileNames = [
 
     "images/viewtiful.jpg",
-    "images/testTexture.png"
+    "images/testTexture.png",
+    "images/bayo.jpg"
 
 ];
 

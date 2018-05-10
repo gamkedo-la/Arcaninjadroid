@@ -64,9 +64,9 @@ function imageLoadingDoneSoStartGame() {
     emitterConfig = {
 
         speed:360,
-        size:115,
+        size:50,
         angle : 0,
-        emissionRate: 100,
+        //emissionRate: 100,
         pLife : 1,
         duration : 0.1,
 
@@ -76,13 +76,13 @@ function imageLoadingDoneSoStartGame() {
         speedVar: 15,
         sizeVar : 20,
 
-        texture : Images.getImg("testTexture"),
+        texture : Images.getImage("testTexture"),
         useTexture : true,
-        textureAdditive : true,
-        tint : true,
+        //textureAdditive : true,
+        //tint : true,
 
-        fadeAlpha : true,
-        fadeSize : true,
+        //fadeAlpha : true,
+        //fadeSize : true,
 
         endColor : [8, 22, 175, 1]
 
@@ -92,6 +92,9 @@ function imageLoadingDoneSoStartGame() {
 
 function updateAll() {
 
+    
+    //Below is the standard stuff that needs to happen at the beginning of every frame, regardless of game state, player state etc.
+
     //Update the time variation
     now = (new Date()).getTime();
     dt = now - lastTime;
@@ -99,32 +102,28 @@ function updateAll() {
   
     dt = dt/1000; //convert to seconds
 
-    Input.update();
-    clearScreen();
+    Input.resetGetKeyDown(); //updates the states of all keys for checking the single frame, Intpu.getKeyDown function
 
+
+    clearScreen(canvas);
+
+
+    //////////////////////////////////////////////////
+    // Now, we update the state machines. This takes care of things like handle inputs for state transitions
+    // It also draws directly, though there may be an eventual addition of a Graphics module that draws after all updates are done
     myMachine.update();
     myMachine.handleInput();
 
-    //ParticleRenderer.renderAll(canvasContext);
+    updateAllEmitters();
+    ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
 
-    //gameController.update(); Game state will have it's own state machine
-    /*
-    if (holdP) {
-        pauseState = !pauseState;
-        if (pauseState) {
-            console.log(pauseState);
-            scaledContext.textAlign = "center";
-            colorText("P A U S E D", scaledCanvas.width / 2, 200, "blue");
-            scaledContext.textAlign = "left";
-        }
-    }*/
 }
 
-function clearScreen() {
+function clearScreen(canvas) {
 
-    colorRect(0, 0, canvas.width, canvas.height, 'black'); //Doesn't work with the whole scaled canvas shenanigans...
+    //colorRect(0, 0, canvas.width, canvas.height, 'black'); //Doesn't work with the whole scaled canvas shenanigans...
 
-    //canvasContext.drawImage(Images.getImg("viewtiful"), 0, 0,canvas.width,canvas.height); 
+    canvasContext.drawImage(Images.getImage("bayo"), 0, 0,canvas.width,canvas.height); 
 
 
 }

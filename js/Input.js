@@ -27,7 +27,7 @@ function Input() {
 
 
     // Initialization of the value dict. Encoding for key states: [0,0] = no press, [0,1] = pressed this frame, [1,1] = holding
-    // The state [1,0] is transitional, it tells the update method to wait 1 frame before clearing inputs so we have time to read first
+    // The state [1,0] is transitional, it tells the resetGetKeyDown method to wait 1 frame before clearing inputs so we have time to read first
     for (var name in nameCodePairs) {
         if (nameCodePairs.hasOwnProperty(name)){
             var code = nameCodePairs[name];
@@ -36,7 +36,7 @@ function Input() {
     }
 
     // Call this every frame (pls)
-    Input.update = function () {
+    Input.resetGetKeyDown = function () {
 
         for (var code in codeValuePairs) {
             if (codeValuePairs.hasOwnProperty(code)){

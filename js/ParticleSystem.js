@@ -19,8 +19,8 @@
 // As will all the modules in Arcaninjandroid, don't hesitate to contact me if you need help or want a walkthrough of the implementation
 
 
-var emitters = []; //emitters get automatically added to this array
 
+var emitters = [];
 function ParticleEmitter (x,y,config) {
 
     // Adds to the array of emitters that get updated + rendered each frame
@@ -32,7 +32,10 @@ function ParticleEmitter (x,y,config) {
 
     this.isActive = true;
 
-
+    //Avoids error and lets us set to default configs 
+    if (typeof config === "undefined") {
+        config = {};
+    }
 
     ////////      Initialize the emitter with configurations, if undefined set to (arbitrary/logical) default          //////////
 
@@ -247,9 +250,13 @@ function ParticleEmitter (x,y,config) {
 
     }
 
-
-
 };
+
+function updateAllEmitters() {
+    for (var i = 0, l = emitters.length; i < l; i++) {
+        emitters[i].update(dt);
+    }
+}
 
 //Note: tint, additive rendering, and to a degree, using texture, consumes resources! I will try to optimize the code, but still, the operations are costly. Use with care!
 
@@ -283,7 +290,7 @@ ParticleRenderer = {
                 this.tintAndDraw(particle,context);
 
             } else {
-                context.drawImage(particle.texture, particle.x, particle.y, particle.size, particle.size);               
+                context.drawImage(particle.texture, particle.x-particle.size/2, particle.y-particle.size/2, particle.size, particle.size);               
             }
             
             context.globalAlpha = 1;
@@ -314,7 +321,7 @@ ParticleRenderer = {
         tintContext.globalCompositeOperation = "source-over";
         
         //canvasContext.drawImage(tintCanvas, particle.x, particle.x, tintCanvas.width, tintCanvas.height);
-        context.drawImage(tintCanvas, particle.x, particle.y, tintCanvas.width, tintCanvas.height);
+        context.drawImage(tintCanvas, particle.x-tintCanvas.width/2, particle.y-tintCanvas.height/2, tintCanvas.width, tintCanvas.height);
     }
 };
 

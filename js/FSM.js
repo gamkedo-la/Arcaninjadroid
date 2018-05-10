@@ -21,7 +21,11 @@ function StateMachine (defaultState){
         nextState = currentState.handleInput();
 
         if (typeof nextState !== "undefined"){
-            console.log("Changing");
+            //Weakly typed languages ftw
+            if (nextState === "previous") {
+                this.changeToPrevious();
+                return;
+            }
             currentState.exit();
             //make the switch and save previous
             previousState = currentState;
@@ -60,6 +64,7 @@ function StateMachine (defaultState){
 
         if (typeof previousState === "undefined") {
             console.log("Error: state machine has no previous state. Returning...");
+            return;
         }
 
         currentState.exit();
@@ -79,45 +84,38 @@ function StateMachine (defaultState){
 
 // The following is what is known in programming as an "interface". It defines a set of methods (update, enter, exit etc.) that any State object
 // must absolutely implement. Here, they are left blank, because we implement them in the actual state object definition.
-//
 // In other words, we're saying: if you make a State, define these functions, because we need them!
+// Normally, the compiler in other languages would FORCE YOU to implement these methods. Here, we at least give
+// a console log if the method is undefined
 
 function State () {
 
     this.update = function () {
-
-        console.log("Error: State does not implement 'update' method");
-
+        console.log("Warning: Current state must implement 'update' method");
     }
 
     this.handleInput = function () {
-
+        console.log("Warning: Current state must implement 'handleInput' method");
     }
 
     this.enter = function () {
-
+        console.log("Warning: Current state must implement 'enter' method");
     }
 
     this.exit = function () {
-
+        console.log("Warning: Current state must implement 'exit' method");
     }
+
 }
 
 /////////     Example     //////////
 
-
 function ExampleState () {
 
-    this.prototype = new State();
 
     this.update = function () {
 
-        //canvasContext.drawImage(Images.getImg("viewtiful"), 0, 0,600,600); 
-        //console.log(this.prototype);
-
-        for (var i = 0, l = emitters.length; i < l; i++) {
-            //emitters[i].update(dt);
-        }
+        canvasContext.drawImage(Images.getImage("viewtiful"), 0, 0,600,600); 
 
     }
 
@@ -128,17 +126,14 @@ function ExampleState () {
             var x = Input.getMouseX();
             var y = Input.getMouseY();
 
-            //emitters.push(new ParticleEmitter(x,y,emitterConfig));
+            emitters.push(new ParticleEmitter(x,y,emitterConfig));
         }
 
-        if (Input.getKey("space")){
+        if (Input.getKeyDown("space")){
 
-            console.log("hold space");;
+            return new DoNothingState();
         }
 
-        if (Input.getKeyDown("g")) {
-            console.log("pressed g");
-        }
 
     }
 
@@ -151,6 +146,8 @@ function ExampleState () {
     }
 
 }
+ExampleState.prototype = new State(); //if forgotten, our pseudo-interface is broken, but there are no bugs
+
 
 function DoNothingState () {
     
@@ -160,6 +157,9 @@ function DoNothingState () {
 
     this.handleInput = function () {
 
+        if (Input.getKeyDown("backspace")) {
+            return "previous";
+        }
     }
 
     this.enter = function () {
@@ -170,6 +170,7 @@ function DoNothingState () {
 
     }
 }
+DoNothingState.prototype = new State();
 
 var exampleState = new ExampleState();
 var doNothingState = new DoNothingState();
