@@ -116,7 +116,7 @@ function ExampleState () {
         //console.log(this.prototype);
 
         for (var i = 0, l = emitters.length; i < l; i++) {
-            emitters[i].update(dt);
+            //emitters[i].update(dt);
         }
 
     }
@@ -125,15 +125,19 @@ function ExampleState () {
         
         if (Input.getKey("mouseleft")){
 
-            emitterConfig.x = Input.getMouseX();
-            emitterConfig.y = Input.getMouseY();
-            //console.log(Input.getMouseX());
-            emitters.push(new ParticleEmitter(emitterConfig));
+            var x = Input.getMouseX();
+            var y = Input.getMouseY();
+
+            //emitters.push(new ParticleEmitter(x,y,emitterConfig));
         }
 
         if (Input.getKey("space")){
 
-            return new DoNothingState();
+            console.log("hold space");;
+        }
+
+        if (Input.getKeyDown("g")) {
+            console.log("pressed g");
         }
 
     }

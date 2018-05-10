@@ -21,7 +21,7 @@ window.onload = function () {
     //Eventually, find a way to not scale the canvas at all
     canvas = document.getElementById("canvas");
     canvasContext = canvas.getContext("2d");
-    tintCanvas = document.createElement("canvas");
+    tintCanvas = document.createElement("canvas"); //used in conjuction with the ParticleRenderer
     tintContext = tintCanvas.getContext("2d");
     //scaledCanvas = document.getElementById('gameCanvas');
     //scaledContext = scaledCanvas.getContext('2d');
@@ -63,17 +63,18 @@ function imageLoadingDoneSoStartGame() {
 
     emitterConfig = {
 
-        speed:155,
+        speed:360,
         size:115,
-        angle : 90,
-        emissionRate: 2,
-        pLife : 5,
+        angle : 0,
+        emissionRate: 100,
+        pLife : 1,
+        duration : 0.1,
 
-        xVar:40,
-        yVar:40,
-        angleVar: 25,
+        xVar:10,
+        yVar:10,
+        angleVar: 360,
         speedVar: 15,
-        sizeVar : 40,
+        sizeVar : 20,
 
         texture : Images.getImg("testTexture"),
         useTexture : true,
@@ -104,7 +105,7 @@ function updateAll() {
     myMachine.update();
     myMachine.handleInput();
 
-    ParticleRenderer.renderAll(canvasContext);
+    //ParticleRenderer.renderAll(canvasContext);
 
     //gameController.update(); Game state will have it's own state machine
     /*

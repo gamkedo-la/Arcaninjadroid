@@ -19,23 +19,36 @@ function Input() {
     var mouseX = 0;
     var mouseY = 0;
 
-    var delay = 30;
-    var counter = 0;
-
     //Dict mapping keycodes with their "currently pressed" value
     var codeValuePairs = [];
 
     //Dict mapping keys with their keycodes (generated using the keycodes.js file)
     var nameCodePairs = keycodes;
 
-    //Saves the codes pressed this frame only, used for getKeyDown
-    var pressedThisFrame = [];
-    var toFlush = [];
+
+    // Initialization of the value dict. Encoding for key states: [0,0] = no press, [0,1] = pressed this frame, [1,1] = holding
+    // The state [1,0] is transitional, it tells the update method to wait 1 frame before clearing inputs so we have time to read first
+    for (var name in nameCodePairs) {
+        if (nameCodePairs.hasOwnProperty(name)){
+            var code = nameCodePairs[name];
+            codeValuePairs["#" + code] = [0,0];
+        }
+    }
 
     // Call this every frame (pls)
     Input.update = function () {
 
-        pressedThisFrame = []; //resets every frame
+        for (var code in codeValuePairs) {
+            if (codeValuePairs.hasOwnProperty(code)){
+                var enc = codeValuePairs[code];
+                
+                if (enc[0] === 1 && enc[1] === 0){
+                    codeValuePairs[code] = [0,1];
+                } else if (enc[0] === 0 && enc[1] === 1) {
+                    codeValuePairs[code] = [1,1];
+                }
+            }
+        }
 
     }
 
@@ -43,25 +56,27 @@ function Input() {
     //Returns true if the key called "name" is currently pressed
     Input.getKey = function (name) {
 
-        var value = codeValuePairs["#" + nameCodePairs[name]];
-        if (typeof value === "undefined"){
-            value = false;
-        }
+        var toCheck = codeValuePairs["#" + nameCodePairs[name]];
 
-        return value;
+        if (toCheck[1] === 1) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
     // Returns true the frame on which the key called "name" is pressed
     Input.getKeyDown = function (name) {
 
-        //console.log(name + "  :  " + pressedThisFrame);
-        var thisFrame = pressedThisFrame.indexOf(nameCodePairs[name]);
-        if (thisFrame != -1){
-            toFlush.push(inputIndex); //we "looked" at this input, so we'll flush it next frame
+        var toCheck = codeValuePairs["#" + nameCodePairs[name]];
+
+
+        if (toCheck [0] === 0 && toCheck[1] === 1) {
             return true;
+        } else {
+            return false;
         }
-        else return false;
 
     }
 
@@ -77,15 +92,19 @@ function Input() {
 
         evt.preventDefault(); //prevents normal functionalities such as scrolling with arrows
 
-        codeValuePairs["#" + evt.which] = true;
+        var toCheck = codeValuePairs["#" + evt.which];
+        if (toCheck[0] == 0 && toCheck[1] == 0){
+            codeValuePairs["#" + evt.which] = [1,0];
+        } else {
+            codeValuePairs["#" + evt.which] = [1,1];
+        } // see encodings above
 
-        pressedThisFrame.push(evt.which); //adds to the array that stores the first frame of input
         
     };
 
     Input.keyUp = function (evt) {
 
-        codeValuePairs["#" + evt.which] = false;
+        codeValuePairs["#" + evt.which] = [0,0];
 
     };
 
@@ -161,7 +180,8 @@ var keycodes = {
     d:68,
     e:69,
     f:70,
-    g:72,
+    g:71,
+    h:72,
     i:73,
     j:74,
     k:75,

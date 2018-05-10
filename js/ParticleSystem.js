@@ -21,13 +21,13 @@
 
 var emitters = []; //emitters get automatically added to this array
 
-function ParticleEmitter (config) {
+function ParticleEmitter (x,y,config) {
 
     // Adds to the array of emitters that get updated + rendered each frame
     emitters.push(this);
 
     this.pool = [];
-    this.poolPointer = 0; //swims around in the pool, pointing to the last dead particle
+    this.poolPointer = 0; //moves around in the pool, pointing to the last dead particle
     this.toSwap = []; //stores which particles died this frame and need to be swapped
 
     this.isActive = true;
@@ -44,8 +44,11 @@ function ParticleEmitter (config) {
     }
     //stores delta times and tells us if we must create a new particle
 
-    this.x = config.x || 0;
-    this.y = config.y || 0;
+    this.x = x || 0;
+    this.y = y || 0;
+    this.duration = config.duration || 2; //note: when emitter dead, alive particles still finish their life
+    this.timeLeft = this.duration;
+
     this.pLife = config.particleLife || 2;
     this.size = config.size || 10;
     this.speed = config.speed || 25;
@@ -60,6 +63,7 @@ function ParticleEmitter (config) {
 
     this.fadeAlpha = config.fadeAlpha || false; //fades the alpha over the particle's lifetime
     this.fadeSize = config.fadeSize || false;
+
     this.gravity = config.gravity || 0;
 
 
@@ -74,15 +78,22 @@ function ParticleEmitter (config) {
 
     this.startColorVar = config.startColorVar || [0,0,0,0];
     this.endColorVar = config.endColorVar || [0,0,0,0];
-    //this.alphaVar = config.alphaVar || 0;
 
 
     ParticleEmitter.prototype.update = function (dt) {
 
         this.toSwap = [];
 
+        //Update emitter time left
+        if (this.isActive){
+            this.timeLeft -= dt; //in seconds
+            if (this.timeLeft < 0) {
+                this.isActive = false;
+            }
+        }
+
         //Emit new particles if needed           
-        if (this.emissionRate != 0){
+        if (this.emissionRate != 0 && this.isActive){
 
             var rate = 1 / this.emissionRate;
 
@@ -138,7 +149,7 @@ function ParticleEmitter (config) {
 
         } else {
 
-            this.toSwap.push(particleIndex); //died this frame, we'll need to swap this one once we're done updating everyone else
+            this.toSwap.push(particleIndex); //particle died this frame, we'll need to swap this one once we're done updating everyone else
 
         }
 
@@ -148,9 +159,9 @@ function ParticleEmitter (config) {
     ParticleEmitter.prototype.addParticle = function () {
 
         var particle = this.getParticleFromPool(); //grab a dead one if available, or extend the pool if it's full
-
+        
         this.initParticle(particle); //applies the emitter configuration to our newborn particle
-
+    
     }
 
     ParticleEmitter.prototype.initParticle = function (p) {
@@ -159,10 +170,9 @@ function ParticleEmitter (config) {
         p.y = this.y + this.yVar*randomMin1To1();
 
         p.lifetime = this.pLife + this.pLifeVar*randomMin1To1(); //camelCase confusing?
-        //p.lifeLeft = this.pLife + this.pLifeVar*randomMin1To1();
-        p.lifeLeft = p.lifetime;
+        p.lifeLeft = p.lifetime; //life left starts at max
         p.originalSize = this.size + this.sizeVar*randomMin1To1();
-        if (p.originalSize < 0 ){p.originalSize = 0;}
+        if (p.originalSize < 0 ){ p.originalSize = 0;}
         p.size = p.originalSize;
         p.angle = this.angle + this.angleVar*randomMin1To1();
 
@@ -170,6 +180,7 @@ function ParticleEmitter (config) {
             x: (this.speed + this.speedVar*randomMin1To1()) * Math.cos(p.angle),
             y: -(this.speed+ this.speedVar*randomMin1To1()) * Math.sin(p.angle), //minus because y axis points down
         };
+
 
         var startColor = [
             this.startColor[0] + this.startColorVar[0] * randomMin1To1(), 
@@ -186,6 +197,7 @@ function ParticleEmitter (config) {
         ];
         p.color = startColor;
 
+        //The variation between colors.This is applied each frame over lifetime
         p.deltaColor = [
     	(endColor[0] - startColor[0]) / p.lifeLeft,
     	(endColor[1] - startColor[1]) / p.lifeLeft,
@@ -202,6 +214,7 @@ function ParticleEmitter (config) {
 
         p.fadeAlpha = this.fadeAlpha;
         p.fadeSize = this.fadeSize;
+
         p.gravity = this.gravity;
 
     }
@@ -239,11 +252,9 @@ function ParticleEmitter (config) {
 };
 
 //Note: tint, additive rendering, and to a degree, using texture, consumes resources! I will try to optimize the code, but still, the operations are costly. Use with care!
-//TODO: Tint everything on the same canvas: we won't need different tints anyway
+
 ParticleRenderer = {
 
-    //tintCanvas : document.createElement("tintCanvas"),
-    //tintContext : tintCanvas.getContext("2d"),
 
     renderAll : function (context){
 
@@ -252,31 +263,31 @@ ParticleRenderer = {
             for (var j = 0, k = emitters[i].poolPointer; j < k; j++) {
                 
                 particle = emitters[i].pool[j];
-                this.renderParticle(particle); //I'm not putting huge code in a double loop haha
+                this.renderParticle(particle, context); //I'm not putting huge code in a double loop haha
             }
         }
 
     },
 
-    renderParticle : function (particle) {
+    renderParticle : function (particle, context) {
 
         if (particle.useTexture){
 
-            canvasContext.globalAlpha = particle.color[3];
+            context.globalAlpha = particle.color[3];
 
             if (particle.textureAdditive){
-                canvasContext.globalCompositeOperation = "lighter";
+                context.globalCompositeOperation = "lighter";
             }
             if (particle.tint) {
 
-                this.tintAndDraw(particle);
+                this.tintAndDraw(particle,context);
 
             } else {
-                canvasContext.drawImage(particle.texture, particle.x, particle.y, particle.size, particle.size);               
+                context.drawImage(particle.texture, particle.x, particle.y, particle.size, particle.size);               
             }
             
-            canvasContext.globalAlpha = 1;
-            canvasContext.globalCompositeOperation = "source-over";
+            context.globalAlpha = 1;
+            context.globalCompositeOperation = "source-over";
             
             
         }
@@ -286,7 +297,7 @@ ParticleRenderer = {
         }
     },
 
-    tintAndDraw : function (particle) {
+    tintAndDraw : function (particle,context) {
 
         // A canvas must have integer width that is more than zero
         if (particle.size < 1) {
@@ -295,7 +306,7 @@ ParticleRenderer = {
 
         tintCanvas.width = particle.size;
         tintCanvas.height = particle.size;
-        tintContext.fillStyle = canvasContext.fillStyle = "rgba(" + particle.color[0] + ","+ particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")";
+        tintContext.fillStyle = context.fillStyle = "rgba(" + particle.color[0] + ","+ particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")";
 
         tintContext.drawImage(particle.texture, 0, 0, tintCanvas.width, tintCanvas.height);
         tintContext.globalCompositeOperation = "source-atop";
@@ -303,7 +314,7 @@ ParticleRenderer = {
         tintContext.globalCompositeOperation = "source-over";
         
         //canvasContext.drawImage(tintCanvas, particle.x, particle.x, tintCanvas.width, tintCanvas.height);
-        canvasContext.drawImage(tintCanvas, particle.x, particle.y, tintCanvas.width, tintCanvas.height);
+        context.drawImage(tintCanvas, particle.x, particle.y, tintCanvas.width, tintCanvas.height);
     }
 };
 
