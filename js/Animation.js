@@ -3,40 +3,85 @@
 
 
 
-function Animation (config) {
-
-    this.fps = config.fps ? config.fps : 1;
-    this.frameDurationSec = 1 / this.fps;
-    this.frameCount = config.frameCount ? config.frameCount : 1;
-    this.duration = config.duration ? config.duration : this.frameCount * this.frameDurationSec;
+function Animation (sheet, config) {
     
-    var sheet = config.spriteSheet; //SpriteSheet object
+    var sheet = sheet; //SpriteSheet object
 
-    //this.currentFrame; //the image that will be drawn
-
-    this.frames = [];
-    for (var i = 0, l = sheet.imageCount; i < l; i++) {
-        //frames[i] = this.spriteSheet
+    //Avoids error and lets us set to default configs 
+    if (typeof config === "undefined") {
+        config = {};
     }
 
+    var fps = config.fps ? config.fps : 1;
+    var frameDurationSec = 1 / fps;
+    var frameCount = sheet.getNumCols()*sheet.getNumRows();
+
+    var duration = config.duration ? config.duration : frameCount * frameDurationSec;
+    var timeLeft = duration; // decrements
+    var loop = config.loop || false;
+
+    this.isOver = false;
+
+    var frameNum = 0;
+
     var timeCounter = 0;
+
     this.update = function (dt) {
+
+        if (this.isOver) {
+            return;
+        }
 
         timeCounter += dt; //in seconds just like everything else that includes dt
 
-        //frame numbering starts at 1 for reasons
-        var frameNum = Math.floor(this.timeCounter % this.frameDurationSec) + 1;
- 
+        if (timeCounter > timeLeft) {
+            if (loop){
+                this.reset();
+            } else {
+                this.isOver = true;
+            }
+        }
 
+        frameNum = Math.floor(timeCounter / frameDurationSec) % frameCount;
+ 
     }
 
     this.draw = function (x,y) {
 
-        //var clipStartX = 
-        //canvasContext.drawImage(sheet.getImage(), sheet.get   x,y, );
+        var clipStartX = (frameNum % sheet.getNumCols()) * sheet.getSpriteWidth();
+        var clipStartY = Math.floor(frameNum / sheet.getNumCols()) * sheet.getSpriteHeight();
+
+        canvasContext.drawImage(sheet.getImage(),
+                                clipStartX,clipStartY, sheet.getSpriteWidth(), sheet.getSpriteHeight(), 
+                                x,y, sheet.getSpriteWidth(), sheet.getSpriteHeight());
     }
+
+    this.reset = function () {
+
+        timeCounter = 0;
+        this.isOver = false;
+    }
+
+    this.getCurrentFrame = function () {
+        return frameNum;
+    }
+
+    this.getDuration = function () {
+        return duration;
+    }
+
 }
 
+var testSheet = new SpriteSheet (Images.getImage("robokedoSideRight"), 2,2);
+
+var animConfig = {
+    fps : 15,
+    //loop: true,
+    duration : 5
+}
+var testAnim = new Animation (testSheet);
+
+//IMPORTANT: sprite sheets cannot have incomplete rows, but they can have "full" sheets of any size
 function SpriteSheet (image, numRows, numCols) {
 
     var image = image; //the image variable, NOT the path string!
@@ -49,15 +94,6 @@ function SpriteSheet (image, numRows, numCols) {
 
     var imageCount = numRows * numCols;
 
-    var spriteWidth = image.width / numCols;
-    var spriteHeight = image.height / numRows;
-
-    /*for (var i = 0, l = this.numRows; i < l; i++){
-        for (var j = 0, m = this.numCols; i < l; i++){
-            this.frames.push();
-        } 
-    }*/
-
     this.getImage = function () {
         return image;
     }
@@ -69,4 +105,13 @@ function SpriteSheet (image, numRows, numCols) {
         return numCols;
     }
 
+    //Note: having an image module means that (as of now) images have 0 w, 0 h when assigned
+    // As such, we cannot save the width and heigths in fields... and we need getters
+    this.getSpriteWidth = function () {
+        return image.width / numCols;
+    }
+
+    this.getSpriteHeight = function () {
+        return image.height / numRows;
+    }
 }

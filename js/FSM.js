@@ -115,7 +115,9 @@ function ExampleState () {
 
     this.update = function () {
 
-        canvasContext.drawImage(Images.getImage("viewtiful"), 0, 0,600,600); 
+        canvasContext.drawImage(Images.getImage("viewtiful"), 0, 0,600,600);
+        testAnim.update(dt);
+        if (testAnim.isOver === false) testAnim.draw(400,300);
 
     }
 

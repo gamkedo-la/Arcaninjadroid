@@ -45,8 +45,8 @@ window.onload = function () {
     colorText('LOADING', canvas.width / 2, canvas.height / 2, 'orange'); //Also looks weird now :P
 
     Input();
-    Images();
-    Images.loadImages();
+
+    Images.loadImages(); // if we called this in Images.js, the game could start before the canvas is created
 
 };
 
@@ -79,7 +79,7 @@ function imageLoadingDoneSoStartGame() {
         texture : Images.getImage("testTexture"),
         useTexture : true,
         //textureAdditive : true,
-        //tint : true,
+        tint : true,
 
         //fadeAlpha : true,
         //fadeSize : true,
@@ -102,7 +102,8 @@ function updateAll() {
   
     dt = dt/1000; //convert to seconds
 
-    Input.resetGetKeyDown(); //updates the states of all keys for checking the single frame, Intpu.getKeyDown function
+    if (typeof Input.resetGetKeyDown != "undefined"){ Input.resetGetKeyDown();}
+    //updates the states of all keys for checking the single frame, Intpu.getKeyDown function
 
 
     clearScreen(canvas);

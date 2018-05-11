@@ -16,24 +16,35 @@ function Images () {
     var imageDict = [];
     console.log("Initializing Images module.");
 
-    Images.loadImages = function(){
+    for (var i = 0, len = fileNames.length; i < len; i++) {
 
+        // Cuts up the path to extract the image name, and adds it in the dict
+        var splitArray = fileNames[i].split("/");
+        var imgName = splitArray[splitArray.length - 1].split(".")[0];
+
+        var img = document.createElement("img");
+        imageDict[imgName] = img; //the spot is being kept by a dummy image; we will load it later
+    }
+
+    Images.loadImages = function(){
+        console.log("");
         for (var i = 0, len = fileNames.length; i < len; i++) {
 
-            var img = document.createElement("img");
-
-            // Cuts up the path to extract the image name, and adds it in the dict
+            // We did this already above, but this time we are loading the images
+            // (ie giving all placeholder images their .src)
             var splitArray = fileNames[i].split("/");
             var imgName = splitArray[splitArray.length - 1].split(".")[0];
-            imageDict[imgName] = img;
 
-            console.log("Added " + imgName + " with path: " + fileNames[i]);
+            imageDict[imgName].src = fileNames[i];
+
+            console.log("Added '" + imgName + "' with path: " + fileNames[i]);
             
             // The ordering of these lines might cause problems(?)
             img.onload = countLoadedImagesAndLaunchIfReady();
-            img.src = fileNames[i];
+            //img.src = fileNames[i];
             
         }
+        console.log("");
     }
 
     Images.getImage = function (name) {
@@ -52,14 +63,15 @@ function Images () {
     }
 
 }
-// IMPORTANT: The constructor, Images(), as well as Images.loadImages(), must be called in the Main.js file, after the game is started and canvas created
 
 // Your file names go here
 var fileNames = [
 
     "images/viewtiful.jpg",
     "images/testTexture.png",
-    "images/bayo.jpg"
+    "images/bayo.jpg",
+    "images/particles.png",
+    "images/robokedoSideRight.png"
 
 ];
 
@@ -71,3 +83,6 @@ function countLoadedImagesAndLaunchIfReady(){
         imageLoadingDoneSoStartGame();
     }
 }
+
+//Load images must be called in window.onload (Main.js)
+Images();
