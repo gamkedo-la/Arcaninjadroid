@@ -63,11 +63,11 @@ function imageLoadingDoneSoStartGame() {
 
     emitterConfig = {
 
-        speed:360,
-        size:50,
+        speed:300,
+        size:55,
         angle : 0,
-        //emissionRate: 100,
-        pLife : 1,
+        emissionRate: 100,
+        pLife : 2,
         duration : 0.1,
 
         xVar:10,
@@ -78,11 +78,11 @@ function imageLoadingDoneSoStartGame() {
 
         texture : Images.getImage("testTexture"),
         useTexture : true,
-        //textureAdditive : true,
+        textureAdditive : true,
         tint : true,
 
-        //fadeAlpha : true,
-        //fadeSize : true,
+        fadeAlpha : true,
+        fadeSize : true,
 
         endColor : [8, 22, 175, 1]
 
@@ -128,33 +128,6 @@ function clearScreen(canvas) {
 
 
 }
-
-/* Remember to do this in the anim module
-function updateCycles() {
-    if (player.cycleImage) {
-        player.cycleTick();
-    }
-    if (player.opponent) {
-        if (player.opponent.cycleImage) {
-            player.opponent.cycleTick();
-        }
-    }
-}*/
-/*
-function updateInteractionDelay() {
-    interactDelay--;
-    if (interactDelay <= 0) { okToInteract = true; }
-    else okToInteract = false;
-}*/
-
-/* Leaving this for a ref.of using Date for time related events
-function spellTimeLapse() {
-    date = new Date();
-    lastTime = currentTime;
-    currentTime = date.getTime();
-    deltaTime = currentTime - lastTime;
-    player.currentSpell.timeElapsed += deltaTime;
-}*/
 
 
 

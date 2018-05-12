@@ -41,7 +41,6 @@ function Images () {
             
             // The ordering of these lines might cause problems(?)
             img.onload = countLoadedImagesAndLaunchIfReady();
-            //img.src = fileNames[i];
             
         }
         console.log("");

@@ -140,7 +140,7 @@ function Input() {
 
 
 // Keycodes for the entire keyboard (probably). You can look up / change which string needs to be
-// passed to Input.GetKey() here
+// passed to the Get methods here
 var keycodes = {
     mouseleft:1,
     mouseright:2,

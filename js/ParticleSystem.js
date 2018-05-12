@@ -2,13 +2,13 @@
 // Particle system for club JS games. Made by the best Marth on For Glory, Remy, with original code from Christer
 // and inspiration from this tutorial: http://buildnewgames.com/particle-systems/ .
 
-// For pretty particles to spawn, we need three things: a ParticleEmitter and a ParticleRenderer.
-// The emitter is the spawning point, the place where the particles a born. It also takes care of updating them properly and
-// killing them when appropriate. Everything is defined in the "config" variable which is used to initialize particles.
+// For pretty particles to spawn, we need two things: a ParticleEmitter and a ParticleRenderer.
+// The emitter is the spawning point, the place where the particles are born. It also takes care of updating them properly and
+// killing them when appropriate. Everything is defined in the "config" variable which is used to initialize particles. Note that configs are completely reusable for multiple emitters.
 
 // The ParticleRenderer is already created as an object literal in this script. You can access it using ParticleRenderer.foo()
 
-// The Particle object is a dummy. The class is empty, everything is initialized in the ParticleEmitter. These settings are all the "config" object litteral that you must create and pass as an argument
+// The Particle object is a dummy. The class is empty, everything is initialized in the ParticleEmitter. These settings are all in the "config" object litteral that you must create and pass as an argument
 // to the ParticleEmitter constructor.
 
 // Fun implementation fact:
@@ -16,8 +16,8 @@
 // As such, it becomes useful to implement what is known as object pooling. This reuses old particles (resuscitates them) so that instead
 // of allocating new memory, we simply move a previously dead particle and start it all over again (which is fine because it is only a visual effect).
 
-// As will all the modules in Arcaninjandroid, don't hesitate to contact me if you need help or want a walkthrough of the implementation
-
+// As will all the modules in Arcaninjandroid, don't hesitate to contact me if you need help or want a walkthrough of the implementation! :)
+ 
 
 
 var emitters = [];
@@ -37,7 +37,7 @@ function ParticleEmitter (x,y,config) {
         config = {};
     }
 
-    ////////      Initialize the emitter with configurations, if undefined set to (arbitrary/logical) default          //////////
+    ////////       Initialize the emitter with configurations, if undefined set to (arbitrary/logical) default          //////////
 
     this.emissionRate = config.emissionRate || 1;
     if (this.emissionRate != 0) {
@@ -252,10 +252,26 @@ function ParticleEmitter (x,y,config) {
 
 };
 
+// There is no pooling here, only removal using array.splice. If we have performance issues, this would be a good place to look
 function updateAllEmitters() {
+
+    var toRemove = []; //remove these indexes after we're done updating
+
     for (var i = 0, l = emitters.length; i < l; i++) {
+
+        // check if the emitter is inactive and all partys are dead
+        if (emitters[i].isActive === false && emitters[i].poolPointer === 0) {
+            toRemove.push(i);
+            continue;
+        }
+        
         emitters[i].update(dt);
     }
+    for (var i = toRemove.length-1, j = 0; i >= j; i--) {
+        index = toRemove[i];
+        emitters.splice(index,1); //remove the dead emitter. Not optimal, but gets job done
+    }
+
 }
 
 //Note: tint, additive rendering, and to a degree, using texture, consumes resources! I will try to optimize the code, but still, the operations are costly. Use with care!

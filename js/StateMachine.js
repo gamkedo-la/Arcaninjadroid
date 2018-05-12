@@ -116,19 +116,20 @@ function ExampleState () {
     this.update = function () {
 
         canvasContext.drawImage(Images.getImage("viewtiful"), 0, 0,600,600);
-        testAnim.update(dt);
-        if (testAnim.isOver === false) testAnim.draw(400,300);
+        //testAnim.update(dt);
+        //if (testAnim.isActive === true) testAnim.draw(400,300);
 
     }
 
     this.handleInput = function () {
         
-        if (Input.getKey("mouseleft")){
+        if (Input.getKeyDown("mouseleft")){
 
             var x = Input.getMouseX();
             var y = Input.getMouseY();
 
-            emitters.push(new ParticleEmitter(x,y,emitterConfig));
+            new ParticleEmitter(x,y,emitterConfig);
+
         }
 
         if (Input.getKeyDown("space")){
