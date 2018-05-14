@@ -123,7 +123,7 @@ function updateAll() {
 function clearScreen(canvas) {
 
     //colorRect(0, 0, canvas.width, canvas.height, 'black'); //Doesn't work with the whole scaled canvas shenanigans...
-
+    canvasContext.clearRect(0,0,canvas.width,canvas.height);
     canvasContext.drawImage(Images.getImage("bayo"), 0, 0,canvas.width,canvas.height); 
 
 

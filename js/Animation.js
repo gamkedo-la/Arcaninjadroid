@@ -27,7 +27,7 @@ function Animation (sheet, config) {
 
     var loop = config.loop || false;
 
-    this.isActive = false; //left public for simplicity of get/set
+    this.isActive = true; //left public for simplicity of get/set
 
     var currentFrame = 0; // index of the frame to be drawn
 
@@ -118,7 +118,6 @@ function SpriteSheet (image, numRows, numCols) {
 }
 
 /////////////////      Example      ///////////////////////
-/*
 
 var mySheet = new SpriteSheet (Images.getImage("myImage3rows2cols"), 3,2);
 
@@ -127,4 +126,3 @@ var myAnimConfig = {
     loop: true
 }
 var myAnim = new Animation (mySheet, myAnimConfig);
-*/

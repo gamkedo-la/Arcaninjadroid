@@ -110,14 +110,37 @@ function State () {
 
 /////////     Example     //////////
 
-function ExampleState () {
+var parent1 = {
+    x:100,
+    y:100
+}
+var parent2 = {
+    x:150,
+    y:100
+}
 
+var parent3 = {
+    x:250,
+    y:100
+}
+
+var rect1 = new RectCollider(parent1, 45, 45);
+var rect2 = new RectCollider(parent2, 45, 45);
+var circ1 = new CircleCollider(parent3, 25);
+var circ2 = new CircleCollider(parent1, 50);
+
+function ExampleState () {
 
     this.update = function () {
 
         canvasContext.drawImage(Images.getImage("viewtiful"), 0, 0,600,600);
-        //testAnim.update(dt);
-        //if (testAnim.isActive === true) testAnim.draw(400,300);
+        rect1.draw();
+        rect2.draw();
+        circ1.draw();
+        circ2.draw();
+        //console.log(circ1.intersects(circ2));
+        //myAnim.update(dt);
+        //if (myAnim.isActive === true) myAnim.draw(400,300);
 
     }
 
@@ -132,9 +155,25 @@ function ExampleState () {
 
         }
 
+        parent3.x = Input.getMouseX();
+        parent3.y = Input.getMouseY();
+
         if (Input.getKeyDown("space")){
 
             return new DoNothingState();
+        }
+
+        if (Input.getKeyDown("up")) {
+            parent1.y -= 10;
+        }
+        if (Input.getKeyDown("down")) {
+            parent1.y += 10;
+        }
+        if (Input.getKeyDown("left")) {
+            parent1.x -= 10;
+        }
+        if (Input.getKeyDown("right")) {
+            parent1.x += 10;
         }
 
 
