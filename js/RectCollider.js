@@ -1,4 +1,10 @@
 
+// Simple implementation of a RectCollider. Note the necessity for it to have a parent object.
+// The main method of interest here is the "intersects" method. This takes another Collider (Rect or Circle) and returns true if they are overlapping.
+// There is also a draw method which can be used for debugging.
+
+// Made by the biggest tryhard in Gamkedo, Remy! If you enjoyed this script, check out its sibling(s)! (namely, the CircleCollider!)
+
 function RectCollider (parent, width, height) {
 
     var parent = parent; 

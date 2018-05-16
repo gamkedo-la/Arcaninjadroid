@@ -9,7 +9,7 @@
 
 // If there are issues with how the OS handles file directories (for example if the "/" does not work for whatever reason) please tell me! :O
 
-// Made by your friend Remy :) (with original script from the club of course)
+// Made by your friend Remy :) (based on the usual script from Chris)
 
 function Images () {
 
@@ -43,7 +43,6 @@ function Images () {
             img.onload = countLoadedImagesAndLaunchIfReady();
             
         }
-        console.log("");
     }
 
     Images.getImage = function (name) {
@@ -51,7 +50,7 @@ function Images () {
         try {
             var image = imageDict[name];
             if (typeof image === "undefined") {
-                throw "Error: image with name '" + name + "' not found. Check Images module fileNames";
+                throw "Error: Did not find image with name '" + name + "'. Check Images module fileNames";
             }
         }
         catch (err){

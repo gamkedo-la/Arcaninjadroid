@@ -1,4 +1,7 @@
 
+var animationFrameNumber; //replaces the usual setInterval technique, which caused issues when window lost focus. Thanks Nick P. for the fix! :)
+var gameRunning = true;
+
 var date;
 var lastTime;
 var currentTime;
@@ -40,6 +43,11 @@ window.onload = function () {
     //scaledContext.imageSmoothingEnabled = false;
     //scaledContext.msImageSmoothingEnabled = false;
     //scaledContext.imageSmoothingEnabled = false;
+    window.addEventListener("focus", windowOnFocus);
+    window.addEventListener("blur", windowOnBlur);
+    // See definition comment below
+    //window.addEventListener("resize", windowOnResize);
+    //windowOnResize();
 
     colorRect(0, 0, canvas.width, canvas.height, 'purple'); //Doesn't work with the whole scaled canvas shenanigans...
     colorText('LOADING', canvas.width / 2, canvas.height / 2, 'orange'); //Also looks weird now :P
@@ -50,49 +58,48 @@ window.onload = function () {
 
 };
 
-
+// These functions (by Nick P.) allow the toggling of the window focus and toggle updates accordingly
+function windowOnFocus() {
+	if(!gameRunning){
+		gameRunning = true;
+		animationFrameNumber = requestAnimationFrame(updateAll);
+	}
+}
+function windowOnBlur() {
+	gameRunning = false;
+	cancelAnimationFrame(animationFrameNumber);
+}
+// Commented for now because it would require to draw on different canvases, and the rendering technique has not been decided yet
+/*
+function windowOnResize() { // changing window dimensions
+    if (!canvas) return;
+    var gameRatio = canvas.height/canvas.width;
+    var widthIfHeightScaled = window.innerHeight / gameRatio;
+    if(widthIfHeightScaled <= window.innerWidth) {
+        canvas.width = widthIfHeightScaled;
+        canvas.height = window.innerHeight;
+    } else {
+        var heightIfWidthScaled = window.innerWidth * gameRatio;
+        canvas.width = window.innerWidth;
+        canvas.height = heightIfWidthScaled;
+    }
+}*/
 
 function imageLoadingDoneSoStartGame() {
 
+    console.log("");
     console.log("Image loading done, game started!");
+    console.log("");
 
-    var framesPerSecond = 60; //ask if it really matters?
-    setInterval(updateAll, 1000 / framesPerSecond);
+    animationFrameNumber = requestAnimationFrame(updateAll); //updateAll will then start calling itself depending on anim frames
 
     lastTime = (new Date()).getTime();
 
-    emitterConfig = {
-
-        speed:300,
-        size:55,
-        angle : 0,
-        emissionRate: 100,
-        pLife : 2,
-        duration : 0.1,
-
-        xVar:10,
-        yVar:10,
-        angleVar: 360,
-        speedVar: 15,
-        sizeVar : 20,
-
-        texture : Images.getImage("testTexture"),
-        useTexture : true,
-        textureAdditive : true,
-        tint : true,
-
-        fadeAlpha : true,
-        fadeSize : true,
-
-        endColor : [8, 22, 175, 1]
-
-    }
 }
 
 
 function updateAll() {
 
-    
     //Below is the standard stuff that needs to happen at the beginning of every frame, regardless of game state, player state etc.
 
     //Update the time variation
@@ -103,7 +110,7 @@ function updateAll() {
     dt = dt/1000; //convert to seconds
 
     if (typeof Input.resetGetKeyDown != "undefined"){ Input.resetGetKeyDown();}
-    //updates the states of all keys for checking the single frame, Intpu.getKeyDown function
+    //updates the states of all keys for checking the single frame, Input.getKeyDown function
 
 
     clearScreen(canvas);
@@ -112,19 +119,21 @@ function updateAll() {
     //////////////////////////////////////////////////
     // Now, we update the state machines. This takes care of things like handle inputs for state transitions
     // It also draws directly, though there may be an eventual addition of a Graphics module that draws after all updates are done
-    myMachine.update();
-    myMachine.handleInput();
 
     updateAllEmitters();
     ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
 
+    animationFrameNumber = requestAnimationFrame(updateAll); //once we're done, we ask for the next animation frame
+                                                            // when received, we'll update again!
 }
+
+
 
 function clearScreen(canvas) {
 
-    //colorRect(0, 0, canvas.width, canvas.height, 'black'); //Doesn't work with the whole scaled canvas shenanigans...
+    
     canvasContext.clearRect(0,0,canvas.width,canvas.height);
-    canvasContext.drawImage(Images.getImage("bayo"), 0, 0,canvas.width,canvas.height); 
+    colorRect(0, 0, canvas.width, canvas.height, 'orange'); //Doesn't work with the whole scaled canvas shenanigans...
 
 
 }

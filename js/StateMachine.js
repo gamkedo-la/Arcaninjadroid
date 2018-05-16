@@ -13,7 +13,16 @@ function StateMachine (defaultState){
     var previousState;
     var defaultState = defaultState; //could also be used as a "reset" state ?
 
-    
+
+    this.update = function () {
+        if (!currentState) {
+            this.resetToDefault();
+        }
+        currentState.update();
+        
+        this.handleInput(); //once we're done updating, we take the input. We might need to switch this order at some point(?)
+    }
+
      // our machine acts as the head, and delegates most of the handling to the current state
      // we return the next state directly from the state object logic itself and change if needed
     this.handleInput = function () {
@@ -34,12 +43,6 @@ function StateMachine (defaultState){
         }
     }
 
-    this.update = function () {
-        if (typeof currentState === "undefined") {
-            this.resetToDefault();
-        }
-        currentState.update();
-    }
 
     // Use only for crude, exceptional cases (like resetting to default)
     // Otherwise, return a new state in the state.handleInput function!
@@ -109,113 +112,47 @@ function State () {
 }
 
 /////////     Example     //////////
-
-var parent1 = {
-    x:100,
-    y:100
-}
-var parent2 = {
-    x:150,
-    y:100
-}
-
-var parent3 = {
-    x:250,
-    y:100
-}
-
-var rect1 = new RectCollider(parent1, 45, 45);
-var rect2 = new RectCollider(parent2, 45, 45);
-var circ1 = new CircleCollider(parent3, 25);
-var circ2 = new CircleCollider(parent1, 50);
-
+/*
 function ExampleState () {
 
     this.update = function () {
 
-        canvasContext.drawImage(Images.getImage("viewtiful"), 0, 0,600,600);
-        rect1.draw();
-        rect2.draw();
-        circ1.draw();
-        circ2.draw();
-        //console.log(circ1.intersects(circ2));
-        //myAnim.update(dt);
-        //if (myAnim.isActive === true) myAnim.draw(400,300);
+        // do stuff
 
     }
 
+    // IMPORTANT: you can return a State object here if you wanna change depending on inputs
     this.handleInput = function () {
         
         if (Input.getKeyDown("mouseleft")){
 
-            var x = Input.getMouseX();
-            var y = Input.getMouseY();
-
-            new ParticleEmitter(x,y,emitterConfig);
+            // handle click
+            console.log("click")
 
         }
 
-        parent3.x = Input.getMouseX();
-        parent3.y = Input.getMouseY();
+        if (Input.getKey("right")) {
 
-        if (Input.getKeyDown("space")){
+            // move right
+            // also, change the animator to the "walkRight" anim, etc
 
-            return new DoNothingState();
-        }
-
-        if (Input.getKeyDown("up")) {
-            parent1.y -= 10;
-        }
-        if (Input.getKeyDown("down")) {
-            parent1.y += 10;
-        }
-        if (Input.getKeyDown("left")) {
-            parent1.x -= 10;
-        }
-        if (Input.getKeyDown("right")) {
-            parent1.x += 10;
         }
 
 
     }
 
     this.enter = function () {
-        console.log("Entered the example state!");
+        console.log("You've entered an example state!");
     }
 
     this.exit = function () {
-        console.log("Exit the example state. Now, inputs will not be detected!")
+        console.log("You've exited the example state!")
     }
 
 }
-ExampleState.prototype = new State(); //if forgotten, our pseudo-interface is broken, but there are no bugs
-
-
-function DoNothingState () {
-    
-    this.update = function (){
-
-    }
-
-    this.handleInput = function () {
-
-        if (Input.getKeyDown("backspace")) {
-            return "previous";
-        }
-    }
-
-    this.enter = function () {
-        console.log ("Started doing nothing...");
-    }
-
-    this.exit = function () {
-
-    }
-}
-DoNothingState.prototype = new State();
+ExampleState.prototype = new State();
 
 var exampleState = new ExampleState();
-var doNothingState = new DoNothingState();
 
-var myMachine = new StateMachine(exampleState);
-myMachine.resetToDefault();
+var myMachine = new StateMachine(exampleState); //create and init at default state
+*/

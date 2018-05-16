@@ -1,4 +1,10 @@
 
+// Simple implementation of a CircleCollider. Note the necessity for it to have a parent object.
+// The main method of interest here is the "intersects" method. This takes another Collider (Rect or Circle) and returns true if they are overlapping.
+// There is also a draw method which can be used for debugging.
+
+// Made by the biggest tryhard in Gamkedo, Remy! If you enjoyed this script, check out its sibling(s)! (namely, the RectCollider!)
+
 function CircleCollider (parent, radius) {
 
     var parent = parent;
@@ -32,11 +38,13 @@ function CircleCollider (parent, radius) {
     }
 
     this.draw = function () {
+
         canvasContext.beginPath();
         canvasContext.strokeStyle = "green";
         canvasContext.arc(this.getX(), this.getY(), radius, 0, Math.PI * 2, true); 
         canvasContext.stroke();
         canvasContext.closePath();
+        
     }
 
     this.getRadius = function () {

@@ -118,7 +118,7 @@ function SpriteSheet (image, numRows, numCols) {
 }
 
 /////////////////      Example      ///////////////////////
-
+/*
 var mySheet = new SpriteSheet (Images.getImage("myImage3rows2cols"), 3,2);
 
 var myAnimConfig = {
@@ -126,3 +126,4 @@ var myAnimConfig = {
     loop: true
 }
 var myAnim = new Animation (mySheet, myAnimConfig);
+*/
