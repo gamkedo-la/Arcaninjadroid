@@ -119,8 +119,10 @@ function updateAll() {
     //////////////////////////////////////////////////
     // Now, we update the state machines. This takes care of things like handle inputs for state transitions
     // It also draws directly, though there may be an eventual addition of a Graphics module that draws after all updates are done
-
+    updateAllAnimations();
+    updateAllStateMachines(); //as of now FSMs depend on animations in their update, so update them after
     updateAllEmitters();
+    player.draw();
     ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
 
     animationFrameNumber = requestAnimationFrame(updateAll); //once we're done, we ask for the next animation frame
