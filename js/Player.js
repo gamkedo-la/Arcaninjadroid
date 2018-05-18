@@ -1,6 +1,4 @@
 
-// Let us all unite and resist making the player a big singleton. With that said, there will only be a single instance of player!
-
 function Player () {
 
     this.x = 400;
@@ -15,8 +13,8 @@ function Player () {
     }
 }
 
-punchingSheet = new SpriteSheet(Images.getImage("Kirt_idle_right"), 1,4);
-idleSheet = new SpriteSheet(Images.getImage("Kirt_idle_left"), 1,4);
+punchingSheet = new SpriteSheet(Images.getImage("PH_Android_Punch"), 1,2);
+idleSheet = new SpriteSheet(Images.getImage("PH_Android_Idle"), 1,2);
 
 function PunchingState () {
 

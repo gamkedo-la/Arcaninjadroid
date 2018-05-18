@@ -68,9 +68,8 @@ var fileNames = [
     "images/viewtiful.jpg",
     "images/testTexture.png",
     "images/bayo.jpg",
-    "images/PH_Android.png",
-    "images/Kirt_idle_right.png",
-    "images/Kirt_idle_left.png"
+    "images/PH_Android_Idle.png",
+    "images/PH_Android_Punch.png"
 
 ];
 
