@@ -69,6 +69,7 @@ var fileNames = [
     "images/testTexture.png",
     "images/bayo.jpg",
     "images/PH_Android_Idle.png",
+    "images/PH_Android_Crouch.png",
     "images/PH_Android_Punch.png",
     "images/regularSky.png",
     "images/ground1.png"

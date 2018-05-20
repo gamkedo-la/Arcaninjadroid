@@ -104,9 +104,11 @@ function updateAll() {
     updateAllAnimations();
     updateAllStateMachines(); //as of now FSMs depend on animations in their update, so update them after
     updateAllEmitters();
+
     resolveAllCollisions();
 
     player.draw();
+    drawAllObstacles();
     ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
 
     drawOnScaledCanvas(); //once everything is done, we draw everything on an enlarged canvas
@@ -116,12 +118,13 @@ function updateAll() {
 }
 
 
-
+var background = Images.getImage("regularSky");
 function clearScreen(canvas) {
 
     
     canvasContext.clearRect(0,0,canvas.width,canvas.height);
-    colorRect(0, 0, canvas.width, canvas.height, 'orange'); //Doesn't work with the whole scaled canvas shenanigans...
+    canvasContext.drawImage(background, 0,0, canvas.width,canvas.height);
+    //colorRect(0, 0, canvas.width, canvas.height, 'orange'); //Doesn't work with the whole scaled canvas shenanigans...
 
 
 }

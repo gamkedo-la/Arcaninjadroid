@@ -28,6 +28,7 @@ function Animation (sheet, config) {
     var timeLeft = duration; // decrements with time
 
     var loop = config.loop || false;
+    if (frameCount == 1) loop = true;
 
     this.isActive = true; //left public for simplicity of get/set
 
@@ -85,6 +86,10 @@ function Animation (sheet, config) {
 
     this.getDuration = function () {
         return duration;
+    }
+
+    this.getSheet = function () {
+        return sheet; //doesn't respect encapsulation, for testing only
     }
 
 }

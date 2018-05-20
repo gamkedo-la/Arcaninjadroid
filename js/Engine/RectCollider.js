@@ -10,7 +10,7 @@ function RectCollider (parent, width, height) {
     colliders.push(this);
 
     this.parent = parent; 
-    var width = width; 
+    var width = width;
     var height = height;
 
     var isTrigger = false; // if two non-triggers collide, their parents will be pushed out and have their velocities nullified
@@ -58,24 +58,53 @@ function RectCollider (parent, width, height) {
 
     }
 
-    //currently only works with rect colliders
+    //DISCLAIMER: This method is extremely rudimentary!!! The full game is intended to contain little to no
+    // actual physics collisions/movements, only hitbox/hurtbox triggers. This is only intended for use with basic terrain
+    // as the player will be able to walk freely "through" enemies. Use sparingly!
     this.pushOutBothParents = function (other) {
 
-        var dx = Math.abs(other.getX() - this.getX());
-        var dy = Math.abs(other.getY() - this.getY());
+        var dx = other.getX() - this.getX();
+        var dy = other.getY() - this.getY();
+        var directionX = 1;
+        var directionY = 1;
 
-        overlapX = this.getWidth()/2 + other.getWidth()/2 - dx;
-        overlapY = this.getHeight()/2 + other.getHeight()/2 - dy;
+        if (dx < 0) {
+            directionX = 1;
+        } else {
+            directionX = -1;
+        }
+        if (dy < 0) {
+            directionY = 1;
+        } else {
+            directionY = -1;
+        }
+        var overlapX = this.getWidth()/2 + other.getWidth()/2 - Math.abs(dx) + 1;
+        var overlapY = this.getHeight()/2 + other.getHeight()/2 - Math.abs(dy) + 1;
 
-        console.log(overlapX, overlapY);
+
 
         if (overlapX < overlapY) {
-            this.parent.x += overlapX/2;
-            other.parent.x -= overlapX/2;
+            if (this.parent.movable && other.parent.movable === false){
+                this.parent.x += directionX*overlapX;
+            } else if (this.parent.movable === false && other.parent.movable) {
+                other.parent.x += directionX*overlapX;
+            } else {
+                this.parent.x += directionX*overlapX/2;
+                other.parent.x -= directionX*overlapX/2;
+            }
+
         } else {
-            this.parent.y += overlapY/2;
-            other.parent.y -= overlapY/2;
+            if (this.parent.movable && other.parent.movable === false){
+                this.parent.y += directionY*overlapY;
+            } else if (this.parent.movable === false && other.parent.movable) {
+                other.parent.y += directionY*overlapY;
+            } else {
+                this.parent.y += directionY*overlapY/2;
+                other.parent.y -= directionY*overlapY/2;
+            }
         }
+
+        //console.log(this.parent.x, this.parent.y);
     }
 
     this.getX = function () {
@@ -107,7 +136,7 @@ function resolveAllCollisions() {
             collider1 = colliders[i];
             collider2 = colliders[j];
 
-
+            if (collider1.parent === collider2.parent) continue;
 
             if (collider1.intersects(collider2)){
                 if (!collider1.isTrigger && !collider2.isTrigger){

@@ -1,19 +1,21 @@
-var dummyParent = {x:150, y:75, onCollision : function (){}};
-var dummyCollider = new RectCollider(dummyParent, 50,50);
+
+characters = [];
 function Player () {
+
+    characters.push(this);
 
     this.x = 100;
     this.y = 75;
     this.velocity = {x:0, y:0};
-    this.movespeed = 5;
-    this.collider = new RectCollider(this,30,64);
+    this.movespeed = 2;
+    this.collider = new RectCollider(this,20,28);
+    this.movable = true; //can be affected by collisions
 
     this.actionMachine = new StateMachine(new IdleAndroidState()); // state machine for the current fighting style
 
     this.draw = function () {
         this.actionMachine.drawCurrentState(this.x,this.y);
-        this.collider.draw();
-        dummyCollider.draw();
+        //this.collider.draw();
     }
 
     this.onCollision = function () {
@@ -21,80 +23,23 @@ function Player () {
     }
 }
 
-punchingSheet = new SpriteSheet(Images.getImage("PH_Android_Punch"), 1,2);
-idleSheet = new SpriteSheet(Images.getImage("PH_Android_Idle"), 1,2);
-
-function PunchingState () {
-
-    this.animation = new Animation (punchingSheet, {fps:16});
-
-    this.update = function () {
-
-    }
-
-    this.handleInput = function () {
 
 
-        if (this.animation.isActive === false) {
-            return new IdleAndroidState();
-        }
-    }
-
-    this.enter = function () {
-        //console.log("Started punching");
-    }
-
-    this.exit = function () {
-        
-    }
-}
-PunchingState.prototype = new State ();
 
 
-function IdleAndroidState () {
 
-    this.animation = new Animation (idleSheet, {loop : true});
 
-    this.update = function () {
-
-        player.x += player.velocity.x;
-        player.y += player.velocity.y;
-
-        player.velocity.x *= 0.85;
-        if (Math.abs(player.velocity.x) < 0.1) player.velocity.x = 0;
-    }
-
-    this.handleInput = function () {
-
-        if (Input.getLeftClick()) {
-            return new PunchingState();
-        }
-
-        else if (Input.getKey("d")) {
-            player.velocity.x = player.movespeed;
-        }
-        
-        else if (Input.getKey("a")) {
-            player.velocity.x = -player.movespeed;
-        }
-    }
-
-    this.enter = function () {
-        //console.log("Started idling");
-    }
-
-    this.exit = function () {
-        
-    }
-}
-IdleAndroidState.prototype = new State ();
 
 player = new Player ();
 
 
 
-
-
+// Characters include both player and enemies. No inheritance between the two as of now
+function drawAllCharacters() {
+    for (var i = 0, l = characters.length; i<l;i++) {
+        characters[i].draw();
+    }
+}
 
 
 
