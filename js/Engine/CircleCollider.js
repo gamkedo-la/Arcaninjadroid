@@ -5,7 +5,10 @@
 
 // Made by the biggest tryhard in Gamkedo, Remy! If you enjoyed this script, check out its sibling(s)! (namely, the RectCollider!)
 
+//var "colliders" is created in RectCollider.js
 function CircleCollider (parent, radius) {
+
+    colliders.push(this);
 
     var parent = parent;
     var radius = radius;

@@ -70,7 +70,7 @@ function Animation (sheet, config) {
 
         canvasContext.drawImage(sheet.getImage(),
                                 clipStartX,clipStartY, sheet.getSpriteWidth(), sheet.getSpriteHeight(), 
-                                x,y, sheet.getSpriteWidth(), sheet.getSpriteHeight());
+                                x-sheet.getSpriteWidth()/2,y-sheet.getSpriteHeight()/2, sheet.getSpriteWidth(), sheet.getSpriteHeight());
     }
 
     this.reset = function () {

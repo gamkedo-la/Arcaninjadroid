@@ -1,15 +1,23 @@
-
+var dummyParent = {x:150, y:75, onCollision : function (){}};
+var dummyCollider = new RectCollider(dummyParent, 50,50);
 function Player () {
 
-    this.x = 400;
-    this.y = 300;
+    this.x = 100;
+    this.y = 75;
     this.velocity = {x:0, y:0};
     this.movespeed = 5;
+    this.collider = new RectCollider(this,30,64);
 
     this.actionMachine = new StateMachine(new IdleAndroidState()); // state machine for the current fighting style
 
     this.draw = function () {
         this.actionMachine.drawCurrentState(this.x,this.y);
+        this.collider.draw();
+        dummyCollider.draw();
+    }
+
+    this.onCollision = function () {
+        console.log("I touched something");
     }
 }
 
@@ -33,7 +41,7 @@ function PunchingState () {
     }
 
     this.enter = function () {
-        console.log("Started punching");
+        //console.log("Started punching");
     }
 
     this.exit = function () {
@@ -72,7 +80,7 @@ function IdleAndroidState () {
     }
 
     this.enter = function () {
-        console.log("Started idling");
+        //console.log("Started idling");
     }
 
     this.exit = function () {

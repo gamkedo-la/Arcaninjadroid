@@ -5,11 +5,15 @@
 
 // Made by the biggest tryhard in Gamkedo, Remy! If you enjoyed this script, check out its sibling(s)! (namely, the CircleCollider!)
 
+var colliders = [];
 function RectCollider (parent, width, height) {
+    colliders.push(this);
 
-    var parent = parent; 
+    this.parent = parent; 
     var width = width; 
     var height = height;
+
+    var isTrigger = false; // if two non-triggers collide, their parents will be pushed out and have their velocities nullified
 
     this.intersects = function (other) {
 
@@ -54,6 +58,26 @@ function RectCollider (parent, width, height) {
 
     }
 
+    //currently only works with rect colliders
+    this.pushOutBothParents = function (other) {
+
+        var dx = Math.abs(other.getX() - this.getX());
+        var dy = Math.abs(other.getY() - this.getY());
+
+        overlapX = this.getWidth()/2 + other.getWidth()/2 - dx;
+        overlapY = this.getHeight()/2 + other.getHeight()/2 - dy;
+
+        console.log(overlapX, overlapY);
+
+        if (overlapX < overlapY) {
+            this.parent.x += overlapX/2;
+            other.parent.x -= overlapX/2;
+        } else {
+            this.parent.y += overlapY/2;
+            other.parent.y -= overlapY/2;
+        }
+    }
+
     this.getX = function () {
         return parent.x;
     }
@@ -70,3 +94,27 @@ function RectCollider (parent, width, height) {
     }
 
 };
+
+//only usage of this function so far: push out stuff if there are two non-trigger colliders intersecting
+function resolveAllCollisions() {
+
+    var collider1;
+    var collider2;
+    for (var i = 0, l = colliders.length; i<l; i++){
+
+        for (var j = i+1, l; j<l; j++) {
+
+            collider1 = colliders[i];
+            collider2 = colliders[j];
+
+
+
+            if (collider1.intersects(collider2)){
+                if (!collider1.isTrigger && !collider2.isTrigger){
+                    collider1.pushOutBothParents(collider2);
+                }
+                
+            }
+        }
+    }
+}

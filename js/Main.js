@@ -10,44 +10,40 @@ var dt;
 var emitters = [];
 var emitterConfig;
 
-const ORIG_WORLD_W = 800;
-const ORIG_WORLD_H = 600;
+const ORIG_WORLD_W = 200;
+const ORIG_WORLD_H = 150;
 const PIXEL_SCALE_UP = 4; // to replace with something better
 
 window.onload = function () {
 
-    // FIXME: it is impolite to trigger sound right away...
-    // maybe we should wait until one user click, like start game button
-
     window.focus();
     //Prepping the game canvas. Strategy "borrowed" from the Roman's Adventure source code (ty Oasis Rim and co.)
-    //Eventually, find a way to not scale the canvas at all
-    canvas = document.getElementById("canvas");
+    canvas = document.createElement("canvas");
     canvasContext = canvas.getContext("2d");
+    scaledCanvas = document.getElementById("canvas");
+    scaledContext = scaledCanvas.getContext("2d");
     tintCanvas = document.createElement("canvas"); //used in conjuction with the ParticleRenderer
     tintContext = tintCanvas.getContext("2d");
+
     //scaledCanvas = document.getElementById('gameCanvas');
     //scaledContext = scaledCanvas.getContext('2d');
     canvas.width = ORIG_WORLD_W;
     canvas.height = ORIG_WORLD_H;
 
-    //scaledCanvas.width = PIXEL_SCALE_UP * canvas.width;
-    //scaledCanvas.height = PIXEL_SCALE_UP * canvas.height;
+    scaledCanvas.width = PIXEL_SCALE_UP * canvas.width;
+    scaledCanvas.height = PIXEL_SCALE_UP * canvas.height;
 
     //Prevents blur related to the canvas resize strategy
     canvasContext.mozImageSmoothingEnabled = false;
     canvasContext.imageSmoothingEnabled = false;
     canvasContext.msImageSmoothingEnabled = false;
     canvasContext.imageSmoothingEnabled = false;
-    //scaledContext.mozImageSmoothingEnabled = false;
-    //scaledContext.imageSmoothingEnabled = false;
-    //scaledContext.msImageSmoothingEnabled = false;
-    //scaledContext.imageSmoothingEnabled = false;
+    scaledContext.mozImageSmoothingEnabled = false;
+    scaledContext.imageSmoothingEnabled = false;
+    scaledContext.msImageSmoothingEnabled = false;
+    scaledContext.imageSmoothingEnabled = false;
     window.addEventListener("focus", windowOnFocus);
     window.addEventListener("blur", windowOnBlur);
-    // See definition comment below
-    //window.addEventListener("resize", windowOnResize);
-    //windowOnResize();
 
     colorRect(0, 0, canvas.width, canvas.height, 'purple'); //Doesn't work with the whole scaled canvas shenanigans...
     colorText('LOADING', canvas.width / 2, canvas.height / 2, 'orange'); //Also looks weird now :P
@@ -69,21 +65,7 @@ function windowOnBlur() {
 	gameRunning = false;
 	cancelAnimationFrame(animationFrameNumber);
 }
-// Commented for now because it would require to draw on different canvases, and the rendering technique has not been decided yet
-/*
-function windowOnResize() { // changing window dimensions
-    if (!canvas) return;
-    var gameRatio = canvas.height/canvas.width;
-    var widthIfHeightScaled = window.innerHeight / gameRatio;
-    if(widthIfHeightScaled <= window.innerWidth) {
-        canvas.width = widthIfHeightScaled;
-        canvas.height = window.innerHeight;
-    } else {
-        var heightIfWidthScaled = window.innerWidth * gameRatio;
-        canvas.width = window.innerWidth;
-        canvas.height = heightIfWidthScaled;
-    }
-}*/
+
 
 function imageLoadingDoneSoStartGame() {
 
@@ -122,8 +104,12 @@ function updateAll() {
     updateAllAnimations();
     updateAllStateMachines(); //as of now FSMs depend on animations in their update, so update them after
     updateAllEmitters();
+    resolveAllCollisions();
+
     player.draw();
     ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
+
+    drawOnScaledCanvas(); //once everything is done, we draw everything on an enlarged canvas
 
     animationFrameNumber = requestAnimationFrame(updateAll); //once we're done, we ask for the next animation frame
                                                             // when received, we'll update again!
@@ -140,5 +126,9 @@ function clearScreen(canvas) {
 
 }
 
+function drawOnScaledCanvas() {
+
+    scaledContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
+}
 
 

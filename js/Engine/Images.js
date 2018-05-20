@@ -1,7 +1,7 @@
 
 // Similar to the Input module, this static Images module keeps loaded images in a dictionary, with the keys being what was entered in "fileNames" without the directory names and file extensions.
 // Essentially, edit the fileNames array with all your image paths, then access them with Images.getImg(nameOnly)
-// viewtiful.jpg ---> var joeTheHero = Images.getImg("viewtiful")
+// viewtiful.jpg ---> var joeTheHero = Images.getImage("viewtiful")
 //
 // ---> This implies string comparisons, ie don't pull and draw directly from the dict each frame.
 // Instead, give the reference to an object, for example player.sprite = Images.getImg("player"), then draw player.sprite
@@ -69,7 +69,9 @@ var fileNames = [
     "images/testTexture.png",
     "images/bayo.jpg",
     "images/PH_Android_Idle.png",
-    "images/PH_Android_Punch.png"
+    "images/PH_Android_Punch.png",
+    "images/regularSky.png",
+    "images/ground1.png"
 
 ];
 
