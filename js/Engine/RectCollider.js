@@ -142,7 +142,6 @@ function resolveAllCollisions() {
                 if (!collider1.isTrigger && !collider2.isTrigger){
                     collider1.pushOutBothParents(collider2);
                 }
-                
             }
         }
     }

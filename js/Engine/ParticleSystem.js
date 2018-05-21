@@ -39,7 +39,7 @@ function ParticleEmitter (x,y,config) {
 
     ////////       Initialize the emitter with configurations, if undefined set to (arbitrary/logical) default          //////////
 
-    this.emissionRate = config.emissionRate || 1;
+    this.emissionRate = config.emissionRate || 10;
     if (this.emissionRate != 0) {
         this.emitCounter = 1/this.emissionRate; //init at this value so we spawn on the first frame! (ie not wait the first spawn interval)
     } else {
@@ -53,12 +53,12 @@ function ParticleEmitter (x,y,config) {
     this.timeLeft = this.duration;
 
     this.pLife = config.particleLife || 2;
-    this.size = config.size || 10;
+    this.size = config.size || 2;
     this.speed = config.speed || 25;
     this.angle = config.angle*(Math.PI/180) || 0; //converts to rads for the calculations
 
-    this.startColor = config.startColor || [247,46,0, 1]; //default is rgb for a nice orange (with alpha = 1)
-    this.endColor = config.endColor || [247,46,0, 1];
+    this.startColor = config.color || [247,46,0, 1]; //default is rgb for a nice orange (with alpha = 1)
+    this.endColor = config.endColor || this.startColor;
     this.useTexture = config.useTexture || false; //this can be turned off to improve performance
     this.texture = config.texture; // add a default texture?
     this.textureAdditive = config.textureAdditive || false; //turn off to improve performance
@@ -74,7 +74,7 @@ function ParticleEmitter (x,y,config) {
     // Var is the degree at which the value varies randomly. The formula: value = base + var * (random (-1 to 1))
     this.xVar = config.xVar || 0;
     this.yVar = config.yVar || 0;
-    this.angleVar = config.angleVar*(Math.PI/180) || 0;
+    this.angleVar = config.angleVar*(Math.PI/180) || 360;
     this.pLifeVar = config.particleLifeVar || 0;
     this.sizeVar = config.sizeVar || 0;
     this.speedVar = config.speedVar || 0;

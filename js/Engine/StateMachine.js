@@ -30,7 +30,7 @@ function StateMachine (defaultState){
      // we return the next state directly from the state object logic itself and change if needed
     this.handleInput = function () {
 
-        nextState = currentState.handleInput();
+        var nextState = currentState.handleInput();
 
         if (typeof nextState !== "undefined"){
             //Weakly typed languages ftw

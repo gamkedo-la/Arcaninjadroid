@@ -22,10 +22,9 @@ function Obstacle (x,y, width,height, sheet,animConfig, movable = false) {
         this.collider.draw();
     }
 
-    
 }
 
-var protoGround = new Obstacle(10,151, 250,35, groundSheet);
+var protoGround = new Obstacle(85,151, 250,35, groundSheet);
 //var protoGround2 = new Obstacle(45,132,35,35,groundSheet);
 //var protoGround3 = new Obstacle(65,133,35,35,groundSheet);
 

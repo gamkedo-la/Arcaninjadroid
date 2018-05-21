@@ -117,13 +117,13 @@ function updateAll() {
                                                             // when received, we'll update again!
 }
 
-
+var ninjaInvisibleLinePositionY = 95; // at what height is the invisible ninja zone starting?
 var background = Images.getImage("regularSky");
 function clearScreen(canvas) {
-
-    
+   
     canvasContext.clearRect(0,0,canvas.width,canvas.height);
     canvasContext.drawImage(background, 0,0, canvas.width,canvas.height);
+    colorRect(0,ninjaInvisibleLinePositionY, canvas.width,2);
     //colorRect(0, 0, canvas.width, canvas.height, 'orange'); //Doesn't work with the whole scaled canvas shenanigans...
 
 
