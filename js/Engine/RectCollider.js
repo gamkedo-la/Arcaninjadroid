@@ -6,14 +6,19 @@
 // Made by the biggest tryhard in Gamkedo, Remy! If you enjoyed this script, check out its sibling(s)! (namely, the CircleCollider!)
 
 var colliders = [];
-function RectCollider (parent, width, height) {
+function RectCollider (parent, width, height, config) {
+
     colliders.push(this);
 
-    this.parent = parent; 
+    if (!config) {config = {}}
+
+    this.parent = parent;
     var width = width;
     var height = height;
+    var offsetX = config.offsetX || 0;
+    var offsetY = config.offsetY || 0;
 
-    var isTrigger = false; // if two non-triggers collide, their parents will be pushed out and have their velocities nullified
+    var isTrigger = config.isTrigger || false; // if two non-triggers collide, their parents will be pushed out and have their velocities nullified
 
     this.intersects = function (other) {
 
@@ -65,54 +70,54 @@ function RectCollider (parent, width, height) {
 
         var dx = other.getX() - this.getX();
         var dy = other.getY() - this.getY();
-        var directionX = 1;
-        var directionY = 1;
 
         if (dx < 0) {
-            directionX = 1;
+            var directionX = -1;
         } else {
-            directionX = -1;
+            var directionX = 1;
         }
         if (dy < 0) {
-            directionY = 1;
+            var directionY = -1;
         } else {
-            directionY = -1;
+            var directionY = 1;
         }
-        var overlapX = this.getWidth()/2 + other.getWidth()/2 - Math.abs(dx) + 1;
+        var overlapX = this.getWidth()/2 + other.getWidth()/2 - Math.abs(dx) + 1; //+1 so we push outside by 1px and not simply at the frontier
         var overlapY = this.getHeight()/2 + other.getHeight()/2 - Math.abs(dy) + 1;
 
+        var fullMoveX = directionX*overlapX;
+        var fullMoveY = directionY*overlapY;
 
 
         if (overlapX < overlapY) {
             if (this.parent.movable && other.parent.movable === false){
-                this.parent.x += directionX*overlapX;
+                this.parent.x -= fullMoveX;
             } else if (this.parent.movable === false && other.parent.movable) {
-                other.parent.x += directionX*overlapX;
+                other.parent.x += fullMoveX;
             } else {
-                this.parent.x += directionX*overlapX/2;
-                other.parent.x -= directionX*overlapX/2;
+                this.parent.x -= fullMoveX/2;
+                other.parent.x += fullMoveX/2;
             }
 
         } else {
             if (this.parent.movable && other.parent.movable === false){
-                this.parent.y += directionY*overlapY;
+                this.parent.y -= fullMoveY;
             } else if (this.parent.movable === false && other.parent.movable) {
-                other.parent.y += directionY*overlapY;
+                other.parent.y += fullMoveY;
             } else {
-                this.parent.y += directionY*overlapY/2;
-                other.parent.y -= directionY*overlapY/2;
+                this.parent.y -= fullMoveY/2;
+                other.parent.y += fullMoveY/2;
             }
         }
 
-        //console.log(this.parent.x, this.parent.y);
+        //console.log(other.parent.x, other.parent.y);
     }
 
     this.getX = function () {
-        return parent.x;
+        return parent.x + offsetX;
     }
 
     this.getY = function () {
-        return parent.y;
+        return parent.y + offsetY;
     }
 
     this.getWidth = function () {
@@ -142,6 +147,9 @@ function resolveAllCollisions() {
                 if (!collider1.isTrigger && !collider2.isTrigger){
                     collider1.pushOutBothParents(collider2);
                 }
+                collider1.parent.grounded = true;
+                collider2.parent.grounded = true;
+                //console.log("grounded both");
             }
         }
     }

@@ -1,10 +1,11 @@
 
 groundSheet = new SpriteSheet(Images.getImage("ground1"), 1,1);
 
-obstacles = [];
-function Obstacle (x,y, width,height, sheet,animConfig, movable = false) {
+terrain = [];
+function Terrain (x,y, width,height, sheet,animConfig, movable = false) {
 
-    obstacles.push(this);
+    terrain.push(this);
+    
     this.x = x;
     this.y = y;
     var width = width;
@@ -24,12 +25,12 @@ function Obstacle (x,y, width,height, sheet,animConfig, movable = false) {
 
 }
 
-var protoGround = new Obstacle(85,151, 250,35, groundSheet);
+var protoGround = new Terrain(85,151, 250,35, groundSheet);
 //var protoGround2 = new Obstacle(45,132,35,35,groundSheet);
 //var protoGround3 = new Obstacle(65,133,35,35,groundSheet);
 
-function drawAllObstacles () {
-    for (var i = 0, l = obstacles.length; i<l; i++){
-        obstacles[i].draw();
+function drawAllTerrain () {
+    for (var i = 0, l = terrain.length; i<l; i++){
+        terrain[i].draw();
     }
 }

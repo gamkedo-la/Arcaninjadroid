@@ -8,7 +8,7 @@
 // support for detecting inputs on only the first frame (analog to Unity's Input.GetKeyDown)
 
 // Note: the "#" hack is a JS quickfix. Because JS is VERY weakly typed, inputting a string of a number ("4")
-// treats it as an array index regardless. A non-numeral string is required for dict keys.
+// treats it as an array index regardless. A non-numeral string is required for dict keys...
 
 
 // IMPORTANT: The constructor, Input(), must be called in the Main.js file, after the game is started and canvas created
@@ -140,7 +140,7 @@ function Input() {
         return;
     }
 
-    canvas.addEventListener('mousemove', Input.setMousePos); 
+    canvas.addEventListener('mousemove', Input.setMousePos);
 
 };
 

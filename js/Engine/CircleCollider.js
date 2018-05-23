@@ -22,8 +22,9 @@ function CircleCollider (parent, radius) {
         // If we have two circle colliders
         if (other.getRadius) {
 
-            dx = this.getX() - other.getX();
-            dy = this.getY() - other.getY();
+            var dx = this.getX() - other.getX();
+            var dy = this.getY() - other.getY();
+
             
             return Math.sqrt(dx*dx + dy*dy) < this.getRadius() + other.getRadius();
         }
@@ -38,6 +39,35 @@ function CircleCollider (parent, radius) {
 
             return (dx * dx + dy * dy) < (this.getRadius()*this.getRadius());
         }
+    }
+
+    this.pushOutBothParents = function (other) {
+
+        var dx = other.getX() - this.getX();
+        var dy = other.getY() - this.getY();
+        var d = Math.sqrt(dx*dx + dy*dy);
+
+        var overlap = d - (this.getRadius() - other.getRadius());
+        var directionX = dx/d;
+        var directionY = dy/d;
+
+        var fullMoveX = directionX * overlap;
+        var fullMoveY = directionY * overlap;
+
+        // to test
+        if (this.parent.movable && other.parent.movable === false){
+            this.parent.x += fullMoveX;
+            this.parent.y += fullMoveY;
+        } else if (this.parent.movable === false && other.parent.movable) {
+            other.parent.x += fullMoveX;
+            other.parent.y += fullMoveY;
+        } else {
+            this.parent.x += fullMoveX/2;
+            other.parent.x -= fullMoveX/2;
+            this.parent.x += fullMoveY/2;
+            other.parent.x -= fullMoveY/2;
+        }
+
     }
 
     this.draw = function () {

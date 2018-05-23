@@ -25,8 +25,6 @@ window.onload = function () {
     tintCanvas = document.createElement("canvas"); //used in conjuction with the ParticleRenderer
     tintContext = tintCanvas.getContext("2d");
 
-    //scaledCanvas = document.getElementById('gameCanvas');
-    //scaledContext = scaledCanvas.getContext('2d');
     canvas.width = ORIG_WORLD_W;
     canvas.height = ORIG_WORLD_H;
 
@@ -45,16 +43,16 @@ window.onload = function () {
     window.addEventListener("focus", windowOnFocus);
     window.addEventListener("blur", windowOnBlur);
 
-    colorRect(0, 0, canvas.width, canvas.height, 'purple'); //Doesn't work with the whole scaled canvas shenanigans...
-    colorText('LOADING', canvas.width / 2, canvas.height / 2, 'orange'); //Also looks weird now :P
+    colorRect(0, 0, canvas.width, canvas.height, 'purple'); 
+    colorText('LOADING', canvas.width / 2, canvas.height / 2, 'orange'); 
 
     Input();
 
-    Images.loadImages(); // if we called this in Images.js, the game could start before the canvas is created
+    Images.loadImages(); // if we called this in Images.js, the game might start before the canvas is created
 
 };
 
-// These functions (by Nick P.) allow the toggling of the window focus and toggle updates accordingly
+// These functions (by Nick P.) allow the toggling of the window focus so that the game truly stops when out of focus
 function windowOnFocus() {
 	if(!gameRunning){
 		gameRunning = true;
@@ -86,7 +84,7 @@ function updateAll() {
 
     //Update the time variation
     now = (new Date()).getTime();
-    dt = now - lastTime;
+    dt = now - lastTime; //note: dt is a GLOBAL variable accessed freely in many update functions
     lastTime = now;
   
     dt = dt/1000; //convert to seconds
@@ -108,30 +106,32 @@ function updateAll() {
     resolveAllCollisions();
 
     player.draw();
-    drawAllObstacles();
+    drawAllTerrain();
     ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
 
-    drawOnScaledCanvas(); //once everything is done, we draw everything on an enlarged canvas
+    drawOnScaledCanvas(); //once everything is done, we draw everything on our enlarged canvas, which is the one the player sees
 
     animationFrameNumber = requestAnimationFrame(updateAll); //once we're done, we ask for the next animation frame
                                                             // when received, we'll update again!
 }
 
-var ninjaInvisibleLinePositionY = 95; // at what height is the invisible ninja zone starting?
-var background = Images.getImage("regularSky");
+
+var ninjaZoneBeginningY = 95; // at what height is the invisible ninja zone starting? (for all y values above it in game view, but under it in numerical value)
+var background = Images.getImage("regularSky"); // will be in game state FSM eventually
+
+// Draws over everything and resets the canvas. This is the first draw function that must be called
 function clearScreen(canvas) {
    
     canvasContext.clearRect(0,0,canvas.width,canvas.height);
     canvasContext.drawImage(background, 0,0, canvas.width,canvas.height);
-    colorRect(0,ninjaInvisibleLinePositionY, canvas.width,2);
-    //colorRect(0, 0, canvas.width, canvas.height, 'orange'); //Doesn't work with the whole scaled canvas shenanigans...
-
+    colorRect(0,ninjaZoneBeginningY, canvas.width,2);
 
 }
 
 function drawOnScaledCanvas() {
 
     scaledContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
+
 }
 
 

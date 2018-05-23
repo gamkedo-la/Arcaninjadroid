@@ -83,7 +83,7 @@ function ParticleEmitter (x,y,config) {
     this.endColorVar = config.endColorVar || [0,0,0,0];
 
 
-    ParticleEmitter.prototype.update = function (dt) {
+    ParticleEmitter.prototype.update = function () {
 
         this.toSwap = [];
 
@@ -113,7 +113,7 @@ function ParticleEmitter (x,y,config) {
         for (var i = 0, l = this.poolPointer; i < l; i++) {
 
             var particle = this.pool[i];
-            this.updateParticle(dt, particle, i);
+            this.updateParticle(particle, i);
 
         }
         
@@ -124,7 +124,7 @@ function ParticleEmitter (x,y,config) {
 
     }
 
-    ParticleEmitter.prototype.updateParticle = function (dt, particle, particleIndex) {
+    ParticleEmitter.prototype.updateParticle = function (particle, particleIndex) {
 
         particle.lifeLeft -= dt; // again, times are in seconds!
 
@@ -265,7 +265,7 @@ function updateAllEmitters() {
             continue;
         }
         
-        emitters[i].update(dt);
+        emitters[i].update();
     }
     for (var i = toRemove.length-1, j = 0; i >= j; i--) {
         index = toRemove[i];

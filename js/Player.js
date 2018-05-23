@@ -9,10 +9,12 @@ function Player () {
     this.velocity = {x:0, y:0};
 
     this.walkSpeed = 2;
-    this.jumpVelocity = 12; //initial y velocity when jumping
+    this.jumpVelocity = 6; //initial y velocity when jumping
 
-    this.collider = new RectCollider(this,20,28);
+    this.groundCollider = new RectCollider(this,20,0.2, {offsetY:12});
+    this.grounded = false;
     this.movable = true; //can be affected by collisions
+
 
     this.ninjaSpeed = 1;
 
@@ -20,7 +22,7 @@ function Player () {
 
     this.draw = function () {
         this.actionMachine.drawCurrentState(this.x,this.y);
-        this.collider.draw();
+        this.groundCollider.draw();
     }
 }
 player = new Player ();

@@ -42,6 +42,7 @@ function StateMachine (defaultState){
             //make the switch and save previous
             previousState = currentState;
             currentState = nextState;
+            console.log(currentState);
             currentState.enter();
         }
     }

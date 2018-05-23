@@ -16,7 +16,7 @@ idleSheet = new SpriteSheet(Images.getImage("PH_Android_Idle"), 1, 2);
 function IdleAndroidState() {
 
     this.animation = new Animation(idleSheet, { loop: true });
-
+    
     this.update = function () {
 
         player.x += player.velocity.x;
@@ -30,6 +30,8 @@ function IdleAndroidState() {
         player.velocity.y *= 0.85;
         if (Math.abs(player.velocity.x) < 0.1) player.velocity.x = 0;
         if (Math.abs(player.velocity.y) < 0.1) player.velocity.y = 0;
+
+        //this.collider.draw();
     }
 
     this.handleInput = function () {
@@ -53,6 +55,7 @@ function IdleAndroidState() {
     }
 
     this.enter = function () {
+        //this.collider = new RectCollider(player,20,28);
     }
     this.exit = function () {
     }
@@ -96,7 +99,7 @@ function JumpState() {
 
     this.update = function () {
         if (this.fastfall === false) {
-            player.velocity.y += 0.1;
+            player.velocity.y += 0.45;
         } else {
             player.velocity.y += 1;
         }
@@ -105,11 +108,21 @@ function JumpState() {
 
         player.velocity.x *= 0.85;
         player.velocity.y *= 0.85;
+
+
         if (Math.abs(player.velocity.x) < 0.1) player.velocity.x = 0;
         if (Math.abs(player.velocity.y) < 0.1) player.velocity.y = 0;
     }
 
     this.handleInput = function () {
+
+        // Dampen the apex of the jump (thanks Matt Thorson!)
+        if (Input.getKey("w")) {
+            if (Math.abs(player.velocity.y) <=1.6){
+                console.log("damp");
+                player.velocity.y -= 0.2;
+            }
+        }
 
         if (Input.getKeyDown("s")) {
             this.fastfall = true;
@@ -121,11 +134,19 @@ function JumpState() {
         } else if (Input.getKey("d")) {
             player.velocity.x = player.walkSpeed;
         }
+
+        if (player.grounded) {
+            console.log("touch ground");
+            return new IdleAndroidState();
+        }
     }
 
     this.enter = function () {
+        console.log("enter");
         this.fastfall = false;
         player.velocity.y = -player.jumpVelocity;
+        player.grounded = false;
+        player.y -= 10;
     }
     this.exit = function () {
     }

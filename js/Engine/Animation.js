@@ -32,7 +32,7 @@ function Animation (sheet, config) {
 
     this.isActive = true; //left public for simplicity of get/set
 
-    var currentFrame = 0; // index of the frame to be drawn
+    var currentFrameNum = 0; // index of the frame to be drawn
 
     var timeCounter = 0; //keeps track of time passage and updates current frame
 
@@ -55,7 +55,7 @@ function Animation (sheet, config) {
             }
         }
 
-        currentFrame = Math.floor(timeCounter / frameDurationSec) % frameCount; //calc current frame
+        currentFrameNum = Math.floor(timeCounter / frameDurationSec) % frameCount; //calc current frame
  
     }
 
@@ -64,10 +64,9 @@ function Animation (sheet, config) {
         if (this.isActive === false) {
             console.log("Tried to draw inactive animation.");
             return;
-        } 
-
-        var clipStartX = (currentFrame % sheet.getNumCols()) * sheet.getSpriteWidth();
-        var clipStartY = Math.floor(currentFrame / sheet.getNumCols()) * sheet.getSpriteHeight();
+        }
+        var clipStartX = (currentFrameNum % sheet.getNumCols()) * sheet.getSpriteWidth();
+        var clipStartY = Math.floor(currentFrameNum / sheet.getNumCols()) * sheet.getSpriteHeight();
 
         canvasContext.drawImage(sheet.getImage(),
                                 clipStartX,clipStartY, sheet.getSpriteWidth(), sheet.getSpriteHeight(), 
@@ -80,16 +79,24 @@ function Animation (sheet, config) {
         this.isActive = true;
     }
 
-    this.getCurrentFrame = function () {
-        return currentFrame;
+    this.getcurrentFrameNumNumber = function () {
+        return currentFrameNum;
     }
 
     this.getDuration = function () {
         return duration;
     }
-
+/*
     this.getSheet = function () {
         return sheet; //doesn't respect encapsulation, for testing only
+    }*/
+
+    this.getFrameWidth = function () {
+        return sheet.getSpriteWidth();
+    }
+
+    this.getFrameHeight = function () {
+        return sheet.getSpriteHeight();
     }
 
 }

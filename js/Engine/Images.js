@@ -56,13 +56,12 @@ function Images () {
         catch (err){
             console.log(err);
         }
-
         return imageDict[name];
     }
 
 }
 
-// Your file names go here
+//////////////    Your file names go here    ////////////////
 var fileNames = [
 
     "images/viewtiful.jpg",
