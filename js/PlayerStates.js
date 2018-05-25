@@ -9,6 +9,8 @@
 
 baseState = new State(); //give a reference to this state when declaring your custom state's prototype (see above, or below...)
 
+var PlayerStates = {}; //gets filled up automatically as states get created. We make the distinction because enemies will have states as well
+
 
 ////       Basic, idle Android state        ////
 
@@ -37,14 +39,14 @@ function IdleAndroidState() {
     this.handleInput = function () {
 
         if (Input.getLeftClick()) {
-            return new PunchingState();
+            return PlayerStates.punchingState;
         }
 
         // Basic movement
         if (Input.getKey("w")) {
-            return new JumpState();
+            return PlayerStates.jumpState;
         } else if (Input.getKey("s")) {
-            return new CrouchState();
+            return PlayerStates.crouchState;
         }
 
         if (Input.getKey("a")) {
@@ -61,10 +63,11 @@ function IdleAndroidState() {
     }
 }
 IdleAndroidState.prototype = baseState;
+PlayerStates.idleAndroidState = new IdleAndroidState();
 
 
 
-///////////////////       Android crouch state      ////////////////////////
+///////////////////       Android crouch state       ////////////////////////
 crouchSheet = new SpriteSheet(Images.getImage("PH_Android_Crouch"), 1, 1);
 function CrouchState() {
 
@@ -86,7 +89,7 @@ function CrouchState() {
     }
 }
 CrouchState.prototype = baseState;
-
+PlayerStates.crouchState = new CrouchState();
 
 
 
@@ -101,7 +104,7 @@ function JumpState() {
         if (this.fastfall === false) {
             player.velocity.y += 0.45;
         } else {
-            player.velocity.y += 1;
+            player.velocity.y += 2;
         }
         player.x += player.velocity.x;
         player.y += player.velocity.y;
@@ -119,7 +122,7 @@ function JumpState() {
         // Dampen the apex of the jump (thanks Matt Thorson!)
         if (Input.getKey("w")) {
             if (Math.abs(player.velocity.y) <=1.6){
-                console.log("damp");
+                //console.log("damp");
                 player.velocity.y -= 0.2;
             }
         }
@@ -137,7 +140,7 @@ function JumpState() {
 
         if (player.grounded) {
             console.log("touch ground");
-            return new IdleAndroidState();
+            return PlayerStates.idleAndroidState;
         }
     }
 
@@ -152,7 +155,7 @@ function JumpState() {
     }
 }
 JumpState.prototype = baseState;
-
+PlayerStates.jumpState = new JumpState();
 
 
 ////////////////////       Android regular punch state      /////////////////////////
@@ -179,3 +182,4 @@ function PunchingState() {
     }
 }
 PunchingState.prototype = baseState;
+PlayerStates.punchingState = new PunchingState();

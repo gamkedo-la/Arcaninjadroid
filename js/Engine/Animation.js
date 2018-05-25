@@ -8,10 +8,7 @@
 
 // As will all the modules in Arcaninjandroid, don't hesitate to contact me if you need help or want a walkthrough of the implementation! :)
 
-animations = [];
 function Animation (sheet, config) {
-    
-    animations.push(this);
 
     var sheet = sheet; //SpriteSheet object
 
@@ -41,6 +38,7 @@ function Animation (sheet, config) {
     this.update = function () {
 
         if (this.isActive === false) {
+            console.log(timeCounter);
             return;
         }
 
@@ -136,11 +134,6 @@ function SpriteSheet (image, numRows, numCols) {
     }
 }
 
-function updateAllAnimations() {
-    for (var i = 0, l = animations.length; i < l; i++) {
-        animations[i].update();
-    }
-}
 /////////////////      Example      ///////////////////////
 /*
 var mySheet = new SpriteSheet (Images.getImage("myImage3rows2cols"), 3,2);

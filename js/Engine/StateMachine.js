@@ -7,23 +7,30 @@
 
 // Might eventually be extended to handle stack of states
 
-stateMachines = [];
 function StateMachine (defaultState){
 
     var currentState;
     var previousState;
     var defaultState = defaultState; //could also be used as a "reset" state ?
 
-    stateMachines.push(this);
-
 
     this.update = function () {
         if (!currentState) {
             this.resetToDefault();
         }
-        currentState.update();
+        var nextState = currentState.update();
+        if (nextState) {
+            this.handleReceivedState(nextState);
+        }
         
         this.handleInput(); //once we're done updating, we take the input. We might need to switch this order at some point(?)
+    }
+
+    this.updateAnimation = function () {
+        if (!currentState) {
+            this.resetToDefault();
+        }
+        if (currentState.animation) {currentState.animation.update();}
     }
 
      // our machine acts as the head, and delegates most of the handling to the current state
@@ -31,25 +38,13 @@ function StateMachine (defaultState){
     this.handleInput = function () {
 
         var nextState = currentState.handleInput();
-
-        if (typeof nextState !== "undefined"){
-            //Weakly typed languages ftw
-            if (nextState === "previous") {
-                this.changeToPrevious();
-                return;
-            }
-            currentState.exit();
-            //make the switch and save previous
-            previousState = currentState;
-            currentState = nextState;
-            console.log(currentState);
-            currentState.enter();
-        }
+        if (nextState) {this.handleReceivedState(nextState);}
+      
     }
 
 
     // Use only for crude, exceptional cases
-    // If you can, return a new state in the state.handleInput function!
+    // If you can, return a new state in the state update functions!
     this.changeState = function (state){
 
         if (typeof state.enter === "undefined"){
@@ -82,6 +77,25 @@ function StateMachine (defaultState){
         currentState.enter();
     }
 
+    //Changes to the next state that was received through one of the update functions of the current state
+    this.handleReceivedState = function (nextState) {
+
+        //Weakly typed languages ftw
+        if (nextState === "previous") {
+            this.changeToPrevious();
+            return;
+        }
+        currentState.exit();
+        if (nextState.animation) {
+            nextState.animation.reset();
+        }
+        //make the switch and save previous
+        previousState = currentState;
+        currentState = nextState;
+        currentState.enter();
+
+    }
+
     this.resetToDefault = function () {
         console.log("Setting default state: " + defaultState);
         this.changeState(defaultState);
@@ -92,13 +106,6 @@ function StateMachine (defaultState){
         if (currentState.animation) {
             currentState.animation.draw(x,y);
         } else {console.log("Current state has nothing to draw."); }
-    }
-}
-
-function updateAllStateMachines () {
-
-    for (var i = 0, l = stateMachines.length; i<l;i++) {
-        stateMachines[i].update();
     }
 }
 
