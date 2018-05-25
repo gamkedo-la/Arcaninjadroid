@@ -97,7 +97,6 @@ function StateMachine (defaultState){
     }
 
     this.resetToDefault = function () {
-        console.log("Setting default state: " + defaultState);
         this.changeState(defaultState);
     }
 

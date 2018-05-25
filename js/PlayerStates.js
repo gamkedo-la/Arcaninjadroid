@@ -7,7 +7,7 @@
 // MyState.prototype = baseState;
 // Give it to the player and try it out! :D
 
-baseState = new State(); //give a reference to this state when declaring your custom state's prototype (see above, or below...)
+var baseState = new State(); //give a reference to this state when declaring your custom state's prototype (see above, or below...)
 
 var PlayerStates = {}; //gets filled up automatically as states get created. We make the distinction because enemies will have states as well
 

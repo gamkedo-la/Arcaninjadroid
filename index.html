@@ -1,13 +1,37 @@
 ﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
-    <title>Arcaninjandroid: Kitty Catastrophe</title>
+    <title>Arcaninjandroid</title>
+
+    <style>
+        div {
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+            color: #b32d00;
+            font-size: 42pt
+        }
+        h2 {
+            text-align: center;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+            color: #d3d3d3;
+            font-size: 20pt
+        }
+    </style>
 </head>
-<body>
-    <canvas id="canvas"></canvas>
+
+<body bgcolor="#4d1300">
+    <h1>Arcaninjandroid:</h1>
+    <h2>Kitty Catastrophe</h2>
+    <div>
+        <canvas id="canvas" style></canvas>
+    </div>
 
     <!-- Engine files. Please keep the same order and add your scripts
     after them, in the game-specific scripts section! -->
@@ -17,6 +41,7 @@
     <script type="text/javascript" src="js/Engine/CircleCollider.js"></script>
     <script type="text/javascript" src="js/Engine/ParticleSystem.js"></script>
     <script type="text/javascript" src="js/Engine/Animation.js"></script>
+    <script type="text/javascript" src="js/Engine/AnimationEditor.js"></script>
     <script type="text/javascript" src="js/Engine/StateMachine.js"></script>
     <script type="text/javascript" src="js/Engine/GraphicsCommon.js"></script>
     <script type="text/javascript" src="js/Engine/FunctionsCommon.js"></script>
@@ -26,10 +51,12 @@
 
     <!-- Game specific scripts go here!-->
     <script type="text/javascript" src="js/Main.js"></script>
+    <script type="text/javascript" src="js/GameStates.js"></script>
     <script type="text/javascript" src="js/PlayerStates.js"></script>
     <script type="text/javascript" src="js/Player.js"></script>
 
     <script type="text/javascript" src="js/Terrain.js"></script>
 
 </body>
+
 </html>
