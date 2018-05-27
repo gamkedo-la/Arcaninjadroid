@@ -97,6 +97,14 @@ function Animation (sheet, config) {
         return sheet.getSpriteHeight();
     }
 
+    this.getHitboxes = function () {
+
+    }
+
+    this.getHurtboxes = function () {
+        
+    }
+
 }
 
 
@@ -124,7 +132,7 @@ function SpriteSheet (image, numRows, numCols) {
     }
 
     //Note: having an "Images" module means that (as of now) images have 0 width, 0 height on program startup, because they are not loaded yet
-    // As such, we cannot save the width and heigths in fields on startup... and we need getters
+    // As such, we cannot save the width and heights in fields on startup... and we need getters
     this.getSpriteWidth = function () {
         return image.width / numCols;
     }

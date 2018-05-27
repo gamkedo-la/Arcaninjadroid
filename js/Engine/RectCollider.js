@@ -145,12 +145,16 @@ function resolveAllCollisions() {
 
             if (collider1.intersects(collider2)){
                 if (!collider1.isTrigger && !collider2.isTrigger){
-                    collider1.pushOutBothParents(collider2);
+                    //collider1.pushOutBothParents(collider2);
                 }
-                collider1.parent.grounded = true;
-                collider2.parent.grounded = true;
+                //collider1.parent.grounded = true;
+                //collider2.parent.grounded = true;
                 //console.log("grounded both");
             }
         }
     }
+}
+
+function resolveFeetToGround() {
+
 }

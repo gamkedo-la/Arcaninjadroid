@@ -7,7 +7,7 @@
 
 // Might eventually be extended to handle stack of states
 
-function StateMachine (defaultState){
+function StateMachine(defaultState) {
 
     var currentState;
     var previousState;
@@ -22,7 +22,7 @@ function StateMachine (defaultState){
         if (nextState) {
             this.handleReceivedState(nextState);
         }
-        
+
         this.handleInput(); //once we're done updating, we take the input. We might need to switch this order at some point(?)
     }
 
@@ -30,29 +30,29 @@ function StateMachine (defaultState){
         if (!currentState) {
             this.resetToDefault();
         }
-        if (currentState.animation) {currentState.animation.update();}
+        if (currentState.animation) { currentState.animation.update(); }
     }
 
-     // our machine acts as the head, and delegates most of the handling to the current state
-     // we return the next state directly from the state object logic itself and change if needed
+    // our machine acts as the head, and delegates most of the handling to the current state
+    // we return the next state directly from the state object logic itself and change if needed
     this.handleInput = function () {
 
         var nextState = currentState.handleInput();
-        if (nextState) {this.handleReceivedState(nextState);}
-      
+        if (nextState) { this.handleReceivedState(nextState); }
+
     }
 
 
     // Use only for crude, exceptional cases
     // If you can, return a new state in the state update functions!
-    this.changeState = function (state){
+    this.changeState = function (state) {
 
-        if (typeof state.enter === "undefined"){
-            console.log ("Error: state provided is not valid. Could not change.");
+        if (typeof state.enter === "undefined") {
+            console.log("Error: state provided is not valid. Could not change.");
             return;
         }
 
-        if (typeof currentState !== "undefined"){
+        if (typeof currentState !== "undefined") {
             currentState.exit();
         }
 
@@ -101,10 +101,16 @@ function StateMachine (defaultState){
     }
 
     // Used to call draws from outside the FSM
-    this.drawCurrentState = function (x,y) {
+    this.drawCurrentState = function (x, y) {
         if (currentState.animation) {
-            currentState.animation.draw(x,y);
-        } else {console.log("Current state has nothing to draw."); }
+            currentState.animation.draw(x, y);
+        }
+        else {
+            console.log("Current state no animation to draw.");
+        }
+        if (currentState.collider) {
+            currentState.collider.draw();
+        }
     }
 }
 
@@ -114,7 +120,7 @@ function StateMachine (defaultState){
 // Normally, the compiler in other languages would FORCE YOU to implement these methods. Here, we at least give
 // a console log if the method is undefined
 
-function State () {
+function State() {
 
     this.update = function () {
         console.log("Warning: Current state must implement 'update' method");

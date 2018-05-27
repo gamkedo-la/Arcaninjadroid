@@ -25,6 +25,8 @@ function Input() {
     //Dict mapping keys with their keycodes (generated using the keycodes.js file)
     var nameCodePairs = keycodes;
 
+    var mouseOverCanvas = true;
+
 
     // Initialization of the value dict. Encoding for key states: [0,0] = no press, [0,1] = pressed this frame, [1,1] = holding
     // The state [1,0] is transitional, it tells the resetGetKeyDown method to wait 1 frame before clearing inputs so we have time to read first
@@ -128,6 +130,15 @@ function Input() {
 
     };
 
+    Input.setMouseOverCanvas = function () {
+        mouseOverCanvas = true;
+        console.log("true");
+    }
+    Input.setMouseOutOfCanvas = function () {
+        mouseOverCanvas = false;
+        console.log("false");
+    }
+
     // Important that this is AFTER the function defs. 
     document.addEventListener("keydown", Input.keyDown);
     document.addEventListener("keyup", Input.keyUp);
@@ -141,6 +152,8 @@ function Input() {
     }
 
     canvas.addEventListener('mousemove', Input.setMousePos);
+    canvas.addEventListener("onmouseover", Input.setMouseOverCanvas);
+    canvas.addEventListener("onmouseout", Input.setMouseOutOfCanvas);
 
 };
 

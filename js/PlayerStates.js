@@ -81,6 +81,10 @@ function CrouchState() {
         if (Input.getKey("s") === false) {
             return "previous";
         }
+
+        if (Input.getLeftClick()) {
+            return PlayerStates.uppercutState;
+        }
     }
 
     this.enter = function () {
@@ -180,6 +184,33 @@ function PunchingState() {
 
     this.exit = function () {
     }
-}
+};
 PunchingState.prototype = baseState;
 PlayerStates.punchingState = new PunchingState();
+
+///////////////     Android uppercut (colloquially known as the "Sho-ryu-ken")      ///////////////
+uppercutSheet = new SpriteSheet(Images.getImage("ground1"), 1,1);
+function UppercutState() {
+
+    this.animation = new Animation(uppercutSheet, { loop:true });
+    
+
+    this.update = function () {
+
+    }
+
+    this.handleInput = function () {
+
+    }
+
+    this.enter = function () {
+        console.log("shouryuuken");
+        this.collider = new RectCollider(player, 25,25, {offsetX:10,offsetY:15, isTrigger:true});
+    }
+
+    this.exit = function () {
+    }
+
+};
+UppercutState.prototype = baseState;
+PlayerStates.uppercutState = new UppercutState();

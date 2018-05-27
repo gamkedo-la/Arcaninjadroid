@@ -1,3 +1,4 @@
+
 var baseState = new State();
 GameStates = {};
 
@@ -17,6 +18,7 @@ function InGameState () {
 
         if (Input.getKeyDown("p")){
             console.log("pause");
+            return new AnimationEditorState();
         }
         
     };
@@ -31,10 +33,12 @@ function InGameState () {
 
 };
 InGameState.prototype = baseState;
+
 GameStates.inGameState = new InGameState();
+//GameStates.inGameState = new AnimationEditorState();
 
 var GameStateMachine = new StateMachine(GameStates.inGameState);
 
 function PauseState () {
-    
+    //TODO    
 }

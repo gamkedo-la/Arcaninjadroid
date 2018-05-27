@@ -11,17 +11,27 @@
         div {
             text-align: center;
         }
+
         h1 {
             text-align: center;
-            font-family:Verdana, Geneva, Tahoma, sans-serif;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
             color: #b32d00;
             font-size: 42pt
         }
+
         h2 {
             text-align: center;
-            font-family:Verdana, Geneva, Tahoma, sans-serif;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
             color: #d3d3d3;
             font-size: 20pt
+        }
+
+        form {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: #d3d3d3;
+            font-size: 16pt;
+            text-align: center;
+            text-anchor: start;
         }
     </style>
 </head>
@@ -31,8 +41,16 @@
     <h2>Kitty Catastrophe</h2>
     <div>
         <canvas id="canvas" style></canvas>
-    </div>
 
+        <form id="animationEditorForm">
+            Choose your spritesheet (png) file to create a new animation.
+            <input type="file" id="userSpritesheet" accept="png">
+            <br> Number of rows:
+            <input type="text" name="rows" value="1">
+            <br> Number of cols:
+            <input type="text" name="rows" value="1">
+        </form>
+    </div>
     <!-- Engine files. Please keep the same order and add your scripts
     after them, in the game-specific scripts section! -->
     <script type="text/javascript" src="js/Engine/Input.js"></script>
