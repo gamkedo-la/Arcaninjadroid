@@ -169,7 +169,7 @@ function PunchingState() {
     this.animation = new Animation(punchingSheet, { fps: 16 });
 
     this.update = function () {
-
+        // not applying gravity here is a feature! not an error
     }
 
     this.handleInput = function () {
