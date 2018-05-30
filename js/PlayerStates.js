@@ -1,75 +1,76 @@
 
-////    All states (ie slick moves and movements) of the player will be created here. Depending on size, might be split into separate files (for Arcane, Ninja and Android perhaps)
+////    All states (ie slick moves and abilities) of the player will be created here. Depending on size, might be split into separate files (for Arcane, Ninja and Android perhaps)
 
 /////    Good format:
 // mySheet = new SpriteSheet (...)
 // function MyState () {...} (also give the spritesheet in this.animation)
 // MyState.prototype = baseState;
+// ADD to PlayerStates at the end of the file, just like shown
 // Give it to the player and try it out! :D
 
 var baseState = new State(); //give a reference to this state when declaring your custom state's prototype (see above, or below...)
-
-var PlayerStates = {}; //gets filled up automatically as states get created. We make the distinction because enemies will have states as well
 
 
 ////       Basic, idle Android state        ////
 
 idleSheet = new SpriteSheet(Images.getImage("PH_Android_Idle"), 1, 2);
-function IdleAndroidState() {
-
+function IdleAndroidState(parent,relatedStates) {
+    var parent = parent;
+    var states = relatedStates;
+    //console.log(parent.velocity);
     this.animation = new Animation(idleSheet, { loop: true });
     
     this.update = function () {
-
-        player.x += player.velocity.x;
-        player.y += player.velocity.y;
+        //console.log(parent);
+        parent.x += parent.velocity.x;
+        parent.y += parent.velocity.y;
 
         //apply some gravity. Fun fact: often times our super awesome main character will flat out ignore gravity,
         //so I feel it's ok to add it (perhaps multiple times) in the update functions of different states
-        player.velocity.y += 0.75;
+        parent.velocity.y += 0.75;
 
-        player.velocity.x *= 0.85;
-        player.velocity.y *= 0.85;
-        if (Math.abs(player.velocity.x) < 0.1) player.velocity.x = 0;
-        if (Math.abs(player.velocity.y) < 0.1) player.velocity.y = 0;
+        parent.velocity.x *= 0.85;
+        parent.velocity.y *= 0.85;
+        if (Math.abs(parent.velocity.x) < 0.1) parent.velocity.x = 0;
+        if (Math.abs(parent.velocity.y) < 0.1) parent.velocity.y = 0;
 
-        //this.collider.draw();
     }
 
     this.handleInput = function () {
 
         if (Input.getLeftClick()) {
-            return PlayerStates.punchingState;
+            return states.punchingState;
         }
 
         // Basic movement
         if (Input.getKey("w")) {
-            return PlayerStates.jumpState;
+            return states.jumpState;
         } else if (Input.getKey("s")) {
-            return PlayerStates.crouchState;
+            return states.crouchState;
         }
 
         if (Input.getKey("a")) {
-            player.velocity.x = -player.walkSpeed;
+            parent.velocity.x = -parent.walkSpeed;
         } else if (Input.getKey("d")) {
-            player.velocity.x = player.walkSpeed;
+            parent.velocity.x = parent.walkSpeed;
         }
     }
 
     this.enter = function () {
-        //this.collider = new RectCollider(player,20,28);
     }
     this.exit = function () {
     }
 }
 IdleAndroidState.prototype = baseState;
-PlayerStates.idleAndroidState = new IdleAndroidState();
+
 
 
 
 ///////////////////       Android crouch state       ////////////////////////
 crouchSheet = new SpriteSheet(Images.getImage("PH_Android_Crouch"), 1, 1);
-function CrouchState() {
+function CrouchState(parent,relatedStates) {
+    var parent = parent;
+    var states = relatedStates;
 
     this.animation = new Animation(crouchSheet);
 
@@ -83,7 +84,7 @@ function CrouchState() {
         }
 
         if (Input.getLeftClick()) {
-            return PlayerStates.uppercutState;
+            return states.uppercutState;
         }
     }
 
@@ -93,83 +94,89 @@ function CrouchState() {
     }
 }
 CrouchState.prototype = baseState;
-PlayerStates.crouchState = new CrouchState();
+
 
 
 
 ///////////////////       Android jump state      ////////////////////////
 jumpSheet = new SpriteSheet(Images.getImage("PH_Android_Idle"), 1, 2); //replace with jump at some point
-function JumpState() {
+function JumpState(parent,relatedStates) {
+    var parent = parent;
+    var states = relatedStates;
 
     this.animation = new Animation(jumpSheet,{loop:true});
     this.fastfall = false;
 
     this.update = function () {
         if (this.fastfall === false) {
-            player.velocity.y += 0.45;
+            parent.velocity.y += 0.45;
         } else {
-            player.velocity.y += 2;
+            parent.velocity.y += 2;
         }
-        player.x += player.velocity.x;
-        player.y += player.velocity.y;
+        parent.x += parent.velocity.x;
+        parent.y += parent.velocity.y;
 
-        player.velocity.x *= 0.85;
-        player.velocity.y *= 0.85;
+        parent.velocity.x *= 0.85;
+        parent.velocity.y *= 0.85;
 
 
-        if (Math.abs(player.velocity.x) < 0.1) player.velocity.x = 0;
-        if (Math.abs(player.velocity.y) < 0.1) player.velocity.y = 0;
+        if (Math.abs(parent.velocity.x) < 0.1) parent.velocity.x = 0;
+        if (Math.abs(parent.velocity.y) < 0.1) parent.velocity.y = 0;
+
+        
+        if (parent.grounded) {
+            //console.log("touch ground");
+            return states.idleAndroidState;
+        }
     }
 
     this.handleInput = function () {
 
         // Dampen the apex of the jump (thanks Matt Thorson!)
         if (Input.getKey("w")) {
-            if (Math.abs(player.velocity.y) <=1.6){
+            if (Math.abs(parent.velocity.y) <=1.6){
                 //console.log("damp");
-                player.velocity.y -= 0.2;
+                parent.velocity.y -= 0.2;
             }
         }
 
         if (Input.getKeyDown("s")) {
             this.fastfall = true;
-            new ParticleEmitter(player.x-10, player.y-15,fastFallParticlesConfig); //spawn fast fall blinking particles (visual only)
+            new ParticleEmitter(parent.x-10, parent.y-15,fastFallParticlesConfig); //spawn fast fall blinking particles (visual only)
         }
 
         if (Input.getKey("a")) {
-            player.velocity.x = -player.walkSpeed;
+            parent.velocity.x = -parent.walkSpeed;
         } else if (Input.getKey("d")) {
-            player.velocity.x = player.walkSpeed;
+            parent.velocity.x = parent.walkSpeed;
         }
 
-        if (player.grounded) {
-            console.log("touch ground");
-            return PlayerStates.idleAndroidState;
-        }
     }
 
     this.enter = function () {
-        console.log("enter");
+        //console.log("enter");
         this.fastfall = false;
-        player.velocity.y = -player.jumpVelocity;
-        player.grounded = false;
-        player.y -= 10;
+        parent.velocity.y = -parent.jumpVelocity;
+        parent.grounded = false;
+        parent.y -= 10;
     }
     this.exit = function () {
     }
 }
 JumpState.prototype = baseState;
-PlayerStates.jumpState = new JumpState();
+
 
 
 ////////////////////       Android regular punch state      /////////////////////////
 punchingSheet = new SpriteSheet(Images.getImage("PH_Android_Punch"), 1, 2);
-function PunchingState() {
+function PunchingState(parent,relatedStates) {
+    var parent = parent;
+    var states = relatedStates;
 
     this.animation = new Animation(punchingSheet, { fps: 16 });
 
     this.update = function () {
-        // not applying gravity here is a feature! not an error
+        // not applying gravity here is a feature, not an error
     }
 
     this.handleInput = function () {
@@ -186,17 +193,33 @@ function PunchingState() {
     }
 };
 PunchingState.prototype = baseState;
-PlayerStates.punchingState = new PunchingState();
+
 
 ///////////////     Android uppercut (colloquially known as the "Sho-ryu-ken")      ///////////////
-uppercutSheet = new SpriteSheet(Images.getImage("ground1"), 1,1);
-function UppercutState() {
+uppercutSheet = new SpriteSheet(Images.getImage("PH_Android_Uppercut"), 1,1);
+function UppercutState(parent,relatedStates) {
 
-    this.animation = new Animation(uppercutSheet, { loop:true });
+    var parent = parent;
+    var states = relatedStates;
+
+    this.animation = new Animation(uppercutSheet);
     
 
     this.update = function () {
 
+        if (parent.grounded) {
+            return states.idleAndroidState;
+        }
+
+        parent.velocity.y += 0.45;
+
+        parent.x += parent.velocity.x;
+        parent.y += parent.velocity.y;
+
+        parent.velocity.x *= 0.85;
+        parent.velocity.y *= 0.85;
+        if (Math.abs(parent.velocity.x) < 0.1) parent.velocity.x = 0;
+        if (Math.abs(parent.velocity.y) < 0.1) parent.velocity.y = 0;
     }
 
     this.handleInput = function () {
@@ -204,8 +227,12 @@ function UppercutState() {
     }
 
     this.enter = function () {
-        console.log("shouryuuken");
-        this.collider = new RectCollider(player, 25,25, {offsetX:10,offsetY:15, isTrigger:true});
+
+         parent.velocity.y = -parent.jumpVelocity;
+         parent.grounded = false;
+         parent.y -= 10;
+
+         new ParticleEmitter(parent.x+10, parent.y-25,fastFallParticlesConfig);
     }
 
     this.exit = function () {
@@ -213,4 +240,21 @@ function UppercutState() {
 
 };
 UppercutState.prototype = baseState;
-PlayerStates.uppercutState = new UppercutState();
+
+
+// parent must be a Character
+function PlayerStates(parent) {
+
+    // Might refactor?
+    this.idleAndroidState = new IdleAndroidState(parent,this);
+    this.crouchState = new CrouchState(parent,this);
+    this.uppercutState = new UppercutState(parent,this);
+    this.punchingState = new PunchingState(parent,this);
+    this.jumpState = new JumpState(parent,this);
+
+    this.initial = this.idleAndroidState;
+}
+
+function DummyStates() {
+
+}
