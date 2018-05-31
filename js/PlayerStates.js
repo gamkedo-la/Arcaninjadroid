@@ -13,15 +13,14 @@ var baseState = new State(); //give a reference to this state when declaring you
 
 ////       Basic, idle Android state        ////
 
-idleSheet = new SpriteSheet(Images.getImage("PH_Android_Idle"), 1, 2);
 function IdleAndroidState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
-    //console.log(parent.velocity);
-    this.animation = new Animation(idleSheet, { loop: true });
+
+    this.animation = new Animation(Images.getImage("PH_Android_Idle"), androidIdleData, {loop : true});
     
     this.update = function () {
-        //console.log(parent);
+
         parent.x += parent.velocity.x;
         parent.y += parent.velocity.y;
 
@@ -67,12 +66,13 @@ IdleAndroidState.prototype = baseState;
 
 
 ///////////////////       Android crouch state       ////////////////////////
-crouchSheet = new SpriteSheet(Images.getImage("PH_Android_Crouch"), 1, 1);
+
 function CrouchState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(crouchSheet);
+    //this.animation = new Animation(crouchSheet);
+    this.animation = new Animation(Images.getImage("PH_Android_Crouch"));
 
     this.update = function () {
     }
@@ -99,12 +99,13 @@ CrouchState.prototype = baseState;
 
 
 ///////////////////       Android jump state      ////////////////////////
-jumpSheet = new SpriteSheet(Images.getImage("PH_Android_Idle"), 1, 2); //replace with jump at some point
+
 function JumpState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(jumpSheet,{loop:true});
+    //this.animation = new Animation(jumpSheet,{loop:true});
+    this.animation = new Animation(Images.getImage("PH_Android_Idle"), androidIdleData); //placeholder
     this.fastfall = false;
 
     this.update = function () {
@@ -168,12 +169,13 @@ JumpState.prototype = baseState;
 
 
 ////////////////////       Android regular punch state      /////////////////////////
-punchingSheet = new SpriteSheet(Images.getImage("PH_Android_Punch"), 1, 2);
+
 function PunchingState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(punchingSheet, { fps: 16 });
+    //this.animation = new Animation(punchingSheet, { fps: 16 });
+    this.animation = new Animation(Images.getImage("PH_Android_Punch"), androidPunchData);
 
     this.update = function () {
         // not applying gravity here is a feature, not an error
@@ -196,13 +198,14 @@ PunchingState.prototype = baseState;
 
 
 ///////////////     Android uppercut (colloquially known as the "Sho-ryu-ken")      ///////////////
-uppercutSheet = new SpriteSheet(Images.getImage("PH_Android_Uppercut"), 1,1);
+
 function UppercutState(parent,relatedStates) {
 
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(uppercutSheet);
+    //this.animation = new Animation(uppercutSheet);
+    this.animation = new Animation(Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop : false, holdLastFrame : true});
     
 
     this.update = function () {

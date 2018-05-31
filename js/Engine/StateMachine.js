@@ -87,7 +87,7 @@ function StateMachine(defaultState) {
         }
         currentState.exit();
         if (nextState.animation) {
-            nextState.animation.reset();
+            nextState.animation.loop();
         }
         //make the switch and save previous
         previousState = currentState;

@@ -10,7 +10,7 @@ function Player () {
 
 
 var player = new Player ();
-var otherCharacter = new Player ();
+//var otherCharacter = new Player ();
 
-otherCharacter.x = 0;
+//otherCharacter.x = 0;
 

@@ -1,8 +1,8 @@
 
-groundSheet = new SpriteSheet(Images.getImage("ground1"), 1,1);
+//groundSheet = new SpriteSheet(Images.getImage("ground1"), 1,1);
 
 terrain = [];
-function Terrain (x,y, width,height, sheet,animConfig, movable = false) {
+function Terrain (x,y, width,height, movable = false) {
 
     terrain.push(this);
     
@@ -12,7 +12,7 @@ function Terrain (x,y, width,height, sheet,animConfig, movable = false) {
     var height = height;
 
     var sheet = sheet;
-    var animation = new Animation (sheet, animConfig);
+    var animation = new Animation (Images.getImage("ground1"));
 
     this.movable = movable;
 
@@ -25,7 +25,7 @@ function Terrain (x,y, width,height, sheet,animConfig, movable = false) {
 
 }
 
-var protoGround = new Terrain(85,151, 250,35, groundSheet);
+var protoGround = new Terrain(85,151, 250,35);
 //var protoGround2 = new Obstacle(45,132,35,35,groundSheet);
 //var protoGround3 = new Obstacle(65,133,35,35,groundSheet);
 

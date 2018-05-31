@@ -64,9 +64,7 @@ function Images () {
 //////////////    Your file names go here    ////////////////
 var fileNames = [
 
-    "images/viewtiful.jpg",
     "images/testTexture.png",
-    "images/bayo.jpg",
     "images/PH_Android_Idle.png",
     "images/PH_Android_Crouch.png",
     "images/PH_Android_Punch.png",
