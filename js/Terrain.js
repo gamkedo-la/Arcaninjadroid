@@ -12,7 +12,7 @@ function Terrain (x,y, width,height, movable = false) {
     var height = height;
 
     var sheet = sheet;
-    var animation = new Animation (Images.getImage("ground1"));
+    var animation = new Animation (parent, Images.getImage("ground1"));
 
     this.movable = movable;
 

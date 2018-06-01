@@ -112,6 +112,10 @@ function StateMachine(defaultState) {
             currentState.collider.draw();
         }
     }
+
+    this.getAnimation = function () {
+        return currentState.animation;
+    }
 }
 
 // The following is what is known in programming as an "interface". It defines a set of methods (update, enter, exit etc.) that any State object

@@ -34,8 +34,8 @@ var androidIdleData = { "frames": [
    { "name": "Head", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
-   { "name": "Slice", "color": "#fe5b59ff", "data": "Hit", "keys": [{ "frame": 0, "bounds": {"x": 783232, "y": -1669857260, "w": 247488611, "h": -1853114940 } }] },
-   { "name": "Slice", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 0, "h": 0 } }] }
+    { "name": "Hurt", "color": "green", "keys": [{ "frame": 0, "bounds": {"x": 11, "y": 6, "w": 10, "h": 18 } }] },
+    { "name": "Hurt", "color": "green", "keys": [{ "frame": 1, "bounds": {"x": 11, "y": 6, "w": 10, "h": 18 } }] }
   ]
  }
 }

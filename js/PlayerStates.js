@@ -17,7 +17,7 @@ function IdleAndroidState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(Images.getImage("PH_Android_Idle"), androidIdleData, {loop : true});
+    this.animation = new Animation(parent, Images.getImage("PH_Android_Idle"), androidIdleData, {loop : true});
     
     this.update = function () {
 
@@ -72,7 +72,7 @@ function CrouchState(parent,relatedStates) {
     var states = relatedStates;
 
     //this.animation = new Animation(crouchSheet);
-    this.animation = new Animation(Images.getImage("PH_Android_Crouch"));
+    this.animation = new Animation(parent, Images.getImage("PH_Android_Crouch"), androidCrouchData);
 
     this.update = function () {
     }
@@ -105,7 +105,7 @@ function JumpState(parent,relatedStates) {
     var states = relatedStates;
 
     //this.animation = new Animation(jumpSheet,{loop:true});
-    this.animation = new Animation(Images.getImage("PH_Android_Idle"), androidIdleData); //placeholder
+    this.animation = new Animation(parent, Images.getImage("PH_Android_Idle"), androidIdleData); //placeholder
     this.fastfall = false;
 
     this.update = function () {
@@ -175,7 +175,7 @@ function PunchingState(parent,relatedStates) {
     var states = relatedStates;
 
     //this.animation = new Animation(punchingSheet, { fps: 16 });
-    this.animation = new Animation(Images.getImage("PH_Android_Punch"), androidPunchData);
+    this.animation = new Animation(parent, Images.getImage("PH_Android_Punch"), androidPunchData);
 
     this.update = function () {
         // not applying gravity here is a feature, not an error
@@ -205,7 +205,7 @@ function UppercutState(parent,relatedStates) {
     var states = relatedStates;
 
     //this.animation = new Animation(uppercutSheet);
-    this.animation = new Animation(Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop : false, holdLastFrame : true});
+    this.animation = new Animation(parent, Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop : false, holdLastFrame : true});
     
 
     this.update = function () {

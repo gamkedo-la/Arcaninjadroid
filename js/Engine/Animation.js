@@ -10,9 +10,11 @@
 
 // As will all the modules in Arcaninjadroid, don't hesitate to contact me if you need help or want a walkthrough of the implementation! :)
 
-function Animation (image, data, config) {
+function Animation (parent, image, data, config) {
 
     this.isActive = true; //left public for simplicity of get/set
+
+    var parent = parent;
 
     var currentFrameNum = 0; // index of the frame to be drawn
     var timeCounter = 0; //keeps track of time passage and updates current frame
@@ -46,7 +48,11 @@ function Animation (image, data, config) {
         var clipHeight = data.frames[currentFrameNum].frame.h;
     }
 
-    //console.log(loop)
+    var hitboxes = [];
+    //console.log(hitboxes)
+    //hitboxes[4] = [1,2];
+    var hurtboxes = [];
+
 
     // Call this every frame, updates the current frame of animation
     this.update = function () {
@@ -110,6 +116,21 @@ function Animation (image, data, config) {
                                 x-clipWidth/2,y-clipHeight/2, clipWidth, clipHeight);
     }
 
+    this.drawColliders = function (x,y) {
+        if (this.isActive === false) {
+            return;
+        }
+
+        for (var j = 0, k = hitboxes[currentFrameNum].length; j < k; j++){
+            hitboxes[currentFrameNum][j].draw();
+        }
+        for (var j = 0, k = hurtboxes[currentFrameNum].length; j < k; j++){
+            hurtboxes[currentFrameNum][j].draw();
+
+        }
+
+    }
+
     this.loop = function () {
         currentFrameNum = 0;
         timeCounter = 0;
@@ -127,15 +148,46 @@ function Animation (image, data, config) {
         return currentFrameNum;
     }
 
-    // TODO
-    this.getHitboxes = function () {
 
+    this.loadHitboxes = function () {
+
+        if (!data) {return;} //to change
+        var slices = data.meta.slices;
+
+        for (var i = 0, l = frameCount; i < l; i++) {
+
+            hitboxes[i] = [];
+            hurtboxes[i] = [];
+        }
+
+        for (var i = 0, l = slices.length; i < l; i++) {
+            for (var j = 0, k = slices[i].keys.length; j < k; j++){
+
+                var sliceKey = slices[i].keys[j];
+                var frame = slices[i].keys[j].frame;
+
+                var config = {
+                    offsetX: sliceKey.bounds.x - (data.frames[frame].sourceSize.w - sliceKey.bounds.w)/2, // try drawing this as an exercise haha
+                    offsetY: sliceKey.bounds.y - (data.frames[frame].sourceSize.h - sliceKey.bounds.h)/2,
+                    isTrigger: true,
+                    color: slices[i].color}
+
+                if (slices[i].name === "Hit"){
+                    hitboxes[frame].push(new RectCollider(parent, sliceKey.bounds.w,sliceKey.bounds.h, config));
+
+                } else if (slices[i].name === "Hurt"){
+                    hurtboxes[frame].push(new RectCollider(parent, sliceKey.bounds.w,sliceKey.bounds.h, config));
+                }
+
+            }
+
+        }
     }
 
     this.getHurtboxes = function () {
         
     }
-
+    this.loadHitboxes();
 }
 
 /*

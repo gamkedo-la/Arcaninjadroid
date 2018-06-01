@@ -18,6 +18,8 @@ function RectCollider (parent, width, height, config) {
     var offsetX = config.offsetX || 0;
     var offsetY = config.offsetY || 0;
 
+    var color = config.color || "green";
+
     var isTrigger = config.isTrigger || false; // if two non-triggers collide, their parents will be pushed out and have their velocities nullified
 
     this.intersects = function (other) {
@@ -56,7 +58,7 @@ function RectCollider (parent, width, height, config) {
     this.draw = function () {
 
         canvasContext.beginPath();
-        canvasContext.strokeStyle = "green";
+        canvasContext.strokeStyle = color;
         canvasContext.rect(this.getX() - width/2, this.getY() - height/2, width, height);
         canvasContext.stroke();
         canvasContext.closePath();
@@ -67,6 +69,8 @@ function RectCollider (parent, width, height, config) {
     // actual physics collisions/movements, only hitbox/hurtbox triggers. This is only intended for use with basic terrain
     // as the player will be able to walk freely "through" enemies. Use sparingly!
     this.pushOutBothParents = function (other) {
+
+        if (this.isTrigger || other.isTrigger) {return;} //for safety
 
         var dx = other.getX() - this.getX();
         var dy = other.getY() - this.getY();

@@ -14,17 +14,18 @@ function Character () {
 
     this.feetCollider = new RectCollider(this,20,0.2, {offsetY:12});
 
-    this.hitbox = new RectCollider(this,10,10, {offsetX:12, offsetY:-9, isTrigger:true}); 
-    this.hurtbox = new RectCollider(this,20,30, {isTrigger:true});
+    //this.hitbox = new RectCollider(this,10,10, {offsetX:12, offsetY:-9, isTrigger:true}); 
+    //this.hurtbox = new RectCollider(this,20,30, {isTrigger:true});
 
     this.grounded = false;
     this.movable = true; //can be affected (pushed) by collisions
 
     this.draw = function () {
         this.actionMachine.drawCurrentState(this.x,this.y);
-        this.feetCollider.draw();
-        this.hitbox.draw();
-        this.hurtbox.draw();
+        //this.feetCollider.draw();
+        //this.hitbox.draw();
+        //this.hurtbox.draw();
+        this.getAnimation().drawColliders();
     }
 
     this.groundCheck = function () {
@@ -59,13 +60,17 @@ function Character () {
     }
 
     this.getHurtboxes = function () {
-        return [this.hurtbox];
+        return this.getAnimation().getHurtboxes();
         //this.animation.getHurtboxes();
     }
 
     this.getHitboxes = function () {
-        return [this.hitbox];
+        //return [this.hitbox];
         //this.animation.getHitboxes();
+    }
+
+    this.getAnimation = function () {
+        return this.actionMachine.getAnimation();
     }
 
     this.initMachine = function (allStates) {

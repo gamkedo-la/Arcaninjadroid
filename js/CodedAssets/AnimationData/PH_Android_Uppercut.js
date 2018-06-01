@@ -6,7 +6,7 @@ var androidUppercutData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 60
+    "duration": 75
    },
    {
     "filename": "PH_Android #Uppercut 1.aseprite",
@@ -21,21 +21,12 @@ var androidUppercutData = { "frames": [
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.8-x32",
-  "image": "C:\\Users\\Remy\\Documents\\Gamkedo\\Arcaninjadroid\\images\\PH_Android_Uppercut.png",
   "format": "RGBA8888",
-  "size": { "w": 128, "h": 32 },
+  "size": { "w": 64, "h": 32 },
   "scale": "1",
-  "layers": [
-   { "name": "LegL", "opacity": 255, "blendMode": "normal" },
-   { "name": "LegR", "opacity": 255, "blendMode": "normal" },
-   { "name": "Torso", "opacity": 255, "blendMode": "normal" },
-   { "name": "ArmL", "opacity": 255, "blendMode": "normal" },
-   { "name": "ArmR", "opacity": 255, "blendMode": "normal" },
-   { "name": "Head", "opacity": 255, "blendMode": "normal" }
-  ],
   "slices": [
-   { "name": "Slice", "color": "#fe5b59ff", "data": "Hit", "keys": [{ "frame": 0, "bounds": {"x": 783232, "y": -1669857260, "w": 247488611, "h": -1853114940 } }] },
-   { "name": "Slice", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 0, "h": 0 } }] }
+   { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 1, "bounds": {"x": 22, "y": 1, "w": 5, "h": 11 } }] },
+   { "name": "Hurt", "color": "green", "keys": [{ "frame": 1, "bounds": {"x": 12, "y": 6, "w": 10, "h": 18 } }] }
   ]
  }
 }
