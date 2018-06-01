@@ -20,4 +20,3 @@ var androidCrouchData = { "frames": [
   ]
  }
 }
-console.log(androidCrouchData)

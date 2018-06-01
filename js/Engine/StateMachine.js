@@ -3,9 +3,6 @@
 
 // Unlike the Input and Images module, you need to create an instance of your machine and give it to your objects (notice the usage of this. and not StateMachine.)
 // This is because each machine is unique, has different states, and objects could have multiple FSMs given to them.
-// For example, the player to have a state machine for animations, while the inputs are being handled by another.
-
-// Might eventually be extended to handle stack of states
 
 function StateMachine(defaultState) {
 
@@ -99,19 +96,16 @@ function StateMachine(defaultState) {
     this.resetToDefault = function () {
         this.changeState(defaultState);
     }
-
+/*
     // Used to call draws from outside the FSM
     this.drawCurrentState = function (x, y) {
         if (currentState.animation) {
             currentState.animation.draw(x, y);
         }
         else {
-            console.log("Current state no animation to draw.");
+            console.log("Current state has no animation to draw.");
         }
-        if (currentState.collider) {
-            currentState.collider.draw();
-        }
-    }
+    }*/
 
     this.getAnimation = function () {
         return currentState.animation;
@@ -145,7 +139,7 @@ function State() {
 }
 
 /////////     Example     //////////
-/*
+
 function ExampleState () {
 
     this.update = function () {
@@ -188,4 +182,4 @@ ExampleState.prototype = new State();
 var exampleState = new ExampleState();
 
 var myMachine = new StateMachine(exampleState); //create and init at default state
-*/
+

@@ -86,7 +86,7 @@ function Input() {
     }
 
     // these are just there to simplify, they are a common usage of the regular getKey functions
-    Input.getMouseLeft = function () {
+    Input.getLeftHold = function () {
         var toCheck = codeValuePairs["#1"];
         return (toCheck[1] === 1);
     }
@@ -164,7 +164,7 @@ function Input() {
 // passed to the Get methods here
 var keycodes = {
     mouseleft:1,
-    mouseright:2,
+    mouseright:3,
     backspace:8,
     tab:9,
     enter:13,

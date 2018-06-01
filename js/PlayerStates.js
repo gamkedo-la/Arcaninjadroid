@@ -50,9 +50,10 @@ function IdleAndroidState(parent,relatedStates) {
 
         if (Input.getKey("a")) {
             parent.velocity.x = -parent.walkSpeed;
-        } else if (Input.getKey("d")) {
-            parent.velocity.x = parent.walkSpeed;
         }
+        else if (Input.getKey("d")) {
+            parent.velocity.x = parent.walkSpeed;
+        } else {parent.velocity.x = 0;}
     }
 
     this.enter = function () {

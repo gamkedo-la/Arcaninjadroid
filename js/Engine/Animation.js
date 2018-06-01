@@ -94,13 +94,12 @@ function Animation (parent, image, data, config) {
         }
     }
 
-    this.draw = function (x,y) {
+    this.draw = function () {
 
         if (this.isActive === false) {
             console.log("Tried to draw inactive animation.");
             return;
         }
-
         if (data) {
             var clipWidth = data.frames[currentFrameNum].frame.w;
             var clipHeight = data.frames[currentFrameNum].frame.h;
@@ -109,7 +108,8 @@ function Animation (parent, image, data, config) {
             var clipWidth = image.width; //image.width or height cannot be read at init, since image isn't loaded and the values are 0! (hence why their are read here and not above)
             var clipHeight = image.height;
         }       
-
+        var x = parent.x;
+        var y = parent.y;
 
         canvasContext.drawImage(image,
                                 clipStartX,clipStartY, clipWidth, clipHeight, 
@@ -149,7 +149,7 @@ function Animation (parent, image, data, config) {
     }
 
 
-    this.loadHitboxes = function () {
+    this.loadColliders = function () {
 
         if (!data) {return;} //to change
         var slices = data.meta.slices;
@@ -183,11 +183,15 @@ function Animation (parent, image, data, config) {
 
         }
     }
-
-    this.getHurtboxes = function () {
-        
+    
+    this.getHitboxes = function () {
+        return hitboxes[currentFrameNum];
     }
-    this.loadHitboxes();
+    this.getHurtboxes = function () {
+        return hurtboxes[currentFrameNum];
+    }
+
+    this.loadColliders();
 }
 
 /*

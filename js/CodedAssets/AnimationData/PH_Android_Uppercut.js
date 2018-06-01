@@ -25,7 +25,9 @@ var androidUppercutData = { "frames": [
   "size": { "w": 64, "h": 32 },
   "scale": "1",
   "slices": [
+   { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 0, "bounds": {"x": 22, "y": 24, "w": 4, "h": 4 } }] },
    { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 1, "bounds": {"x": 22, "y": 1, "w": 5, "h": 11 } }] },
+   { "name": "Hurt", "color": "green", "keys": [{ "frame": 0, "bounds": {"x": 11, "y": 12, "w": 10, "h": 16 } }] },
    { "name": "Hurt", "color": "green", "keys": [{ "frame": 1, "bounds": {"x": 12, "y": 6, "w": 10, "h": 18 } }] }
   ]
  }

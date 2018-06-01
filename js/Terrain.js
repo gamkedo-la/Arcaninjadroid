@@ -12,14 +12,14 @@ function Terrain (x,y, width,height, movable = false) {
     var height = height;
 
     var sheet = sheet;
-    var animation = new Animation (parent, Images.getImage("ground1"));
+    var animation = new Animation (this, Images.getImage("ground1"));
 
     this.movable = movable;
 
     this.collider = new RectCollider(this,width,height);
 
     this.draw = function () {
-        animation.draw(this.x, this.y); // standardise?
+        animation.draw();
         this.collider.draw();
     }
 

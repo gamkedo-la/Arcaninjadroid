@@ -2,11 +2,11 @@
 characters = [];
 
 // Base Character class, from which both player and enemy "inherit" from. Characters currently musn't be created directly; instead, use another constructor on top (see Player.js)
-function Character () {
+function Character (x,y) {
     characters.push(this);
 
-    this.x = 100;
-    this.y = 75;
+    this.x = x;
+    this.y = y;
     this.velocity = {x:0, y:0};
 
     this.walkSpeed = 2;
@@ -14,14 +14,12 @@ function Character () {
 
     this.feetCollider = new RectCollider(this,20,0.2, {offsetY:12});
 
-    //this.hitbox = new RectCollider(this,10,10, {offsetX:12, offsetY:-9, isTrigger:true}); 
-    //this.hurtbox = new RectCollider(this,20,30, {isTrigger:true});
-
     this.grounded = false;
     this.movable = true; //can be affected (pushed) by collisions
+    this.flipped = false;
 
     this.draw = function () {
-        this.actionMachine.drawCurrentState(this.x,this.y);
+        this.getAnimation().draw();
         //this.feetCollider.draw();
         //this.hitbox.draw();
         //this.hurtbox.draw();
@@ -45,6 +43,7 @@ function Character () {
 
         hit = otherChar.getHitboxes();
         hurt = this.getHurtboxes();
+        //console.log(hurt);
         // This double loop is not as costly as it may seem, as there is no way we'll have more than 3 hitboxes/hurtboxes on a given character
         for (var i = 0, l = hurt.length; i < l; i++) {
             for (var j = 0, k = hit.length; j<k; j++) {
@@ -56,17 +55,15 @@ function Character () {
     }
 
     this.gotHit = function (otherChar) {
-        console.log("Got hit!");
+        this.velocity.y = -this.jumpVelocity;
     }
 
     this.getHurtboxes = function () {
         return this.getAnimation().getHurtboxes();
-        //this.animation.getHurtboxes();
     }
 
     this.getHitboxes = function () {
-        //return [this.hitbox];
-        //this.animation.getHitboxes();
+        return this.getAnimation().getHitboxes();
     }
 
     this.getAnimation = function () {
@@ -85,7 +82,8 @@ function Character () {
 
 // Characters include both player and enemies. No inheritance between the two as of now
 function drawAllCharacters() {
-    for (var i = 0, l = characters.length; i<l;i++) {
+    //loop from the end to draw player on top
+    for (var i = characters.length-1; i>=0; i--) {
         characters[i].draw();
     }
 }
