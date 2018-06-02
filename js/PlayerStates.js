@@ -343,7 +343,7 @@ function SliceState(parent,relatedStates) {
     }
 
     this.enter = function () {
-        
+        this.changeDirection();
     }
 
     this.exit = function () {

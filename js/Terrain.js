@@ -1,5 +1,6 @@
 
-//groundSheet = new SpriteSheet(Images.getImage("groundLong"), 1,1);
+// The idea of "terrain" is still fairly undecided. To be honest, I'm starting to think this game should have no platforms and only one long ground collider.
+// So yeah, this class prob won't be expanded upon too much
 
 terrain = [];
 function Terrain (x,y, width,height, movable = false) {
@@ -11,7 +12,6 @@ function Terrain (x,y, width,height, movable = false) {
     var width = width;
     var height = height;
 
-    var sheet = sheet;
     var animation = new Animation (this, Images.getImage("groundLong"));
 
     this.movable = movable;
@@ -26,8 +26,6 @@ function Terrain (x,y, width,height, movable = false) {
 }
 
 var protoGround = new Terrain(85,151, 250,30);
-//var protoGround2 = new Obstacle(45,132,35,35,groundSheet);
-//var protoGround3 = new Obstacle(65,133,35,35,groundSheet);
 
 function drawAllTerrain () {
     for (var i = 0, l = terrain.length; i<l; i++){

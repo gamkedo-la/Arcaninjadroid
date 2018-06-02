@@ -1,3 +1,4 @@
+// Particles emitters use config data when initialized. These define almost the entirety of the particle system. You can hard code some of these reusable config objects here.
 
 fastFallParticlesConfig = {
     emissionRate : 200,

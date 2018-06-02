@@ -1,14 +1,14 @@
 
 var animationFrameNumber; //replaces the usual setInterval technique, which caused issues when window lost focus. Thanks Nick P. for the fix! :)
+
 var gameRunning = true;
 
-var date;
+//Used to generate delta time
 var lastTime;
 var currentTime;
 var dt;
 
-var emitters = [];
-
+// World dimensions
 const ORIG_WORLD_W = 200;
 const ORIG_WORLD_H = 150;
 const PIXEL_SCALE_UP = 4; // to replace with something better
@@ -45,7 +45,7 @@ window.onload = function () {
     colorRect(0, 0, canvas.width, canvas.height, 'purple'); 
     colorText('LOADING', canvas.width / 2, canvas.height / 2, 'orange'); 
 
-    Input();
+    Input(); // initialize inputs
 
     Images.loadImages(); // if we called this in Images.js, the game might start before the canvas is created
 
@@ -98,7 +98,7 @@ function updateAll() {
     // Now, we update the state machines. This takes care of things like handle inputs for state transitions
     // It also draws directly, though there may be an eventual addition of a Graphics module that draws after all updates are done
 
-    GameStateMachine.update();
+    GameStateMachine.update(); //updates game state depending on if we are ingame, paused, in menu etc.
 
 
     drawAllCharacters();
@@ -121,14 +121,13 @@ function clearScreen(canvas) {
     canvasContext.clearRect(0,0,canvas.width,canvas.height);
     canvasContext.drawImage(background, 0,0, canvas.width,canvas.height);
     canvasContext.fillStyle = "red";
-    colorRect(0,ninjaZoneBeginningY, canvas.width,1);
+    colorRect(0,ninjaZoneBeginningY, canvas.width,1); //draws the line separating the ninja zone (the sky) from the android zone
 
 }
 
 function drawOnScaledCanvas() {
 
     scaledContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
-
 }
 
 

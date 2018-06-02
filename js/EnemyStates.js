@@ -10,8 +10,6 @@ function IdleEnemyState(parent,relatedStates) {
         parent.x += parent.velocity.x;
         parent.y += parent.velocity.y;
 
-        //apply some gravity. Fun fact: often times our super awesome main character will flat out ignore gravity,
-        //so I feel it's ok to add it (perhaps multiple times) in the update functions of different states
         parent.velocity.y += 0.75;
 
         parent.velocity.x *= 0.85;

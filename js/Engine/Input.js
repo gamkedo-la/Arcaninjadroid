@@ -1,17 +1,18 @@
 
 // Static Input module. No need to create an instance: simply call its methods using Input.method().
-// Made by your Frenchie friend Remy with love <3 (with original script from the club of course)
+// Made by your frenchie friend Remy with love <3 (with original script from the club of course)
 
 // This might be slightly worse performance wise, as it uses string comparisons and creates large arrays for mapping inputs, but the key advantages are:
-// no need to manually remap any new key desired
-// keypresses not stored in global vars
+// no need to manually remap any new key desired (yay)
+// keypresses all stored in one place as opposed to many global vars
 // support for detecting inputs on only the first frame (analog to Unity's Input.GetKeyDown)
 
-// Note: the "#" hack is a JS quickfix. Because JS is VERY weakly typed, inputting a string of a number ("4")
+// Note: the "#" hack is a JS quickfix. Because JS is very weakly typed, inputting a string of a number ("4")
 // treats it as an array index regardless. A non-numeral string is required for dict keys...
 
 
 // IMPORTANT: The constructor, Input(), must be called in the Main.js file, after the game is started and canvas created
+//            In addition, the method resetGetKeyDown must be called every frame, otherwise getKeyDown will not work
 function Input() {
 
     console.log("Initializing Input module.");
@@ -25,10 +26,7 @@ function Input() {
     //Dict mapping keys with their keycodes (generated using the keycodes.js file)
     var nameCodePairs = keycodes;
 
-    var mouseOverCanvas = true;
-
-
-    // Initialization of the value dict. Encoding for key states: [0,0] = no press, [0,1] = pressed this frame, [1,1] = holding
+    // Initialization of the value dictionary. Encoding for key states: [0,0] = no press, [0,1] = pressed this frame, [1,1] = holding
     // The state [1,0] is transitional, it tells the resetGetKeyDown method to wait 1 frame before clearing inputs so we have time to read first
     for (var name in nameCodePairs) {
         if (nameCodePairs.hasOwnProperty(name)){
@@ -54,18 +52,15 @@ function Input() {
 
     }
 
-
     //Returns true if the key called "name" is currently pressed
     Input.getKey = function (name) {
 
         var toCheck = codeValuePairs["#" + nameCodePairs[name]];
 
         return (toCheck[1] === 1);
-
-
     }
 
-    // Returns true the frame on which the key called "name" is pressed
+    // Returns true on the frame during which the key called "name" is pressed
     Input.getKeyDown = function (name, useBuffer = false) {
 
         var toCheck = codeValuePairs["#" + nameCodePairs[name]];
@@ -75,7 +70,6 @@ function Input() {
         }
 
         return (toCheck [0] === 0 && toCheck[1] === 1);
-
     }
 
     Input.getMouseX = function () {
@@ -85,7 +79,7 @@ function Input() {
         return mouseY;
     }
 
-    // these are just there to simplify, they are a common usage of the regular getKey functions
+    // These are just helper functions, they are a common usage of the regular getKey functions
     Input.getLeftHold = function () {
         var toCheck = codeValuePairs["#1"];
         return (toCheck[1] === 1);
@@ -107,15 +101,11 @@ function Input() {
             codeValuePairs["#" + evt.which] = [1,0];
         } else {
             codeValuePairs["#" + evt.which] = [1,1];
-        } // see encodings above
-
-        
+        } // see encodings explained above, before method declarations
     };
 
     Input.keyUp = function (evt) {
-
         codeValuePairs["#" + evt.which] = [0,0];
-
     };
 
     
@@ -125,21 +115,13 @@ function Input() {
         var rect = scaledCanvas.getBoundingClientRect();
         var root = document.documentElement;
 
-        mouseX = evt.clientX - rect.left - root.scrollLeft; //is there a problem with these lines? :/
-        mouseY = evt.clientY - rect.top - root.scrollTop;   // clicking outside screen makes weird things happen
+        mouseX = evt.clientX - rect.left - root.scrollLeft;
+        mouseY = evt.clientY - rect.top - root.scrollTop;
 
     };
 
-    Input.setMouseOverCanvas = function () {
-        mouseOverCanvas = true;
-        console.log("true");
-    }
-    Input.setMouseOutOfCanvas = function () {
-        mouseOverCanvas = false;
-        console.log("false");
-    }
 
-    // Important that this is AFTER the function defs. 
+    // Important that everything here is AFTER the method defs. 
     document.addEventListener("keydown", Input.keyDown);
     document.addEventListener("keyup", Input.keyUp);
     document.addEventListener("mousedown", Input.keyDown); //clicks handled with keydown
@@ -152,8 +134,6 @@ function Input() {
     }
 
     scaledCanvas.addEventListener("mousemove", Input.setMousePos);
-    scaledCanvas.addEventListener("onmouseover", Input.setMouseOverCanvas);
-    scaledCanvas.addEventListener("onmouseout", Input.setMouseOutOfCanvas);
 
 };
 
@@ -164,6 +144,7 @@ function Input() {
 // passed to the Get methods here
 var keycodes = {
     mouseleft:1,
+    mousemiddle:2, //does this matter depending on the mouse model?
     mouseright:3,
     backspace:8,
     tab:9,

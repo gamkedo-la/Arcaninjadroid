@@ -1,23 +1,26 @@
 // Finite state machine implementation in JS. Can be used for: character animations, game states, scenes, anything you can think of!
-// Made by your Canuck/slash/Baguette BFF Remy :) with inspiration from Robert Nystrom's "Game Programming Patterns", free on the interwebs and a very good read!
+// Made by your Canuck/Baguette BFF Remy :) with inspiration from Robert Nystrom's "Game Programming Patterns", free on the interwebs and a very good read!
 
-// Unlike the Input and Images module, you need to create an instance of your machine and give it to your objects (notice the usage of this. and not StateMachine.)
+// Unlike the Input and Images module, you need to create an instance of your machine and give it to your objects (notice the usage of this.foo and not StateMachine.foo)
 // This is because each machine is unique, has different states, and objects could have multiple FSMs given to them.
 
 function StateMachine(defaultState) {
 
     var currentState;
     var previousState;
-    var defaultState = defaultState; //could also be used as a "reset" state ?
+    var defaultState = defaultState; //can also be used as a "reset" state
 
 
+    // our machine acts as the head, and delegates most of the handling to the current state
+    // we return the next state directly from the state object logic itself and change if needed
     this.update = function () {
         if (!currentState) {
-            this.resetToDefault();
+            this.resetToDefault(); // if for some reason there is no state, just reset (on the first frame of every State Machine created)
         }
-        var nextState = currentState.update();
+        var nextState = currentState.update(); //get next state from update
         if (nextState) {
             this.handleReceivedState(nextState);
+            return; // no need to handle inputs, as we've changed states anyway
         }
 
         this.handleInput(); //once we're done updating, we take the input. We might need to switch this order at some point(?)
@@ -30,18 +33,18 @@ function StateMachine(defaultState) {
         if (currentState.animation) { currentState.animation.update(); }
     }
 
-    // our machine acts as the head, and delegates most of the handling to the current state
-    // we return the next state directly from the state object logic itself and change if needed
+    // Input detection is defined in the actual state object
     this.handleInput = function () {
 
         var nextState = currentState.handleInput();
-        if (nextState) { this.handleReceivedState(nextState); }
-
+        if (nextState) {
+            this.handleReceivedState(nextState);
+            return;
+        }
     }
 
-
     // Use only for crude, exceptional cases
-    // If you can, return a new state in the state update functions!
+    // If you can, return a new state in the state update functions instead!
     this.changeState = function (state) {
 
         if (typeof state.enter === "undefined") {
@@ -69,7 +72,7 @@ function StateMachine(defaultState) {
         currentState.exit();
 
         currentState = previousState;
-        previousState = undefined; //might not work. Eventually, we could have a stack of states, which might be useful for complex animations
+        previousState = undefined; //might not work. Eventually, we could have a stack of states, which might be useful for complex animations (?)
 
         currentState.enter();
     }
@@ -79,10 +82,16 @@ function StateMachine(defaultState) {
 
         //Weakly typed languages ftw
         if (nextState === "previous") {
-            this.changeToPrevious();
-            return;
+            nextState = previousState;
+            if (typeof previousState === "undefined") {
+                console.log("Error: state machine has no previous state. Returning...");
+                return;
+            }
         }
-        currentState.exit();
+
+        if (currentState){
+            currentState.exit(); //could have been undefined if received from another source than updates (like at init)
+        }
         if (nextState.animation) {
             nextState.animation.loop();
         }
@@ -94,18 +103,8 @@ function StateMachine(defaultState) {
     }
 
     this.resetToDefault = function () {
-        this.changeState(defaultState);
+        this.handleReceivedState(defaultState); //handleReceivedState is used as a crude way to change states here; only when necessary! Instead, return states in update and/or handleInputs! :)
     }
-/*
-    // Used to call draws from outside the FSM
-    this.drawCurrentState = function (x, y) {
-        if (currentState.animation) {
-            currentState.animation.draw(x, y);
-        }
-        else {
-            console.log("Current state has no animation to draw.");
-        }
-    }*/
 
     this.getAnimation = function () {
         return currentState.animation;
@@ -138,10 +137,13 @@ function State() {
 
 }
 
-/////////     Example     //////////
+/*
+////////     Example     //////////
+//(uncommenting does nothing unless you add myMachine.update() somewhere that updates game state)
 
 function ExampleState () {
 
+    // IMPORTANT: you can return a State object here if you wanna change depending on update
     this.update = function () {
 
         // do stuff
@@ -151,7 +153,7 @@ function ExampleState () {
     // IMPORTANT: you can return a State object here if you wanna change depending on inputs
     this.handleInput = function () {
         
-        if (Input.getKeyDown("mouseleft")){
+        if (Input.getLeftClick()){
 
             // handle click
             console.log("click")
@@ -183,3 +185,4 @@ var exampleState = new ExampleState();
 
 var myMachine = new StateMachine(exampleState); //create and init at default state
 
+*/

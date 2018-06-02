@@ -8,6 +8,7 @@ function Player () {
     return char;
 }
 
+// Only for demo
 function ProtoEnemy () {
 
     var char = new Character(150,60);

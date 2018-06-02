@@ -1,6 +1,7 @@
 
 var baseState = new State();
-GameStates = {};
+
+GameStates = {}; //hold all the states
 
 function InGameState () {
 
@@ -35,7 +36,6 @@ function InGameState () {
 InGameState.prototype = baseState;
 
 GameStates.inGameState = new InGameState();
-//GameStates.inGameState = new AnimationEditorState();
 
 var GameStateMachine = new StateMachine(GameStates.inGameState);
 

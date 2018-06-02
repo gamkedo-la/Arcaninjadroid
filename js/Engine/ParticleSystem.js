@@ -1,15 +1,15 @@
 
 // Particle system for club JS games. Made by the best Marth on For Glory, Remy, with original code from Christer
-// and inspiration from this tutorial: http://buildnewgames.com/particle-systems/ .
+// and much inspiration from this tutorial: http://buildnewgames.com/particle-systems/ .
 
 // For pretty particles to spawn, we need two things: a ParticleEmitter and a ParticleRenderer.
 // The emitter is the spawning point, the place where the particles are born. It also takes care of updating them properly and
-// killing them when appropriate. Everything is defined in the "config" variable which is used to initialize particles. Note that configs are completely reusable for multiple emitters.
+// killing them when appropriate. Everything is defined in the "config" variable which is used to initialize particles.
+// Note that configs are completely reusable for multiple emitters, and hence it might be worth it to create hard-coded particle configs (in CodedAssets folder)
 
 // The ParticleRenderer is already created as an object literal in this script. You can access it using ParticleRenderer.foo()
 
-// The Particle object is a dummy. The class is empty, everything is initialized in the ParticleEmitter. These settings are all in the "config" object litteral that you must create and pass as an argument
-// to the ParticleEmitter constructor.
+// The Particle object is a dummy. The class is empty, everything is initialized in the ParticleEmitter. These settings are all in the "config" object litteral that you must create and pass as an argument to the ParticleEmitter constructor.
 
 // Fun implementation fact:
 // There are often many particles in a typical game; depending on the genre, each frame may have 100+ particles going on at once
@@ -18,7 +18,6 @@
 
 // As will all the modules in Arcaninjandroid, don't hesitate to contact me if you need help or want a walkthrough of the implementation! :)
  
-
 
 var emitters = [];
 function ParticleEmitter (x,y,config) {
@@ -148,15 +147,9 @@ function ParticleEmitter (x,y,config) {
                 particle.size = particle.originalSize * ageRatio;
             }
 
-
-
         } else {
-
             this.toSwap.push(particleIndex); //particle died this frame, we'll need to swap this one once we're done updating everyone else
-
         }
-
-
     }
 
     ParticleEmitter.prototype.addParticle = function () {
@@ -252,7 +245,7 @@ function ParticleEmitter (x,y,config) {
 
 };
 
-// There is no pooling here, only removal using array.splice. If we have performance issues, this would be a good place to look
+// NOTE: There is no pooling here, only removal using array.splice. If we have performance issues, this would be a good place to look for optimisation
 function updateAllEmitters() {
 
     var toRemove = []; //remove these indexes after we're done updating
@@ -274,9 +267,11 @@ function updateAllEmitters() {
 
 }
 
+
+// The ParticleRenderer, as the name implies, renders particles! Here you will find all the methods needed to draw flashy stuff on screen, as well as some graphics tricks to allow for colors.
+
 //Note: tint, additive rendering, and to a degree, using textures, consumes resources! I will try to optimize the code, but still, the operations are costly. Use with care!
 ParticleRenderer = {
-
 
     renderAll : function (context){
 
@@ -288,7 +283,6 @@ ParticleRenderer = {
                 this.renderParticle(particle, context); //I'm not putting huge code in a double loop haha
             }
         }
-
     },
 
     renderParticle : function (particle, context) {
@@ -310,8 +304,6 @@ ParticleRenderer = {
             
             context.globalAlpha = 1;
             context.globalCompositeOperation = "source-over";
-            
-            
         }
         //default to drawing a circle
         else {
@@ -319,6 +311,8 @@ ParticleRenderer = {
         }
     },
 
+    // This method is only used when applying tint. It draws the particle on a separate canvas, then draws a colored rect on top of it, and finally draws the result on the main canvas
+    // This is costly, but allows for a nice effect. One possible optimisation would be to have multiple particles that share the same tint to be colored at once, ie there would be "tint tiers" that would result in a worse looking, better performing tint.
     tintAndDraw : function (particle,context) {
 
         // A canvas must have integer width that is more than zero
@@ -343,5 +337,6 @@ ParticleRenderer = {
 function Particle() {
 
 
+    
 };
 

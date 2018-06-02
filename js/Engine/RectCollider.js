@@ -10,7 +10,7 @@ function RectCollider (parent, width, height, config) {
 
     colliders.push(this);
 
-    if (!config) {config = {}}
+    if (!config) {config = {};} // avoids errors related to undefined config
 
     this.parent = parent;
     var width = width;
@@ -39,9 +39,6 @@ function RectCollider (parent, width, height, config) {
         // we can assume that we have a Rect since the physics engine is very basic
         else {
 
-            //console.log(this.getX() + width / 2 < other.getX() - other.getWidth() / 2, other.getX() + other.getWidth() / 2 < this.getX() - width / 2,
-            //this.getY() + height / 2 < other.getY() - other.getHeight() / 2, other.getY() + other.getHeight() / 2 < this.getY() - height / 2);
-
             return !(
                 // if a rect is on the left of the other
                 this.getX() + width / 2 < other.getX() - other.getWidth() / 2
@@ -68,6 +65,7 @@ function RectCollider (parent, width, height, config) {
     //DISCLAIMER: This method is extremely rudimentary!!! The full game is intended to contain little to no
     // actual physics collisions/movements, only hitbox/hurtbox triggers. This is only intended for use with basic terrain
     // as the player will be able to walk freely "through" enemies. Use sparingly!
+    // Also, it's ugly, so don't bother reading through this unless you wanna laugh at how a "physicist" can't code decent physics
     this.pushOutBothParents = function (other) {
 
         if (this.isTrigger || other.isTrigger) {return;} //for safety
@@ -112,8 +110,6 @@ function RectCollider (parent, width, height, config) {
                 other.parent.y += fullMoveY/2;
             }
         }
-
-        //console.log(other.parent.x, other.parent.y);
     }
 
     this.getX = function () {
@@ -151,9 +147,6 @@ function resolveAllCollisions() {
                 if (!collider1.isTrigger && !collider2.isTrigger){
                     //collider1.pushOutBothParents(collider2);
                 }
-                //collider1.parent.grounded = true;
-                //collider2.parent.grounded = true;
-                //console.log("grounded both");
             }
         }
     }
