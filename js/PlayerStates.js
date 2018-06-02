@@ -38,7 +38,11 @@ function IdleAndroidState(parent,relatedStates) {
     this.handleInput = function () {
 
         if (Input.getLeftClick()) {
-            return states.punchingState;
+            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+                return states.sliceState;
+            } else {
+                return states.punchingState;
+            }
         }
 
         // Basic movement
@@ -65,7 +69,6 @@ IdleAndroidState.prototype = baseState;
 
 
 
-
 ///////////////////       Android crouch state       ////////////////////////
 
 function CrouchState(parent,relatedStates) {
@@ -85,7 +88,11 @@ function CrouchState(parent,relatedStates) {
         }
 
         if (Input.getLeftClick()) {
-            return states.uppercutState;
+            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+                return states.sliceState;
+            } else {
+                return states.uppercutState;
+            }
         }
     }
 
@@ -128,7 +135,7 @@ function JumpState(parent,relatedStates) {
         
         if (parent.grounded) {
             //console.log("touch ground");
-            return states.idleAndroidState;
+            return states.idleState;
         }
     }
 
@@ -152,6 +159,15 @@ function JumpState(parent,relatedStates) {
         } else if (Input.getKey("d")) {
             parent.velocity.x = parent.walkSpeed;
         }
+
+        if (Input.getLeftClick()) {
+            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+                return states.sliceState;
+            } else {
+                // do something cool here :) a dive kick maybe? 
+            }
+        }
+
 
     }
 
@@ -187,6 +203,13 @@ function PunchingState(parent,relatedStates) {
         if (this.animation.isActive === false) {
             return "previous";
         }
+        if (Input.getLeftClick()) {
+            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+                return states.sliceState;
+            } else {
+                // do something cool here? :) 
+            }
+        }
     }
 
     this.enter = function () {
@@ -212,7 +235,7 @@ function UppercutState(parent,relatedStates) {
     this.update = function () {
 
         if (parent.grounded) {
-            return states.idleAndroidState;
+            return states.idleState;
         }
 
         parent.velocity.y += 0.45;
@@ -227,7 +250,13 @@ function UppercutState(parent,relatedStates) {
     }
 
     this.handleInput = function () {
-
+        if (Input.getLeftClick()) {
+            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+                return states.sliceState;
+            } else {
+                // do something cool here :) ?
+            }
+        }
     }
 
     this.enter = function () {
@@ -246,17 +275,94 @@ function UppercutState(parent,relatedStates) {
 UppercutState.prototype = baseState;
 
 
+/////////////////      Ninja slice state (for demo)      ///////////////////
+function SliceState(parent,relatedStates) {
+    var parent = parent;
+    var states = relatedStates;
+
+    var destination = {x:0, y:0};
+    var theta = 0;
+    var speed = 25;
+    var dx = 0;
+    var dy = 0;
+
+    //this.animation = new Animation(punchingSheet, { fps: 16 });
+    this.animation = new Animation(parent, Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop : false, holdLastFrame : true});
+
+    this.update = function () {
+        
+        parent.x += dx;
+        parent.y += dy;
+
+        if ((dx >= 0 && parent.x > destination.x) || (dx < 0 && parent.x < destination.x)) {
+            dx = 0;
+            parent.x = destination.x;
+        }
+        if ((dy >= 0 && parent.y > destination.y) || (dy < 0 && parent.y < destination.y)) {
+            dy = 0;
+            parent.y = destination.y;
+        }
+    }
+
+    this.handleInput = function () {
+
+        if (parent.grounded) {
+            //return states.idleState;
+        }
+        if (Input.getLeftClick()) {
+            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+                return states.sliceState;
+            } else {
+                return states.jumpState;
+            }
+        }
+    }
+
+    this.changeDirection = function () {
+        destination = {
+            x:Input.getMouseX()/4,
+            y: Input.getMouseY()/4};
+
+        var xDiff = destination.x - parent.x;
+        var yDiff = destination.y - parent.y;
+        if (xDiff === 0) {
+            theta = Math.PI/2;
+        } else {
+            theta = Math.atan(yDiff/xDiff);            
+        }
+        if (xDiff < 0) {
+            if (yDiff < 0){
+                theta = Math.PI + theta;
+            } else {
+                theta  = theta - Math.PI;
+            }
+
+        }
+        dx = speed * Math.cos(theta);
+        dy = speed * Math.sin(theta);
+    }
+
+    this.enter = function () {
+        
+    }
+
+    this.exit = function () {
+    }
+};
+SliceState.prototype = baseState;
+
 // parent must be a Character
 function PlayerStates(parent) {
 
     // Might refactor?
-    this.idleAndroidState = new IdleAndroidState(parent,this);
+    this.idleState = new IdleAndroidState(parent,this);
     this.crouchState = new CrouchState(parent,this);
     this.uppercutState = new UppercutState(parent,this);
     this.punchingState = new PunchingState(parent,this);
     this.jumpState = new JumpState(parent,this);
+    this.sliceState = new SliceState(parent,this);
 
-    this.initial = this.idleAndroidState;
+    this.initial = this.idleState;
 }
 
 function DummyStates() {

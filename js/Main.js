@@ -8,7 +8,6 @@ var currentTime;
 var dt;
 
 var emitters = [];
-var emitterConfig;
 
 const ORIG_WORLD_W = 200;
 const ORIG_WORLD_H = 150;
@@ -121,7 +120,8 @@ function clearScreen(canvas) {
    
     canvasContext.clearRect(0,0,canvas.width,canvas.height);
     canvasContext.drawImage(background, 0,0, canvas.width,canvas.height);
-    colorRect(0,ninjaZoneBeginningY, canvas.width,2);
+    canvasContext.fillStyle = "red";
+    colorRect(0,ninjaZoneBeginningY, canvas.width,1);
 
 }
 

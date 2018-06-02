@@ -93,7 +93,7 @@ function Input() {
 
     Input.getLeftClick = function () {
         var toCheck = codeValuePairs["#1"];
-        return (toCheck [0] === 0 && toCheck[1] === 1);
+        return (toCheck[0] === 0 && toCheck[1] === 1);
     }
 
 
@@ -122,7 +122,7 @@ function Input() {
     //Requires "canvas" global var
     Input.setMousePos = function (evt) {
 
-        var rect = canvas.getBoundingClientRect();
+        var rect = scaledCanvas.getBoundingClientRect();
         var root = document.documentElement;
 
         mouseX = evt.clientX - rect.left - root.scrollLeft; //is there a problem with these lines? :/
@@ -151,9 +151,9 @@ function Input() {
         return;
     }
 
-    canvas.addEventListener('mousemove', Input.setMousePos);
-    canvas.addEventListener("onmouseover", Input.setMouseOverCanvas);
-    canvas.addEventListener("onmouseout", Input.setMouseOutOfCanvas);
+    scaledCanvas.addEventListener("mousemove", Input.setMousePos);
+    scaledCanvas.addEventListener("onmouseover", Input.setMouseOverCanvas);
+    scaledCanvas.addEventListener("onmouseout", Input.setMouseOutOfCanvas);
 
 };
 
