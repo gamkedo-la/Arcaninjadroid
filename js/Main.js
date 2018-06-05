@@ -1,3 +1,4 @@
+const ALLOW_FULLSCREEN = true; // go fullscreen is the user allows it
 
 var animationFrameNumber; //replaces the usual setInterval technique, which caused issues when window lost focus. Thanks Nick P. for the fix! :)
 
@@ -42,8 +43,19 @@ window.onload = function () {
     window.addEventListener("focus", windowOnFocus);
     window.addEventListener("blur", windowOnBlur);
 
-    colorRect(0, 0, canvas.width, canvas.height, 'purple'); 
-    colorText('LOADING', canvas.width / 2, canvas.height / 2, 'orange'); 
+    if (ALLOW_FULLSCREEN) {
+        window.addEventListener("fullscreenchange", onFullscreenChange); // it worked!
+        window.addEventListener("fullscreenerror", onFullscreenError); // permission denied
+        window.addEventListener("mozfullscreenerror ", onFullscreenError); // permission denied
+        window.addEventListener("webkitfullscreenerror ", onFullscreenError); // permission denied
+        window.addEventListener("click", firstClick); // run only once
+        // optionally could add this to a button: Document.exitFullscreen()
+        // this is probably illegal: we need to wait for the first user CLICK:
+        // tryGoingFullscreen();
+    }
+
+    colorRect(0, 0, canvas.width, canvas.height, 'purple');
+    colorText('LOADING', canvas.width / 2, canvas.height / 2, 'orange');
 
     Input(); // initialize inputs
 
@@ -51,16 +63,39 @@ window.onload = function () {
 
 };
 
+function firstClick() {
+    console.log("First click!");
+    tryGoingFullscreen();
+    window.removeEventListener("click", firstClick);
+}
+
+function onFullscreenChange() {
+    console.log("Fullscreen mode just changed! =)");
+}
+
+function onFullscreenError() {
+    console.log("Fullscreen request was denied.");
+}
+
+function tryGoingFullscreen() {
+    console.log("Attempting to go FULLSCREEN...");
+    if (window.requestFullScreen) { window.requestFullScreen(); }
+    else if (window.webkitRequestFullScreen) { window.webkitRequestFullScreen(); }
+    else if (window.mozRequestFullScreen) { window.mozRequestFullScreen(); }
+    else console.log("Browser does not allow fullscreen.");
+}
+
+
 // These functions (by Nick P.) allow the toggling of the window focus so that the game truly stops when out of focus
 function windowOnFocus() {
-	if(!gameRunning){
-		gameRunning = true;
-		animationFrameNumber = requestAnimationFrame(updateAll);
-	}
+    if (!gameRunning) {
+        gameRunning = true;
+        animationFrameNumber = requestAnimationFrame(updateAll);
+    }
 }
 function windowOnBlur() {
-	gameRunning = false;
-	cancelAnimationFrame(animationFrameNumber);
+    gameRunning = false;
+    cancelAnimationFrame(animationFrameNumber);
 }
 
 
@@ -85,10 +120,10 @@ function updateAll() {
     now = (new Date()).getTime();
     dt = now - lastTime; //note: dt is a GLOBAL variable accessed freely in many update functions
     lastTime = now;
-  
-    dt = dt/1000; //convert to seconds
 
-    if (typeof Input.resetGetKeyDown != "undefined"){ Input.resetGetKeyDown();}
+    dt = dt / 1000; //convert to seconds
+
+    if (typeof Input.resetGetKeyDown != "undefined") { Input.resetGetKeyDown(); }
     //updates the states of all keys for checking the single frame, Input.getKeyDown function
 
 
@@ -108,7 +143,7 @@ function updateAll() {
     drawOnScaledCanvas(); //once everything is done, we draw everything on our enlarged canvas, which is the one the player sees
 
     animationFrameNumber = requestAnimationFrame(updateAll); //once we're done, we ask for the next animation frame
-                                                            // when received, we'll update again!
+    // when received, we'll update again!
 }
 
 
@@ -117,11 +152,11 @@ var background = Images.getImage("regularSky"); // will be in game state FSM eve
 
 // Draws over everything and resets the canvas. This is the first draw function that must be called
 function clearScreen(canvas) {
-   
-    canvasContext.clearRect(0,0,canvas.width,canvas.height);
-    canvasContext.drawImage(background, 0,0, canvas.width,canvas.height);
+
+    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    canvasContext.drawImage(background, 0, 0, canvas.width, canvas.height);
     canvasContext.fillStyle = "red";
-    colorRect(0,ninjaZoneBeginningY, canvas.width,1); //draws the line separating the ninja zone (the sky) from the android zone
+    colorRect(0, ninjaZoneBeginningY, canvas.width, 1); //draws the line separating the ninja zone (the sky) from the android zone
 
 }
 

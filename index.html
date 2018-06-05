@@ -33,15 +33,36 @@
             text-align: center;
             text-anchor: start;
         }
+
+        #fullscreenbutton {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 16pt;
+            text-align: center;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            display: block;
+            padding: 4px;
+            border: 2px solid #b32d00;
+            cursor: pointer;
+            background: #d3d3d3;
+            color: #b32d00;
+        }
+
+        #fullscreenbutton:hover {
+            color: #d3d3d3;
+            background: #b32d00;
+        }
     </style>
 </head>
 
 <body bgcolor="#4d1300">
     <h1>Arcaninjadroid:</h1>
     <h2>Kitty Catastrophe</h2>
+    <div id='fullscreenbutton' onclick='tryGoingFullscreen()'>FULLSCREEN</div>
     <div>
         <canvas id="canvas" style></canvas>
-<!--
+        <!--
         <form id="animationEditorForm">
             Choose your spritesheet (png) file to create a new animation.
             <input type="file" id="userSpritesheet" accept="png">
@@ -52,35 +73,35 @@
         </form>
     </div>
     -->
-    <!-- Engine files. Please keep the same order and add your scripts
+        <!-- Engine files. Please keep the same order and add your scripts
     after them, in the game-specific scripts section! -->
-    <script type="text/javascript" src="js/Engine/Input.js"></script>
-    <script type="text/javascript" src="js/Engine/Images.js"></script>
-    <script type="text/javascript" src="js/Engine/RectCollider.js"></script>
-    <script type="text/javascript" src="js/Engine/ParticleSystem.js"></script>
-    <script type="text/javascript" src="js/Engine/Animation.js"></script>
-    <script type="text/javascript" src="js/Engine/StateMachine.js"></script>
-    <script type="text/javascript" src="js/Engine/GraphicsCommon.js"></script>
-    <script type="text/javascript" src="js/Engine/FunctionsCommon.js"></script>
+        <script type="text/javascript" src="js/Engine/Input.js"></script>
+        <script type="text/javascript" src="js/Engine/Images.js"></script>
+        <script type="text/javascript" src="js/Engine/RectCollider.js"></script>
+        <script type="text/javascript" src="js/Engine/ParticleSystem.js"></script>
+        <script type="text/javascript" src="js/Engine/Animation.js"></script>
+        <script type="text/javascript" src="js/Engine/StateMachine.js"></script>
+        <script type="text/javascript" src="js/Engine/GraphicsCommon.js"></script>
+        <script type="text/javascript" src="js/Engine/FunctionsCommon.js"></script>
 
-    <!-- Premade, hard coded assets such as particle emitter configurations-->
-    <script type="text/javascript" src="js/CodedAssets/PremadeParticles.js"></script>
+        <!-- Premade, hard coded assets such as particle emitter configurations-->
+        <script type="text/javascript" src="js/CodedAssets/PremadeParticles.js"></script>
 
-    <!-- Animation JSON data generated from Aseprite files, rewritten in JS -->
-    <script type="text/javascript" src="js/CodedAssets/AnimationData/PH_Android_Idle.js"></script>
-    <script type="text/javascript" src="js/CodedAssets/AnimationData/PH_Android_Punch.js"></script>
-    <script type="text/javascript" src="js/CodedAssets/AnimationData/PH_Android_Uppercut.js"></script>
-    <script type="text/javascript" src="js/CodedAssets/AnimationData/PH_Android_Crouch.js"></script>
+        <!-- Animation JSON data generated from Aseprite files, rewritten in JS -->
+        <script type="text/javascript" src="js/CodedAssets/AnimationData/PH_Android_Idle.js"></script>
+        <script type="text/javascript" src="js/CodedAssets/AnimationData/PH_Android_Punch.js"></script>
+        <script type="text/javascript" src="js/CodedAssets/AnimationData/PH_Android_Uppercut.js"></script>
+        <script type="text/javascript" src="js/CodedAssets/AnimationData/PH_Android_Crouch.js"></script>
 
-    <!-- Game specific scripts go here!-->
-    <script type="text/javascript" src="js/Main.js"></script>
-    <script type="text/javascript" src="js/GameStates.js"></script>
-    <script type="text/javascript" src="js/PlayerStates.js"></script>
-    <script type="text/javascript" src="js/EnemyStates.js"></script>
-    <script type="text/javascript" src="js/Character.js"></script>
-    <script type="text/javascript" src="js/Player.js"></script>
+        <!-- Game specific scripts go here!-->
+        <script type="text/javascript" src="js/Main.js"></script>
+        <script type="text/javascript" src="js/GameStates.js"></script>
+        <script type="text/javascript" src="js/PlayerStates.js"></script>
+        <script type="text/javascript" src="js/EnemyStates.js"></script>
+        <script type="text/javascript" src="js/Character.js"></script>
+        <script type="text/javascript" src="js/Player.js"></script>
 
-    <script type="text/javascript" src="js/Terrain.js"></script>
+        <script type="text/javascript" src="js/Terrain.js"></script>
 
 </body>
 
