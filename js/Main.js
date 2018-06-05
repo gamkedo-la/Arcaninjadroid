@@ -48,10 +48,8 @@ window.onload = function () {
         window.addEventListener("fullscreenerror", onFullscreenError); // permission denied
         window.addEventListener("mozfullscreenerror ", onFullscreenError); // permission denied
         window.addEventListener("webkitfullscreenerror ", onFullscreenError); // permission denied
-        window.addEventListener("click", firstClick); // run only once
+        /* window.addEventListener("click", firstClick); // run only once */
         // optionally could add this to a button: Document.exitFullscreen()
-        // this is probably illegal: we need to wait for the first user CLICK:
-        // tryGoingFullscreen();
     }
 
     colorRect(0, 0, canvas.width, canvas.height, 'purple');
@@ -63,11 +61,13 @@ window.onload = function () {
 
 };
 
+/* a hack
 function firstClick() {
     console.log("First click!");
     tryGoingFullscreen();
     window.removeEventListener("click", firstClick);
 }
+*/
 
 function onFullscreenChange() {
     console.log("Fullscreen mode just changed! =)");
@@ -77,14 +77,27 @@ function onFullscreenError() {
     console.log("Fullscreen request was denied.");
 }
 
-function tryGoingFullscreen() {
-    console.log("Attempting to go FULLSCREEN...");
-    if (window.requestFullScreen) { window.requestFullScreen(); }
-    else if (window.webkitRequestFullScreen) { window.webkitRequestFullScreen(); }
-    else if (window.mozRequestFullScreen) { window.mozRequestFullScreen(); }
-    else console.log("Browser does not allow fullscreen.");
+function toggleFullScreen() {
+    console.log("Toggling FULLSCREEN mode...");
+    if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+        (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+        if (document.documentElement.requestFullScreen) {
+            document.documentElement.requestFullScreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+    } else {
+        if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        }
+    }
 }
-
 
 // These functions (by Nick P.) allow the toggling of the window focus so that the game truly stops when out of focus
 function windowOnFocus() {
