@@ -13,12 +13,12 @@ var baseState = new State(); //give a reference to this state when declaring you
 
 ////       Basic, idle Android state        ////
 
-function IdleAndroidState(parent,relatedStates) {
+function IdleAndroidState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Idle"), androidIdleData, {loop : true});
-    
+    this.animation = new Animation(parent, Images.getImage("PH_Android_Idle"), androidIdleData, { loop: true });
+
     this.update = function () {
 
         parent.x += parent.velocity.x;
@@ -37,8 +37,8 @@ function IdleAndroidState(parent,relatedStates) {
 
     this.handleInput = function () {
 
-        if (Input.getLeftClick()) {
-            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+        if (Input.getLeftClick() || Input.getKey("space")) {
+            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 return states.punchingState;
@@ -57,7 +57,7 @@ function IdleAndroidState(parent,relatedStates) {
         }
         else if (Input.getKey("d")) {
             parent.velocity.x = parent.walkSpeed;
-        } else {parent.velocity.x = 0;}
+        } else { parent.velocity.x = 0; }
     }
 
     this.enter = function () {
@@ -71,7 +71,7 @@ IdleAndroidState.prototype = baseState;
 
 ///////////////////       Android crouch state       ////////////////////////
 
-function CrouchState(parent,relatedStates) {
+function CrouchState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
@@ -88,7 +88,7 @@ function CrouchState(parent,relatedStates) {
         }
 
         if (Input.getLeftClick()) {
-            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 return states.uppercutState;
@@ -108,7 +108,7 @@ CrouchState.prototype = baseState;
 
 ///////////////////       Android jump state      ////////////////////////
 
-function JumpState(parent,relatedStates) {
+function JumpState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
@@ -132,7 +132,7 @@ function JumpState(parent,relatedStates) {
         if (Math.abs(parent.velocity.x) < 0.1) parent.velocity.x = 0;
         if (Math.abs(parent.velocity.y) < 0.1) parent.velocity.y = 0;
 
-        
+
         if (parent.grounded) {
             //console.log("touch ground");
             return states.idleState;
@@ -143,7 +143,7 @@ function JumpState(parent,relatedStates) {
 
         // Dampen the apex of the jump (thanks Matt Thorson!)
         if (Input.getKey("w")) {
-            if (Math.abs(parent.velocity.y) <=1.6){
+            if (Math.abs(parent.velocity.y) <= 1.6) {
                 //console.log("damp");
                 parent.velocity.y -= 0.2;
             }
@@ -151,7 +151,7 @@ function JumpState(parent,relatedStates) {
 
         if (Input.getKeyDown("s")) {
             this.fastfall = true;
-            new ParticleEmitter(parent.x-10, parent.y-15,fastFallParticlesConfig); //spawn fast fall blinking particles (visual only)
+            new ParticleEmitter(parent.x - 10, parent.y - 15, fastFallParticlesConfig); //spawn fast fall blinking particles (visual only)
         }
 
         if (Input.getKey("a")) {
@@ -161,7 +161,7 @@ function JumpState(parent,relatedStates) {
         }
 
         if (Input.getLeftClick()) {
-            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 // do something cool here :) a dive kick maybe? 
@@ -187,7 +187,7 @@ JumpState.prototype = baseState;
 
 ////////////////////       Android regular punch state      /////////////////////////
 
-function PunchingState(parent,relatedStates) {
+function PunchingState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
@@ -204,7 +204,7 @@ function PunchingState(parent,relatedStates) {
             return "previous";
         }
         if (Input.getLeftClick()) {
-            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 // do something cool here? :) 
@@ -223,14 +223,14 @@ PunchingState.prototype = baseState;
 
 ///////////////     Android uppercut (colloquially known as the "Sho-ryu-ken")      ///////////////
 
-function UppercutState(parent,relatedStates) {
+function UppercutState(parent, relatedStates) {
 
     var parent = parent;
     var states = relatedStates;
 
     //this.animation = new Animation(uppercutSheet);
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop : false, holdLastFrame : true});
-    
+    this.animation = new Animation(parent, Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop: false, holdLastFrame: true });
+
 
     this.update = function () {
 
@@ -251,7 +251,7 @@ function UppercutState(parent,relatedStates) {
 
     this.handleInput = function () {
         if (Input.getLeftClick()) {
-            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 // do something cool here :) ?
@@ -261,11 +261,11 @@ function UppercutState(parent,relatedStates) {
 
     this.enter = function () {
 
-         parent.velocity.y = -parent.jumpVelocity;
-         parent.grounded = false;
-         parent.y -= 10;
+        parent.velocity.y = -parent.jumpVelocity;
+        parent.grounded = false;
+        parent.y -= 10;
 
-         new ParticleEmitter(parent.x+10, parent.y-25,fastFallParticlesConfig);
+        new ParticleEmitter(parent.x + 10, parent.y - 25, fastFallParticlesConfig);
     }
 
     this.exit = function () {
@@ -276,21 +276,21 @@ UppercutState.prototype = baseState;
 
 
 /////////////////      Ninja slice state (for demo)      ///////////////////
-function SliceState(parent,relatedStates) {
+function SliceState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    var destination = {x:0, y:0};
+    var destination = { x: 0, y: 0 };
     var theta = 0;
     var speed = 25;
     var dx = 0;
     var dy = 0;
 
     //this.animation = new Animation(punchingSheet, { fps: 16 });
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop : false, holdLastFrame : true});
+    this.animation = new Animation(parent, Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop: false, holdLastFrame: true });
 
     this.update = function () {
-        
+
         parent.x += dx;
         parent.y += dy;
 
@@ -310,7 +310,7 @@ function SliceState(parent,relatedStates) {
             //return states.idleState;
         }
         if (Input.getLeftClick()) {
-            if (Input.getMouseY()/4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 return states.jumpState;
@@ -320,21 +320,22 @@ function SliceState(parent,relatedStates) {
 
     this.changeDirection = function () {
         destination = {
-            x:Input.getMouseX()/4,
-            y: Input.getMouseY()/4};
+            x: Input.getMouseX() / 4,
+            y: Input.getMouseY() / 4
+        };
 
         var xDiff = destination.x - parent.x;
         var yDiff = destination.y - parent.y;
         if (xDiff === 0) {
-            theta = Math.PI/2;
+            theta = Math.PI / 2;
         } else {
-            theta = Math.atan(yDiff/xDiff);            
+            theta = Math.atan(yDiff / xDiff);
         }
         if (xDiff < 0) {
-            if (yDiff < 0){
+            if (yDiff < 0) {
                 theta = Math.PI + theta;
             } else {
-                theta  = theta - Math.PI;
+                theta = theta - Math.PI;
             }
 
         }
@@ -355,12 +356,12 @@ SliceState.prototype = baseState;
 function PlayerStates(parent) {
 
     // Might refactor?
-    this.idleState = new IdleAndroidState(parent,this);
-    this.crouchState = new CrouchState(parent,this);
-    this.uppercutState = new UppercutState(parent,this);
-    this.punchingState = new PunchingState(parent,this);
-    this.jumpState = new JumpState(parent,this);
-    this.sliceState = new SliceState(parent,this);
+    this.idleState = new IdleAndroidState(parent, this);
+    this.crouchState = new CrouchState(parent, this);
+    this.uppercutState = new UppercutState(parent, this);
+    this.punchingState = new PunchingState(parent, this);
+    this.jumpState = new JumpState(parent, this);
+    this.sliceState = new SliceState(parent, this);
 
     this.initial = this.idleState;
 }
