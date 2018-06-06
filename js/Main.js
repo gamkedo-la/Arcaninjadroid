@@ -30,20 +30,12 @@ window.onload = function () {
     canvas.width = ORIG_WORLD_W;
     canvas.height = ORIG_WORLD_H;
 
-    scaledCanvas.width = PIXEL_SCALE_UP * canvas.width;
-    scaledCanvas.height = PIXEL_SCALE_UP * canvas.height;
+    // true liquid layout fullscreen:
+    windowOnResize(); // use all available pixels and turn off smoothing
 
-    //Prevents blur related to the canvas resize strategy
-    canvasContext.mozImageSmoothingEnabled = false;
-    canvasContext.imageSmoothingEnabled = false;
-    canvasContext.msImageSmoothingEnabled = false;
-    canvasContext.imageSmoothingEnabled = false;
-    scaledContext.mozImageSmoothingEnabled = false;
-    scaledContext.imageSmoothingEnabled = false;
-    scaledContext.msImageSmoothingEnabled = false;
-    scaledContext.imageSmoothingEnabled = false;
     window.addEventListener("focus", windowOnFocus);
     window.addEventListener("blur", windowOnBlur);
+    window.addEventListener("resize", windowOnResize);
 
     if (ALLOW_FULLSCREEN) {
         window.addEventListener("fullscreenchange", onFullscreenChange); // it worked!
@@ -62,6 +54,22 @@ window.onload = function () {
     Images.loadImages(); // if we called this in Images.js, the game might start before the canvas is created
 
 };
+
+function windowOnResize() {
+    scaledCanvas.width = window.innerWidth;
+    scaledCanvas.height = window.innerHeight;
+    //Prevents blur related to the canvas resize strategy
+    canvasContext.mozImageSmoothingEnabled = false;
+    canvasContext.imageSmoothingEnabled = false;
+    canvasContext.msImageSmoothingEnabled = false;
+    canvasContext.imageSmoothingEnabled = false;
+    scaledContext.mozImageSmoothingEnabled = false;
+    scaledContext.imageSmoothingEnabled = false;
+    scaledContext.msImageSmoothingEnabled = false;
+    scaledContext.imageSmoothingEnabled = false;
+    // NOTE: the reason we do this at every time is that
+    // these settings get reset if we resize the canvas
+}
 
 /* a hack
 function firstClick() {
