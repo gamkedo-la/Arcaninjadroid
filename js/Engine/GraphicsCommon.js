@@ -11,11 +11,19 @@ function drawBitmapWithRotation(useBitmap, atX, atY, withAng) {
 
 // rotates and stretches a bitmap to go from point A to point B, used by Woosh Lines FX
 function drawBitmapLine(useBitmap, startX, startY, endX, endY) {
-    canvasContext.save();
-    canvasContext.translate(startX, startY);
-    canvasContext.rotate(Math.atan2(startY - endY, startX, endX));
     var lineLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-    canvasContext.drawImage(useBitmap, 0, 0, useBitmap.width, useBitmap.height, startX, startY, lineLength, useBitmap.height);
+    var lineAngle = Math.atan2(endY - startY, endX - startX);
+    // edge case: avoid floating point imprecision flickering when at rest
+    if (lineLength < 1) lineAngle = 0;
+    lineLength += 64; // extra for debug - TODO REMOVE
+    canvasContext.save();
+    //canvasContext.translate(startX - lineLength, startY - useBitmap.height / 2);
+    canvasContext.translate(startX, startY);
+    canvasContext.rotate(lineAngle);
+    canvasContext.translate(-lineLength, - useBitmap.height / 2);
+    canvasContext.drawImage(useBitmap,
+        0, 0, useBitmap.width, useBitmap.height, // src 
+        0, 0, lineLength, useBitmap.height);     // dest
     canvasContext.restore();
 }
 
