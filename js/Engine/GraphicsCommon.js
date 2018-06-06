@@ -4,9 +4,19 @@ function drawBitmapWithRotation(useBitmap, atX, atY, withAng) {
     canvasContext.save();
     canvasContext.translate(atX, atY);
     canvasContext.rotate(withAng);
-    canvasContext.drawImage(useBitmap, -useBitmap.width/2, -useBitmap.height/2);
+    canvasContext.drawImage(useBitmap, -useBitmap.width / 2, -useBitmap.height / 2);
     canvasContext.restore();
 
+}
+
+// rotates and stretches a bitmap to go from point A to point B, used by Woosh Lines FX
+function drawBitmapLine(useBitmap, startX, startY, endX, endY) {
+    canvasContext.save();
+    canvasContext.translate(startX, startY);
+    canvasContext.rotate(Math.atan2(startY - endY, startX, endX));
+    var lineLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+    canvasContext.drawImage(useBitmap, 0, 0, useBitmap.width, useBitmap.height, startX, startY, lineLength, useBitmap.height);
+    canvasContext.restore();
 }
 
 // 10/10 for descriptive function naming :D
@@ -15,12 +25,12 @@ function drawBitmapClippedWithRotationAndFlip(useBitmap, x, y, clipStartX, clipS
     canvasContext.save();
     canvasContext.translate(x, y);
     if (flipX) {
-        canvasContext.scale(-1,1);
+        canvasContext.scale(-1, 1);
     }
     canvasContext.rotate(withAng);
     canvasContext.drawImage(useBitmap,
-        clipStartX,clipStartY, clipWidth, clipHeight, 
-        -clipWidth/2,-clipHeight/2, clipWidth, clipHeight);
+        clipStartX, clipStartY, clipWidth, clipHeight,
+        -clipWidth / 2, -clipHeight / 2, clipWidth, clipHeight);
     canvasContext.restore();
 
 }
@@ -28,7 +38,7 @@ function drawBitmapClippedWithRotationAndFlip(useBitmap, x, y, clipStartX, clipS
 function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
 
     canvasContext.fillStyle = fillColor;
-    canvasContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
+    canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
 }
 
 function colorRectScaled(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
@@ -52,7 +62,7 @@ function colorCircleAlpha(centerX, centerY, radius, fillColorAlpha) {
     if (Array.isArray(fillColorAlpha) === false) {
         canvasContext.fillStyle = fillColorAlpha;
     } else {
-        canvasContext.fillStyle = "rgba(" + fillColorAlpha[0] + ","+ fillColorAlpha[1] + "," + fillColorAlpha[2] + "," + fillColorAlpha[3] + ")";
+        canvasContext.fillStyle = "rgba(" + fillColorAlpha[0] + "," + fillColorAlpha[1] + "," + fillColorAlpha[2] + "," + fillColorAlpha[3] + ")";
     } //generate the color from the rgba array
 
     canvasContext.beginPath();

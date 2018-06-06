@@ -12,7 +12,7 @@
 
 // Made by your friend Remy :) (based on the usual script from Chris)
 
-function Images () {
+function Images() {
 
     var imageDict = [];
     console.log("Initializing Images module.");
@@ -27,7 +27,7 @@ function Images () {
         imageDict[imgName] = img; //the spot is being kept by a dummy image; we will load it later
     }
 
-    Images.loadImages = function(){
+    Images.loadImages = function () {
         console.log("");
         for (var i = 0, len = fileNames.length; i < len; i++) {
 
@@ -39,10 +39,10 @@ function Images () {
             imageDict[imgName].src = fileNames[i];
 
             console.log("Added '" + imgName + "' with path: " + fileNames[i]); // feel free to comment if this annoys you
-            
+
             // The ordering of these lines might cause problems(?)
             img.onload = countLoadedImagesAndLaunchIfReady();
-            
+
         }
     }
 
@@ -54,7 +54,7 @@ function Images () {
                 throw "Error: Did not find image with name '" + name + "'. Check Images module fileNames";
             }
         }
-        catch (err){
+        catch (err) {
             console.log(err);
         }
         return imageDict[name];
@@ -73,16 +73,17 @@ var fileNames = [
     "images/moonlitForest.png",
     "images/arcaninjadroid.png",
     "images/groundLong.png",
-    "images/PH_menuScreen.png"
+    "images/PH_menuScreen.png",
+    "images/wooshTrail.png"
 
 
 ];
 
 var picsToLoad = fileNames.length;
 
-function countLoadedImagesAndLaunchIfReady(){
+function countLoadedImagesAndLaunchIfReady() {
     picsToLoad--;
-    if (picsToLoad == 0){
+    if (picsToLoad == 0) {
         imageLoadingDoneSoStartGame();
     }
 }
