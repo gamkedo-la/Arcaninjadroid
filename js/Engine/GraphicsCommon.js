@@ -13,14 +13,16 @@ function drawBitmapWithRotation(useBitmap, atX, atY, withAng) {
 function drawBitmapLine(useBitmap, startX, startY, endX, endY) {
     var lineLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
     var lineAngle = Math.atan2(endY - startY, endX - startX);
-    // edge case: avoid floating point imprecision flickering when at rest
-    if (lineLength < 1) lineAngle = 0;
-    lineLength += 64; // extra for debug - TODO REMOVE
+    // edge case: avoid floating point imprecision flickering of angle on small values
+    if (lineLength < 1) {
+        // return; we COULD just not render, but this leaves gaps in the effect
+        lineAngle = 0; // on second thought, don't render at all
+        lineLength = 1;
+    }
     canvasContext.save();
-    //canvasContext.translate(startX - lineLength, startY - useBitmap.height / 2);
     canvasContext.translate(startX, startY);
     canvasContext.rotate(lineAngle);
-    canvasContext.translate(-lineLength, - useBitmap.height / 2);
+    canvasContext.translate(0, - useBitmap.height / 2);
     canvasContext.drawImage(useBitmap,
         0, 0, useBitmap.width, useBitmap.height, // src 
         0, 0, lineLength, useBitmap.height);     // dest
