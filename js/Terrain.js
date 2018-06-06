@@ -12,7 +12,7 @@ function Terrain (x,y, width,height, movable = false) {
     var width = width;
     var height = height;
 
-    var animation = new Animation (this, Images.getImage("groundLong"));
+    //var animation = new Animation (this, Images.getImage("groundLong"));
 
     this.movable = movable;
 
@@ -29,6 +29,8 @@ var protoGround = new Terrain(85,151, 250,30);
 
 function drawAllTerrain () {
     for (var i = 0, l = terrain.length; i<l; i++){
-        terrain[i].draw();
+        if (terrain.animation){
+            terrain[i].draw();
+        }
     }
 }

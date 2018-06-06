@@ -17,7 +17,7 @@ function IdleAndroidState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Idle"), androidIdleData, { loop: true });
+    this.animation = new Animation(parent, Images.getImage("arcaninjadroid"), playerIdleData, { loop: true });
 
     this.update = function () {
 
@@ -113,7 +113,7 @@ function JumpState(parent, relatedStates) {
     var states = relatedStates;
 
     //this.animation = new Animation(jumpSheet,{loop:true});
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Idle"), androidIdleData); //placeholder
+    this.animation = new Animation(parent, Images.getImage("arcaninjadroid"), playerIdleData); //placeholder
     this.fastfall = false;
 
     this.update = function () {

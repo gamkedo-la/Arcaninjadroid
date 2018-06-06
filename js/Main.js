@@ -161,7 +161,7 @@ function updateAll() {
 
 
 var ninjaZoneBeginningY = 95; // at what height is the invisible ninja zone starting? (for all y values above it in game view, but under it in numerical value)
-var background = Images.getImage("regularSky"); // will be in game state FSM eventually
+var background = Images.getImage("moonlitForest"); // will be in game state FSM eventually
 
 // Draws over everything and resets the canvas. This is the first draw function that must be called
 function clearScreen(canvas) {
