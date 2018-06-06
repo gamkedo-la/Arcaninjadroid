@@ -9,6 +9,22 @@ function drawBitmapWithRotation(useBitmap, atX, atY, withAng) {
 
 }
 
+// 10/10 for descriptive function naming :D
+function drawBitmapClippedWithRotationAndFlip(useBitmap, x, y, clipStartX, clipStartY, clipWidth, clipHeight, withAng, flipX) {
+
+    canvasContext.save();
+    canvasContext.translate(x, y);
+    if (flipX) {
+        canvasContext.scale(-1,1);
+    }
+    canvasContext.rotate(withAng);
+    canvasContext.drawImage(useBitmap,
+        clipStartX,clipStartY, clipWidth, clipHeight, 
+        -clipWidth/2,-clipHeight/2, clipWidth, clipHeight);
+    canvasContext.restore();
+
+}
+
 function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
 
     canvasContext.fillStyle = fillColor;

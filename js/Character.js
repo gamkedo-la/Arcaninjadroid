@@ -21,8 +21,6 @@ function Character (x,y) {
     this.draw = function () {
         this.getAnimation().draw();
         //this.feetCollider.draw();
-        //this.hitbox.draw();
-        //this.hurtbox.draw();
         this.getAnimation().drawColliders();
     }
 
@@ -71,7 +69,7 @@ function Character (x,y) {
     }
 
     this.initMachine = function (allStates) {
-        //if (!allStates) {console.log("Remember to give an object containing all the states when creating a Character. Crasherino incoming!")}
+        
         var states = allStates;
         this.actionMachine = new StateMachine(states.initial); // state machine of the current move being used
     }

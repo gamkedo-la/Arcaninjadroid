@@ -111,11 +111,13 @@ function Animation (parent, image, data, config) {
         }       
         var x = parent.x;
         var y = parent.y;
+        var flipped = parent.flipped;
 
         // Remember that x,y is center of the object in the game's coord system
-        canvasContext.drawImage(image,
+        /*canvasContext.drawImage(image,
                                 clipStartX,clipStartY, clipWidth, clipHeight, 
-                                x-clipWidth/2,y-clipHeight/2, clipWidth, clipHeight);
+                                x-clipWidth/2,y-clipHeight/2, clipWidth, clipHeight);*/
+        drawBitmapClippedWithRotationAndFlip(image, x,y, clipStartX,clipStartY, clipWidth,clipHeight, 0, parent.flipped);
     }
 
     // Used for debug (and training mode maybe? :D)

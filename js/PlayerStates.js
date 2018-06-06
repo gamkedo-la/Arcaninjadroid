@@ -2,10 +2,9 @@
 ////    All states (ie slick moves and abilities) of the player will be created here. Depending on size, might be split into separate files (for Arcane, Ninja and Android perhaps)
 
 /////    Good format:
-// mySheet = new SpriteSheet (...)
-// function MyState () {...} (also give the spritesheet in this.animation)
+// function MyState (parent, relatedStates) {...}
 // MyState.prototype = baseState;
-// ADD to PlayerStates at the end of the file, just like shown
+// CRUCIAL Add to PlayerStates at the end of the file, just like shown
 // Give it to the player and try it out! :D
 
 var baseState = new State(); //give a reference to this state when declaring your custom state's prototype (see above, or below...)
@@ -53,9 +52,11 @@ function IdleAndroidState(parent, relatedStates) {
         }
 
         if (Input.getKey("a")) {
+            parent.flipped = true;
             parent.velocity.x = -parent.walkSpeed;
         }
         else if (Input.getKey("d")) {
+            parent.flipped = false;
             parent.velocity.x = parent.walkSpeed;
         } else { parent.velocity.x = 0; }
     }
