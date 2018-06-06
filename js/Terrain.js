@@ -25,7 +25,7 @@ function Terrain (x,y, width,height, movable = false) {
 
 }
 
-var protoGround = new Terrain(85,151, 250,30);
+var protoGround = new Terrain(85,141, 250,30);
 
 function drawAllTerrain () {
     for (var i = 0, l = terrain.length; i<l; i++){

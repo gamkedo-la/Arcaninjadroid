@@ -156,8 +156,10 @@ function JumpState(parent, relatedStates) {
         }
 
         if (Input.getKey("a")) {
+            parent.flipped = true;
             parent.velocity.x = -parent.walkSpeed;
         } else if (Input.getKey("d")) {
+            parent.flipped = false;
             parent.velocity.x = parent.walkSpeed;
         }
 

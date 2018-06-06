@@ -1,4 +1,4 @@
-const ALLOW_FULLSCREEN = true; // go fullscreen is the user allows it
+const ALLOW_FULLSCREEN = true; // go fullscreen if the user allows it
 
 var animationFrameNumber; //replaces the usual setInterval technique, which caused issues when window lost focus. Thanks Nick P. for the fix! :)
 
@@ -10,8 +10,10 @@ var currentTime;
 var dt;
 
 // World dimensions
-const ORIG_WORLD_W = 200;
-const ORIG_WORLD_H = 150;
+//const ORIG_WORLD_W = 200;
+//const ORIG_WORLD_H = 150;
+const ORIG_WORLD_W = 240;
+const ORIG_WORLD_H = 135;
 const PIXEL_SCALE_UP = 4; // to replace with something better
 
 window.onload = function () {
