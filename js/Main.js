@@ -140,18 +140,14 @@ function updateAll() {
     //updates the states of all keys for checking the single frame, Input.getKeyDown function
 
 
-    clearScreen(canvas);
+    //clearScreen(canvas);
 
     //////////////////////////////////////////////////
     // Now, we update the state machines. This takes care of things like handle inputs for state transitions
     // It also draws directly, though there may be an eventual addition of a Graphics module that draws after all updates are done
 
     GameStateMachine.update(); //updates game state depending on if we are ingame, paused, in menu etc.
-
-
-    drawAllCharacters();
-    drawAllTerrain();
-    ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
+    GameStateMachine.draw();
 
     drawOnScaledCanvas(); //once everything is done, we draw everything on our enlarged canvas, which is the one the player sees
 
@@ -161,7 +157,7 @@ function updateAll() {
 
 
 var ninjaZoneBeginningY = 95; // at what height is the invisible ninja zone starting? (for all y values above it in game view, but under it in numerical value)
-var background = Images.getImage("moonlitForest"); // will be in game state FSM eventually
+//var background = Images.getImage("moonlitForest"); // will be in game state FSM eventually
 
 // Draws over everything and resets the canvas. This is the first draw function that must be called
 function clearScreen(canvas) {

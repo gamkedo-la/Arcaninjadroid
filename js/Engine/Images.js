@@ -72,7 +72,9 @@ var fileNames = [
     "images/PH_Android_Uppercut.png",
     "images/moonlitForest.png",
     "images/arcaninjadroid.png",
-    "images/groundLong.png"
+    "images/groundLong.png",
+    "images/PH_menuScreen.png"
+
 
 ];
 

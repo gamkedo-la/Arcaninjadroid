@@ -43,6 +43,14 @@ function StateMachine(defaultState) {
         }
     }
 
+    this.draw = function () {
+        if (currentState.draw) {
+            currentState.draw();
+        } else {
+            console.log("Tried to call inexistent draw function on state machine:", this);
+        }
+    }
+
     // Use only for crude, exceptional cases
     // If you can, return a new state in the state update functions instead!
     this.changeState = function (state) {
@@ -107,7 +115,11 @@ function StateMachine(defaultState) {
     }
 
     this.getAnimation = function () {
-        return currentState.animation;
+        if (currentState && currentState.animation) {
+            return currentState.animation;
+        } else {
+            console.log("No animation to access for state machine:", this);
+        }
     }
 }
 
