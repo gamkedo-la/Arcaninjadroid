@@ -13,24 +13,23 @@ function Terrain (x,y, width,height, movable = false) {
     var height = height;
 
     //var animation = new Animation (this, Images.getImage("groundLong"));
+    //var animation;
 
     this.movable = movable;
 
     this.collider = new RectCollider(this,width,height);
 
     this.draw = function () {
-        animation.draw();
-        this.collider.draw();
+        //if (animation) {animation.draw();}
+        if (debug) this.collider.draw();
     }
 
 }
 
-var protoGround = new Terrain(85,141, 250,30);
+var protoGround = new Terrain(120,141, 300,30);
 
 function drawAllTerrain () {
     for (var i = 0, l = terrain.length; i<l; i++){
-        if (terrain.animation){
-            terrain[i].draw();
-        }
+        terrain[i].draw();
     }
 }

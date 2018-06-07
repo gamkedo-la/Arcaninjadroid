@@ -20,7 +20,9 @@ function InGameState() {
     };
 
     this.handleInput = function () {
-
+        if (Input.getKeyDown("q")) {
+            debug = !debug;
+        }
     };
 
     this.draw = function () {

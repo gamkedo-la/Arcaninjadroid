@@ -23,12 +23,11 @@ function Character(x, y) {
         if (this.trail) { this.trail.draw(this.x, this.y); }
         this.getAnimation().draw();
         //this.feetCollider.draw();
-        this.getAnimation().drawColliders();
+        if (debug) {this.getAnimation().drawColliders();}
     }
 
     this.groundCheck = function () {
 
-        // this will be a method of Character
         for (var i = 0, l = terrain.length; i < l; i++) {
             if (this.feetCollider.intersects(terrain[i].collider)) {
                 this.grounded = true;
