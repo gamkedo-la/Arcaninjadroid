@@ -112,7 +112,7 @@ function Input() {
     };
 
 
-    //Requires "canvas" global var
+    //Requires "canvas" and "scaledCanvas" global vars. Returns x,y in SMALL canvas coordinates, rounded
     Input.setMousePos = function (evt) {
 
         var rect = scaledCanvas.getBoundingClientRect();
@@ -120,6 +120,13 @@ function Input() {
 
         mouseX = evt.clientX - rect.left - root.scrollLeft;
         mouseY = evt.clientY - rect.top - root.scrollTop;
+
+        var scalingRatioX = canvas.width/scaledCanvas.width;
+        var scalingRatioY = canvas.height/scaledCanvas.height;
+
+        mouseX = Math.round(mouseX * scalingRatioX);
+        mouseY = Math.round(mouseY * scalingRatioY);
+        //console.log(mouseX, mouseY);
 
     };
 

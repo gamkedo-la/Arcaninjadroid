@@ -37,7 +37,7 @@ function IdleAndroidState(parent, relatedStates) {
     this.handleInput = function () {
 
         if (Input.getLeftClick() || Input.getKey("space")) {
-            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) { // FIXME: this breaks at different resolutions
+            if (Input.getMouseY() < ninjaZoneBeginningY) { // FIXME: this breaks at different resolutions
                 return states.sliceState;
             } else {
                 return states.punchingState;
@@ -89,7 +89,7 @@ function CrouchState(parent, relatedStates) {
         }
 
         if (Input.getLeftClick()) {
-            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 return states.uppercutState;
@@ -164,7 +164,7 @@ function JumpState(parent, relatedStates) {
         }
 
         if (Input.getLeftClick()) {
-            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 // do something cool here :) a dive kick maybe? 
@@ -207,7 +207,7 @@ function PunchingState(parent, relatedStates) {
             return "previous";
         }
         if (Input.getLeftClick()) {
-            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 // do something cool here? :) 
@@ -254,7 +254,7 @@ function UppercutState(parent, relatedStates) {
 
     this.handleInput = function () {
         if (Input.getLeftClick()) {
-            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 // do something cool here :) ?
@@ -313,7 +313,7 @@ function SliceState(parent, relatedStates) {
             //return states.idleState;
         }
         if (Input.getLeftClick()) {
-            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() < ninjaZoneBeginningY) {
                 return states.sliceState;
             } else {
                 return states.jumpState;
@@ -323,8 +323,8 @@ function SliceState(parent, relatedStates) {
 
     this.changeDirection = function () {
         destination = {
-            x: Input.getMouseX() / 4,
-            y: Input.getMouseY() / 4
+            x: Input.getMouseX(),
+            y: Input.getMouseY()
         };
 
         var xDiff = destination.x - parent.x;
