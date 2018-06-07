@@ -3,7 +3,7 @@ var baseState = new State();
 
 //GameStates = {}; //hold all the states
 
-function InGameState () {
+function InGameState() {
 
     var justEntered; //hackity hack
 
@@ -13,18 +13,18 @@ function InGameState () {
 
         updateAllCharacters();
         updateAllEmitters();
-    
+
         resolveAllCollisions();
         justEntered = false;
 
     };
 
     this.handleInput = function () {
-        
+
     };
 
     this.draw = function () {
-        if (justEntered) {return;}
+        if (justEntered) { return; }
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
         //canvasContext.fillStyle = "red";
@@ -35,7 +35,7 @@ function InGameState () {
     }
 
     this.enter = function () {
-        justEntered  = true;
+        justEntered = true;
     };
 
     this.exit = function () {
@@ -44,11 +44,11 @@ function InGameState () {
 };
 InGameState.prototype = baseState;
 
-function PauseState () {
+function PauseState() {
     //TODO    
 }
 
-function MainMenuState () {
+function MainMenuState() {
 
     this.background = Images.getImage("PH_menuScreen");
 

@@ -37,7 +37,7 @@ function IdleAndroidState(parent, relatedStates) {
     this.handleInput = function () {
 
         if (Input.getLeftClick() || Input.getKey("space")) {
-            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) {
+            if (Input.getMouseY() / 4 < ninjaZoneBeginningY) { // FIXME: this breaks at different resolutions
                 return states.sliceState;
             } else {
                 return states.punchingState;

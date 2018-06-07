@@ -13,18 +13,20 @@ function WooshTrail() {
     this.draw = function (newX, newY) {
 
         // add current position to the list
-        trailXY.push({ x: newX, y: newY });
+        trailXY.push({ x: newX, y: newY }); // not super happy about new objects being created here
 
         // remove the oldest entry if the array is full
         // TODO: allow for > 2 coordinates for curvy chopped up lines
         if (trailXY.length > 10) {
-            trailXY.shift();
+            trailXY.shift(); // low performance - optimize out?
         }
 
         //console.log("Wooshtrail trailXY.length=" + trailXY.length + " draw at " + newX + "," + newY);
 
         /*
-        // draws many small lines - not stretched and "chopped" as intended
+        // draws many small lines
+        // not stretched and "chopped" as intended
+        // but this supports "curves"
         for (let segment = 0, count = trailXY.length - 1; segment < count; segment++) {
 
             drawBitmapLine(wooshImage,

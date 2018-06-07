@@ -15,8 +15,10 @@ function drawBitmapLine(useBitmap, startX, startY, endX, endY) {
     var lineAngle = Math.atan2(endY - startY, endX - startX);
     // edge case: avoid floating point imprecision flickering of angle on small values
     if (lineLength < 1) {
-        // return; we COULD just not render, but this leaves gaps in the effect
-        lineAngle = 0; // on second thought, don't render at all
+        // we COULD just not render, but this leaves gaps in the effect
+        // if we are drawing multiple lines close together
+        // return; 
+        lineAngle = 0;
         lineLength = 1;
     }
     canvasContext.save();
