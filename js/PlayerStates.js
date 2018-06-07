@@ -20,17 +20,7 @@ function IdleAndroidState(parent, relatedStates) {
 
     this.update = function () {
 
-        parent.x += parent.velocity.x;
-        parent.y += parent.velocity.y;
-
-        //apply some gravity. Fun fact: often times our super awesome main character will flat out ignore gravity,
-        //so I feel it's ok to add it (perhaps multiple times) in the update functions of different states
-        parent.velocity.y += 0.75;
-
-        parent.velocity.x *= 0.85;
-        parent.velocity.y *= 0.85;
-        if (Math.abs(parent.velocity.x) < 0.1) parent.velocity.x = 0;
-        if (Math.abs(parent.velocity.y) < 0.1) parent.velocity.y = 0;
+        parent.applyBasicPhysics();
 
     }
 
@@ -118,24 +108,15 @@ function JumpState(parent, relatedStates) {
     this.fastfall = false;
 
     this.update = function () {
-        if (this.fastfall === false) {
-            parent.velocity.y += 0.45;
-        } else {
-            parent.velocity.y += 2;
+
+        if (this.fastfall === true) {
+            parent.velocity.y += 1.5; //give a boost to the fall speed
         }
-        parent.x += parent.velocity.x;
-        parent.y += parent.velocity.y;
 
-        parent.velocity.x *= 0.85;
-        parent.velocity.y *= 0.85;
-
-
-        if (Math.abs(parent.velocity.x) < 0.1) parent.velocity.x = 0;
-        if (Math.abs(parent.velocity.y) < 0.1) parent.velocity.y = 0;
+        parent.applyBasicPhysics();
 
 
         if (parent.grounded) {
-            //console.log("touch ground");
             return states.idleState;
         }
     }
@@ -241,15 +222,7 @@ function UppercutState(parent, relatedStates) {
             return states.idleState;
         }
 
-        parent.velocity.y += 0.45;
-
-        parent.x += parent.velocity.x;
-        parent.y += parent.velocity.y;
-
-        parent.velocity.x *= 0.85;
-        parent.velocity.y *= 0.85;
-        if (Math.abs(parent.velocity.x) < 0.1) parent.velocity.x = 0;
-        if (Math.abs(parent.velocity.y) < 0.1) parent.velocity.y = 0;
+        parent.applyBasicPhysics();
     }
 
     this.handleInput = function () {
@@ -340,7 +313,6 @@ function SliceState(parent, relatedStates) {
             } else {
                 theta = theta - Math.PI;
             }
-
         }
         dx = speed * Math.cos(theta);
         dy = speed * Math.sin(theta);

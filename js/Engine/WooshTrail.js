@@ -8,16 +8,25 @@ function WooshTrail() {
     let trailImage = null;
     let trailXY = []; // list of previous positions
     let wooshImage = Images.getImage("wooshTrail");
+    let trailMaxLength = 10;
 
     // public funcs
     this.draw = function (newX, newY) {
 
+        //console.log(newX,newY);
+        //prevents draw if we stand still for too long
+        if (trailXY.length != 0 && newX == trailXY[0].x && newY == trailXY[0].y) {
+            trailXY = [{ x: newX, y: newY }]; //saves the current pos here until we trigger a change
+            //console.log("Here")
+            return; 
+        }
         // add current position to the list
         trailXY.push({ x: newX, y: newY }); // not super happy about new objects being created here
+        //console.log("push")
 
         // remove the oldest entry if the array is full
         // TODO: allow for > 2 coordinates for curvy chopped up lines
-        if (trailXY.length > 10) {
+        if (trailXY.length > trailMaxLength) {
             trailXY.shift(); // low performance - optimize out?
         }
 
@@ -40,7 +49,6 @@ function WooshTrail() {
         drawBitmapLine(wooshImage,
             trailXY[0].x, trailXY[0].y,
             trailXY[trailXY.length - 1].x, trailXY[trailXY.length - 1].y);
-
 
     }
 

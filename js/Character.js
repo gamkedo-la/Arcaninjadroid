@@ -36,6 +36,29 @@ function Character(x, y) {
             }
         }
         this.grounded = false;
+    };
+
+    this.boundsCheck = function () {
+        if (this.x > ORIG_WORLD_W) {
+            this.x = ORIG_WORLD_W;
+        } else if (this.x < 0) {
+            this.x = 0;
+        }
+    };
+
+    this.applyBasicPhysics = function () {
+
+        this.velocity.y += 0.45;
+
+        this.x = Math.round(this.x + this.velocity.x);
+        this.y = Math.round(this.y + this.velocity.y);
+
+        this.velocity.x *= 0.85;
+        this.velocity.y *= 0.85;
+
+
+        if (Math.abs(this.velocity.x) < 0.1) this.velocity.x = 0;
+        if (Math.abs(this.velocity.y) < 0.1) this.velocity.y = 0;
     }
 
     this.checkForHits = function (otherChar) {
@@ -51,7 +74,7 @@ function Character(x, y) {
                 }
             }
         }
-    }
+    };
 
     this.gotHit = function (otherChar) {
         this.velocity.y = -this.jumpVelocity;
@@ -107,6 +130,12 @@ function updateAllCharacters() {
     for (var i = 0, l = characters.length; i < l; i++) {
 
         characters[i].groundCheck();
+    }
+
+    // Bounds checks
+    for (var i = 0, l = characters.length; i < l; i++) {
+
+        characters[i].boundsCheck();
     }
 
     // Check for hits on hitbox-hurtbox

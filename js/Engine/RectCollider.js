@@ -101,10 +101,13 @@ function RectCollider (parent, width, height, config) {
             }
 
         } else {
+            //The pushout rounds the y value, but that might be a bad idea (?)
             if (this.parent.movable && other.parent.movable === false){
                 this.parent.y -= fullMoveY;
+                this.parent.y = Math.round(this.parent.y);
             } else if (this.parent.movable === false && other.parent.movable) {
                 other.parent.y += fullMoveY;
+                other.parent.y = Math.round(other.parent.y);
             } else {
                 this.parent.y -= fullMoveY/2;
                 other.parent.y += fullMoveY/2;
