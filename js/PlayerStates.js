@@ -212,8 +212,8 @@ function UppercutState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    //this.animation = new Animation(uppercutSheet);
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop: false, holdLastFrame: true });
+    this.animation = new Animation(parent, Images.getImage("playerUppercut"), playerUppercutData, { loop: false, holdLastFrame: true });
+
 
 
     this.update = function () {
@@ -262,8 +262,7 @@ function SliceState(parent, relatedStates) {
     var dx = 0;
     var dy = 0;
 
-    //this.animation = new Animation(punchingSheet, { fps: 16 });
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Uppercut"), androidUppercutData, { loop: false, holdLastFrame: true });
+    this.animation = new Animation(parent, Images.getImage("playerUppercut"), playerUppercutData, { loop: false, holdLastFrame: true });
 
     this.update = function () {
 
