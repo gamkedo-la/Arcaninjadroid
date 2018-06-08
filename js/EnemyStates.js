@@ -3,19 +3,11 @@ function IdleEnemyState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Idle"), androidIdleData, {loop : true});
+    this.animation = new Animation(parent, Images.getImage("playerIdle"), playerIdleData, {loop : true});
     
     this.update = function () {
 
-        parent.x += parent.velocity.x;
-        parent.y += parent.velocity.y;
-
-        parent.velocity.y += 0.75;
-
-        parent.velocity.x *= 0.85;
-        parent.velocity.y *= 0.85;
-        if (Math.abs(parent.velocity.x) < 0.1) parent.velocity.x = 0;
-        if (Math.abs(parent.velocity.y) < 0.1) parent.velocity.y = 0;
+        parent.applyBasicPhysics();
 
     }
 

@@ -16,7 +16,7 @@ function IdleAndroidState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("arcaninjadroid"), playerIdleData, { loop: true });
+    this.animation = new Animation(parent, Images.getImage("playerIdle"), playerIdleData, { loop: true });
 
     this.update = function () {
 
@@ -67,7 +67,7 @@ function CrouchState(parent, relatedStates) {
     var states = relatedStates;
 
     //this.animation = new Animation(crouchSheet);
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Crouch"), androidCrouchData);
+    this.animation = new Animation(parent, Images.getImage("playerCrouch"), playerCrouchData);
 
     this.update = function () {
     }
@@ -104,7 +104,7 @@ function JumpState(parent, relatedStates) {
     var states = relatedStates;
 
     //this.animation = new Animation(jumpSheet,{loop:true});
-    this.animation = new Animation(parent, Images.getImage("arcaninjadroid"), playerIdleData); //placeholder
+    this.animation = new Animation(parent, Images.getImage("playerIdle"), playerIdleData); //placeholder
     this.fastfall = false;
 
     this.update = function () {

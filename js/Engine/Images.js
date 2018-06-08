@@ -65,16 +65,22 @@ function Images() {
 //////////////    Your file names go here    ////////////////
 var fileNames = [
 
-    "images/testTexture.png",
-    "images/PH_Android_Idle.png",
-    "images/PH_Android_Crouch.png",
-    "images/PH_Android_Punch.png",
-    "images/PH_Android_Uppercut.png",
-    "images/moonlitForest.png",
-    "images/arcaninjadroid.png",
-    "images/groundLong.png",
-    "images/PH_menuScreen.png",
-    "images/wooshTrail.png"
+    // VFX
+    "images/VFX/testTexture.png",
+    "images/VFX/wooshTrail.png",
+
+    //Backgrounds
+    "images/Backgrounds/moonlitForest.png",
+
+    //UI and menu art
+    "images/UI/PH_menuScreen.png",
+
+    //Player anims
+    "images/Characters/Player/PH_Android_Punch.png",
+    "images/Characters/Player/PH_Android_Uppercut.png",
+    "images/Characters/Player/playerIdle.png",
+    "images/Characters/Player/playerCrouch.png",
+
 
 
 ];
