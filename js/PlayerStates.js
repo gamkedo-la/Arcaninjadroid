@@ -104,7 +104,7 @@ function JumpState(parent, relatedStates) {
     var states = relatedStates;
 
     //this.animation = new Animation(jumpSheet,{loop:true});
-    this.animation = new Animation(parent, Images.getImage("playerIdle"), playerIdleData); //placeholder
+    this.animation = new Animation(parent, Images.getImage("playerJump"), playerJumpData, {loop : true}); //placeholder
     this.fastfall = false;
 
     this.update = function () {
