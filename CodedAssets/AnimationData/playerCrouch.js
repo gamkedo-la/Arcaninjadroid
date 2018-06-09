@@ -12,7 +12,7 @@ var playerCrouchData = { "frames": [
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.8-x64",
-  "image": "C:\\Users\\Remy\\Documents\\Gamkedo\\Arcaninjadroid\\images\\playerCrouch.png",
+  "image": "C:\\Users\\Remy\\Documents\\Gamkedo\\Arcaninjadroid\\images\\Characters\\Player\\playerCrouch.png",
   "format": "RGBA8888",
   "size": { "w": 32, "h": 32 },
   "scale": "1",
