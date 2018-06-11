@@ -23,6 +23,9 @@ function InGameState() {
         if (Input.getKeyDown("q")) {
             debug = !debug;
         }
+        if (Input.getKeyDown("p")) {
+            return GameStates.pauseState;
+        }
     };
 
     this.draw = function () {
@@ -47,8 +50,34 @@ function InGameState() {
 InGameState.prototype = baseState;
 
 function PauseState() {
-    //TODO    
+  this.background = Images.getImage("PH_menuScreen");// this is placeholder for now change.
+
+  this.update = function () {
+  };
+
+  this.handleInput = function () {
+      if (Input.getKeyDown("enter")) {
+          return GameStates.inGameState;
+      }
+      if (Input.getKeyDown("escape")) {
+          return GameStates.mainMenuState;
+      }
+  };
+
+  this.draw = function () {
+      canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+      canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+  };
+
+  this.enter = function () {
+    console.log("entering pause menu");
+  };
+
+  this.exit = function () {
+    console.log("exiting pause menu");
+  };
 }
+PauseState.prototype = baseState;
 
 function MainMenuState() {
 
@@ -82,9 +111,8 @@ MainMenuState.prototype = baseState;
 //GameStates.inGameState = new InGameState();
 var GameStates = {
     inGameState: new InGameState(),
-    mainMenuState: new MainMenuState()
+    mainMenuState: new MainMenuState(),
+    pauseState: new PauseState()
 };
 
 var GameStateMachine = new StateMachine(GameStates.mainMenuState);
-
-
