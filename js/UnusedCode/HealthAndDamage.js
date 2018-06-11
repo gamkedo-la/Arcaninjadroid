@@ -1,84 +1,93 @@
 //base class for HP and DMG
-function HitPointsAndDamageClass(characterType, LVL)
+function HPandDMGclass(LVL, HpMultiplier, DefMultiplier, DmgMultiplier)
 {
-	/* these three lines will enable any character to sustain five hits before dying. 
+	/* the first chunk of lines are base stats for any character but they will be modified depending on the character's lvl and 
+		the passed in decimal values for multiplier.
 		will hopefully feature:
 		base HP, DEF, and DMG off the characters LVL.
 		the DMG multiplier will also change DMG based on the length the player's combo
 	*/
 	this.baseHP = 300.0;
+	this.hpMultiplier = HpMultiplier;
 	this.baseDEF = 20.0;
+	this.defMultiplier = DefMultiplier;
 	this.baseDMG = 30.0;
-	this.baseDmgMultiplier = 1.0;
+	this.dmgMultiplier = DmgMultiplier;
+
+	this.modifiedHP;
+	this.modifiedDEF; 
+	this.modifiedDMG; 
 
 	this.newHP;
-	this.newDEF;
-	this.newDMG;
+	this.isCharacterDead = false;
 
-	this.oldHP;
-	this.newDEF;
-	this.newDMG;
-
-	this.charType = characterType;
 	this.lvl = LVL;
 
-	this.setHP = function()
+	//call this when the character is hit to update HP
+	this.characterHasBeenHitSoCalculateNewHP = function()
 	{
-		switch(this.charType)
-		{
-			case "player":
-				break;
-		}
+		this.newHP = this.modifiedHP 
+	}
 
-		switch(this.lvl)
+	this.calculateModifiedStat = function(stat, multiplier)
+	{
+		return (this.lvl * stat * multiplier);
+	}
+
+	//this should get called constantly to check if the player is in a combo or not and reflect the appropriate DMG values
+	this.setComboMultiplier = function(currentCombo)
+	{
+		//increases by 1/20th of the current combo value and adds it to the DMG multiplier
+		var comboIncrementer = currentCombo * 0.05;
+		if(currentCombo > 1)
 		{
-			case 1:
-				break;
+			this.dmgMultiplier += comboIncrementer;
 		}
 	}
 
-	this.getHP = function()
+	this.getNewHP = function()
 	{
-
+		return this.newHP;
 	}
 
-	this.setDEF = function()
+	this.hasModifiedHPBeenSet = false;
+	this.setModifiedHP = function()
 	{
-		switch(this.charType)
+		if(!this.hasModifiedHPBeenSet)
 		{
-			case "player":
-				break;
+			this.modifiedHP = calculateModifiedStat(this.baseHP, this.hpMultiplier);
+			this.hasModifiedHPBeenSet = true;
 		}
+	}
 
-		switch(this.LVL)
-		{
-			case 1:
-				break;
-		}
+	//this is mainly for the player to allow them to increase their HP but it could apply to enemies if we want leveled enemies
+	this.characterGainedOrLossLvl = function()
+	{
+		this.hasModifiedHPBeenSet = false;
+	}
+
+	this.getModifiedHP = function()
+	{
+		return this.modifiedHP;
+	}
+
+	this.setDef = function()
+	{
+		calculateModifiedStat(this.baseDEF, this.defMultiplier);
 	}
 
 	this.getDEF = function()
 	{
-		
+		return this.modifiedDEF;
 	}
 
 	this.setDMG = function()
 	{
-		switch(this.charType)
-		{
-			case "player":
-				break;
-		}
-
-		switch(this.LVL)
-		{
-			case 1:
-				break;
-		}
+		calculateModifiedStat(this.baseDMG, this.dmgMultiplier);
 	}
 
 	this.getDMG = function()
 	{
-		
+		return this.modifiedDMG;
 	}
 }

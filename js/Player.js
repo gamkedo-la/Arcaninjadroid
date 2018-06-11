@@ -3,7 +3,7 @@
 function Player() {
 
     var char = new Character(100, 75);
-    var states = new PlayerStates(char);
+    var states = new PlayerStates(char); 
     char.initMachine(states);
     char.trail = new WooshTrail();
     return char;
