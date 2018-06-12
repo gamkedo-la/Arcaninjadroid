@@ -1,22 +1,22 @@
-//base class for HP and DMG
-function HPandDMGclass(LVL, HpMultiplier, DefMultiplier, DmgMultiplier)
+//base class for HP and ATK
+function HPandATKclass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 {
 	/* the first chunk of lines are base stats for any character but they will be modified depending on the character's lvl and 
 		the passed in decimal values for multiplier.
 		will hopefully feature:
-		base HP, DEF, and DMG off the characters LVL.
-		the DMG multiplier will also change DMG based on the length the player's combo
+		base HP, DEF, and ATK off the characters LVL.
+		the ATK multiplier will also change ATK based on the length the player's combo
 	*/
 	this.baseHP = 300.0;
 	this.hpMultiplier = HpMultiplier;
 	this.baseDEF = 20.0;
 	this.defMultiplier = DefMultiplier;
-	this.baseDMG = 30.0;
-	this.dmgMultiplier = DmgMultiplier;
+	this.baseATK = 30.0;
+	this.atkMultiplier = AtkMultiplier;
 
 	this.modifiedHP;
 	this.modifiedDEF; 
-	this.modifiedDMG; 
+	this.modifiedATK; 
 
 	this.newHP;
 	this.isCharacterDead = false;
@@ -24,9 +24,19 @@ function HPandDMGclass(LVL, HpMultiplier, DefMultiplier, DmgMultiplier)
 	this.lvl = LVL;
 
 	//call this when the character is hit to update HP
-	this.characterHasBeenHitSoCalculateNewHP = function()
+	this.characterHasBeenHitSoCalculateNewHP = function(defenderDEF, attackerATK)
 	{
-		this.newHP = this.modifiedHP 
+		var netDamage = attackerATK - (defenderDEF * 0.5);
+		this.newHP = this.modifiedHP - (netDamage);
+
+		if (this.newHP <= 0) 
+		{
+			this.isCharacterDead = true;
+		}
+		else
+		{
+			this.isCharacterDead = false;
+		}
 	}
 
 	this.calculateModifiedStat = function(stat, multiplier)
@@ -34,14 +44,14 @@ function HPandDMGclass(LVL, HpMultiplier, DefMultiplier, DmgMultiplier)
 		return (this.lvl * stat * multiplier);
 	}
 
-	//this should get called constantly to check if the player is in a combo or not and reflect the appropriate DMG values
+	//this should get called constantly to check if the player is in a combo or not and reflect the appropriate ATK values
 	this.setComboMultiplier = function(currentCombo)
 	{
-		//increases by 1/20th of the current combo value and adds it to the DMG multiplier
-		var comboIncrementer = currentCombo * 0.05;
+		//increases by 1/20th of the current combo value and adds it to the ATK multiplier
+		var comboMultiplier = currentCombo * 0.05;
 		if(currentCombo > 1)
 		{
-			this.dmgMultiplier += comboIncrementer;
+			this.atkMultiplier += comboMultiplier;
 		}
 	}
 
@@ -81,13 +91,13 @@ function HPandDMGclass(LVL, HpMultiplier, DefMultiplier, DmgMultiplier)
 		return this.modifiedDEF;
 	}
 
-	this.setDMG = function()
+	this.setATK = function()
 	{
-		calculateModifiedStat(this.baseDMG, this.dmgMultiplier);
+		calculateModifiedStat(this.baseATK, this.atkMultiplier);
 	}
 
-	this.getDMG = function()
+	this.getATK = function()
 	{
-		return this.modifiedDMG;
+		return this.modifiedATK;
 	}
 }
