@@ -2,11 +2,8 @@
 function XPclass()
 {
 	/*all characters will start off at lvl 1.
-		will hopefully feature the following: 
-	 	gaining XP depending on either the type of enemy defeated or that enemy lvl or both.
-		higher lvl enemies provide more xp while lower lvl enemies provide minimal xp
-		or this could also go based off of the player's combo
-		or both
+		xp drop is currently based of the enemy's modified HP
+		very likely that all calculations will need to change to get a decent balance 
 	*/
 	this.currentLVL = 1;
 	this.nextLVL = this.lvl + 1;
@@ -33,19 +30,23 @@ function XPclass()
 		}
 	}
 
-	this.calculateXPdrop = function(LVL, )
+	this.calculateXPdrop = function(HP)
 	{
-		switch(LVL)
-		{
-			case 1:
-				break;
-		}
+		//calculates xp drop as a 1/1000th of the enemy's modified HP so a lvl 1 enemy drop .3 xp if their modified hp is 300
+		//very much a WIP and will likely change to ensure stats are balanced or at least somewhat balanced
+		this.xpDrop = HP * 0.001;
 	}
 
-	this.getXPdrop = function()
+	this.getXPdrop = function(modifiedHP, currentCombo)
 	{
-		calculateXPdrop();
-		return this.xpDrop;
+		/*quick rundown on what's going on here (using base stats for calculations): xp drop is .3 which is then multiplied by the combo multiplier. 
+			if the current combo was 10 then the combo multiplier would change to 1.5
+			after all that we multiply .3 by 1.5 which equals .45
+			the xp required for the next lvl is 6 so that means 14 enemies that have 300 hp must be defeated to level up.
+		*/ 
+		this.calculateXPdrop(modifiedHP);
+		this.setComboMultiplier(currentCombo)
+		return this.xpDrop * this.comboMultiplier;
 	}
 
 	this.getCurrentXP = function()
@@ -75,11 +76,16 @@ function XPclass()
 		return (lvl * (lvl + 1)) * multiplier;
 	}
 
-	this.setComboMultiplier = function(currentCombo)
+	this.setComboMultiplier = function(combo)
 	{
-
+		var comboIncrement = combo * 0.05;
+		if(combo > 1)
+		{
+			this.comboMultiplier += comboIncrement;
+		}
 	}
 
+	//still not sure how this can be used... maybe it there's usables or something like that
 	this.setXPmultiplier = function()
 	{
 

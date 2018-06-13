@@ -1,5 +1,5 @@
 //base class for HP and ATK
-function HPandATKclass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
+function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 {
 	/* the first chunk of lines are base stats for any character but they will be modified depending on the character's lvl and 
 		the passed in decimal values for multiplier.
@@ -22,6 +22,13 @@ function HPandATKclass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 	this.isCharacterDead = false;
 
 	this.lvl = LVL;
+
+	this.setStats = function()
+	{
+		this.setModifiedHP();
+		this.setATK();
+		this.setDEF();
+	}
 
 	//call this when the character is hit to update HP
 	this.characterHasBeenHitSoCalculateNewHP = function(defenderDEF, attackerATK)
@@ -70,7 +77,7 @@ function HPandATKclass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 		}
 	}
 
-	//this is mainly for the player to allow them to increase their HP but it could apply to enemies if we want leveled enemies
+	//this is mainly for the player to allow them to increase their HP as they level up
 	this.characterGainedOrLossLvl = function()
 	{
 		this.hasModifiedHPBeenSet = false;
@@ -81,7 +88,7 @@ function HPandATKclass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 		return this.modifiedHP;
 	}
 
-	this.setDef = function()
+	this.setDEF = function()
 	{
 		calculateModifiedStat(this.baseDEF, this.defMultiplier);
 	}
