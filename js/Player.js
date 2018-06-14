@@ -6,6 +6,8 @@ function Player() {
     var states = new PlayerStates(char); 
     char.initMachine(states);
     char.trail = new WooshTrail();
+    var playerXP = new XPclass();
+    var playerStats = new StatsClass(playerXP.getCurrentLVL, 1.0,1.0,1.0);
     return char;
 }
 
@@ -15,6 +17,8 @@ function ProtoEnemy() {
     var char = new Character(150, 60);
     var states = new EnemyStates(char);
     char.initMachine(states);
+    var enemyXP = new XPclass();
+    var enemyStats = new StatsClass(enemyXP.getCurrentLVL, 1.0,1.0,1.0);
     return char;
 }
 

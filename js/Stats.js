@@ -3,9 +3,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 {
 	/* the first chunk of lines are base stats for any character but they will be modified depending on the character's lvl and 
 		the passed in decimal values for multiplier.
-		will hopefully feature:
-		base HP, DEF, and ATK off the characters LVL.
-		the ATK multiplier will also change ATK based on the length the player's combo
+		very likely that numbers will need to be tweaked to achieve a decent balance
 	*/
 	this.baseHP = 300.0;
 	this.hpMultiplier = HpMultiplier;

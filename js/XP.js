@@ -11,10 +11,8 @@ function XPclass()
 	this.comboMultiplier = 1.0;
 	this.multiplier = 1.0;
 
-	this.xpDrop;
-
-	this.currentXP = this.calculateCurrentXP(this.currentLVL, this.multiplier);
-	this.xpForNextLVL = this.calculateNextXP(this.nextLVL, this.multiplier);
+	this.xpDrop;	
+	
 	this.diff = this.xpForNextLVL - this.currentXP;
 
 	this.getCurrentLVL = function()
@@ -24,7 +22,7 @@ function XPclass()
 
 	this.setLVL = function()
 	{
-		if(this.diff == 0)
+		if(this.diff <= 0)
 		{
 			this.currentLVL = this.nextLVL;
 		}
@@ -70,11 +68,13 @@ function XPclass()
 			return (lvl * (lvl + 1)) * multiplier;
 		}	
 	}
+	this.currentXP = this.calculateCurrentXP(this.currentLVL, this.multiplier);
 
 	this.calculateNextXP = function(lvl, multiplier)
 	{
 		return (lvl * (lvl + 1)) * multiplier;
 	}
+	this.xpForNextLVL = this.calculateNextXP(this.nextLVL, this.multiplier);
 
 	this.setComboMultiplier = function(combo)
 	{
@@ -85,7 +85,7 @@ function XPclass()
 		}
 	}
 
-	//still not sure how this can be used... maybe it there's usables or something like that
+	//still not sure how this can be used... maybe if there's usables or something like that
 	this.setXPmultiplier = function()
 	{
 
