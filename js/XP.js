@@ -6,14 +6,14 @@ function XPclass()
 		very likely that all calculations will need to change to get a decent balance 
 	*/
 	this.currentLVL = 1;
-	this.nextLVL = this.lvl + 1;
+	this.nextLVL = this.currentLVL + 1;
 
 	this.comboMultiplier = 1.0;
 	this.multiplier = 1.0;
 
 	this.xpDrop;	
 	
-	this.diff = this.xpForNextLVL - this.currentXP;
+	this.diff;
 
 	this.getCurrentLVL = function()
 	{
@@ -22,6 +22,8 @@ function XPclass()
 
 	this.setLVL = function()
 	{
+		this.diff = this.xpForNextLVL - this.currentXP;
+
 		if(this.diff <= 0)
 		{
 			this.currentLVL = this.nextLVL;
