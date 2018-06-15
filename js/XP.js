@@ -12,7 +12,8 @@ function XPclass()
 	this.multiplier = 1.0;
 
 	this.xpDrop;	
-	
+	this.isThisTheFirstXPGainForThisLVL = true;
+	this.currentXP;
 	this.diff;
 
 	this.getCurrentLVL = function()
@@ -20,13 +21,27 @@ function XPclass()
 		return this.currentLVL;
 	}
 
-	this.setLVL = function()
+	this.gainLVL = function()
 	{
 		this.diff = this.xpForNextLVL - this.currentXP;
 
 		if(this.diff <= 0)
 		{
 			this.currentLVL = this.nextLVL;
+			this.isThisTheFirstXPGainForThisLVL = true;
+		}
+	}
+
+	this.characterHasDefeatedEnemySoCalculateNewXP = function(xpGain)
+	{
+		if(this.isThisTheFirstXPGainForThisLVL)
+		{
+			this.currentXP = this.startingXP + xpGain;
+			this.isThisTheFirstXPGainForThisLVL = false;
+		}
+		else
+		{
+			this.currentXP += xpGain;
 		}
 	}
 
@@ -59,7 +74,7 @@ function XPclass()
 		return this.xpForNextLVL;
 	}
 
-	this.calculateCurrentXP = function(lvl, multiplier)
+	this.calculateStartingXP = function(lvl, multiplier)
 	{
 		if(lvl == 1)
 		{
@@ -70,7 +85,7 @@ function XPclass()
 			return (lvl * (lvl + 1)) * multiplier;
 		}	
 	}
-	this.currentXP = this.calculateCurrentXP(this.currentLVL, this.multiplier);
+	this.startingXP = this.calculateStartingXP(this.currentLVL, this.multiplier);
 
 	this.calculateNextXP = function(lvl, multiplier)
 	{

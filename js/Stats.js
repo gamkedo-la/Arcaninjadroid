@@ -40,7 +40,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 		this.modifiedATK = 0;
 
 		this.newHP = 0;
-		this.isThisHitTheFirstHit = false;
+		this.isThisHitTheFirstHit = true;
 		this.isCharacterDead = false;
 	}
 
@@ -48,10 +48,10 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 	this.characterHasBeenHitSoCalculateNewHP = function(defenderDEF, attackerATK)
 	{
 		var netDamage = attackerATK - (defenderDEF * 0.5);
-		if (!this.isThisHitTheFirstHit) 
+		if (this.isThisHitTheFirstHit) 
 		{
 			this.newHP = this.modifiedHP - (netDamage);
-			this.isThisHitTheFirstHit = true;
+			this.isThisHitTheFirstHit = false;
 		}
 		else
 		{
