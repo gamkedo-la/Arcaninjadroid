@@ -18,6 +18,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 
 	this.newHP;
 	this.isCharacterDead = false;
+	this.isThisHitTheFirstHit = false;
 
 	this.lvl = LVL;
 
@@ -28,11 +29,34 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 		this.setDEF();
 	}
 
+	this.resetClass = function()
+	{
+		this.hpMultiplier  = 1.0;
+		this.defMultiplier = 1.0;
+		this.atkMultiplier = 1.0;
+
+		this.modifiedHP = 0;
+		this.modifiedDEF = 0;
+		this.modifiedATK = 0;
+
+		this.newHP = 0;
+		this.isThisHitTheFirstHit = false;
+		this.isCharacterDead = false;
+	}
+
 	//call this when the character is hit to update HP
 	this.characterHasBeenHitSoCalculateNewHP = function(defenderDEF, attackerATK)
 	{
 		var netDamage = attackerATK - (defenderDEF * 0.5);
-		this.newHP = this.modifiedHP - (netDamage);
+		if (!this.isThisHitTheFirstHit) 
+		{
+			this.newHP = this.modifiedHP - (netDamage);
+			this.isThisHitTheFirstHit = true;
+		}
+		else
+		{
+			this.newHP -= netDamage;
+		}
 
 		if (this.newHP <= 0) 
 		{
@@ -70,7 +94,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 	{
 		if(!this.hasModifiedHPBeenSet)
 		{
-			this.modifiedHP = calculateModifiedStat(this.baseHP, this.hpMultiplier);
+			this.modifiedHP = this.calculateModifiedStat(this.baseHP, this.hpMultiplier);
 			this.hasModifiedHPBeenSet = true;
 		}
 	}
@@ -88,7 +112,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 
 	this.setDEF = function()
 	{
-		calculateModifiedStat(this.baseDEF, this.defMultiplier);
+		this.calculateModifiedStat(this.baseDEF, this.defMultiplier);
 	}
 
 	this.getDEF = function()
@@ -98,7 +122,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 
 	this.setATK = function()
 	{
-		calculateModifiedStat(this.baseATK, this.atkMultiplier);
+		this.calculateModifiedStat(this.baseATK, this.atkMultiplier);
 	}
 
 	this.getATK = function()
