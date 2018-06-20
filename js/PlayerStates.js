@@ -175,8 +175,7 @@ function PunchingState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    //this.animation = new Animation(punchingSheet, { fps: 16 });
-    this.animation = new Animation(parent, Images.getImage("PH_Android_Punch"), androidPunchData);
+    this.animation = new Animation(parent, Images.getImage("playerPunch"), playerPunchData);
 
     this.update = function () {
         // not applying gravity here is a feature, not an error
