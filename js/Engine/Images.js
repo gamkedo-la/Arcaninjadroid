@@ -38,7 +38,7 @@ function Images() {
 
             imageDict[imgName].src = fileNames[i];
 
-            console.log("Added '" + imgName + "' with path: " + fileNames[i]); // feel free to comment if this annoys you
+            //console.log("Added '" + imgName + "' with path: " + fileNames[i]); // uncomment for debug
 
             // The ordering of these lines might cause problems(?)
             img.onload = countLoadedImagesAndLaunchIfReady();
@@ -75,13 +75,21 @@ var fileNames = [
     //UI and menu art
     "images/UI/PH_menuScreen.png",
 
-    //Player anims
+    //Player
     "images/Characters/Player/playerUppercut.png",
     "images/Characters/Player/playerIdle.png",
     "images/Characters/Player/playerJump.png",
     "images/Characters/Player/playerCrouch.png",
     "images/Characters/Player/playerPunch.png",
 
+    //Kangarobot
+    "images/Characters/Kangarobot/kangarobotUppercut.png",
+    "images/Characters/Kangarobot/kangarobotIdle.png",
+    "images/Characters/Kangarobot/kangarobotJump.png",
+    "images/Characters/Kangarobot/kangarobotCrouch.png",
+    "images/Characters/Kangarobot/kangarobotPunch.png",
+    "images/Characters/Kangarobot/kangarobotWalk.png",
+    "images/Characters/Kangarobot/kangarobotStunned.png",
 
 
 ];

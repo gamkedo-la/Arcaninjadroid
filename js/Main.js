@@ -4,7 +4,7 @@ const ALLOW_FULLSCREEN = true; // go fullscreen if the user allows it
 var animationFrameNumber; //replaces the usual setInterval technique, which caused issues when window lost focus. Thanks Nick P. for the fix! :)
 
 var gameRunning = true;
-var debug = false; // global toggle for debug mode. Most notably, draws colliders on the screen
+var debug = true; // global toggle for debug mode. Most notably, draws colliders on the screen
 
 //Used to generate delta time
 var lastTime;

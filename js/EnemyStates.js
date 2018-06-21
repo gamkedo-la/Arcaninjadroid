@@ -3,7 +3,7 @@ function IdleEnemyState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("playerIdle"), playerIdleData, {loop : true});
+    this.animation = new Animation(parent, Images.getImage("kangarobotIdle"), kangarobotIdleData, {loop : true});
     
     this.update = function () {
 
