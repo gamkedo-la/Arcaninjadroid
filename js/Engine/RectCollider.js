@@ -116,7 +116,7 @@ function RectCollider (parent, width, height, config) {
     }
 
     this.getX = function () {
-        return parent.x + offsetX;
+        return parent.x + offsetX * (parent.flipped? -1 : 1);
     }
 
     this.getY = function () {

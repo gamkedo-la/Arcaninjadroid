@@ -17,7 +17,7 @@ function Character(x, y) {
 
     this.grounded = false;
     this.movable = true; //can be affected (pushed) by collisions
-    this.flipped = false;
+    this.flipped = false; //default direction is right
 
     this.draw = function () {
         if (this.trail) { this.trail.draw(this.x, this.y); }
