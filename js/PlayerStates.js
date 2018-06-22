@@ -171,11 +171,13 @@ JumpState.prototype = baseState;
 
 ////////////////////       Android regular punch state      /////////////////////////
 
-function PunchingState(parent, relatedStates) {
+function PunchState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
     this.animation = new Animation(parent, Images.getImage("playerPunch"), playerPunchData);
+
+    this.attackDamage = 10;
 
     this.update = function () {
         // not applying gravity here is a feature, not an error
@@ -201,7 +203,7 @@ function PunchingState(parent, relatedStates) {
     this.exit = function () {
     }
 };
-PunchingState.prototype = baseState;
+PunchState.prototype = baseState;
 
 
 ///////////////     Android uppercut (colloquially known as the "Sho-ryu-ken")      ///////////////
@@ -332,7 +334,7 @@ function PlayerStates(parent) {
     this.idleState = new IdleAndroidState(parent, this);
     this.crouchState = new CrouchState(parent, this);
     this.uppercutState = new UppercutState(parent, this);
-    this.punchingState = new PunchingState(parent, this);
+    this.punchingState = new PunchState(parent, this);
     this.jumpState = new JumpState(parent, this);
     this.sliceState = new SliceState(parent, this);
 

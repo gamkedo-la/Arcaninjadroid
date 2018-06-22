@@ -121,6 +121,10 @@ function StateMachine(defaultState) {
             console.log("No animation to access for state machine:", this);
         }
     }
+
+    this.getCurrentState = function () {
+        return currentState;
+    }
 }
 
 // The following is what is known in programming as an "interface". It defines a set of methods (update, enter, exit etc.) that any State object

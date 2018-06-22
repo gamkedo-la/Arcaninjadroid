@@ -25,6 +25,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 	this.setStats = function()
 	{
 		this.setModifiedHP();
+		this.newHP = this.modifiedHP;
 		this.setATK();
 		this.setDEF();
 	}
@@ -61,6 +62,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier)
 		if (this.newHP <= 0) 
 		{
 			this.isCharacterDead = true;
+			this.newHP = 0;
 		}
 		else
 		{

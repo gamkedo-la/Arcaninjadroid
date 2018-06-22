@@ -19,11 +19,23 @@ function Character(x, y) {
     this.movable = true; //can be affected (pushed) by collisions
     this.flipped = false; //default direction is right
 
+    let xpModule = new XPclass();
+    let stats = new StatsClass(xpModule.getCurrentLVL(), 1.0,1.0,1.0);
+    stats.setStats();
+
+    this.hitThisFrame = false;
+
     this.draw = function () {
         if (this.trail) { this.trail.draw(this.x, this.y); }
         this.getAnimation().draw();
         //this.feetCollider.draw();
         if (debug) {this.getAnimation().drawColliders();}
+    }
+
+    //Draws the good ol' red health bar
+    this.drawUI = function () {
+        let hpRatio = stats.getNewHP()/stats.getModifiedHP();
+        colorRect(this.x-8, this.y-16-5, 16*(hpRatio),2, "red"); //change for values to dynamically adapt to sprite?
     }
 
     this.groundCheck = function () {
@@ -63,6 +75,7 @@ function Character(x, y) {
 
     this.checkForHits = function (otherChar) {
 
+        if (this.hitThisFrame) {return;} //avoid multi-hits (or maybe we don't want to?)
         hit = otherChar.getHitboxes();
         hurt = this.getHurtboxes();
 
@@ -71,14 +84,20 @@ function Character(x, y) {
             for (var j = 0, k = hit.length; j < k; j++) {
                 if (hurt[i].intersects(hit[j])) {
                     this.gotHit(otherChar); //this method will go get the information and handle the hit
+                    break; //break...the game?
                 }
             }
         }
     };
 
     this.gotHit = function (otherChar) {
-        console.log("Got hit");
-        this.velocity.y = -this.jumpVelocity;
+        
+        let attackerState = otherChar.actionMachine.getCurrentState();
+        if (attackerState.attackDamage) {
+            stats.characterHasBeenHitSoCalculateNewHP(0,attackerState.attackDamage);
+            this.hitThisFrame = true;
+        }
+
     }
 
     this.getHurtboxes = function () {
@@ -108,6 +127,9 @@ function drawAllCharacters() {
     //loop from the end to draw player on top
     for (var i = characters.length - 1; i >= 0; i--) {
         characters[i].draw();
+    }
+    for (var i = characters.length - 1; i >= 0; i--) {
+        characters[i].drawUI();
     }
 }
 
@@ -141,7 +163,7 @@ function updateAllCharacters() {
 
     // Check for hits on hitbox-hurtbox
     for (var i = 0, l = characters.length; i < l; i++) {
-
+        characters[i].hitThisFrame = false;
         //this loop implies we can get hit by multiple attacks on a single frame
         for (var j = 0, l; j < l; j++) {
             if (i == j) { continue; } // to avoid hitting oneself

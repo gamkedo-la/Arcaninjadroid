@@ -12,6 +12,7 @@ function IdleEnemyState(parent,relatedStates) {
     this.update = function () {
 
         parent.applyBasicPhysics();
+        if (parent.hitThisFrame) {return states.stunnedState;} //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
     }
 
@@ -54,6 +55,7 @@ function WalkEnemyState(parent,relatedStates) {
     this.update = function () {
 
         parent.applyBasicPhysics();
+        if (parent.hitThisFrame) {return states.stunnedState;} //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
         parent.velocity.x = parent.walkSpeed;
 
     }
@@ -100,6 +102,7 @@ function JumpEnemyState(parent,relatedStates) {
     this.update = function () {
 
         parent.applyBasicPhysics();
+        if (parent.hitThisFrame) {return states.stunnedState;} //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
         if (parent.grounded) {
             return states.idleState;
@@ -133,12 +136,19 @@ function StunnedEnemyState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
+    let duration = 0.5; //seconds
+    let timer = duration;
+
     this.animation = parent.stunnedAnim;
     
     this.update = function () {
-
         parent.applyBasicPhysics();
 
+        timer -= dt;
+        if (timer <= 0) {
+            timer = duration;
+            return "previous";
+        }
     }
 
     this.handleInput = function () {
@@ -163,6 +173,7 @@ function CrouchEnemyState(parent,relatedStates) {
     this.update = function () {
 
         parent.applyBasicPhysics();
+        if (parent.hitThisFrame) {return states.stunnedState;} //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
     }
 
@@ -193,6 +204,7 @@ function UppercutEnemyState(parent,relatedStates) {
     this.update = function () {
 
         parent.applyBasicPhysics();
+        if (parent.hitThisFrame) {return states.stunnedState;} //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
         if (this.animation.isActive === false) {
             return states.idleState;
@@ -222,6 +234,7 @@ function PunchEnemyState(parent,relatedStates) {
     this.update = function () {
 
         parent.applyBasicPhysics();
+        if (parent.hitThisFrame) {return states.stunnedState;} //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
         if (this.animation.isActive === false) {
             return states.idleState;
