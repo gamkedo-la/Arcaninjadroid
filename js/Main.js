@@ -55,7 +55,6 @@ window.onload = function () {
 
     Images.loadImages(); // if we called this in Images.js, the game might start before the canvas is created
 
-    startAudio();
 
 };
 

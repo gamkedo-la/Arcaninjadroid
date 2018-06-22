@@ -41,6 +41,12 @@ function InGameState() {
 
     this.enter = function () {
         justEntered = true;
+
+        if (currentMusic.getPaused() === true){
+            startAudio();
+        }
+
+
     };
 
     this.exit = function () {
@@ -75,11 +81,11 @@ function PauseState() {
   };
 
   this.enter = function () {
-    console.log("entering pause menu");
+    pauseAudio();
   };
 
   this.exit = function () {
-    console.log("exiting pause menu");
+    resumeAudio();
   };
 }
 PauseState.prototype = baseState;
@@ -113,7 +119,7 @@ function MainMenuState() {
 }
 MainMenuState.prototype = baseState;
 
-//GameStates.inGameState = new InGameState();
+
 var GameStates = {
     inGameState: new InGameState(),
     mainMenuState: new MainMenuState(),
