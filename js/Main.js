@@ -169,6 +169,8 @@ function updateAll() {
 
     animationFrameNumber = requestAnimationFrame(updateAll); //once we're done, we ask for the next animation frame
     // when received, we'll update again!
+
+    AudioEventManager.updateEvents();
 }
 
 
