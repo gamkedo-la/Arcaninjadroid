@@ -55,6 +55,8 @@ window.onload = function () {
 
     Images.loadImages(); // if we called this in Images.js, the game might start before the canvas is created
 
+    startAudio();
+
 };
 
 function windowOnResize() {
@@ -116,11 +118,13 @@ function windowOnFocus() {
     if (!gameRunning) {
         gameRunning = true;
         animationFrameNumber = requestAnimationFrame(updateAll);
+        resumeAudio();
     }
 }
 function windowOnBlur() {
     gameRunning = false;
     cancelAnimationFrame(animationFrameNumber);
+    pauseAudio();
 }
 
 
