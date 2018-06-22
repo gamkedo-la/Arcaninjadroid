@@ -12,11 +12,11 @@ var playerCrouchData = { "frames": [
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.8-x64",
-  "image": "C:\\Users\\Remy\\Documents\\Gamkedo\\Arcaninjadroid\\images\\Characters\\Player\\playerCrouch.png",
   "format": "RGBA8888",
   "size": { "w": 32, "h": 32 },
   "scale": "1",
   "slices": [
+   { "name": "Hurt", "color": "#6acd5bff", "keys": [ { "frame": 0, "bounds": {"x": 5, "y": 19, "w": 19, "h": 13 } }] },
   ]
  }
 }
