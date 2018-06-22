@@ -37,10 +37,10 @@ function Animation (parent, image, data, config) {
     }
 
     // we want to hold the last frame because there's only one frame
-    if (frameCount === 1){
+    /*if (frameCount === 1){
         holdLastFrame = true;
         holding = true;
-    };
+    };*/
 
     // Save clip values and update when we change frame
     var clipStartX = 0;

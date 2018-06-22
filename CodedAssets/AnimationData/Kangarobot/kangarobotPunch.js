@@ -15,7 +15,7 @@ var kangarobotPunchData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 300
+    "duration": 350
    },
    {
     "filename": "kangarobotPunch 2.ase",
@@ -24,7 +24,7 @@ var kangarobotPunchData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 300
+    "duration": 150
    },
    {
     "filename": "kangarobotPunch 3.ase",
@@ -33,7 +33,7 @@ var kangarobotPunchData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 300
+    "duration": 50
    }
  ],
  "meta": {

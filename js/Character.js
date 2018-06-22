@@ -65,7 +65,7 @@ function Character(x, y) {
 
         hit = otherChar.getHitboxes();
         hurt = this.getHurtboxes();
-        //console.log(hurt);
+
         // This double loop is not as costly as it may seem, as there is no way we'll have more than 3 hitboxes/hurtboxes on a given character
         for (var i = 0, l = hurt.length; i < l; i++) {
             for (var j = 0, k = hit.length; j < k; j++) {
@@ -77,6 +77,7 @@ function Character(x, y) {
     };
 
     this.gotHit = function (otherChar) {
+        console.log("Got hit");
         this.velocity.y = -this.jumpVelocity;
     }
 

@@ -66,10 +66,10 @@ function CrouchState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    //this.animation = new Animation(crouchSheet);
-    this.animation = new Animation(parent, Images.getImage("playerCrouch"), playerCrouchData);
+    this.animation = new Animation(parent, Images.getImage("playerCrouch"), playerCrouchData, {holdLastFrame:true});
 
     this.update = function () {
+
     }
 
     this.handleInput = function () {
@@ -336,7 +336,7 @@ function PlayerStates(parent) {
     this.jumpState = new JumpState(parent, this);
     this.sliceState = new SliceState(parent, this);
 
-    this.initial = this.idleState;
+    this.initial = this.jumpState;
 }
 
 function DummyStates() {
