@@ -73,7 +73,8 @@ var fileNames = [
     "images/Backgrounds/moonlitForest.png",
 
     //UI and menu art
-    "images/UI/PH_menuScreen.png",
+    "images/UI/mainMenu.png",
+    "images/UI/gamePaused.png",
 
     //Player
     "images/Characters/Player/playerUppercut.png",

@@ -53,6 +53,18 @@ function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
     canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
 }
 
+function colorRectAlpha(topLeftX, topLeftY, boxWidth, boxHeight, fillColorAlpha) {
+
+    // Support for the default named colors like "purple"
+    if (Array.isArray(fillColorAlpha) === false) {
+        canvasContext.fillStyle = fillColorAlpha;
+    } else {
+        canvasContext.fillStyle = "rgba(" + fillColorAlpha[0] + "," + fillColorAlpha[1] + "," + fillColorAlpha[2] + "," + fillColorAlpha[3] + ")";
+    } //generate the color from the rgba array
+
+    canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
+}
+
 function colorRectScaled(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
 
     scaledContext.fillStyle = fillColor;

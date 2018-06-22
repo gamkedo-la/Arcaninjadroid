@@ -50,23 +50,28 @@ function InGameState() {
 InGameState.prototype = baseState;
 
 function PauseState() {
-  this.background = Images.getImage("PH_menuScreen");// this is placeholder for now change.
+  this.background = Images.getImage("moonlitForest");
+  var gamePausedText = Images.getImage("gamePaused");
 
   this.update = function () {
   };
 
   this.handleInput = function () {
-      if (Input.getKeyDown("enter")) {
-          return GameStates.inGameState;
-      }
-      if (Input.getKeyDown("escape")) {
-          return GameStates.mainMenuState;
-      }
+    if (Input.getKeyDown("p")) {
+        return GameStates.inGameState;
+    }
+    if (Input.getKeyDown("escape")) {
+        return GameStates.mainMenuState;
+    }
   };
 
   this.draw = function () {
-      canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-      canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+        canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+        drawAllCharacters();
+        drawAllTerrain();
+        colorRectAlpha(0,0,canvas.width,canvas.height,[0,0,0,0.65]);
+        canvasContext.drawImage(gamePausedText, 0, 35);
   };
 
   this.enter = function () {
@@ -81,7 +86,7 @@ PauseState.prototype = baseState;
 
 function MainMenuState() {
 
-    this.background = Images.getImage("PH_menuScreen");
+    this.background = Images.getImage("mainMenu");
 
     this.update = function () {
 
