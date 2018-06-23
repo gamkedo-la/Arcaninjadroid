@@ -17,6 +17,7 @@ var playerUppercutData = { "frames": [
   "size": { "w": 32, "h": 32 },
   "scale": "1",
   "slices": [
+    { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 0, "bounds": {"x": 14, "y": 12, "w": 18, "h": 7 } }] }
   ]
  }
 }

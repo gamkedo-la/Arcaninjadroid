@@ -75,7 +75,7 @@ function CrouchState(parent, relatedStates) {
     this.handleInput = function () {
 
         if (Input.getKey("s") === false) {
-            return "previous";
+            return states.idleState;
         }
 
         if (Input.getLeftClick()) {
@@ -186,7 +186,11 @@ function PunchState(parent, relatedStates) {
     this.handleInput = function () {
 
         if (this.animation.isActive === false) {
-            return "previous";
+            if (Input.getKey("s")) {
+                return states.crouchState;
+            } else {
+                return "previous";
+            }
         }
         if (Input.getLeftClick()) {
             if (Input.getMouseY() < ninjaZoneBeginningY) {
@@ -215,12 +219,14 @@ function UppercutState(parent, relatedStates) {
 
     this.animation = new Animation(parent, Images.getImage("playerUppercut"), playerUppercutData, { loop: false, holdLastFrame: true });
 
-
+    this.knockup = true;
 
     this.update = function () {
 
         if (parent.grounded) {
-            return states.idleState;
+            if (Input.getKey("s")) {
+                return states.crouchState;
+            } else {return states.idleState;}
         }
 
         parent.applyBasicPhysics();

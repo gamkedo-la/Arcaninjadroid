@@ -13,7 +13,7 @@ function IdleEnemyState(parent,relatedStates) {
 
         parent.applyBasicPhysics();
         if (parent.hitThisFrame) {return states.stunnedState;} //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
-
+        if (parent.knockupThisFrame) {return states.knockupState;}
     }
 
     this.handleInput = function () {
@@ -164,6 +164,48 @@ StunnedEnemyState.prototype = baseState;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function KnockupEnemyState(parent,relatedStates) {
+    var parent = parent;
+    var states = relatedStates;
+
+    let duration = 2.5; //seconds
+    let timer = duration;
+
+    this.animation = parent.stunnedAnim;
+    
+    this.update = function () {
+
+        if (parent.grounded) {
+            timer = duration;
+            return states.idleState;
+        }
+
+        if (parent.velocity.y < 0){
+            parent.applyKnockupPhysics();
+        }
+        else if (parent.velocity.y >= 0){
+            timer -= dt;
+        }
+
+        if (timer <= 0) {
+            parent.applyKnockupPhysics();
+        }
+    }
+
+    this.handleInput = function () {
+
+    }
+
+    this.enter = function () {
+        parent.velocity.x = 15 * randomMin1To1();
+        parent.velocity.y = -15;
+    }
+    this.exit = function () {
+    }
+}
+KnockupEnemyState.prototype = baseState;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function CrouchEnemyState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
@@ -265,6 +307,7 @@ function EnemyStates(parent) {
     this.stunnedState = new StunnedEnemyState(parent,this);
     this.punchState = new PunchEnemyState(parent,this);
     this.jumpState = new JumpEnemyState(parent,this);
+    this.knockupState = new KnockupEnemyState(parent,this);
 
 
     this.initial = this.jumpState;

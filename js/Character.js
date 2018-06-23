@@ -24,6 +24,7 @@ function Character(x, y) {
     stats.setStats();
 
     this.hitThisFrame = false;
+    this.knockupThisFrame = false;
 
     this.alive = true;
     this.explosionSequence = [robotExplosionParticlesConfig1, robotExplosionParticlesConfig2, robotExplosionParticlesConfig3];
@@ -76,6 +77,20 @@ function Character(x, y) {
         if (Math.abs(this.velocity.y) < 0.1) this.velocity.y = 0;
     }
 
+    this.applyKnockupPhysics = function () {
+
+        this.velocity.y += 0.45;
+
+        this.x = Math.round(this.x + this.velocity.x);
+        this.y = Math.round(this.y + this.velocity.y);
+
+        this.velocity.x *= 0.55;
+        this.velocity.y *= 0.55;
+
+        if (Math.abs(this.velocity.x) < 0.1) this.velocity.x = 0;
+        if (Math.abs(this.velocity.y) < 0.1) this.velocity.y = 0;
+    }
+
     this.checkForHits = function (otherChar) {
 
         if (this.hitThisFrame) { return; } //avoid multi-hits (or maybe we don't want to?)
@@ -96,6 +111,7 @@ function Character(x, y) {
     this.gotHit = function (otherChar) {
 
         let attackerState = otherChar.actionMachine.getCurrentState();
+
         if (attackerState.attackDamage) {
             stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
             this.hitThisFrame = true;
@@ -108,6 +124,9 @@ function Character(x, y) {
                     new ParticleEmitter(this.x, this.y, this.explosionSequence[i]);
                 }
             }
+        }
+        if (attackerState.knockup) {
+            this.knockupThisFrame = true;
         }
 
     }
@@ -138,11 +157,9 @@ function Character(x, y) {
 function drawAllCharacters() {
     //loop from the end to draw player on top
     for (var i = characters.length - 1; i >= 0; i--) {
-        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].draw();
     }
     for (var i = characters.length - 1; i >= 0; i--) {
-        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].drawUI();
     }
 }
@@ -152,37 +169,39 @@ function updateAllCharacters() {
 
     // Update all anims. Remember that anims are not just visuals, they influence colliders and behaviours, hence why they are updated first
     for (var i = 0, l = characters.length; i < l; i++) {
-
-        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].actionMachine.updateAnimation(); //state changes are handled based on animation durations, so we update anims first
     }
 
     // Update all state machines
     for (var i = 0, l = characters.length; i < l; i++) {
-        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].actionMachine.update();
     }
 
     // Ground checks
     for (var i = 0, l = characters.length; i < l; i++) {
-        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].groundCheck();
     }
 
     // Bounds checks
     for (var i = 0, l = characters.length; i < l; i++) {
-        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].boundsCheck();
     }
 
     // Check for hits on hitbox-hurtbox
     for (var i = 0, l = characters.length; i < l; i++) {
-        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].hitThisFrame = false;
+        characters[i].knockupThisFrame = false;
         //this loop implies we can get hit by multiple attacks on a single frame
         for (var j = 0, l; j < l; j++) {
             if (i == j) { continue; } // to avoid hitting oneself
             characters[i].checkForHits(characters[j]);
+        }
+    }
+
+    // Remove dead characters
+    for (var i = characters.length-1, l = 0; i >= l; i--) {
+        if (characters[i].alive === false) {
+            characters.splice(1,i); //linear array for removal is O(N), might change if we have many enemies
         }
     }
 
