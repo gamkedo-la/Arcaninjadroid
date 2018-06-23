@@ -20,7 +20,7 @@ function Character(x, y) {
     this.flipped = false; //default direction is right
 
     let xpModule = new XPclass();
-    let stats = new StatsClass(xpModule.getCurrentLVL(), 1.0,1.0,1.0);
+    let stats = new StatsClass(xpModule.getCurrentLVL(), 1.0, 1.0, 1.0);
     stats.setStats();
 
     this.hitThisFrame = false;
@@ -29,13 +29,13 @@ function Character(x, y) {
         if (this.trail) { this.trail.draw(this.x, this.y); }
         this.getAnimation().draw();
         //this.feetCollider.draw();
-        if (debug) {this.getAnimation().drawColliders();}
+        if (debug) { this.getAnimation().drawColliders(); }
     }
 
     //Draws the good ol' red health bar
     this.drawUI = function () {
-        let hpRatio = stats.getNewHP()/stats.getModifiedHP();
-        colorRect(this.x-8, this.y-16-5, 16*(hpRatio),2, "red"); //change for values to dynamically adapt to sprite?
+        let hpRatio = stats.getNewHP() / stats.getModifiedHP();
+        colorRect(this.x - 8, this.y - 16 - 5, 16 * (hpRatio), 2, "red"); //change for values to dynamically adapt to sprite?
     }
 
     this.groundCheck = function () {
@@ -75,7 +75,7 @@ function Character(x, y) {
 
     this.checkForHits = function (otherChar) {
 
-        if (this.hitThisFrame) {return;} //avoid multi-hits (or maybe we don't want to?)
+        if (this.hitThisFrame) { return; } //avoid multi-hits (or maybe we don't want to?)
         hit = otherChar.getHitboxes();
         hurt = this.getHurtboxes();
 
@@ -91,10 +91,10 @@ function Character(x, y) {
     };
 
     this.gotHit = function (otherChar) {
-        
+
         let attackerState = otherChar.actionMachine.getCurrentState();
         if (attackerState.attackDamage) {
-            stats.characterHasBeenHitSoCalculateNewHP(0,attackerState.attackDamage);
+            stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
             this.hitThisFrame = true;
         }
 

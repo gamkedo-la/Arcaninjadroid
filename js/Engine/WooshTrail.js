@@ -2,12 +2,13 @@
 // not a particle system; just one sprite that never dies
 // and gets stretched around a path based on player movement
 
-function WooshTrail() {
+function WooshTrail(imageName) {
 
     // private vars
     let trailImage = null;
     let trailXY = []; // list of previous positions
-    let wooshImage = Images.getImage("wooshTrail");
+    if (!imageName) imageName = "wooshTrail";
+    let wooshImage = Images.getImage(imageName);
     let trailMaxLength = 10;
 
     // public funcs
@@ -18,7 +19,7 @@ function WooshTrail() {
         if (trailXY.length != 0 && newX == trailXY[0].x && newY == trailXY[0].y) {
             trailXY = [{ x: newX, y: newY }]; //saves the current pos here until we trigger a change
             //console.log("Here")
-            return; 
+            return;
         }
         // add current position to the list
         trailXY.push({ x: newX, y: newY }); // not super happy about new objects being created here
