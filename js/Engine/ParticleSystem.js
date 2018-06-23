@@ -65,6 +65,7 @@ function ParticleEmitter (x,y,config) {
 
     this.fadeAlpha = config.fadeAlpha || false; //fades the alpha over the particle's lifetime
     this.fadeSize = config.fadeSize || false;
+    this.fadeSpeed = config.fadeSpeed || false;
 
     this.gravity = config.gravity || 0;
 
@@ -146,6 +147,10 @@ function ParticleEmitter (x,y,config) {
             if (particle.fadeSize) {
                 particle.size = particle.originalSize * ageRatio;
             }
+            if (particle.fadeSpeed) {
+                particle.velocity.x = particle.originalSpeedX * ageRatio;
+                particle.velocity.y = particle.originalSpeedY * ageRatio;
+            }
 
         } else {
             this.toSwap.push(particleIndex); //particle died this frame, we'll need to swap this one once we're done updating everyone else
@@ -172,9 +177,11 @@ function ParticleEmitter (x,y,config) {
         p.size = p.originalSize;
         p.angle = this.angle + this.angleVar*randomMin1To1();
 
+        p.originalSpeedX = (this.speed + this.speedVar*randomMin1To1()) * Math.cos(p.angle);
+        p.originalSpeedY = -(this.speed+ this.speedVar*randomMin1To1()) * Math.sin(p.angle); //minus because y axis points down;
         p.velocity = {
-            x: (this.speed + this.speedVar*randomMin1To1()) * Math.cos(p.angle),
-            y: -(this.speed+ this.speedVar*randomMin1To1()) * Math.sin(p.angle), //minus because y axis points down
+            x: p.originalSpeedX,
+            y: p.originalSpeedY, //minus because y axis points down
         };
 
 
@@ -210,6 +217,7 @@ function ParticleEmitter (x,y,config) {
 
         p.fadeAlpha = this.fadeAlpha;
         p.fadeSize = this.fadeSize;
+        p.fadeSpeed = this.fadeSpeed;
 
         p.gravity = this.gravity;
 
@@ -299,7 +307,8 @@ ParticleRenderer = {
                 this.tintAndDraw(particle,context);
 
             } else {
-                context.drawImage(particle.texture, particle.x-particle.size/2, particle.y-particle.size/2, particle.size, particle.size);               
+                drawBitmapWithRotation(particle.texture,particle.x - particle.texture.width, particle.y - particle.texture.height, particle.angle);
+                //context.drawImage(particle.texture, particle.x-particle.size/2, particle.y-particle.size/2, particle.size, particle.size);               
             }
             
             context.globalAlpha = 1;

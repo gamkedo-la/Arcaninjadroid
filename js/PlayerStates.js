@@ -177,7 +177,7 @@ function PunchState(parent, relatedStates) {
 
     this.animation = new Animation(parent, Images.getImage("playerPunch"), playerPunchData);
 
-    this.attackDamage = 10;
+    this.attackDamage = 100;
 
     this.update = function () {
         // not applying gravity here is a feature, not an error

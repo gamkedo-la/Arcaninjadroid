@@ -25,6 +25,9 @@ function Character(x, y) {
 
     this.hitThisFrame = false;
 
+    this.alive = true;
+    this.explosionSequence = [robotExplosionParticlesConfig1, robotExplosionParticlesConfig2, robotExplosionParticlesConfig3];
+
     this.draw = function () {
         if (this.trail) { this.trail.draw(this.x, this.y); }
         this.getAnimation().draw();
@@ -96,6 +99,15 @@ function Character(x, y) {
         if (attackerState.attackDamage) {
             stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
             this.hitThisFrame = true;
+
+            //handle death
+            if (stats.getNewHP() <= 0) {
+                this.alive = false;
+                //characters.splice(1,characters.indexOf(this));
+                for (var i = 0, l = this.explosionSequence.length; i < l; i++) {
+                    new ParticleEmitter(this.x, this.y, this.explosionSequence[i]);
+                }
+            }
         }
 
     }
@@ -126,43 +138,46 @@ function Character(x, y) {
 function drawAllCharacters() {
     //loop from the end to draw player on top
     for (var i = characters.length - 1; i >= 0; i--) {
+        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].draw();
     }
     for (var i = characters.length - 1; i >= 0; i--) {
+        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].drawUI();
     }
 }
 
 function updateAllCharacters() {
 
-    // TODO: these could all be in a single loop
 
     // Update all anims. Remember that anims are not just visuals, they influence colliders and behaviours, hence why they are updated first
     for (var i = 0, l = characters.length; i < l; i++) {
 
+        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].actionMachine.updateAnimation(); //state changes are handled based on animation durations, so we update anims first
     }
 
     // Update all state machines
     for (var i = 0, l = characters.length; i < l; i++) {
-
+        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].actionMachine.update();
     }
 
     // Ground checks
     for (var i = 0, l = characters.length; i < l; i++) {
-
+        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].groundCheck();
     }
 
     // Bounds checks
     for (var i = 0, l = characters.length; i < l; i++) {
-
+        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].boundsCheck();
     }
 
     // Check for hits on hitbox-hurtbox
     for (var i = 0, l = characters.length; i < l; i++) {
+        if (characters[i].alive === false) {continue;} //placeholder until we have pooling
         characters[i].hitThisFrame = false;
         //this loop implies we can get hit by multiple attacks on a single frame
         for (var j = 0, l; j < l; j++) {
