@@ -11,8 +11,10 @@ function Kangarobot(x, y) {
     char.uppercutAnim = new Animation(char, Images.getImage("kangarobotUppercut"), kangarobotUppercutData);
     char.crouchAnim = new Animation(char, Images.getImage("kangarobotCrouch"), kangarobotCrouchData, { loop: true });
     char.stunnedAnim = new Animation(char, Images.getImage("kangarobotStunned"), kangarobotStunnedData, { loop: true });
+    char.knockedUpAnim = new Animation(char, Images.getImage("kangarobotStunned"), kangarobotKnockedUpData, { loop: true });
 
     char.walkSpeed = 0.75;
+    char.slicesNeeded = 3;
 
     var states = new EnemyStates(char);
 
@@ -27,6 +29,8 @@ function Kangarobot(x, y) {
 }
 
 // Demo until we have a level format with spawn points etc.
-var kangarobot = new Kangarobot(150, 60);
+var kangarobot = new Kangarobot(200, 60);
 var kangarobot2 = new Kangarobot(50, 60);
+var kangarobot3 = new Kangarobot(150, 60);
+var kangarobot4 = new Kangarobot(100, 60);
 kangarobot.flipped = true;

@@ -242,6 +242,7 @@ UppercutState.prototype = baseState;
 
 /////////////////      Ninja slice state     ///////////////////
 function SliceState(parent, relatedStates) {
+    this.sliceProperty = true; //jank
     var parent = parent;
     let states = relatedStates;
 
@@ -258,32 +259,54 @@ function SliceState(parent, relatedStates) {
 
     let dashDone = false;
 
-    this.animation = new Animation(parent, Images.getImage("playerUppercut"), playerUppercutData, { loop: false, holdLastFrame: true });
+    var target;
+    let remainingSlices = 7;
+
+    this.lockedOn = false; //modified in Character.gotHit()
+
+    let sliceAnim = new Animation(parent, Images.getImage("playerUppercut"), playerSliceData, { loop: false, holdLastFrame: true });
+    let lockAnim = new Animation(parent, Images.getImage("playerJump"), playerJumpData, {loop : true});
+    this.animation = sliceAnim;
+
+    this.lockOn = function (char) {
+        this.animation = lockAnim;
+        this.lockedOn = true;
+        target = char;
+        if (target.slicesNeeded) {remainingSlices = target.slicesNeeded; }
+        else {remainingSlices = 7}
+
+        parent.x = target.x;
+        parent.y = target.y;
+        console.log(target);
+    }
+    this.unlock = function () {
+        this.animation = sliceAnim;
+        this.lockedOn = false;
+        target.lockedOnto = false;
+        //target = null;
+        console.log("unlock");
+    }
 
     this.update = function () {
 
         if (parent.y > ninjaZoneBeginningY) {
             return states.jumpState;
         }
-        
-        parent.x += dx;
-        parent.y += dy;
 
-        if (!dashDone) { 
-            if ((dx >= 0 && parent.x > destination.x) || (dx < 0 && parent.x < destination.x)) {
-                dx = 0;
-                parent.x = destination.x;
-                dashDone = true;
-            }
-            if ((dy >= 0 && parent.y > destination.y) || (dy < 0 && parent.y < destination.y)) {
-                dy = 0;
-                parent.y = destination.y;
-                dashDone = true;
+        if (!dashDone && !this.lockedOn) {
+            parent.x += dx;
+            parent.y += dy;
+            if ((dx >= 0 && parent.x > destination.x) || (dx < 0 && parent.x < destination.x) || (dy >= 0 && parent.y > destination.y) || (dy < 0 && parent.y < destination.y)) {
+                this.finishDash();
             }
         } else {
-            parent.applyBasicPhysics();
-        }
+            timer -= dt;
+            if (timer <= 0) {
+                return states.jumpState;
+                //parent.applyBasicPhysics();
+            }
 
+        }
 
         if (parent.grounded) {
             return states.idleState;
@@ -291,17 +314,37 @@ function SliceState(parent, relatedStates) {
 
     }
 
+    this.finishDash = function () {
+        dx = dy = 0;
+        dashDone = true;
+        parent.x = destination.x;
+        parent.y = destination.y;
+        parent.boundsCheck();
+    }
+
     this.handleInput = function () {
 
         if (Input.getKeyDown("z")) {
 
-            return this;
+            if (this.lockedOn === false){
+                return this;
+            }
+            else {
+                remainingSlices--;
+                console.log("tick");
+                if (remainingSlices <= 0) {
+                    target.die();
+                    this.unlock();
+                    return states.jumpState;
+                }
+            }
         }
     }
 
     this.changeDirection = function () {
 
         dashDone = false;
+        parent.boundsCheck();
 
         let xMult = 0;
         let yMult = 0;
@@ -329,7 +372,7 @@ function SliceState(parent, relatedStates) {
 
         var xDiff = destination.x - parent.x;
         var yDiff = destination.y - parent.y;
-        //console.log(xDiff**2 + yDiff**2);
+
         if (xDiff === 0) {
             theta = Math.PI / 2;
         } else {
@@ -349,10 +392,12 @@ function SliceState(parent, relatedStates) {
     this.enter = function () {
 
         this.changeDirection();
+        timer = gravityDelay;
 
     }
 
     this.exit = function () {
+        if (this.lockedOn) { this.unlock();}
     }
 };
 SliceState.prototype = baseState;

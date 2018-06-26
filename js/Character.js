@@ -12,12 +12,13 @@ function Character(x, y) {
 
     this.walkSpeed = 1.75;
     this.jumpVelocity = 8; //initial y velocity when jumping
+    this.slicesNeeded = 2;
 
     this.feetCollider = new RectCollider(this, 20, 0.2, { offsetY: 12 });
 
     this.grounded = false;
     this.movable = true; //can be affected (pushed) by collisions
-    this.flipped = false; //default direction is right
+    this.flipped = false; //non-flipped is facing right
 
     let xpModule = new XPclass();
     let stats = new StatsClass(xpModule.getCurrentLVL(), 1.0, 1.0, 1.0);
@@ -25,6 +26,7 @@ function Character(x, y) {
 
     this.hitThisFrame = false;
     this.knockupThisFrame = false;
+    this.lockedOnto = false;
 
     this.alive = true;
     this.explosionSequence = [robotExplosionParticlesConfig1, robotExplosionParticlesConfig2, robotExplosionParticlesConfig3];
@@ -59,6 +61,11 @@ function Character(x, y) {
             this.x = ORIG_WORLD_W;
         } else if (this.x < 0) {
             this.x = 0;
+        }
+        if (this.y > ORIG_WORLD_H) {
+            this.y = ORIG_WORLD_H;
+        } else if (this.y < 0) {
+            this.y = 0;
         }
     };
 
@@ -110,25 +117,42 @@ function Character(x, y) {
 
     this.gotHit = function (otherChar) {
 
+        //console.log("hit");
+        let myState = this.actionMachine.getCurrentState();
         let attackerState = otherChar.actionMachine.getCurrentState();
 
         if (attackerState.attackDamage) {
             stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
             this.hitThisFrame = true;
+            if(myState.onHit) { myState.onHit(); }
 
             //handle death
             if (stats.getNewHP() <= 0) {
-                this.alive = false;
-                //characters.splice(1,characters.indexOf(this));
-                for (var i = 0, l = this.explosionSequence.length; i < l; i++) {
-                    new ParticleEmitter(this.x, this.y, this.explosionSequence[i]);
-                }
+                this.die();
             }
         }
         if (attackerState.knockup) {
             this.knockupThisFrame = true;
         }
+        if (attackerState.sliceProperty) {
+            if (attackerState.lockedOn === false && this.lockedOnto === false) {
+                attackerState.lockOn(this);
+                this.lockedOnto = true;
+                console.log("lockon");
+            }
+        }
 
+    }
+
+    this.die = function () {
+        this.alive = false;
+        if (Array.isArray(this.explosionSequence)) {
+            for (var i = 0, l = this.explosionSequence.length; i < l; i++) {
+                new ParticleEmitter(this.x, this.y, this.explosionSequence[i]);
+            }
+        } else {
+            new ParticleEmitter(this.x, this.y, this.explosionSequence);
+        }
     }
 
     this.getHurtboxes = function () {
@@ -201,7 +225,7 @@ function updateAllCharacters() {
     // Remove dead characters
     for (var i = characters.length-1, l = 0; i >= l; i--) {
         if (characters[i].alive === false) {
-            characters.splice(1,i); //linear array for removal is O(N), might change if we have many enemies
+            characters.splice(i,1); //linear array for removal is O(N), might change if we have many enemies
         }
     }
 

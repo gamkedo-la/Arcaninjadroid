@@ -35,7 +35,9 @@ function IdleEnemyState(parent,relatedStates) {
             return states.crouchState;
         }
     }
-
+    this.onHit = function () {
+        console.log("hit");
+    }
     this.enter = function () {
         parent.velocity.x = 0;
     }
@@ -51,7 +53,7 @@ function WalkEnemyState(parent,relatedStates) {
     var states = relatedStates;
 
     this.animation = parent.walkAnim;
-    
+
     this.update = function () {
 
         parent.applyBasicPhysics();
@@ -83,7 +85,10 @@ function WalkEnemyState(parent,relatedStates) {
         }
 
     }
-
+    
+    this.onHit = function () {
+        console.log("hit");
+    }
     this.enter = function () {
 
     }
@@ -171,13 +176,14 @@ function KnockupEnemyState(parent,relatedStates) {
     let duration = 2.5; //seconds
     let timer = duration;
 
-    let sliceCounterMax = 3;
-    let sliceCounter = sliceCounterMax;
+    //let sliceCounterMax = 3;
+    //let sliceCounter = sliceCounterMax;
 
-    this.animation = parent.stunnedAnim;
+    this.animation = parent.knockedUpAnim;
     
     this.update = function () {
 
+        if (parent.lockedOnto) {return; }
         if (parent.grounded) {
             timer = duration;
             return states.idleState;
@@ -203,7 +209,7 @@ function KnockupEnemyState(parent,relatedStates) {
         parent.velocity.x = 15 * randomMin1To1();
         parent.velocity.y = -15;
 
-        sliceCounter = sliceCounterMax; //reset slice counter
+        //sliceCounter = sliceCounterMax; //reset slice counter
     }
     this.exit = function () {
     }
