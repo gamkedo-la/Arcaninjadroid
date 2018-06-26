@@ -135,6 +135,7 @@ function Character(x, y) {
             this.knockupThisFrame = true;
         }
         if (attackerState.sliceProperty) {
+            if (this.grounded) {return;}
             if (attackerState.lockedOn === false && this.lockedOnto === false) {
                 attackerState.lockOn(this);
                 this.lockedOnto = true;

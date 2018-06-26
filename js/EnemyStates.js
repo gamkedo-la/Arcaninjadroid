@@ -13,7 +13,10 @@ function IdleEnemyState(parent,relatedStates) {
 
         parent.applyBasicPhysics();
         if (parent.hitThisFrame) {return states.stunnedState;} //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
-        if (parent.knockupThisFrame) {return states.knockupState;}
+        if (parent.knockupThisFrame) {
+            parent.velocity.y = -15;
+            return states.knockupState;
+        }
     }
 
     this.handleInput = function () {
@@ -147,7 +150,7 @@ function StunnedEnemyState(parent,relatedStates) {
     this.animation = parent.stunnedAnim;
     
     this.update = function () {
-        parent.applyBasicPhysics();
+        //parent.applyBasicPhysics();
 
         timer -= dt;
         if (timer <= 0) {
@@ -176,14 +179,14 @@ function KnockupEnemyState(parent,relatedStates) {
     let duration = 2.5; //seconds
     let timer = duration;
 
-    //let sliceCounterMax = 3;
-    //let sliceCounter = sliceCounterMax;
 
     this.animation = parent.knockedUpAnim;
     
     this.update = function () {
 
         if (parent.lockedOnto) {return; }
+
+        if (parent.hitThisFrame) {return states.stunnedState;}
         if (parent.grounded) {
             timer = duration;
             return states.idleState;
@@ -206,10 +209,8 @@ function KnockupEnemyState(parent,relatedStates) {
     }
 
     this.enter = function () {
-        parent.velocity.x = 15 * randomMin1To1();
-        parent.velocity.y = -15;
+        //parent.velocity.x = 15 * randomMin1To1();
 
-        //sliceCounter = sliceCounterMax; //reset slice counter
     }
     this.exit = function () {
     }

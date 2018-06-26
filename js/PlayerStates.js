@@ -32,6 +32,7 @@ function IdleAndroidState(parent, relatedStates) {
 
         // Basic movement
         if (Input.getKey("up")) {
+            parent.velocity.y = -parent.jumpVelocity;
             return states.jumpState;
         } else if (Input.getKey("down")) {
             return states.crouchState;
@@ -145,11 +146,9 @@ function JumpState(parent, relatedStates) {
     }
 
     this.enter = function () {
-        //console.log("enter");
         this.fastfall = false;
-        parent.velocity.y = -parent.jumpVelocity;
         parent.grounded = false;
-        parent.y -= 10;
+        parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
     }
     this.exit = function () {
     }
@@ -215,13 +214,7 @@ function UppercutState(parent, relatedStates) {
     }
 
     this.handleInput = function () {
-        if (Input.getLeftClick()) {
-            if (Input.getMouseY() < ninjaZoneBeginningY) {
-                return states.sliceState;
-            } else {
-                // do something cool here :) ?
-            }
-        }
+
     }
 
     this.enter = function () {
@@ -289,8 +282,9 @@ function SliceState(parent, relatedStates) {
 
     this.update = function () {
 
-        if (parent.y > ninjaZoneBeginningY) {
-            return states.jumpState;
+        if (parent.y > 105) {
+            parent.y = GROUNDED_Y;
+            return states.crouchState;
         }
 
         if (!dashDone && !this.lockedOn) {
@@ -335,6 +329,7 @@ function SliceState(parent, relatedStates) {
                 if (remainingSlices <= 0) {
                     target.die();
                     this.unlock();
+                    parent.velocity.y = -parent.jumpVelocity;
                     return states.jumpState;
                 }
             }

@@ -17,7 +17,7 @@ var playerSliceData = { "frames": [
   "size": { "w": 32, "h": 32 },
   "scale": "1",
   "slices": [
-    { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 16, "w": 20, "h": 24 } }] }
+    { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 32, "h": 32 } }] }
   ]
  }
 }
