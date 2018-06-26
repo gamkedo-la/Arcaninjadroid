@@ -171,6 +171,9 @@ function KnockupEnemyState(parent,relatedStates) {
     let duration = 2.5; //seconds
     let timer = duration;
 
+    let sliceCounterMax = 3;
+    let sliceCounter = sliceCounterMax;
+
     this.animation = parent.stunnedAnim;
     
     this.update = function () {
@@ -199,6 +202,8 @@ function KnockupEnemyState(parent,relatedStates) {
     this.enter = function () {
         parent.velocity.x = 15 * randomMin1To1();
         parent.velocity.y = -15;
+
+        sliceCounter = sliceCounterMax; //reset slice counter
     }
     this.exit = function () {
     }

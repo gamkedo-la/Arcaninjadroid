@@ -62,9 +62,9 @@ function Character(x, y) {
         }
     };
 
-    this.applyBasicPhysics = function () {
+    this.applyBasicPhysics = function (useGravity = true) {
 
-        this.velocity.y += 0.45;
+        if (useGravity) { this.velocity.y += 0.45; }
 
         this.x = Math.round(this.x + this.velocity.x);
         this.y = Math.round(this.y + this.velocity.y);
