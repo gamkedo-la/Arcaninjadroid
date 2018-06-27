@@ -38,3 +38,8 @@ function randomMin1To1() {
     return (Math.random()*2) - 1;
 }
 
+// Return a random number from "lower" to "upper" (inclusive -> exclusive)
+function randomRange(lower,upper) {
+    return (Math.random()*(Math.abs(lower-upper))+lower);
+}
+

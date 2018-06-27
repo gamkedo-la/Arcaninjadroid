@@ -13,10 +13,7 @@ function IdleEnemyState(parent,relatedStates) {
 
         parent.applyBasicPhysics();
         if (parent.hitThisFrame) {return states.stunnedState;} //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
-        if (parent.knockupThisFrame) {
-            parent.velocity.y = -15;
-            return states.knockupState;
-        }
+
     }
 
     this.handleInput = function () {
@@ -152,10 +149,19 @@ function StunnedEnemyState(parent,relatedStates) {
     this.update = function () {
         //parent.applyBasicPhysics();
 
+        if (parent.knockupThisFrame) {
+            parent.velocity.y = -30 * randomRange(0.8,1); //this value is strangely affected by other things... suspicious
+            return states.knockupState;
+        }
+        
         timer -= dt;
         if (timer <= 0) {
-            timer = duration;
-            return "previous";
+            if (parent.canBeKnockedUp) {
+                this.animation = parent.knockedUpAnim;
+            } else {
+                timer = duration;
+                return "previous";
+            }
         }
     }
 
@@ -164,6 +170,11 @@ function StunnedEnemyState(parent,relatedStates) {
     }
 
     this.enter = function () {
+        if (parent.stats.getNewHP() <= parent.stats.getModifiedHP()/3) {
+            console.log("faint");
+            parent.canBeKnockedUp = true;
+            
+        }
     }
     this.exit = function () {
     }
@@ -282,6 +293,7 @@ StunnedEnemyState.prototype = baseState;
 function PunchEnemyState(parent,relatedStates) {
     var parent = parent;
     var states = relatedStates;
+    this.attackDamage = 50;
 
     this.animation = parent.punchAnim;
     

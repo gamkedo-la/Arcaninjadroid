@@ -21,12 +21,13 @@ function Character(x, y) {
     this.flipped = false; //non-flipped is facing right
 
     let xpModule = new XPclass();
-    let stats = new StatsClass(xpModule.getCurrentLVL(), 1.0, 1.0, 1.0);
-    stats.setStats();
+    this.stats = new StatsClass(xpModule.getCurrentLVL(), 1.0, 1.0, 1.0);
+    this.stats.setStats();
 
     this.hitThisFrame = false;
     this.knockupThisFrame = false;
     this.lockedOnto = false;
+    this.canBeKnockedUp = false; //changes to true when passing a certain health threshold
 
     this.alive = true;
     this.explosionSequence = [robotExplosionParticlesConfig1, robotExplosionParticlesConfig2, robotExplosionParticlesConfig3];
@@ -40,7 +41,7 @@ function Character(x, y) {
 
     //Draws the good ol' red health bar
     this.drawUI = function () {
-        let hpRatio = stats.getNewHP() / stats.getModifiedHP();
+        let hpRatio = this.stats.getNewHP() / this.stats.getModifiedHP();
         colorRect(this.x - 8, this.y - 16 - 5, 16 * (hpRatio), 2, "red"); //change for values to dynamically adapt to sprite?
     }
 
@@ -122,16 +123,16 @@ function Character(x, y) {
         let attackerState = otherChar.actionMachine.getCurrentState();
 
         if (attackerState.attackDamage) {
-            stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
+            this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
             this.hitThisFrame = true;
             if(myState.onHit) { myState.onHit(); }
 
             //handle death
-            if (stats.getNewHP() <= 0) {
+            if (this.stats.getNewHP() <= 0) {
                 this.die();
             }
         }
-        if (attackerState.knockup) {
+        if (attackerState.knockup && this.canBeKnockedUp) {
             this.knockupThisFrame = true;
         }
         if (attackerState.sliceProperty) {

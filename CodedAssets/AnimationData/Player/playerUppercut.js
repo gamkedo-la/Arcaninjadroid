@@ -6,7 +6,7 @@ var playerUppercutData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
+    "duration": 350
    }
  ],
  "meta": {

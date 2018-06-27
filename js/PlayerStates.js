@@ -33,6 +33,7 @@ function IdleAndroidState(parent, relatedStates) {
         // Basic movement
         if (Input.getKey("up")) {
             parent.velocity.y = -parent.jumpVelocity;
+            parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
             return states.jumpState;
         } else if (Input.getKey("down")) {
             return states.crouchState;
@@ -148,7 +149,7 @@ function JumpState(parent, relatedStates) {
     this.enter = function () {
         this.fastfall = false;
         parent.grounded = false;
-        parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
+        
     }
     this.exit = function () {
     }
@@ -198,16 +199,18 @@ function UppercutState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("playerUppercut"), playerUppercutData, { loop: false, holdLastFrame: true });
+    this.animation = new Animation(parent, Images.getImage("playerUppercut"), playerUppercutData);
 
     this.knockup = true;
 
     this.update = function () {
 
-        if (parent.grounded) {
+        if (this.animation.isActive === false) {
             if (Input.getKey("down")) {
                 return states.crouchState;
-            } else {return states.idleState;}
+            } else {
+                return "previous";
+            }
         }
 
         parent.applyBasicPhysics();
@@ -219,9 +222,9 @@ function UppercutState(parent, relatedStates) {
 
     this.enter = function () {
 
-        parent.velocity.y = -parent.jumpVelocity;
-        parent.grounded = false;
-        parent.y -= 10;
+        //parent.velocity.y = -parent.jumpVelocity;
+        //parent.grounded = false;
+        //parent.y -= 10;
 
         new ParticleEmitter(parent.x + 10, parent.y - 25, fastFallParticlesConfig);
     }
@@ -319,9 +322,9 @@ function SliceState(parent, relatedStates) {
     this.handleInput = function () {
 
         if (Input.getKeyDown("z")) {
-
             if (this.lockedOn === false){
-                return this;
+
+                this.reset();
             }
             else {
                 remainingSlices--;
@@ -330,10 +333,16 @@ function SliceState(parent, relatedStates) {
                     target.die();
                     this.unlock();
                     parent.velocity.y = -parent.jumpVelocity;
+                    parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
                     return states.jumpState;
                 }
             }
         }
+    }
+    this.reset = function () {
+
+        timer = gravityDelay;
+        this.changeDirection();
     }
 
     this.changeDirection = function () {
@@ -350,6 +359,7 @@ function SliceState(parent, relatedStates) {
             yMult = 1
         }
         if (Input.getKey("left")) {
+
             xMult = -1;
         }
         else if (Input.getKey("right")) {
@@ -360,7 +370,14 @@ function SliceState(parent, relatedStates) {
             xMult *= 1/Math.sqrt(2);
             yMult *= 1/Math.sqrt(2);
         }
+        
+        if (xMult === 0 && yMult === 0) {
 
+            dashDone = true;
+            timer = 0;
+            return;
+        }
+        
         destination.x = parent.x + dashDistance * xMult;
         destination.y = parent.y + dashDistance * yMult;
 
@@ -386,9 +403,7 @@ function SliceState(parent, relatedStates) {
 
     this.enter = function () {
 
-        this.changeDirection();
-        timer = gravityDelay;
-
+        this.reset();
     }
 
     this.exit = function () {
