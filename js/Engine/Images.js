@@ -76,6 +76,7 @@ var fileNames = [
 
     //UI and menu art
     "images/UI/mainMenu.png",
+    "images/UI/pressEnter.png",
     "images/UI/gamePaused.png",
 
     //Player
@@ -94,7 +95,6 @@ var fileNames = [
     "images/Characters/Kangarobot/kangarobotWalk.png",
     "images/Characters/Kangarobot/kangarobotStunned.png",
 
-
 ];
 
 var picsToLoad = fileNames.length;
@@ -102,6 +102,7 @@ var picsToLoad = fileNames.length;
 function countLoadedImagesAndLaunchIfReady() {
     picsToLoad--;
     if (picsToLoad == 0) {
+
         imageLoadingDoneSoStartGame();
     }
 }

@@ -76,6 +76,7 @@ function PauseState() {
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
         drawAllCharacters();
         drawAllTerrain();
+        ParticleRenderer.renderAll(canvasContext);
         colorRectAlpha(0,0,canvas.width,canvas.height,[0,0,0,0.65]);
         canvasContext.drawImage(gamePausedText, 0, 35);
   };
@@ -93,6 +94,7 @@ PauseState.prototype = baseState;
 function MainMenuState() {
 
     this.background = Images.getImage("mainMenu");
+    this.testButton = new UIElement(180,67.5,Images.getImage("pressEnter"));
 
     this.update = function () {
 
@@ -102,11 +104,19 @@ function MainMenuState() {
         if (Input.getKeyDown("enter")) {
             return GameStates.inGameState;
         }
+        if (Input.getKeyDown("g")) {
+            this.testButton.hasFocus = !this.testButton.hasFocus;
+        }
+        if (Input.getKeyDown("h")) {
+            this.testButton.notSelectable = !this.testButton.notSelectable;
+        }
     };
 
     this.draw = function () {
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+        this.testButton.draw();
+        ParticleRenderer.renderAll(canvasContext);
     };
 
     this.enter = function () {
