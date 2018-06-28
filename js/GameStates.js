@@ -94,7 +94,16 @@ PauseState.prototype = baseState;
 function MainMenuState() {
 
     this.background = Images.getImage("mainMenu");
-    this.testButton = new UIElement(180,67.5,Images.getImage("pressEnter"));
+
+    this.buttons = [
+        new UIElement(180,30,Images.getImage("startGame"), true),
+        new UIElement(180,50,Images.getImage("loadGame"), false),
+        new UIElement(180,70,Images.getImage("options"), true),
+        new UIElement(180,90,Images.getImage("credits"), true)
+    ];
+
+    let currentFocus = 0;
+    this.buttons[currentFocus].hasFocus = true;
 
     this.update = function () {
 
@@ -104,18 +113,47 @@ function MainMenuState() {
         if (Input.getKeyDown("enter")) {
             return GameStates.inGameState;
         }
-        if (Input.getKeyDown("g")) {
-            this.testButton.hasFocus = !this.testButton.hasFocus;
+        if (Input.getKeyDown("up")) {
+            
+            this.changeFocus("up");
+        }
+        else if (Input.getKeyDown("down")) {
+            
+            this.changeFocus("down");
         }
         if (Input.getKeyDown("h")) {
             this.testButton.notSelectable = !this.testButton.notSelectable;
         }
     };
 
+    this.changeFocus = function (direction) {
+
+        this.buttons[currentFocus].hasFocus = false; //remove focus from current
+        if (direction === "up") {
+            currentFocus--;
+            if (currentFocus < 0) {
+                currentFocus = this.buttons.length-1;
+            }
+        } else if (direction === "down") {
+            currentFocus++;
+            if (currentFocus >= this.buttons.length) {
+                currentFocus = 0;
+            }
+        }
+        if (this.buttons[currentFocus].selectable === false) {
+            this.changeFocus(direction); //endless loop if nothing is selectable, but won't happen...
+        }
+        else {
+            this.buttons[currentFocus].hasFocus = true; //give focus to new
+        }
+    }
+
     this.draw = function () {
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
-        this.testButton.draw();
+        for (var i = 0, l = this.buttons.length; i<l; i++) {
+            this.buttons[i].draw();
+        }
         ParticleRenderer.renderAll(canvasContext);
     };
 

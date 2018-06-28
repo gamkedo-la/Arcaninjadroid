@@ -77,6 +77,10 @@ var fileNames = [
     //UI and menu art
     "images/UI/mainMenu.png",
     "images/UI/pressEnter.png",
+    "images/UI/startGame.png",
+    "images/UI/loadGame.png",
+    "images/UI/options.png",
+    "images/UI/credits.png",
     "images/UI/gamePaused.png",
 
     //Player
