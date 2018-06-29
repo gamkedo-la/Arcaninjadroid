@@ -52,6 +52,16 @@ function Input() {
 
     }
 
+    // Call this when needing to reset all keys, like when minimizing the window
+    Input.allKeysUp = function () {
+
+        for (var code in codeValuePairs) {
+            if (codeValuePairs.hasOwnProperty(code)) {
+                codeValuePairs[code] = [0,0];
+            }
+        }
+    }
+
     //Returns true if the key called "name" is currently pressed
     Input.getKey = function (name) {
 

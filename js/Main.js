@@ -116,6 +116,7 @@ function windowOnFocus() {
         lastTime = (new Date()).getTime();
         animationFrameNumber = requestAnimationFrame(updateAll);
         resumeAudio();
+        Input.allKeysUp();
     }
 }
 function windowOnBlur() {
