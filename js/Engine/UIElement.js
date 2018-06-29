@@ -1,24 +1,33 @@
 
-function UIElement (initX,initY, image, selectable) {
+// Cannot be clicked, controlled with arrow keys
+function Button (initX,initY, image, callback, config) {
 
     let x = initX;
     let y = initY;
     this.image = image;
+    this.callback = callback; //define callback anonymously, or elsewhere if more complicated
 
     let width;
     let height;
-    
+
+    if (typeof config === "undefined") {
+        config = {}; 
+    }
 
     this.hasFocus = false;
-    this.selectable = selectable;
+    
+    this.canHaveFocus = true;
+
+    this.unavailable = config.unavailable || false; //true => greyed out, example load game when no save data
+
 
     this.draw = function () {
 
         width = this.image.width;
         height = this.image.height;
-        if ( width === 0 || height === 0) {return;} //something is horribly wrong here
+        if ( width === 0 || height === 0) {return;} //something is horribly wrong here (I'm scared)
 
-        if (this.selectable === false) {
+        if (this.unavailable === true) {
             tintCanvas.width = width;
             tintCanvas.height = height;
 
@@ -58,3 +67,36 @@ function UIElement (initX,initY, image, selectable) {
         y = newY;
     }
 };
+////////////////////////////////////////////////////////////////////////////////////////////
+
+// This is just like an image, except x,y is TOP LEFT CORNER!
+function UITextImage (initX,initY, image) {
+
+    let x = initX;
+    let y = initY;
+    this.image = image;
+
+    this.draw = function () {
+
+        width = this.image.width;
+        height = this.image.height;
+        if ( width === 0 || height === 0) {return;} //something is horribly wrong here (I'm scared)
+
+        canvasContext.drawImage(this.image, x,y, width,height);
+      
+    }
+    
+    this.getX = function () {
+        return x;
+    }
+    this.getY = function () {
+        return y;
+    }
+    this.setX = function (newX) {
+        x = newX;
+    }
+    this.setY = function (newY) {
+        y = newY;
+    }
+}
+

@@ -1,8 +1,6 @@
 
 var baseState = new State();
 
-//GameStates = {}; //hold all the states
-
 function InGameState() {
 
     var justEntered; //hackity hack
@@ -91,19 +89,21 @@ function PauseState() {
 }
 PauseState.prototype = baseState;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 function MainMenuState() {
 
     this.background = Images.getImage("mainMenu");
 
-    this.buttons = [
-        new UIElement(180,30,Images.getImage("startGame"), true),
-        new UIElement(180,50,Images.getImage("loadGame"), false),
-        new UIElement(180,70,Images.getImage("options"), true),
-        new UIElement(180,90,Images.getImage("credits"), true)
+    this.uiElements = [
+        new Button(180,30,Images.getImage("startGame"), function() {return GameStates.inGameState;}),
+        new Button(180,50,Images.getImage("loadGame"), function() {console.log("load game")}, {unavailable:true} ),
+        new Button(180,70,Images.getImage("options"), function() {console.log("load game")}, {unavailable:true}),
+        new Button(180,90,Images.getImage("credits"),function() {return GameStates.creditsState;})
     ];
 
     let currentFocus = 0;
-    this.buttons[currentFocus].hasFocus = true;
+    this.uiElements[currentFocus].hasFocus = true;
 
     this.update = function () {
 
@@ -111,7 +111,13 @@ function MainMenuState() {
 
     this.handleInput = function () {
         if (Input.getKeyDown("enter")) {
-            return GameStates.inGameState;
+
+            if (this.uiElements[currentFocus].callback) {
+                state = this.uiElements[currentFocus].callback();
+                if (state) {
+                    return state;
+                }
+            }
         }
         if (Input.getKeyDown("up")) {
             
@@ -121,44 +127,42 @@ function MainMenuState() {
             
             this.changeFocus("down");
         }
-        if (Input.getKeyDown("h")) {
-            this.testButton.notSelectable = !this.testButton.notSelectable;
-        }
     };
 
     this.changeFocus = function (direction) {
 
-        this.buttons[currentFocus].hasFocus = false; //remove focus from current
+        this.uiElements[currentFocus].hasFocus = false; //remove focus from current
         if (direction === "up") {
             currentFocus--;
             if (currentFocus < 0) {
-                currentFocus = this.buttons.length-1;
+                currentFocus = this.uiElements.length-1;
             }
         } else if (direction === "down") {
             currentFocus++;
-            if (currentFocus >= this.buttons.length) {
+            if (currentFocus >= this.uiElements.length) {
                 currentFocus = 0;
             }
         }
-        if (this.buttons[currentFocus].selectable === false) {
+        if (this.uiElements[currentFocus].unavailable === true) {
             this.changeFocus(direction); //endless loop if nothing is selectable, but won't happen...
         }
         else {
-            this.buttons[currentFocus].hasFocus = true; //give focus to new
+            this.uiElements[currentFocus].hasFocus = true; //give focus to new
         }
     }
 
     this.draw = function () {
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
-        for (var i = 0, l = this.buttons.length; i<l; i++) {
-            this.buttons[i].draw();
+        for (var i = 0, l = this.uiElements.length; i<l; i++) {
+            this.uiElements[i].draw();
         }
         ParticleRenderer.renderAll(canvasContext);
     };
 
     this.enter = function () {
 
+        this.uiElements[currentFocus].hasFocus = true;
     };
 
     this.exit = function () {
@@ -167,10 +171,103 @@ function MainMenuState() {
 }
 MainMenuState.prototype = baseState;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+function CreditsState () {
+
+    this.background = Images.getImage("creditsScreen");
+
+
+    let lockonX = 5;
+    let lockonY = 35;
+    let nextDistance = ORIG_WORLD_W;
+
+
+    let scrollSpeed = 1;
+    let timer = 0;
+    let scrollDuration = (nextDistance / scrollSpeed) / 60; // because we're at 60 FPS
+    let scrollWait = 2;
+    let waiting = true;
+    let nameCounter = 0;
+
+    this.uiElements = [];
+    let names = ["remy","christer","jaime","stebs","misha","baris","ashleeTrenton","gamkedo"];
+    for (var i = 0, l = names.length; i<l; i++) {
+        this.uiElements[i] = new UITextImage (lockonX + nextDistance*i, lockonY, Images.getImage(names[i]));
+    }
+
+    this.update = function () {
+
+        if (!waiting) {
+            let currentX;
+            for (var i = 0, l = this.uiElements.length; i<l; i++) {
+                currentX = this.uiElements[i].getX();
+                this.uiElements[i].setX(currentX - scrollSpeed);
+            }
+        }
+
+        timer += dt;
+
+        if (waiting) {
+            if (timer >= scrollWait) {
+                timer = 0;
+                waiting = false;
+            }
+        } else {
+            if (timer >= scrollDuration) {
+                timer = 0;
+                waiting = true;
+                nameCounter++;
+            }
+        }
+        if (nameCounter === this.uiElements.length-1) {
+            waiting = true; //permalock in wait when we're done scrolling
+        }
+
+    };
+
+    this.handleInput = function () {
+
+        if (Input.getKeyDown("enter") || Input.getKeyDown("escape")) {
+            return GameStates.mainMenuState;
+        }
+        
+    };
+
+    this.draw = function () {
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+        canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+        for (var i = 0, l = this.uiElements.length; i<l; i++) {
+            this.uiElements[i].draw();
+        }
+        //ParticleRenderer.renderAll(canvasContext);
+    };
+
+    this.resetText = function () {
+        for (var i = 0, l = this.uiElements.length; i<l; i++) {
+            this.uiElements[i].setX(lockonX + nextDistance*i);
+            this.uiElements[i].setY(lockonY);
+        }
+    }
+
+    this.enter = function () {
+        timer = 0;
+        nameCounter = 0;
+        waiting = true;
+
+    };
+
+    this.exit = function () {
+        this.resetText();
+    };
+}
+CreditsState.prototype = baseState;
+
 
 var GameStates = {
     inGameState: new InGameState(),
     mainMenuState: new MainMenuState(),
+    creditsState: new CreditsState(),
     pauseState: new PauseState()
 };
 

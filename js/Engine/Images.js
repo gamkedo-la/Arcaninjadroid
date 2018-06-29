@@ -81,7 +81,18 @@ var fileNames = [
     "images/UI/loadGame.png",
     "images/UI/options.png",
     "images/UI/credits.png",
+    "images/UI/creditsScreen.png",
     "images/UI/gamePaused.png",
+
+    //Credit screen text blocks 
+    "images/UI/CreditsText/remy.png",
+    "images/UI/CreditsText/christer.png",
+    "images/UI/CreditsText/jaime.png",
+    "images/UI/CreditsText/stebs.png",
+    "images/UI/CreditsText/ashleeTrenton.png",
+    "images/UI/CreditsText/misha.png",
+    "images/UI/CreditsText/baris.png",
+    "images/UI/CreditsText/gamkedo.png",
 
     //Player
     "images/Characters/Player/playerUppercut.png",
