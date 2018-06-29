@@ -21,6 +21,7 @@ function Animation (parent, image, data, config) {
 
     if (!config) {config = {};} //needed so that config doesn't stay undefined
     var loop = config.loop || false; //take from config, or set default value
+    var ignoreFlip = config.ignoreFlip || false; //ignore parent flip value when drawing
 
     // holdLastFrame is for example, an uppercut where the character stays at the final frame until he hits the ground
     var holdLastFrame = config.holdLastFrame || false; // if true, we will need to change player state with something other than the end of the anim (like a ground check)
@@ -111,13 +112,18 @@ function Animation (parent, image, data, config) {
         }       
         var x = parent.x;
         var y = parent.y;
-        var flipped = parent.flipped;
+        var flipped;
+        if (ignoreFlip) {
+            flipped = false;
+        } else {
+            flipped = parent.flipped;
+        }
 
         // Remember that x,y is center of the object in the game's coord system
         /*canvasContext.drawImage(image,
                                 clipStartX,clipStartY, clipWidth, clipHeight, 
                                 x-clipWidth/2,y-clipHeight/2, clipWidth, clipHeight);*/
-        drawBitmapClippedWithRotationAndFlip(image, x,y, clipStartX,clipStartY, clipWidth,clipHeight, 0, parent.flipped);
+        drawBitmapClippedWithRotationAndFlip(image, x,y, clipStartX,clipStartY, clipWidth,clipHeight, 0, flipped);
     }
 
     // Used for debug (and training mode maybe? :D)

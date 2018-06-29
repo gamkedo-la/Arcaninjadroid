@@ -262,6 +262,9 @@ function SliceState(parent, relatedStates) {
 
     let sliceAnim = new Animation(parent, Images.getImage("playerUppercut"), playerSliceData, { loop: false, holdLastFrame: true });
     let lockAnim = new Animation(parent, Images.getImage("playerJump"), playerJumpData, {loop : true});
+    let sliceRightAnim = new Animation(parent, Images.getImage("sliceVFXRight"), sliceVFXRightData, {holdLastFrame : true, ignoreFlip:true});
+    let sliceLeftAnim = new Animation(parent, Images.getImage("sliceVFXLeft"), sliceVFXRightData, {holdLastFrame : true, ignoreFlip:true});
+    
     this.animation = sliceAnim;
 
     this.lockOn = function (char) {
@@ -269,11 +272,10 @@ function SliceState(parent, relatedStates) {
         this.lockedOn = true;
         target = char;
         if (target.slicesNeeded) {remainingSlices = target.slicesNeeded; }
-        else {remainingSlices = 7}
+        else {remainingSlices = 7;}
 
         parent.x = target.x;
         parent.y = target.y;
-        console.log(target);
     }
     this.unlock = function () {
         this.animation = sliceAnim;
@@ -322,13 +324,19 @@ function SliceState(parent, relatedStates) {
     this.handleInput = function () {
 
         if (Input.getKeyDown("z")) {
-            if (this.lockedOn === false){
 
-                this.reset();
-            }
-            else {
+            if (this.lockedOn) {
                 remainingSlices--;
-                console.log("tick");
+                timer = gravityDelay;
+                console.log(Input.getKey("right"));
+                if (Input.getKey("right")) {
+                    this.animation = sliceRightAnim;
+                }
+                else if (Input.getKey("left")) {
+                    this.animation = sliceLeftAnim;
+                    console.log("left");
+                }
+                this.animation.loop();
                 if (remainingSlices <= 0) {
                     target.die();
                     this.unlock();
@@ -336,6 +344,9 @@ function SliceState(parent, relatedStates) {
                     parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
                     return states.jumpState;
                 }
+            }
+            else {
+                this.reset();
             }
         }
     }
