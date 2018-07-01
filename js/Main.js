@@ -4,7 +4,9 @@ const ALLOW_FULLSCREEN = true; // go fullscreen if the user allows it
 var animationRequestID; //replaces the usual setInterval technique, which caused issues when window lost focus. Thanks Nick P. for the fix! :)
 
 var gameRunning = true;
+
 var impactPauseFramesRemaining = 0; // how many frames should the game be in "hitpause" impact effect mode
+var pauseNextFrame = false;
 const IMPACT_PAUSE_FRAMES = 20; // delay the game if we get hit
 
 var debug = true; // global toggle for debug mode. Most notably, draws colliders on the screen
@@ -144,12 +146,6 @@ function imageLoadingDoneSoStartGame() {
 
 function updateAll() {
 
-    if (impactPauseFramesRemaining > 0) { // when the player gets hit, the game pauses for a brief moment
-        //console.log("HITPAUSE:" + impactPauseFramesRemaining);
-        impactPauseFramesRemaining--;
-        animationRequestID = requestAnimationFrame(updateAll);
-        return;
-    }
 
     //Below is the standard stuff that needs to happen at the beginning of every frame, regardless of game state, player state etc.
 
@@ -163,6 +159,16 @@ function updateAll() {
     if (typeof Input.resetGetKeyDown != "undefined") { Input.resetGetKeyDown(); }
     //updates the states of all keys for checking the single frame, Input.getKeyDown function
 
+    if (pauseNextFrame) {
+        impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
+        pauseNextFrame = false;
+    }
+    else if (impactPauseFramesRemaining > 0) { // when the player gets hit, the game pauses for a brief moment
+        //console.log("HITPAUSE:" + impactPauseFramesRemaining);
+        impactPauseFramesRemaining--;
+        animationRequestID = requestAnimationFrame(updateAll);
+        return;
+    }
 
     //clearScreen(canvas);
 

@@ -36,7 +36,7 @@ function IdleEnemyState(parent,relatedStates) {
         }
     }
     this.onHit = function () {
-        console.log("hit");
+
     }
     this.enter = function () {
         parent.velocity.x = 0;
@@ -87,7 +87,7 @@ function WalkEnemyState(parent,relatedStates) {
     }
     
     this.onHit = function () {
-        console.log("hit");
+
     }
     this.enter = function () {
 
@@ -171,7 +171,7 @@ function StunnedEnemyState(parent,relatedStates) {
 
     this.enter = function () {
         if (parent.stats.getNewHP() <= parent.stats.getModifiedHP()/3) {
-            console.log("faint");
+
             parent.canBeKnockedUp = true;
             
         }

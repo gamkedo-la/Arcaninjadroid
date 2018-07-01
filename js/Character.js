@@ -120,7 +120,8 @@ function Character(x, y) {
         //console.log("hit");
 
         // a special effect where we pause the game for a very short amount of time when we get hit
-        impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
+        //impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
+        pauseNextFrame = true;
 
         let myState = this.actionMachine.getCurrentState();
         let attackerState = otherChar.actionMachine.getCurrentState();
