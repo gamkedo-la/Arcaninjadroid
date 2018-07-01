@@ -1,4 +1,3 @@
-
 characters = [];
 
 // Base Character class, from which both player and enemy "inherit" from. 
@@ -119,13 +118,17 @@ function Character(x, y) {
     this.gotHit = function (otherChar) {
 
         //console.log("hit");
+
+        // a special effect where we pause the game for a very short amount of time when we get hit
+        impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
+
         let myState = this.actionMachine.getCurrentState();
         let attackerState = otherChar.actionMachine.getCurrentState();
 
         if (attackerState.attackDamage) {
             this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
             this.hitThisFrame = true;
-            if(myState.onHit) { myState.onHit(); }
+            if (myState.onHit) { myState.onHit(); }
 
             //handle death
             if (this.stats.getNewHP() <= 0) {
@@ -136,7 +139,7 @@ function Character(x, y) {
             this.knockupThisFrame = true;
         }
         if (attackerState.sliceProperty) {
-            if (this.grounded) {return;}
+            if (this.grounded) { return; }
             if (attackerState.lockedOn === false && this.lockedOnto === false) {
                 attackerState.lockOn(this);
                 this.lockedOnto = true;
@@ -225,9 +228,9 @@ function updateAllCharacters() {
     }
 
     // Remove dead characters
-    for (var i = characters.length-1, l = 0; i >= l; i--) {
+    for (var i = characters.length - 1, l = 0; i >= l; i--) {
         if (characters[i].alive === false) {
-            characters.splice(i,1); //linear array for removal is O(N), might change if we have many enemies
+            characters.splice(i, 1); //linear array for removal is O(N), might change if we have many enemies
         }
     }
 

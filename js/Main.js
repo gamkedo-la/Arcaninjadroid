@@ -1,9 +1,12 @@
 
 const ALLOW_FULLSCREEN = true; // go fullscreen if the user allows it
 
-var animationFrameNumber; //replaces the usual setInterval technique, which caused issues when window lost focus. Thanks Nick P. for the fix! :)
+var animationRequestID; //replaces the usual setInterval technique, which caused issues when window lost focus. Thanks Nick P. for the fix! :)
 
 var gameRunning = true;
+var impactPauseFramesRemaining = 0; // how many frames should the game be in "hitpause" impact effect mode
+const IMPACT_PAUSE_FRAMES = 20; // delay the game if we get hit
+
 var debug = true; // global toggle for debug mode. Most notably, draws colliders on the screen
 
 //Used to generate delta time
@@ -114,14 +117,14 @@ function windowOnFocus() {
     if (!gameRunning) {
         gameRunning = true;
         lastTime = (new Date()).getTime();
-        animationFrameNumber = requestAnimationFrame(updateAll);
+        animationRequestID = requestAnimationFrame(updateAll);
         resumeAudio();
         Input.allKeysUp();
     }
 }
 function windowOnBlur() {
     gameRunning = false;
-    cancelAnimationFrame(animationFrameNumber);
+    cancelAnimationFrame(animationRequestID);
     pauseAudio();
 }
 
@@ -132,7 +135,7 @@ function imageLoadingDoneSoStartGame() {
     console.log("Image loading done, game started!");
     console.log("");
 
-    animationFrameNumber = requestAnimationFrame(updateAll); //updateAll will then start calling itself depending on anim frames
+    animationRequestID = requestAnimationFrame(updateAll); //updateAll will then start calling itself depending on anim frames
 
     lastTime = (new Date()).getTime();
 
@@ -140,6 +143,13 @@ function imageLoadingDoneSoStartGame() {
 
 
 function updateAll() {
+
+    if (impactPauseFramesRemaining > 0) { // when the player gets hit, the game pauses for a brief moment
+        //console.log("HITPAUSE:" + impactPauseFramesRemaining);
+        impactPauseFramesRemaining--;
+        animationRequestID = requestAnimationFrame(updateAll);
+        return;
+    }
 
     //Below is the standard stuff that needs to happen at the beginning of every frame, regardless of game state, player state etc.
 
@@ -165,7 +175,7 @@ function updateAll() {
 
     drawOnScaledCanvas(); //once everything is done, we draw everything on our enlarged canvas, which is the one the player sees
 
-    animationFrameNumber = requestAnimationFrame(updateAll); //once we're done, we ask for the next animation frame
+    animationRequestID = requestAnimationFrame(updateAll); //once we're done, we ask for the next animation frame
     // when received, we'll update again!
 
     AudioEventManager.updateEvents();
