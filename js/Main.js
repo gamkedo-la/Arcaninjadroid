@@ -7,7 +7,7 @@ var gameRunning = true;
 
 var impactPauseFramesRemaining = 0; // how many frames should the game be in "hitpause" impact effect mode
 var pauseNextFrame = false;
-const IMPACT_PAUSE_FRAMES = 20; // delay the game if we get hit
+const IMPACT_PAUSE_FRAMES = 0; // delay the game if we get hit
 
 var debug = true; // global toggle for debug mode. Most notably, draws colliders on the screen
 

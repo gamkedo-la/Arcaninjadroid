@@ -262,9 +262,11 @@ function SliceState(parent, relatedStates) {
 
     let sliceAnim = new Animation(parent, Images.getImage("playerUppercut"), playerSliceData, { loop: false, holdLastFrame: true });
     let lockAnim = new Animation(parent, Images.getImage("playerJump"), playerJumpData, {loop : true});
-    let sliceRightAnim = new Animation(parent, Images.getImage("sliceVFXRight"), sliceVFXRightData, {holdLastFrame : true, ignoreFlip:true});
-    let sliceLeftAnim = new Animation(parent, Images.getImage("sliceVFXLeft"), sliceVFXRightData, {holdLastFrame : true, ignoreFlip:true});
-    
+    let sliceUpAnim = new Animation(parent, Images.getImage("sliceVFXUp"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
+    let sliceDownAnim = new Animation(parent, Images.getImage("sliceVFXDown"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
+    let sliceLeftAnim = new Animation(parent, Images.getImage("sliceVFXLeft"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
+    let sliceRightAnim = new Animation(parent, Images.getImage("sliceVFXRight"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
+
     this.animation = sliceAnim;
 
     this.lockOn = function (char) {
@@ -328,13 +330,18 @@ function SliceState(parent, relatedStates) {
             if (this.lockedOn) {
                 remainingSlices--;
                 timer = gravityDelay;
-                console.log(Input.getKey("right"));
-                if (Input.getKey("right")) {
-                    this.animation = sliceRightAnim;
+
+                if (Input.getKey("up")) {
+                    this.animation = sliceUpAnim;
+                }
+                else if (Input.getKey("down")) {
+                    this.animation = sliceDownAnim;
                 }
                 else if (Input.getKey("left")) {
                     this.animation = sliceLeftAnim;
-                    console.log("left");
+                }
+                else if (Input.getKey("right")) {
+                    this.animation = sliceRightAnim;
                 }
                 this.animation.loop();
                 if (remainingSlices <= 0) {
