@@ -144,7 +144,6 @@ function Character(x, y) {
             if (attackerState.lockedOn === false && this.lockedOnto === false) {
                 attackerState.lockOn(this);
                 this.lockedOnto = true;
-                console.log("lockon");
             }
         }
 

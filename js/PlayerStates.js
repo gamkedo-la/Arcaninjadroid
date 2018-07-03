@@ -260,17 +260,17 @@ function SliceState(parent, relatedStates) {
 
     this.lockedOn = false; //modified in Character.gotHit()
 
-    let sliceAnim = new Animation(parent, Images.getImage("playerUppercut"), playerSliceData, { loop: false, holdLastFrame: true });
+    let dashAnim = new Animation(parent, Images.getImage("playerJump"), playerDashData, {loop : true});
     let lockAnim = new Animation(parent, Images.getImage("playerJump"), playerJumpData, {loop : true});
     let sliceUpAnim = new Animation(parent, Images.getImage("sliceVFXUp"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
     let sliceDownAnim = new Animation(parent, Images.getImage("sliceVFXDown"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
     let sliceLeftAnim = new Animation(parent, Images.getImage("sliceVFXLeft"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
     let sliceRightAnim = new Animation(parent, Images.getImage("sliceVFXRight"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
 
-    this.animation = sliceAnim;
+    this.animation = dashAnim;
 
     this.lockOn = function (char) {
-        this.animation = lockAnim;
+        //this.animation = lockAnim;
         this.lockedOn = true;
         target = char;
         if (target.slicesNeeded) {remainingSlices = target.slicesNeeded; }
@@ -278,17 +278,19 @@ function SliceState(parent, relatedStates) {
 
         parent.x = target.x;
         parent.y = target.y;
+
+        this.slice();
     }
     this.unlock = function () {
-        this.animation = sliceAnim;
+        this.animation = dashAnim;
         this.lockedOn = false;
         target.lockedOnto = false;
-        //target = null;
-        console.log("unlock");
+        //console.log("unlock");
     }
 
     this.update = function () {
 
+        if (remainingSlices === 0) return states.jumpState; //if we didn't catch it because an enemy needed only a single slice
         if (parent.y > 105) {
             parent.y = GROUNDED_Y;
             return states.crouchState;
@@ -328,28 +330,9 @@ function SliceState(parent, relatedStates) {
         if (Input.getKeyDown("z")) {
 
             if (this.lockedOn) {
-                remainingSlices--;
-                timer = gravityDelay;
-
-                if (Input.getKey("up")) {
-                    this.animation = sliceUpAnim;
-                }
-                else if (Input.getKey("down")) {
-                    this.animation = sliceDownAnim;
-                }
-                else if (Input.getKey("left")) {
-                    this.animation = sliceLeftAnim;
-                }
-                else if (Input.getKey("right")) {
-                    this.animation = sliceRightAnim;
-                }
-                this.animation.loop();
-                if (remainingSlices <= 0) {
-                    target.die();
-                    this.unlock();
-                    parent.velocity.y = -parent.jumpVelocity;
-                    parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
-                    return states.jumpState;
+                var nextState = this.slice();
+                if (nextState) {
+                    return nextState;
                 }
             }
             else {
@@ -361,6 +344,32 @@ function SliceState(parent, relatedStates) {
 
         timer = gravityDelay;
         this.changeDirection();
+    }
+
+    this.slice = function () {
+        remainingSlices--;
+        timer = gravityDelay;
+
+        if (Input.getKey("up")) {
+            this.animation = sliceUpAnim;
+        }
+        else if (Input.getKey("down")) {
+            this.animation = sliceDownAnim;
+        }
+        else if (Input.getKey("left")) {
+            this.animation = sliceLeftAnim;
+        }
+        else if (Input.getKey("right")) {
+            this.animation = sliceRightAnim;
+        }
+        this.animation.loop();
+        if (remainingSlices <= 0) {
+            target.die();
+            this.unlock();
+            parent.velocity.y = -parent.jumpVelocity;
+            parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
+            return states.jumpState;
+        }
     }
 
     this.changeDirection = function () {
