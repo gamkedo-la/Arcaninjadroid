@@ -259,13 +259,18 @@ function SliceState(parent, relatedStates) {
     let remainingSlices = 7;
 
     this.lockedOn = false; //modified in Character.gotHit()
+    this.slicing = false; //true when in the middle of a slice animation
 
     let dashAnim = new Animation(parent, Images.getImage("playerJump"), playerDashData, {loop : true});
     let lockAnim = new Animation(parent, Images.getImage("playerJump"), playerJumpData, {loop : true});
-    let sliceUpAnim = new Animation(parent, Images.getImage("sliceVFXUp"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
-    let sliceDownAnim = new Animation(parent, Images.getImage("sliceVFXDown"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
-    let sliceLeftAnim = new Animation(parent, Images.getImage("sliceVFXLeft"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
-    let sliceRightAnim = new Animation(parent, Images.getImage("sliceVFXRight"), sliceVFXData, {holdLastFrame : true, ignoreFlip:true});
+    let sliceUpAnim = new Animation(parent, Images.getImage("sliceVFXUp"), sliceVFXData, {ignoreFlip:true});
+    let sliceDownAnim = new Animation(parent, Images.getImage("sliceVFXDown"), sliceVFXData, {ignoreFlip:true});
+    let sliceLeftAnim = new Animation(parent, Images.getImage("sliceVFXLeft"), sliceVFXData, {ignoreFlip:true});
+    let sliceRightAnim = new Animation(parent, Images.getImage("sliceVFXRight"), sliceVFXData, {ignoreFlip:true});
+    let sliceUpLeftAnim = new Animation(parent, Images.getImage("sliceVFXUpLeft"), sliceVFXData, {ignoreFlip:true});
+    let sliceDownLeftAnim = new Animation(parent, Images.getImage("sliceVFXDownLeft"), sliceVFXData, {ignoreFlip:true});
+    let sliceUpRightAnim = new Animation(parent, Images.getImage("sliceVFXUpRight"), sliceVFXData, {ignoreFlip:true});
+    let sliceDownRightAnim = new Animation(parent, Images.getImage("sliceVFXDownRight"), sliceVFXData, {ignoreFlip:true});
 
     this.animation = dashAnim;
 
@@ -284,13 +289,20 @@ function SliceState(parent, relatedStates) {
     this.unlock = function () {
         this.animation = dashAnim;
         this.lockedOn = false;
+        this.slicing = false;
         target.lockedOnto = false;
-        //console.log("unlock");
+        console.log("unlock");
     }
 
     this.update = function () {
 
-        if (remainingSlices === 0) return states.jumpState; //if we didn't catch it because an enemy needed only a single slice
+        if (this.lockedOn && remainingSlices === 0) return states.jumpState; //if we didn't catch it because an enemy needed only a single slice
+        if (this.slicing && this.animation.isActive === false) {
+            nextState = this.finishSlice();
+            if (nextState) {
+                return nextState;
+            }
+        }
         if (parent.y > 105) {
             parent.y = GROUNDED_Y;
             return states.crouchState;
@@ -329,11 +341,8 @@ function SliceState(parent, relatedStates) {
 
         if (Input.getKeyDown("z")) {
 
-            if (this.lockedOn) {
-                var nextState = this.slice();
-                if (nextState) {
-                    return nextState;
-                }
+            if (this.lockedOn && !this.slicing){
+                this.slice();
             }
             else {
                 this.reset();
@@ -347,15 +356,29 @@ function SliceState(parent, relatedStates) {
     }
 
     this.slice = function () {
-        remainingSlices--;
+        
         timer = gravityDelay;
+        this.slicing = true;
 
         if (Input.getKey("up")) {
-            this.animation = sliceUpAnim;
+            if (Input.getKey("left")) {
+                this.animation = sliceUpLeftAnim;
+            } else if (Input.getKey("right")){
+                this.animation = sliceUpRightAnim;
+            } else {
+                this.animation = sliceUpAnim;
+            }
         }
         else if (Input.getKey("down")) {
-            this.animation = sliceDownAnim;
+            if (Input.getKey("left")) {
+                this.animation = sliceDownLeftAnim;
+            } else if (Input.getKey("right")){
+                this.animation = sliceDownRightAnim;
+            } else {
+                this.animation = sliceDownAnim;
+            }
         }
+        //we've already checked up/down
         else if (Input.getKey("left")) {
             this.animation = sliceLeftAnim;
         }
@@ -363,6 +386,12 @@ function SliceState(parent, relatedStates) {
             this.animation = sliceRightAnim;
         }
         this.animation.loop();
+        
+    }
+    this.finishSlice = function () {
+        remainingSlices--;
+        this.slicing = false;
+        this.animation = dashAnim;
         if (remainingSlices <= 0) {
             target.die();
             this.unlock();
@@ -407,6 +436,8 @@ function SliceState(parent, relatedStates) {
         
         destination.x = parent.x + dashDistance * xMult;
         destination.y = parent.y + dashDistance * yMult;
+        //console.log(parent.x, parent.y);
+        //console.log(destination.x, destination.y);
 
 
         var xDiff = destination.x - parent.x;

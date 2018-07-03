@@ -74,6 +74,10 @@ var fileNames = [
     "images/VFX/sliceVFXDown.png",
     "images/VFX/sliceVFXLeft.png",
     "images/VFX/sliceVFXRight.png",
+    "images/VFX/sliceVFXUpLeft.png",
+    "images/VFX/sliceVFXDownLeft.png",
+    "images/VFX/sliceVFXUpRight.png",
+    "images/VFX/sliceVFXDownRight.png",
 
     //Backgrounds
     "images/Backgrounds/moonlitForest.png",
