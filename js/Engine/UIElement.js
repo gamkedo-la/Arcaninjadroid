@@ -74,9 +74,9 @@ function UITextImage (initX,initY, image) {
 
     let x = initX;
     let y = initY;
-    let endX = x + 100;
-    let endY = y + 100;
-    let movementRate = 1.0;
+    let endX = x + 200;
+    let endY = y + 200;
+    let movementRate = 2;
     this.image = image;
 
     this.draw = function () {

@@ -100,10 +100,10 @@ function MainMenuState() {
         new Button(180,50,Images.getImage("loadGame"), function() {console.log("load game")}, {unavailable:true} ),
         new Button(180,70,Images.getImage("options"), function() {console.log("load game")}, {unavailable:true}),
         new Button(180,90,Images.getImage("credits"),function() {return GameStates.creditsState;}),
-        new UITextImage(-100, -100, Images.getImage("arca")),
-        new UITextImage(-100, -60, Images.getImage("ninja")),
-        new UITextImage(-100, -10, Images.getImage("droid")),
-        new UITextImage(-100, 20, Images.getImage("kitty"))
+        new UITextImage(-200, -200, Images.getImage("arca")),
+        new UITextImage(-200, -160, Images.getImage("ninja")),
+        new UITextImage(-200, -110, Images.getImage("droid")),
+        new UITextImage(-200, -80, Images.getImage("kitty"))
     ];
 
     let currentFocus = 0;
@@ -112,7 +112,7 @@ function MainMenuState() {
     this.update = function () {
         for( var i = 4, l = this.uiElements.length; i < l; i++)
         {
-            if(typeof UITextImage)
+            if(this.uiElements[i].updateTween())
             {
                 this.uiElements[i].updateTween();
             }
