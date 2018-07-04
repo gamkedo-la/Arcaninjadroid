@@ -6,7 +6,7 @@ var sliceVFXData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
     "sourceSize": { "w": 64, "h": 64 },
-    "duration": 50
+    "duration": 25
    },
    {
     "filename": "sliceVFX 1.aseprite",
@@ -15,7 +15,7 @@ var sliceVFXData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
     "sourceSize": { "w": 64, "h": 64 },
-    "duration": 50
+    "duration": 25
    },
    {
     "filename": "sliceVFX 2.aseprite",
@@ -24,7 +24,7 @@ var sliceVFXData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
     "sourceSize": { "w": 64, "h": 64 },
-    "duration": 50
+    "duration": 25
    },
    {
     "filename": "sliceVFX 3.aseprite",
@@ -33,7 +33,7 @@ var sliceVFXData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
     "sourceSize": { "w": 64, "h": 64 },
-    "duration": 50
+    "duration": 25
    },
    {
     "filename": "sliceVFX 4.aseprite",
@@ -42,7 +42,7 @@ var sliceVFXData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
     "sourceSize": { "w": 64, "h": 64 },
-    "duration": 50
+    "duration": 25
    }
  ],
  "meta": {
