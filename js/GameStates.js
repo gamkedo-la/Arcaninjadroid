@@ -112,7 +112,7 @@ function MainMenuState() {
     this.update = function () {
         for( var i = 4, l = this.uiElements.length; i < l; i++)
         {
-            if(this.uiElements[i].updateTween())
+            if(this.uiElements[i].updateTween)
             {
                 this.uiElements[i].updateTween();
             }
@@ -153,7 +153,7 @@ function MainMenuState() {
                 currentFocus = 0;
             }
         }
-        if (this.uiElements[currentFocus].unavailable === true) {
+        if (this.uiElements[currentFocus].unavailable === true || this.uiElements[currentFocus].canHaveFocus === false) {
             this.changeFocus(direction); //endless loop if nothing is selectable, but won't happen...
         }
         else {
