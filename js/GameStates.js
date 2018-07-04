@@ -93,20 +93,30 @@ PauseState.prototype = baseState;
 
 function MainMenuState() {
 
-    this.background = Images.getImage("mainMenu");
+    this.background = Images.getImage("mainMenu_ver2");
 
     this.uiElements = [
         new Button(180,30,Images.getImage("startGame"), function() {return GameStates.inGameState;}),
         new Button(180,50,Images.getImage("loadGame"), function() {console.log("load game")}, {unavailable:true} ),
         new Button(180,70,Images.getImage("options"), function() {console.log("load game")}, {unavailable:true}),
-        new Button(180,90,Images.getImage("credits"),function() {return GameStates.creditsState;})
+        new Button(180,90,Images.getImage("credits"),function() {return GameStates.creditsState;}),
+        new UITextImage(-100, -100, Images.getImage("arca")),
+        new UITextImage(-100, -60, Images.getImage("ninja")),
+        new UITextImage(-100, -10, Images.getImage("droid")),
+        new UITextImage(-100, 20, Images.getImage("kitty"))
     ];
 
     let currentFocus = 0;
     this.uiElements[currentFocus].hasFocus = true;
 
     this.update = function () {
-
+        for( var i = 4, l = this.uiElements.length; i < l; i++)
+        {
+            if(typeof UITextImage)
+            {
+                this.uiElements[i].updateTween();
+            }
+        }
     };
 
     this.handleInput = function () {

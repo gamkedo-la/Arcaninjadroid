@@ -74,6 +74,9 @@ function UITextImage (initX,initY, image) {
 
     let x = initX;
     let y = initY;
+    let endX = x + 100;
+    let endY = y + 100;
+    let movementRate = 1.0;
     this.image = image;
 
     this.draw = function () {
@@ -84,6 +87,15 @@ function UITextImage (initX,initY, image) {
 
         canvasContext.drawImage(this.image, x,y, width,height);
       
+    }
+
+    this.updateTween = function()
+    {
+        if(x < endX && y < endY)
+        {
+            x += movementRate;
+            y += movementRate;
+        }
     }
     
     this.getX = function () {
