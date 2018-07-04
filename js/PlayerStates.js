@@ -292,6 +292,7 @@ function SliceState(parent, relatedStates) {
         this.slicing = false;
         target.lockedOnto = false;
         console.log("unlock");
+        sliceEncoding = [0,0];
     }
 
     this.update = function () {
@@ -340,9 +341,10 @@ function SliceState(parent, relatedStates) {
     this.handleInput = function () {
 
         if (Input.getKeyDown("z")) {
-
+            this.generateRandomSliceDirection();
             if (this.lockedOn && !this.slicing){
                 this.slice();
+
             }
             else {
                 this.reset();
@@ -353,6 +355,34 @@ function SliceState(parent, relatedStates) {
 
         timer = gravityDelay;
         this.changeDirection();
+    }
+    this.generateRandomSliceDirection = function () {
+
+        let rand = Math.random();
+        if (rand < 0.125) {
+            sliceEncoding = [-1,0]; //up
+        }
+        else if (rand < 0.250) {
+            sliceEncoding = [1,0]; //down
+        }
+        else if (rand < 0.375) {
+            sliceEncoding = [0,-1]; //left
+        }
+        else if (rand < 0.500) {
+            sliceEncoding = [0,1]; //right
+        }
+        else if (rand < 0.625) {
+            sliceEncoding = [-1,-1]; //up-left
+        }
+        else if (rand < 0.750) {
+            sliceEncoding = [1,-1]; //down-left
+        }
+        else if (rand < 0.875) {
+            sliceEncoding = [-1,1]; //up-right
+        }
+        else {
+            sliceEncoding = [1,1]; //down-right
+        }
     }
 
     this.slice = function () {
@@ -462,10 +492,12 @@ function SliceState(parent, relatedStates) {
     this.enter = function () {
 
         this.reset();
+        
     }
 
     this.exit = function () {
         if (this.lockedOn) { this.unlock();}
+        sliceEncoding = [0,0];
     }
 };
 SliceState.prototype = baseState;

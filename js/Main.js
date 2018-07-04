@@ -20,6 +20,7 @@ const ORIG_WORLD_W = 240;
 const ORIG_WORLD_H = 135;
 const GROUNDED_Y = 121; //(for 32x32 characters!)
 
+var sliceEncoding = [0,0];
 window.onload = function () {
 
     window.focus();

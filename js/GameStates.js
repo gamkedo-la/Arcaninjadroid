@@ -6,6 +6,7 @@ function InGameState() {
     var justEntered; //hackity hack
 
     this.background = Images.getImage("moonlitForest");
+    let arrowImage = Images.getImage("sliceArrow");
 
     this.update = function () {
 
@@ -35,6 +36,7 @@ function InGameState() {
         drawAllCharacters();
         drawAllTerrain();
         ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
+        this.drawSliceArrows();
     }
 
     this.enter = function () {
@@ -49,6 +51,27 @@ function InGameState() {
 
     this.exit = function () {
     };
+
+    this.drawSliceArrows = function () {
+        let drawnOne = false;
+        let drawX = 60;
+        let drawXJump = 35;
+
+        if (sliceEncoding[0] === -1) {
+            drawBitmapWithRotation(arrowImage, drawX,60, Math.PI/2);
+            drawX += drawXJump;
+        } else if (sliceEncoding[0] === 1) {
+
+            drawBitmapWithRotation(arrowImage, drawX,60, -Math.PI/2);
+            drawX += drawXJump;
+        }
+
+        if (sliceEncoding[1] === -1) {
+            drawBitmapWithRotation(arrowImage, drawX,60, Math.PI);
+        } else if (sliceEncoding[1] === 1) {
+            drawBitmapWithRotation(arrowImage, drawX,60, 0);
+        }
+    }
 
 };
 InGameState.prototype = baseState;
