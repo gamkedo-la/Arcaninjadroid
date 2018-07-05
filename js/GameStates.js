@@ -53,24 +53,28 @@ function InGameState() {
     };
 
     this.drawSliceArrows = function () {
-        let drawnOne = false;
-        let drawX = 60;
-        let drawXJump = 35;
+
+        let drawXMiddle = 120;
+        let drawYMiddle = 36;
+        let drawYUpper = 15;
+        let drawXMiddleDist = 35; // absolute x distance from vertical arrow
+        let drawYLower = 56;
 
         if (sliceEncoding[0] === -1) {
-            drawBitmapWithRotation(arrowImage, drawX,60, Math.PI/2);
-            drawX += drawXJump;
+
+            drawBitmapWithRotation(arrowImage, drawXMiddle,drawYUpper, Math.PI/2);
+
         } else if (sliceEncoding[0] === 1) {
 
-            drawBitmapWithRotation(arrowImage, drawX,60, -Math.PI/2);
-            drawX += drawXJump;
+            drawBitmapWithRotation(arrowImage, drawXMiddle,drawYLower, -Math.PI/2);
         }
 
         if (sliceEncoding[1] === -1) {
-            drawBitmapWithRotation(arrowImage, drawX,60, Math.PI);
+            drawBitmapWithRotation(arrowImage, drawXMiddle - drawXMiddleDist,drawYMiddle, Math.PI);
         } else if (sliceEncoding[1] === 1) {
-            drawBitmapWithRotation(arrowImage, drawX,60, 0);
+            drawBitmapWithRotation(arrowImage, drawXMiddle + drawXMiddleDist,drawYMiddle, 0);
         }
+
     }
 
 };

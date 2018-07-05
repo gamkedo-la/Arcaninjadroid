@@ -275,8 +275,9 @@ function SliceState(parent, relatedStates) {
     this.animation = dashAnim;
 
     this.lockOn = function (char) {
-        //this.animation = lockAnim;
+        this.generateRandomSliceDirection();
         this.lockedOn = true;
+        timer = gravityDelay;
         target = char;
         if (target.slicesNeeded) {remainingSlices = target.slicesNeeded; }
         else {remainingSlices = 7;}
@@ -284,7 +285,7 @@ function SliceState(parent, relatedStates) {
         parent.x = target.x;
         parent.y = target.y;
 
-        this.slice();
+        //this.slice();
     }
     this.unlock = function () {
         this.animation = dashAnim;
@@ -293,6 +294,7 @@ function SliceState(parent, relatedStates) {
         target.lockedOnto = false;
         console.log("unlock");
         sliceEncoding = [0,0];
+        parent.velocity.y += -parent.jumpVelocity;
     }
 
     this.update = function () {
@@ -309,7 +311,7 @@ function SliceState(parent, relatedStates) {
             return states.crouchState;
         }
 
-        if (!dashDone && !this.lockedOn) {
+        if (!dashDone && !this.lockedOn && !this.slicing) {
             parent.x += dx;
             parent.y += dy;
             if ((dx >= 0 && parent.x > destination.x) || (dx < 0 && parent.x < destination.x) || (dy >= 0 && parent.y > destination.y) || (dy < 0 && parent.y < destination.y)) {
@@ -341,10 +343,9 @@ function SliceState(parent, relatedStates) {
     this.handleInput = function () {
 
         if (Input.getKeyDown("z")) {
-            this.generateRandomSliceDirection();
+            
             if (this.lockedOn && !this.slicing){
                 this.slice();
-
             }
             else {
                 this.reset();
@@ -354,6 +355,7 @@ function SliceState(parent, relatedStates) {
     this.reset = function () {
 
         timer = gravityDelay;
+        sliceEncoding = [0,0];
         this.changeDirection();
     }
     this.generateRandomSliceDirection = function () {
@@ -385,41 +387,64 @@ function SliceState(parent, relatedStates) {
         }
     }
 
+    //only changes the animation, finishSlice deals the damage
     this.slice = function () {
-        
-        timer = gravityDelay;
-        this.slicing = true;
+
+
+        let sliceVert = 0;
+        let sliceHoriz = 0;
 
         if (Input.getKey("up")) {
-            if (Input.getKey("left")) {
-                this.animation = sliceUpLeftAnim;
-            } else if (Input.getKey("right")){
-                this.animation = sliceUpRightAnim;
-            } else {
-                this.animation = sliceUpAnim;
-            }
+            sliceVert = -1;
         }
         else if (Input.getKey("down")) {
-            if (Input.getKey("left")) {
-                this.animation = sliceDownLeftAnim;
-            } else if (Input.getKey("right")){
-                this.animation = sliceDownRightAnim;
-            } else {
-                this.animation = sliceDownAnim;
-            }
+            sliceVert = 1;
         }
-        //we've already checked up/down
-        else if (Input.getKey("left")) {
-            this.animation = sliceLeftAnim;
+
+        if (Input.getKey("left")) {
+            sliceHoriz = -1;
         }
         else if (Input.getKey("right")) {
-            this.animation = sliceRightAnim;
+            sliceHoriz = 1;
         }
-        this.animation.loop();
-        
+
+        //check if we pressed the correct thing
+        if (sliceVert === sliceEncoding[0] && sliceHoriz === sliceEncoding[1]) {
+            if (sliceVert === -1) {
+                if (sliceHoriz === -1) {
+                    this.animation = sliceUpLeftAnim;
+                } else if (sliceHoriz === 1) {
+                    this.animation = sliceUpRightAnim;
+                } else {
+                    this.animation = sliceUpAnim;
+                }
+            }
+            else if (sliceVert === 1) {
+                if (sliceHoriz === -1) {
+                    this.animation = sliceDownLeftAnim;
+                } else if (sliceHoriz === 1) {
+                    this.animation = sliceDownRightAnim;
+                } else {
+                    this.animation = sliceDownAnim;
+                }
+            }
+            else if (sliceHoriz === -1) {
+                this.animation = sliceLeftAnim;
+            } else if (sliceHoriz === 1) {
+                this.animation = sliceRightAnim;
+            }
+
+            this.slicing = true;
+            this.animation.loop();
+            if (remainingSlices != 1) this.generateRandomSliceDirection();
+        }
     }
+
+
     this.finishSlice = function () {
+
         remainingSlices--;
+        timer = gravityDelay;
         this.slicing = false;
         this.animation = dashAnim;
         if (remainingSlices <= 0) {
@@ -430,6 +455,7 @@ function SliceState(parent, relatedStates) {
             return states.jumpState;
         }
     }
+
 
     this.changeDirection = function () {
 

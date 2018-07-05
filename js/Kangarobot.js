@@ -14,7 +14,7 @@ function Kangarobot(x, y) {
     char.knockedUpAnim = new Animation(char, Images.getImage("kangarobotStunned"), kangarobotKnockedUpData, { loop: true });
 
     char.walkSpeed = 0.75;
-    char.slicesNeeded = 5;
+    char.slicesNeeded = 3;
 
     var states = new EnemyStates(char);
 
