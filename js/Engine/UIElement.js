@@ -31,7 +31,6 @@ function Button (initX,initY, image, callback, config) {
             tintCanvas.width = width;
             tintCanvas.height = height;
 
-            
             tintContext.drawImage(this.image, 0,0, width,height);
             tintContext.globalCompositeOperation = "source-atop";
             tintContext.fillStyle = "rgba(0,0,0,0.65)";
@@ -41,16 +40,18 @@ function Button (initX,initY, image, callback, config) {
         }
 
         else {
-
             if (this.hasFocus) {
                 width *= 1.1;
                 height *= 1.1;
+                // This does the llinking selection on start menu
+                if (now % (2 * 1000) <= (1 * 1000)) {
+                    canvasContext.drawImage(this.image, x-width/2,y-height/2, width,height);
+                }
+            } else {
+                canvasContext.drawImage(this.image, x-width/2,y-height/2, width,height);
             }
-            canvasContext.drawImage(this.image, x-width/2,y-height/2, width,height);
         }
-        
 
-            
     }
 
 
