@@ -132,6 +132,8 @@ function countLoadedImagesAndLaunchIfReady() {
     if (picsToLoad == 0) {
 
         imageLoadingDoneSoStartGame();
+    } else {
+        // TODO render a progress bar
     }
 }
 

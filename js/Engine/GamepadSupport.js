@@ -8,6 +8,20 @@
 window.joystick = new GamepadSupport();
 
 function GamepadSupport() {
+
+    // arrow keys
+    var SIMULATED_KEY_UP = keycodes.up; //keycodes.w;
+    var SIMULATED_KEY_DOWN = keycodes.down; //keycodes.s;
+    var SIMULATED_KEY_LEFT = keycodes.left; //keycodes.a;
+    var SIMULATED_KEY_RIGHT = keycodes.right; //keycodes.d;
+
+    // action buttons
+    var SIMULATED_KEY_A_BUTTON = keycodes.up; //keycodes.space; // jump in this game is the up arrow key
+    var SIMULATED_KEY_B_BUTTON = keycodes.z;
+    var SIMULATED_KEY_X_BUTTON = keycodes.x;
+    var SIMULATED_KEY_Y_BUTTON = keycodes.enter;
+
+    // internal states
     var gamepad = null;
     var gamepad_left = false;
     var gamepad_right = false;
@@ -25,15 +39,6 @@ function GamepadSupport() {
     var prev_gamepad_jump = false;
     var prev_gamepad_x = false;
     var prev_gamepad_y = false;
-
-    var SIMULATED_KEY_UP = keycodes.w;
-    var SIMULATED_KEY_DOWN = keycodes.s;
-    var SIMULATED_KEY_LEFT = keycodes.a;
-    var SIMULATED_KEY_RIGHT = keycodes.d;
-    var SIMULATED_KEY_A_BUTTON = keycodes.space;
-    var SIMULATED_KEY_B_BUTTON = keycodes.z;
-    var SIMULATED_KEY_X_BUTTON = keycodes.x;
-    var SIMULATED_KEY_Y_BUTTON = keycodes.enter;
 
     window.addEventListener("gamepadconnected", function (e) {
         // Gamepad connected

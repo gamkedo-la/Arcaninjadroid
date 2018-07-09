@@ -42,7 +42,7 @@ function InGameState() {
     this.enter = function () {
         justEntered = true;
 
-        if (currentMusic.getPaused() === true){
+        if (currentMusic.getPaused() === true) {
             startAudio();
         }
 
@@ -62,17 +62,17 @@ function InGameState() {
 
         if (sliceEncoding[0] === -1) {
 
-            drawBitmapWithRotation(arrowImage, drawXMiddle,drawYUpper, Math.PI/2);
+            drawBitmapWithRotation(arrowImage, drawXMiddle, drawYUpper, Math.PI / 2);
 
         } else if (sliceEncoding[0] === 1) {
 
-            drawBitmapWithRotation(arrowImage, drawXMiddle,drawYLower, -Math.PI/2);
+            drawBitmapWithRotation(arrowImage, drawXMiddle, drawYLower, -Math.PI / 2);
         }
 
         if (sliceEncoding[1] === -1) {
-            drawBitmapWithRotation(arrowImage, drawXMiddle - drawXMiddleDist,drawYMiddle, Math.PI);
+            drawBitmapWithRotation(arrowImage, drawXMiddle - drawXMiddleDist, drawYMiddle, Math.PI);
         } else if (sliceEncoding[1] === 1) {
-            drawBitmapWithRotation(arrowImage, drawXMiddle + drawXMiddleDist,drawYMiddle, 0);
+            drawBitmapWithRotation(arrowImage, drawXMiddle + drawXMiddleDist, drawYMiddle, 0);
         }
 
     }
@@ -81,38 +81,38 @@ function InGameState() {
 InGameState.prototype = baseState;
 
 function PauseState() {
-  this.background = Images.getImage("moonlitForest");
-  var gamePausedText = Images.getImage("gamePaused");
+    this.background = Images.getImage("moonlitForest");
+    var gamePausedText = Images.getImage("gamePaused");
 
-  this.update = function () {
-  };
+    this.update = function () {
+    };
 
-  this.handleInput = function () {
-    if (Input.getKeyDown("p")) {
-        return GameStates.inGameState;
-    }
-    if (Input.getKeyDown("escape")) {
-        return GameStates.mainMenuState;
-    }
-  };
+    this.handleInput = function () {
+        if (Input.getKeyDown("p")) {
+            return GameStates.inGameState;
+        }
+        if (Input.getKeyDown("escape")) {
+            return GameStates.mainMenuState;
+        }
+    };
 
-  this.draw = function () {
+    this.draw = function () {
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
         drawAllCharacters();
         drawAllTerrain();
         ParticleRenderer.renderAll(canvasContext);
-        colorRectAlpha(0,0,canvas.width,canvas.height,[0,0,0,0.65]);
+        colorRectAlpha(0, 0, canvas.width, canvas.height, [0, 0, 0, 0.65]);
         canvasContext.drawImage(gamePausedText, 0, 35);
-  };
+    };
 
-  this.enter = function () {
-    pauseAudio();
-  };
+    this.enter = function () {
+        pauseAudio();
+    };
 
-  this.exit = function () {
-    resumeAudio();
-  };
+    this.exit = function () {
+        resumeAudio();
+    };
 }
 PauseState.prototype = baseState;
 
@@ -123,10 +123,10 @@ function MainMenuState() {
     this.background = Images.getImage("mainMenu_ver2");
 
     this.uiElements = [
-        new Button(180,30,Images.getImage("startGame"), function() {return GameStates.inGameState;}),
-        new Button(180,50,Images.getImage("loadGame"), function() {console.log("load game")}, {unavailable:true} ),
-        new Button(180,70,Images.getImage("options"), function() {console.log("load game")}, {unavailable:true}),
-        new Button(180,90,Images.getImage("credits"),function() {return GameStates.creditsState;}),
+        new Button(180, 30, Images.getImage("startGame"), function () { return GameStates.inGameState; }),
+        new Button(180, 50, Images.getImage("loadGame"), function () { console.log("load game") }, { unavailable: true }),
+        new Button(180, 70, Images.getImage("options"), function () { console.log("load game") }, { unavailable: true }),
+        new Button(180, 90, Images.getImage("credits"), function () { return GameStates.creditsState; }),
         new UITextImage(-200, -200, Images.getImage("arca")),
         new UITextImage(-200, -160, Images.getImage("ninja")),
         new UITextImage(-200, -110, Images.getImage("droid")),
@@ -137,17 +137,17 @@ function MainMenuState() {
     this.uiElements[currentFocus].hasFocus = true;
 
     this.update = function () {
-        for( var i = 4, l = this.uiElements.length; i < l; i++)
-        {
-            if(this.uiElements[i].updateTween)
-            {
+        for (var i = 4, l = this.uiElements.length; i < l; i++) {
+            if (this.uiElements[i].updateTween) {
                 this.uiElements[i].updateTween();
             }
         }
     };
 
     this.handleInput = function () {
-        if (Input.getKeyDown("enter")) {
+        if (Input.getKeyDown("enter") ||
+            Input.getKeyDown("space") ||    // allow an alternate input
+            Input.getKeyDown("z")) {        // allow gamepads to use attack button
 
             if (this.uiElements[currentFocus].callback) {
                 state = this.uiElements[currentFocus].callback();
@@ -157,11 +157,11 @@ function MainMenuState() {
             }
         }
         if (Input.getKeyDown("up")) {
-            
+
             this.changeFocus("up");
         }
         else if (Input.getKeyDown("down")) {
-            
+
             this.changeFocus("down");
         }
     };
@@ -172,7 +172,7 @@ function MainMenuState() {
         if (direction === "up") {
             currentFocus--;
             if (currentFocus < 0) {
-                currentFocus = this.uiElements.length-1;
+                currentFocus = this.uiElements.length - 1;
             }
         } else if (direction === "down") {
             currentFocus++;
@@ -191,7 +191,7 @@ function MainMenuState() {
     this.draw = function () {
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
-        for (var i = 0, l = this.uiElements.length; i<l; i++) {
+        for (var i = 0, l = this.uiElements.length; i < l; i++) {
             this.uiElements[i].draw();
         }
         ParticleRenderer.renderAll(canvasContext);
@@ -210,7 +210,7 @@ MainMenuState.prototype = baseState;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-function CreditsState () {
+function CreditsState() {
 
     this.background = Images.getImage("creditsScreen");
 
@@ -228,16 +228,16 @@ function CreditsState () {
     let nameCounter = 0;
 
     this.uiElements = [];
-    let names = ["remy","christer","jaime","stebs","misha","baris","ashleeTrenton","gamkedo"];
-    for (var i = 0, l = names.length; i<l; i++) {
-        this.uiElements[i] = new UITextImage (lockonX + nextDistance*i, lockonY, Images.getImage(names[i]));
+    let names = ["remy", "christer", "jaime", "stebs", "misha", "baris", "ashleeTrenton", "gamkedo"];
+    for (var i = 0, l = names.length; i < l; i++) {
+        this.uiElements[i] = new UITextImage(lockonX + nextDistance * i, lockonY, Images.getImage(names[i]));
     }
 
     this.update = function () {
 
         if (!waiting) {
             let currentX;
-            for (var i = 0, l = this.uiElements.length; i<l; i++) {
+            for (var i = 0, l = this.uiElements.length; i < l; i++) {
                 currentX = this.uiElements[i].getX();
                 this.uiElements[i].setX(currentX - scrollSpeed);
             }
@@ -257,7 +257,7 @@ function CreditsState () {
                 nameCounter++;
             }
         }
-        if (nameCounter === this.uiElements.length-1) {
+        if (nameCounter === this.uiElements.length - 1) {
             waiting = true; //permalock in wait when we're done scrolling
         }
 
@@ -268,21 +268,21 @@ function CreditsState () {
         if (Input.getKeyDown("enter") || Input.getKeyDown("escape")) {
             return GameStates.mainMenuState;
         }
-        
+
     };
 
     this.draw = function () {
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
-        for (var i = 0, l = this.uiElements.length; i<l; i++) {
+        for (var i = 0, l = this.uiElements.length; i < l; i++) {
             this.uiElements[i].draw();
         }
         //ParticleRenderer.renderAll(canvasContext);
     };
 
     this.resetText = function () {
-        for (var i = 0, l = this.uiElements.length; i<l; i++) {
-            this.uiElements[i].setX(lockonX + nextDistance*i);
+        for (var i = 0, l = this.uiElements.length; i < l; i++) {
+            this.uiElements[i].setX(lockonX + nextDistance * i);
             this.uiElements[i].setY(lockonY);
         }
     }
