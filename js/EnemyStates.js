@@ -7,6 +7,8 @@ function IdleEnemyState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
     var thinkDelayRemaining = 0;
+    var thinkDelayRangeMin = 10;
+    var thinkDelayRangeMax = 30;
 
     this.animation = parent.idleAnim;
 
@@ -41,10 +43,8 @@ function IdleEnemyState(parent, relatedStates) {
             states.idleState // stay idle?
         ];
 
-        // randomly choose a walk direction just in case we need it
-        parent.aiWalkDirection = (Math.random() < 0.5 ? 1 : -1); // 1 or -1 means right or left
-
-        thinkDelayRemaining = 30; // don't think again for a while
+        // don't think again for a while
+        thinkDelayRemaining = thinkDelayRangeMin + (Math.round(Math.random() * (thinkDelayRangeMax - thinkDelayRangeMin)));
 
         return idleStateWeightedChoices[Math.floor(Math.random() * idleStateWeightedChoices.length)];
 
@@ -86,6 +86,9 @@ function WalkEnemyState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
     var thinkDelayRemaining = 0; // so we don't change our minds every frame
+    var thinkDelayRangeMin = 10;
+    var thinkDelayRangeMax = 30;
+    parent.aiWalkDirection = 1; // default values
 
     this.animation = parent.walkAnim;
 
@@ -93,15 +96,55 @@ function WalkEnemyState(parent, relatedStates) {
 
         parent.applyBasicPhysics();
         if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
-        parent.velocity.x = parent.walkSpeed;
+
+        // apply our walking velocity
+        parent.velocity.x = parent.walkSpeed * parent.aiWalkDirection; // left or right
 
     }
 
     this.handleInput = function () {
         //if (!debug) { return; }
 
-        // since we are walking, which way?
-        parent.velocity.x = parent.walkSpeed * parent.aiWalkDirection; // left or right
+        const debugAI = false; // console spam
+
+        // go towards the player unless too close (FIXME: not centered? offset to the left corner?)
+        const TOOCLOSE = 32; // FIXME: need to be close enough to hit 
+
+        var distanceToPlayer = parent.x - player.x;
+
+        if (distanceToPlayer > 0) { // is the player to the right of me?
+
+            if (debugAI) console.log("ai dist: " + distanceToPlayer + " - player is to the RIGHT of me!");
+            if (distanceToPlayer < TOOCLOSE) { // back off
+                console.log("backing off to the right");
+                parent.aiWalkDirection = 1;
+            }
+            else { // close in
+                if (debugAI) console.log("closing in to the left");
+                parent.aiWalkDirection = -1;
+            }
+
+        }
+        else // is the player to the right of me?
+        {
+
+            if (debugAI) console.log("ai dist: " + distanceToPlayer + " - player is to the LEFT of me!");
+            if (distanceToPlayer > -TOOCLOSE) { // back off
+                if (debugAI) console.log("backing off to the left");
+                parent.aiWalkDirection = -1;
+            }
+            else { // close in
+                if (debugAI) console.log("closing in to the right");
+                parent.aiWalkDirection = 1;
+            }
+
+        }
+
+        // randomly choose a walk direction instead:
+        // parent.aiWalkDirection = (Math.random() < 0.5 ? 1 : -1); // 1 or -1 means right or left
+
+        // make the sprite face the right way
+        parent.flipped = (parent.aiWalkDirection == -1); // true/false
 
         thinkDelayRemaining--;
         if (thinkDelayRemaining > 0) {
@@ -124,7 +167,8 @@ function WalkEnemyState(parent, relatedStates) {
             states.idleState // stop walking
         ];
 
-        thinkDelayRemaining = 30; // don't think again for a while
+        // don't think again for a while
+        thinkDelayRemaining = thinkDelayRangeMin + (Math.round(Math.random() * (thinkDelayRangeMax - thinkDelayRangeMin)));
 
         return walkStateWeightedChoices[Math.floor(Math.random() * walkStateWeightedChoices.length)];
 
