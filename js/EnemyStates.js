@@ -100,10 +100,18 @@ function WalkEnemyState(parent, relatedStates) {
         // apply our walking velocity
         parent.velocity.x = parent.walkSpeed * parent.aiWalkDirection; // left or right
 
+        // make the sprite face the right way
+        parent.flipped = (parent.aiWalkDirection == -1); // true/false
+
     }
 
     this.handleInput = function () {
         //if (!debug) { return; }
+
+        thinkDelayRemaining--;
+        if (thinkDelayRemaining > 0) {
+            return; // no state change this frame - keep going
+        }
 
         const debugAI = false; // console spam
 
@@ -116,7 +124,7 @@ function WalkEnemyState(parent, relatedStates) {
 
             if (debugAI) console.log("ai dist: " + distanceToPlayer + " - player is to the RIGHT of me!");
             if (distanceToPlayer < TOOCLOSE) { // back off
-                console.log("backing off to the right");
+                if (debugAI) console.log("backing off to the right");
                 parent.aiWalkDirection = 1;
             }
             else { // close in
@@ -142,14 +150,6 @@ function WalkEnemyState(parent, relatedStates) {
 
         // randomly choose a walk direction instead:
         // parent.aiWalkDirection = (Math.random() < 0.5 ? 1 : -1); // 1 or -1 means right or left
-
-        // make the sprite face the right way
-        parent.flipped = (parent.aiWalkDirection == -1); // true/false
-
-        thinkDelayRemaining--;
-        if (thinkDelayRemaining > 0) {
-            return; // no state change this frame - keep going
-        }
 
         // simplistic weighted random
         var walkStateWeightedChoices = [
