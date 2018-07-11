@@ -1,11 +1,3 @@
-class Robot {
-
-}
-
-class Pirate {
-
-}
-
 class Level {
   /**
    * 
@@ -53,6 +45,8 @@ class Level {
 }
 
 // For testing purposes:
+// class Robot {};
+// class Pirate {};
 // const level1 = new Level({enemyList: {enemyTypes: [Robot, Pirate], limit: 5}});
 // level1._setEnemies();
 // level1._debug();
