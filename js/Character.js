@@ -172,10 +172,21 @@ function Character(x, y) {
         return this.actionMachine.getAnimation();
     }
 
+    this.getCurrentHP = function () {
+        return this.stats.getNewHP();
+    }
+
+    this.getMaxHP = function () {
+        return this.stats.getModifiedHP();
+    }
+
     this.initMachine = function (allStates) {
 
-        var states = allStates;
-        this.actionMachine = new StateMachine(states.initial); // state machine of the current move being used
+        this.actionMachine = new StateMachine(allStates.initial); // state machine of the current move being used
+    }
+
+    this.initAI = function (allStates) {
+        this.AIModule = new AIModule (this, allStates);
     }
 }
 
@@ -201,10 +212,25 @@ function updateAllCharacters() {
         characters[i].actionMachine.updateAnimation(); //state changes are handled based on animation durations, so we update anims first
     }
 
+    
+    // Update all AI. We can receive new states that we will give directly to the action machine
+    for (var i = 0, l = characters.length; i < l; i++) {
+
+        if (characters[i].AIModule && characters[i].actionMachine.getCurrentState().canThinkDuring){
+
+            let newState = characters[i].AIModule.update();
+            if (newState) {
+                characters[i].actionMachine.handleReceivedState(newState);
+            }
+        }
+    }
+
+
     // Update all state machines
     for (var i = 0, l = characters.length; i < l; i++) {
         characters[i].actionMachine.update();
     }
+
 
     // Ground checks
     for (var i = 0, l = characters.length; i < l; i++) {

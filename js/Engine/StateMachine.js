@@ -51,8 +51,10 @@ function StateMachine(defaultState) {
         }
     }
 
+    // Left commented to reuse after the game releases
     // Use only for crude, exceptional cases
     // If you can, return a new state in the state update functions instead!
+    /*
     this.changeState = function (state) {
 
         if (typeof state.enter === "undefined") {
@@ -68,7 +70,7 @@ function StateMachine(defaultState) {
         currentState = state;
 
         state.enter(); //states handle their own initialization
-    }
+    }*/
 
     this.changeToPrevious = function () {
 
@@ -100,7 +102,7 @@ function StateMachine(defaultState) {
         if (currentState){
             currentState.exit(); //could have been undefined if received from another source than updates (like at init)
         }
-        if (nextState.animation) {
+        if (nextState.animation && nextState!=currentState) {
             nextState.animation.loop();
         }
         //make the switch and save previous

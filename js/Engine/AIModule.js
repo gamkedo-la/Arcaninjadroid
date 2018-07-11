@@ -1,0 +1,111 @@
+
+// Disclaimer: I am not an AI coder and this is not meant to be used as reference for solid game AI code.
+// My intention is simply to extract the AI code from the states in order to generate a simple "state generator"
+// with multiple configurations available
+
+/*
+possibleStates should be an object litteral with the format 
+{
+    walk: myChar.walkState
+}
+etc. 
+*/
+
+// "State" refers to an in-game character action (walking, idling, jumping etc)
+// "Decision" refers to the choices made by the AI. Am I passive, attacking, closing in, running away, etc.
+
+function AIModule (parent, possibleStates, config) {
+
+    let states = possibleStates; //shorter to write, but not as self-descriptive
+    if (!config) {config = {}; } //trying to look at properties of "undefined" is not allowed
+ 
+    let _attackDistance = 0; //changes depending on the attack we're currently trying to do
+
+    let thinkDelayRangeMin = config.thinkDelayRangeMin || 20;
+    let thinkDelayRangeMax = config.thinkDelayRangeMax || 50;
+    let scaredTargetDistance = config.scaredTargetDistance || 120;
+
+    let _timeUntilThink = 0; //resetThinkTimer is called at init
+
+    //let decisionsAllowed = { passive:true, attack:true };
+
+    //let decisionsAllowed = ["passive"];
+
+    let decisionPassive = {
+        walk:0.5,
+        idle:0.5
+    }
+
+    let decisionScared = {
+        walk: 1
+    }
+
+    let _currentDecision = decisionPassive;
+
+    this.update = function () {
+
+        _timeUntilThink--;
+        if (_timeUntilThink <= 0) {
+
+            resetThinkTimer();
+            return think(); //think returns one of the states our character can use
+        }
+    }
+
+    // just to make it clear that this is for extraordinary cases
+    this.forceThink = function () {
+        think();
+    }
+
+    let resetThinkTimer = function () {
+        _timeUntilThink = thinkDelayRangeMin + (Math.round(Math.random() * (thinkDelayRangeMax - thinkDelayRangeMin)));
+    }
+    resetThinkTimer();
+
+
+    let think = function() {
+
+        let rand = Math.random();
+        let _weightTally = 0;
+
+        //Generates a DECISION based on current GAME VARIABLES (for example parent health)
+        if (parent.getCurrentHP() < parent.getMaxHP()) {
+            _currentDecision = decisionScared;   
+        } else {
+            _currentDecision = decisionPassive;
+        }
+
+        // Parent changes for "passive" decision
+        if (_currentDecision === decisionPassive){
+
+            let direction = Math.random() < 0.5 ? 1:-1;
+
+            states.walkState.AIWalkDirection = direction;
+            parent.flipped = (direction === -1);
+        }
+        
+        else if (_currentDecision === decisionScared) {
+            states.walkState.AIWalkDirection = Math.sign(getXDistanceFrom(player));
+        }
+
+        // Generates a STATE based on the current DECISION
+        for (state in _currentDecision) {
+            
+            _weightTally += _currentDecision[state];
+            if (rand <= _weightTally) {
+                //console.log("Chose to: ", state);
+
+                return states[state+"State"] //bit hacky, depends on the naming convention used
+            
+            }
+
+        }
+
+    }
+
+    // Return positive if parent at the right, negative if at the left
+    let getXDistanceFrom = function (other) {
+        return parent.x - other.x;
+    }
+
+}

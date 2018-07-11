@@ -19,6 +19,7 @@ function Kangarobot(x, y) {
     var states = new EnemyStates(char);
 
     char.initMachine(states);
+    char.initAI(states);
     char.trail = new WooshTrail("wooshTrailKangarobot");
 
     var enemyXP = new XPclass();

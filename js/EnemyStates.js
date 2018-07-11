@@ -10,6 +10,8 @@ function IdleEnemyState(parent, relatedStates) {
     var thinkDelayRangeMin = 10;
     var thinkDelayRangeMax = 30;
 
+    this.canThinkDuring = true;
+
     this.animation = parent.idleAnim;
 
     this.update = function () {
@@ -20,26 +22,18 @@ function IdleEnemyState(parent, relatedStates) {
     }
 
     this.handleInput = function () {
-        //if (debug === false) { return; }
 
-        const ATTACKRANGE = 15; //when standing between TOOCLOSE and ATTACKRANGE, attacks will be triggered
-        const TOOCLOSE = 10;
-
-        thinkDelayRemaining--;
-        if (thinkDelayRemaining > 0) {
-            return; // no state change this frame - keep going
-        }
 
         var distanceToPlayer = parent.x - player.x;
-        if (TOOCLOSE < Math.abs(distanceToPlayer) && Math.abs(distanceToPlayer) < ATTACKRANGE) {
+        /*if (TOOCLOSE < Math.abs(distanceToPlayer) && Math.abs(distanceToPlayer) < ATTACKRANGE) {
             
-            /*if (Math.random() < 0.5) {
+            if (Math.random() < 0.5) {
                 return states.punchState;
             } else {
                 return states.crouchState;
-            }*/
+            }
             return states.punchState;
-        }
+        }*/
         // simplistic weighted random
         var idleStateWeightedChoices = [
             states.jumpState,
@@ -56,7 +50,7 @@ function IdleEnemyState(parent, relatedStates) {
         // don't think again for a while
         thinkDelayRemaining = thinkDelayRangeMin + (Math.round(Math.random() * (thinkDelayRangeMax - thinkDelayRangeMin)));
 
-        return idleStateWeightedChoices[Math.floor(Math.random() * idleStateWeightedChoices.length)];
+        //return idleStateWeightedChoices[Math.floor(Math.random() * idleStateWeightedChoices.length)];
 
         // PLAYER example input detection for reference:
         /*
@@ -98,7 +92,10 @@ function WalkEnemyState(parent, relatedStates) {
     var thinkDelayRemaining = 0; // so we don't change our minds every frame
     var thinkDelayRangeMin = 10;
     var thinkDelayRangeMax = 30;
-    parent.aiWalkDirection = 1; // default values
+
+    this.AIWalkDirection = 1; // default value
+
+    this.canThinkDuring = true;
 
     this.animation = parent.walkAnim;
 
@@ -108,7 +105,7 @@ function WalkEnemyState(parent, relatedStates) {
         if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
         // apply our walking velocity
-        parent.velocity.x = parent.walkSpeed * parent.aiWalkDirection; // left or right
+        parent.velocity.x = parent.walkSpeed * this.AIWalkDirection; // left or right
 
     }
 
@@ -127,17 +124,17 @@ function WalkEnemyState(parent, relatedStates) {
         const ATTACKRANGE = 15; //when standing between TOOCLOSE and ATTACKRANGE, attacks will be triggered
 
         var distanceToPlayer = parent.x - player.x;
-
+/*
         if (distanceToPlayer > 0) { // is the player to the right of me?
 
             if (debugAI) console.log("ai dist: " + distanceToPlayer + " - player is to the RIGHT of me!");
             if (distanceToPlayer < TOOCLOSE) { // back off
                 if (debugAI) console.log("backing off to the right");
-                parent.aiWalkDirection = 1;
+                this.AIWalkDirection = 1;
             }
             else { // close in
                 if (debugAI) console.log("closing in to the left");
-                parent.aiWalkDirection = -1;
+                this.AIWalkDirection = -1;
             }
 
         }
@@ -147,33 +144,32 @@ function WalkEnemyState(parent, relatedStates) {
             if (debugAI) console.log("ai dist: " + distanceToPlayer + " - player is to the LEFT of me!");
             if (distanceToPlayer > -TOOCLOSE) { // back off
                 if (debugAI) console.log("backing off to the left");
-                parent.aiWalkDirection = -1;
+                this.AIWalkDirection = -1;
             }
             else { // close in
                 if (debugAI) console.log("closing in to the right");
-                parent.aiWalkDirection = 1;
+                this.AIWalkDirection = 1;
             }
 
         }
-
+*/
         // make the sprite face the right way
-        parent.flipped = (parent.aiWalkDirection == -1); // true/false
+        parent.flipped = (this.AIWalkDirection === -1); // true/false
 
         // don't think again for a while
         thinkDelayRemaining = thinkDelayRangeMin + (Math.round(Math.random() * (thinkDelayRangeMax - thinkDelayRangeMin)));
-
+/*
         if (TOOCLOSE < Math.abs(distanceToPlayer) && Math.abs(distanceToPlayer) < ATTACKRANGE) {
             
             return states.punchState;
-        }
+        }*/
 
         // randomly choose a walk direction instead:
-        // parent.aiWalkDirection = (Math.random() < 0.5 ? 1 : -1); // 1 or -1 means right or left
+        // this.AIWalkDirection = (Math.random() < 0.5 ? 1 : -1); // 1 or -1 means right or left
 
         // simplistic weighted random
         var walkStateWeightedChoices = [
             states.jumpState,
-            states.crouchState,
             states.walkState, // continue to walk in the same direction
             states.walkState,
             states.walkState,
@@ -185,7 +181,7 @@ function WalkEnemyState(parent, relatedStates) {
             states.idleState // stop walking
         ];
 
-        return walkStateWeightedChoices[Math.floor(Math.random() * walkStateWeightedChoices.length)];
+        // return walkStateWeightedChoices[Math.floor(Math.random() * walkStateWeightedChoices.length)];
 
         // PLAYER version that uses inputs for reference:
         /*
@@ -358,6 +354,8 @@ KnockupEnemyState.prototype = baseState;
 function CrouchEnemyState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
+
+    this.canThinkDuring = true;
 
     this.animation = parent.crouchAnim;
 
