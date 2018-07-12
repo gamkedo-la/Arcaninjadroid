@@ -20,6 +20,7 @@ function IdleAndroidState(parent, relatedStates) {
 
     this.update = function () {
 
+        if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
         parent.applyBasicPhysics();
 
     }
@@ -68,6 +69,7 @@ function CrouchState(parent, relatedStates) {
 
     this.update = function () {
 
+        if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
     }
 
     this.handleInput = function () {
@@ -103,6 +105,7 @@ function JumpState(parent, relatedStates) {
 
     this.update = function () {
 
+        if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
         if (this.fastfall === true) {
             parent.velocity.y += 1.5; //give a boost to the fall speed
         }
@@ -166,10 +169,12 @@ function PunchState(parent, relatedStates) {
 
     this.animation = new Animation(parent, Images.getImage("playerPunch"), playerPunchData);
 
-    this.attackDamage = 100;
+    this.attackDamage = 50;
 
     this.update = function () {
         // not applying gravity here is a feature, not an error
+
+        if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
     }
 
     this.handleInput = function () {
@@ -184,6 +189,7 @@ function PunchState(parent, relatedStates) {
     }
 
     this.enter = function () {
+        if (parent != player) parent.flipped = -Math.sign(parent.x - player.x);
     }
 
     this.exit = function () {
@@ -205,6 +211,7 @@ function UppercutState(parent, relatedStates) {
 
     this.update = function () {
 
+        if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
         if (this.animation.isActive === false) {
             if (Input.getKey("down")) {
                 return states.crouchState;
@@ -299,6 +306,7 @@ function SliceState(parent, relatedStates) {
 
     this.update = function () {
 
+        if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
         if (this.lockedOn && remainingSlices === 0) return states.jumpState; //if we didn't catch it because an enemy needed only a single slice
         if (this.slicing && this.animation.isActive === false) {
             nextState = this.finishSlice();
@@ -528,6 +536,45 @@ function SliceState(parent, relatedStates) {
 };
 SliceState.prototype = baseState;
 
+///////////////////////////////                 Player stunned state                      ///////////////////////////////////////
+
+function StunnedState(parent, relatedStates) {
+
+    var parent = parent;
+    var states = relatedStates;
+
+    this.animation = new Animation(parent, Images.getImage("playerCrouch"), kangarobotStunnedData, {holdLastFrame:true});
+
+    let duration = 0.5; //seconds
+    let timer = duration;
+
+    this.update = function () {
+
+        parent.applyBasicPhysics();
+
+        timer -= dt;
+        if (timer <= 0) {
+
+                timer = duration;
+                return "previous";
+        }
+    }
+
+    this.handleInput = function () {
+
+    }
+
+    this.enter = function () {
+
+        
+    }
+
+    this.exit = function () {
+    }
+
+};
+StunnedState.prototype = baseState;
+
 // parent must be a Character
 function PlayerStates(parent) {
 
@@ -538,10 +585,7 @@ function PlayerStates(parent) {
     this.punchingState = new PunchState(parent, this);
     this.jumpState = new JumpState(parent, this);
     this.sliceState = new SliceState(parent, this);
+    this.stunnedState = new StunnedState(parent, this);
 
     this.initial = this.jumpState;
-}
-
-function DummyStates() {
-
 }

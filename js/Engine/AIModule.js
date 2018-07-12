@@ -40,11 +40,25 @@ function AIModule (parent, possibleStates, config) {
         walk: 1
     }
 
-    let _currentDecision = decisionPassive;
+    let decisionAggro = {
+        walk: 0.9,
+        crouch: 0.1
+    }
+
+    let _currentDecision = decisionAggro;
+
+    // go towards the player unless too close
+    //when standing between TOOCLOSE and ATTACKRANGE, attacks will be triggered
+    const TOOCLOSE = 5;
+    const ATTACKRANGE = 20;
+    
+    //when an enemy is scared, they'll run away from the player until they are far away
+    const FARENOUGH = 80;
 
     this.update = function () {
 
         _timeUntilThink--;
+
         if (_timeUntilThink <= 0) {
 
             resetThinkTimer();
@@ -69,11 +83,13 @@ function AIModule (parent, possibleStates, config) {
         let _weightTally = 0;
 
         //Generates a DECISION based on current GAME VARIABLES (for example parent health)
-        if (parent.getCurrentHP() < parent.getMaxHP()) {
+        if (parent.getCurrentHP() < parent.getMaxHP()/2) {
             _currentDecision = decisionScared;   
         } else {
-            _currentDecision = decisionPassive;
+            _currentDecision = decisionAggro;
         }
+
+
 
         // Parent changes for "passive" decision
         if (_currentDecision === decisionPassive){
@@ -83,9 +99,32 @@ function AIModule (parent, possibleStates, config) {
             states.walkState.AIWalkDirection = direction;
             parent.flipped = (direction === -1);
         }
-        
+        // for "scared" decision
         else if (_currentDecision === decisionScared) {
-            states.walkState.AIWalkDirection = Math.sign(getXDistanceFrom(player));
+
+            let direction = Math.sign(getXDistanceFrom(player));
+            states.walkState.AIWalkDirection = direction;
+            parent.flipped = (direction === -1);
+            if (Math.abs(getXDistanceFrom(player)) >= FARENOUGH) {
+                //return states["idleState"];
+                states.walkState.AIWalkDirection = -direction;
+                parent.flipped = (direction === 1);
+            }
+        }
+
+        // for "aggro" decision
+        else if (_currentDecision === decisionAggro) {
+
+            let direction = -Math.sign(getXDistanceFrom(player));
+
+            states.walkState.AIWalkDirection = direction;
+            parent.flipped = (direction === -1);
+        }
+
+
+        console.log(getXDistanceFrom(player), TOOCLOSE, ATTACKRANGE);
+        if (Math.abs(getXDistanceFrom(player)) > TOOCLOSE && Math.abs(getXDistanceFrom(player)) < ATTACKRANGE) {
+            return states["punchState"];
         }
 
         // Generates a STATE based on the current DECISION
