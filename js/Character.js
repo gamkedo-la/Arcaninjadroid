@@ -31,6 +31,10 @@ function Character(x, y) {
     this.alive = true;
     this.explosionSequence = [robotExplosionParticlesConfig1, robotExplosionParticlesConfig2, robotExplosionParticlesConfig3];
 
+    const HP_FLASH_PERCENT = 0.3; // when below this ratio, the health bar flashes
+    const HP_FRAMES_PER_FLASH = 10;
+    var hpFlashFrameCounter = 0;
+
     this.draw = function () {
         if (this.trail) { this.trail.draw(this.x, this.y); }
         this.getAnimation().draw();
@@ -43,6 +47,13 @@ function Character(x, y) {
         let hpRatio = this.stats.getNewHP() / this.stats.getModifiedHP();
         colorRect(this.x - 8, this.y - 16 - 5, 16, 2, "rgba(100,0,0,1)"); //background dark red full size bar
         colorRect(this.x - 8, this.y - 16 - 5, Math.round(16 * (hpRatio)), 2, "red"); //change for values to dynamically adapt to sprite?
+        if (hpRatio < HP_FLASH_PERCENT) {
+            const HP_FRAMES_PER_FLASH = 10;
+            hpFlashFrameCounter++;
+            if ((hpFlashFrameCounter % HP_FRAMES_PER_FLASH) > (HP_FRAMES_PER_FLASH / 2)) {
+                colorRect(this.x - 8, this.y - 16 - 5, 16, 2, "rgba(255,255,255,0.15)"); // lighten the healthbar
+            }
+        }
     }
 
     this.groundCheck = function () {
