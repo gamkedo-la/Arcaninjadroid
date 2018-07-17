@@ -43,8 +43,8 @@ function Button(initX, initY, image, callback, config) {
 
         else {
             if (this.hasFocus) {
-                width *= 1.1;
-                height *= 1.1;
+                width *= 1.2;
+                height *= 1.2;
                 // This does the linking selection on start menu
                 if (now % (2 * UI_FLASH_INTERVAL) <= (1 * UI_FLASH_INTERVAL)) {
                     canvasContext.drawImage(this.image, x - width / 2, y - height / 2, width, height);
