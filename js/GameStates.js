@@ -5,11 +5,15 @@ function InGameState() {
 
     var justEntered; //hackity hack
 
-    this.background = Images.getImage("moonlitForest");
+
+    //this.background = Images.getImage("moonlitForest");
     let arrowImage = Images.getImage("sliceArrow");
+
+    this.currentLevel;
 
     this.update = function () {
 
+        this.currentLevel._tickAndSpawnIfNeeded();
         updateAllCharacters();
         updateAllEmitters();
 
@@ -28,11 +32,12 @@ function InGameState() {
     };
 
     this.draw = function () {
+
         if (justEntered) { return; }
+
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-        canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
-        //canvasContext.fillStyle = "red";
-        //colorRect(0, ninjaZoneBeginningY, canvas.width, 1); //draws the line separating the ninja zone (the sky) from the android zone
+        canvasContext.drawImage(this.currentLevel.background, 0, 0, canvas.width, canvas.height);
+        
         drawAllCharacters();
         drawAllTerrain();
         ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
@@ -81,6 +86,7 @@ function InGameState() {
 InGameState.prototype = baseState;
 
 function PauseState() {
+
     this.background = Images.getImage("moonlitForest");
     var gamePausedText = Images.getImage("gamePaused");
 

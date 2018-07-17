@@ -30,8 +30,8 @@ function Kangarobot(x, y) {
 }
 
 // Demo until we have a level format with spawn points etc.
-var kangarobot = new Kangarobot(200, 60);
-var kangarobot2 = new Kangarobot(50, 60);
-var kangarobot3 = new Kangarobot(150, 60);
+//var kangarobot = new Kangarobot(200, 60);
+//var kangarobot2 = new Kangarobot(50, 60);
+//var kangarobot3 = new Kangarobot(150, 60);
 //var kangarobot4 = new Kangarobot(100, 60);
-kangarobot.flipped = true;
+//kangarobot.flipped = true;

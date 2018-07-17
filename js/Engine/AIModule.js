@@ -122,7 +122,6 @@ function AIModule (parent, possibleStates, config) {
         }
 
 
-        console.log(getXDistanceFrom(player), TOOCLOSE, ATTACKRANGE);
         if (Math.abs(getXDistanceFrom(player)) > TOOCLOSE && Math.abs(getXDistanceFrom(player)) < ATTACKRANGE) {
             return states["punchState"];
         }

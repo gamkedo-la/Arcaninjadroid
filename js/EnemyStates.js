@@ -223,7 +223,7 @@ function StunnedEnemyState(parent, relatedStates) {
     }
 
     this.enter = function () {
-        if (parent.stats.getNewHP() <= parent.stats.getModifiedHP() / 3) {
+        if (parent.stats.getNewHP() <= parent.stats.getModifiedHP() / 4) {
 
             parent.canBeKnockedUp = true;
 

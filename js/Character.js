@@ -150,7 +150,10 @@ function Character(x, y) {
     }
 
     this.die = function () {
+
         this.alive = false;
+        GameStates.inGameState.currentLevel._removeOneEnemy(); //hard references FTW (use Unity if you don't like it ;) 
+
         if (Array.isArray(this.explosionSequence)) {
             for (var i = 0, l = this.explosionSequence.length; i < l; i++) {
                 new ParticleEmitter(this.x, this.y, this.explosionSequence[i]);

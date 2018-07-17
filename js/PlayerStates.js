@@ -183,7 +183,7 @@ function PunchState(parent, relatedStates) {
             if (Input.getKey("down")) {
                 return states.crouchState;
             } else {
-                return "previous";
+                return states.crouchState;
             }
         }
     }
@@ -216,7 +216,7 @@ function UppercutState(parent, relatedStates) {
             if (Input.getKey("down")) {
                 return states.crouchState;
             } else {
-                return "previous";
+                return states.idleState;
             }
         }
 
