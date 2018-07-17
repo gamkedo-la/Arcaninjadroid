@@ -119,6 +119,8 @@ function Character(x, y) {
 
         //console.log("hit");
 
+        new ParticleEmitter(this.x, this.y - 10, gotHitParticlesConfig);
+
         // a special effect where we pause the game for a very short amount of time when we get hit
         //impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
         pauseNextFrame = true;
@@ -189,7 +191,7 @@ function Character(x, y) {
     }
 
     this.initAI = function (allStates) {
-        this.AIModule = new AIModule (this, allStates);
+        this.AIModule = new AIModule(this, allStates);
     }
 }
 
@@ -215,11 +217,11 @@ function updateAllCharacters() {
         characters[i].actionMachine.updateAnimation(); //state changes are handled based on animation durations, so we update anims first
     }
 
-    
+
     // Update all AI. We can receive new states that we will give directly to the action machine
     for (var i = 0, l = characters.length; i < l; i++) {
 
-        if (characters[i].AIModule && characters[i].actionMachine.getCurrentState().canThinkDuring){
+        if (characters[i].AIModule && characters[i].actionMachine.getCurrentState().canThinkDuring) {
 
             let newState = characters[i].AIModule.update();
             if (newState) {

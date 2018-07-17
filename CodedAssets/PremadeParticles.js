@@ -1,5 +1,18 @@
 // Particles emitters use config data when initialized. These define almost the entirety of the particle system. You can hard code some of these reusable config objects here.
 
+gotHitParticlesConfig = {
+    emissionRate: 150,
+    size: 1.0,
+    color: [255, 255, 100, 1.0],
+    endColor: [255, 255, 100, 0.0],
+    duration: 0.05,
+    speed: 120,
+    particleLife: 0.25,
+    angle: 90,
+    angleVar: 360,
+    fadeSpeed: true
+}
+
 jumpDustParticlesConfig = {
     emissionRate: 200,
     size: 0.75,
