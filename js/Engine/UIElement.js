@@ -1,6 +1,8 @@
 
 // Cannot be clicked, controlled with arrow keys
-function Button (initX,initY, image, callback, config) {
+function Button(initX, initY, image, callback, config) {
+
+    const UI_FLASH_INTERVAL = 200; // was 1000 but the flash felt too slow
 
     let x = initX;
     let y = initY;
@@ -11,11 +13,11 @@ function Button (initX,initY, image, callback, config) {
     let height;
 
     if (typeof config === "undefined") {
-        config = {}; 
+        config = {};
     }
 
     this.hasFocus = false;
-    
+
     this.canHaveFocus = true;
 
     this.unavailable = config.unavailable || false; //true => greyed out, example load game when no save data
@@ -25,30 +27,30 @@ function Button (initX,initY, image, callback, config) {
 
         width = this.image.width;
         height = this.image.height;
-        if ( width === 0 || height === 0) {return;} //something is horribly wrong here (I'm scared)
+        if (width === 0 || height === 0) { return; } //something is horribly wrong here (I'm scared)
 
         if (this.unavailable === true) {
             tintCanvas.width = width;
             tintCanvas.height = height;
 
-            tintContext.drawImage(this.image, 0,0, width,height);
+            tintContext.drawImage(this.image, 0, 0, width, height);
             tintContext.globalCompositeOperation = "source-atop";
             tintContext.fillStyle = "rgba(0,0,0,0.65)";
-            tintContext.fillRect(0,0, tintCanvas.width,tintCanvas.height);
+            tintContext.fillRect(0, 0, tintCanvas.width, tintCanvas.height);
             tintContext.globalCompositeOperation = "source-over";
-            canvasContext.drawImage(tintCanvas, x-width/2, y-height/2, width, height);
+            canvasContext.drawImage(tintCanvas, x - width / 2, y - height / 2, width, height);
         }
 
         else {
             if (this.hasFocus) {
                 width *= 1.1;
                 height *= 1.1;
-                // This does the llinking selection on start menu
-                if (now % (2 * 1000) <= (1 * 1000)) {
-                    canvasContext.drawImage(this.image, x-width/2,y-height/2, width,height);
+                // This does the linking selection on start menu
+                if (now % (2 * UI_FLASH_INTERVAL) <= (1 * UI_FLASH_INTERVAL)) {
+                    canvasContext.drawImage(this.image, x - width / 2, y - height / 2, width, height);
                 }
             } else {
-                canvasContext.drawImage(this.image, x-width/2,y-height/2, width,height);
+                canvasContext.drawImage(this.image, x - width / 2, y - height / 2, width, height);
             }
         }
 
@@ -71,7 +73,7 @@ function Button (initX,initY, image, callback, config) {
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // This is just like an image, except x,y is TOP LEFT CORNER!
-function UITextImage (initX,initY, image) {
+function UITextImage(initX, initY, image) {
 
     let x = initX;
     let y = initY;
@@ -85,21 +87,19 @@ function UITextImage (initX,initY, image) {
 
         width = this.image.width;
         height = this.image.height;
-        if ( width === 0 || height === 0) {return;} //something is horribly wrong here (I'm scared)
+        if (width === 0 || height === 0) { return; } //something is horribly wrong here (I'm scared)
 
-        canvasContext.drawImage(this.image, x,y, width,height);
-      
+        canvasContext.drawImage(this.image, x, y, width, height);
+
     }
 
-    this.updateTween = function()
-    {
-        if(x < endX && y < endY)
-        {
+    this.updateTween = function () {
+        if (x < endX && y < endY) {
             x += movementRate;
             y += movementRate;
         }
     }
-    
+
     this.getX = function () {
         return x;
     }
