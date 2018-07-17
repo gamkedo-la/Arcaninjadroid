@@ -41,7 +41,8 @@ function Character(x, y) {
     //Draws the good ol' red health bar
     this.drawUI = function () {
         let hpRatio = this.stats.getNewHP() / this.stats.getModifiedHP();
-        colorRect(this.x - 8, this.y - 16 - 5, 16 * (hpRatio), 2, "red"); //change for values to dynamically adapt to sprite?
+        colorRect(this.x - 8, this.y - 16 - 5, 16, 2, "rgba(100,0,0,1)"); //background dark red full size bar
+        colorRect(this.x - 8, this.y - 16 - 5, Math.round(16 * (hpRatio)), 2, "red"); //change for values to dynamically adapt to sprite?
     }
 
     this.groundCheck = function () {
