@@ -33,6 +33,7 @@ function IdleAndroidState(parent, relatedStates) {
 
         // Basic movement
         if (Input.getKey("up")) {
+            new ParticleEmitter(parent.x, parent.y + 10, jumpDustParticlesConfig); // jump thrust dust puff
             parent.velocity.y = -parent.jumpVelocity;
             parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
             return states.jumpState;
@@ -65,7 +66,7 @@ function CrouchState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("playerCrouch"), playerCrouchData, {holdLastFrame:true});
+    this.animation = new Animation(parent, Images.getImage("playerCrouch"), playerCrouchData, { holdLastFrame: true });
 
     this.update = function () {
 
@@ -100,7 +101,7 @@ function JumpState(parent, relatedStates) {
     var states = relatedStates;
 
     //this.animation = new Animation(jumpSheet,{loop:true});
-    this.animation = new Animation(parent, Images.getImage("playerJump"), playerJumpData, {loop : true}); //placeholder
+    this.animation = new Animation(parent, Images.getImage("playerJump"), playerJumpData, { loop: true }); //placeholder
     this.fastfall = false;
 
     this.update = function () {
@@ -114,6 +115,7 @@ function JumpState(parent, relatedStates) {
 
 
         if (parent.grounded) {
+            new ParticleEmitter(parent.x, parent.y + 12, landingDustParticlesConfig); // just hit the ground fx
             return states.idleState;
         }
     }
@@ -152,7 +154,7 @@ function JumpState(parent, relatedStates) {
     this.enter = function () {
         this.fastfall = false;
         parent.grounded = false;
-        
+
     }
     this.exit = function () {
     }
@@ -268,16 +270,16 @@ function SliceState(parent, relatedStates) {
     this.lockedOn = false; //modified in Character.gotHit()
     this.slicing = false; //true when in the middle of a slice animation
 
-    let dashAnim = new Animation(parent, Images.getImage("playerJump"), playerDashData, {loop : true});
-    let lockAnim = new Animation(parent, Images.getImage("playerJump"), playerJumpData, {loop : true});
-    let sliceUpAnim = new Animation(parent, Images.getImage("sliceVFXUp"), sliceVFXData, {ignoreFlip:true});
-    let sliceDownAnim = new Animation(parent, Images.getImage("sliceVFXDown"), sliceVFXData, {ignoreFlip:true});
-    let sliceLeftAnim = new Animation(parent, Images.getImage("sliceVFXLeft"), sliceVFXData, {ignoreFlip:true});
-    let sliceRightAnim = new Animation(parent, Images.getImage("sliceVFXRight"), sliceVFXData, {ignoreFlip:true});
-    let sliceUpLeftAnim = new Animation(parent, Images.getImage("sliceVFXUpLeft"), sliceVFXData, {ignoreFlip:true});
-    let sliceDownLeftAnim = new Animation(parent, Images.getImage("sliceVFXDownLeft"), sliceVFXData, {ignoreFlip:true});
-    let sliceUpRightAnim = new Animation(parent, Images.getImage("sliceVFXUpRight"), sliceVFXData, {ignoreFlip:true});
-    let sliceDownRightAnim = new Animation(parent, Images.getImage("sliceVFXDownRight"), sliceVFXData, {ignoreFlip:true});
+    let dashAnim = new Animation(parent, Images.getImage("playerJump"), playerDashData, { loop: true });
+    let lockAnim = new Animation(parent, Images.getImage("playerJump"), playerJumpData, { loop: true });
+    let sliceUpAnim = new Animation(parent, Images.getImage("sliceVFXUp"), sliceVFXData, { ignoreFlip: true });
+    let sliceDownAnim = new Animation(parent, Images.getImage("sliceVFXDown"), sliceVFXData, { ignoreFlip: true });
+    let sliceLeftAnim = new Animation(parent, Images.getImage("sliceVFXLeft"), sliceVFXData, { ignoreFlip: true });
+    let sliceRightAnim = new Animation(parent, Images.getImage("sliceVFXRight"), sliceVFXData, { ignoreFlip: true });
+    let sliceUpLeftAnim = new Animation(parent, Images.getImage("sliceVFXUpLeft"), sliceVFXData, { ignoreFlip: true });
+    let sliceDownLeftAnim = new Animation(parent, Images.getImage("sliceVFXDownLeft"), sliceVFXData, { ignoreFlip: true });
+    let sliceUpRightAnim = new Animation(parent, Images.getImage("sliceVFXUpRight"), sliceVFXData, { ignoreFlip: true });
+    let sliceDownRightAnim = new Animation(parent, Images.getImage("sliceVFXDownRight"), sliceVFXData, { ignoreFlip: true });
 
     this.animation = dashAnim;
 
@@ -286,8 +288,8 @@ function SliceState(parent, relatedStates) {
         this.lockedOn = true;
         timer = gravityDelay;
         target = char;
-        if (target.slicesNeeded) {remainingSlices = target.slicesNeeded; }
-        else {remainingSlices = 7;}
+        if (target.slicesNeeded) { remainingSlices = target.slicesNeeded; }
+        else { remainingSlices = 7; }
 
         parent.x = target.x;
         parent.y = target.y;
@@ -300,7 +302,7 @@ function SliceState(parent, relatedStates) {
         this.slicing = false;
         target.lockedOnto = false;
         console.log("unlock");
-        sliceEncoding = [0,0];
+        sliceEncoding = [0, 0];
         parent.velocity.y += -parent.jumpVelocity;
     }
 
@@ -351,8 +353,8 @@ function SliceState(parent, relatedStates) {
     this.handleInput = function () {
 
         if (Input.getKeyDown("z")) {
-            
-            if (this.lockedOn && !this.slicing){
+
+            if (this.lockedOn && !this.slicing) {
                 this.slice();
             }
             else {
@@ -363,35 +365,35 @@ function SliceState(parent, relatedStates) {
     this.reset = function () {
 
         timer = gravityDelay;
-        sliceEncoding = [0,0];
+        sliceEncoding = [0, 0];
         this.changeDirection();
     }
     this.generateRandomSliceDirection = function () {
 
         let rand = Math.random();
         if (rand < 0.125) {
-            sliceEncoding = [-1,0]; //up
+            sliceEncoding = [-1, 0]; //up
         }
         else if (rand < 0.250) {
-            sliceEncoding = [1,0]; //down
+            sliceEncoding = [1, 0]; //down
         }
         else if (rand < 0.375) {
-            sliceEncoding = [0,-1]; //left
+            sliceEncoding = [0, -1]; //left
         }
         else if (rand < 0.500) {
-            sliceEncoding = [0,1]; //right
+            sliceEncoding = [0, 1]; //right
         }
         else if (rand < 0.625) {
-            sliceEncoding = [-1,-1]; //up-left
+            sliceEncoding = [-1, -1]; //up-left
         }
         else if (rand < 0.750) {
-            sliceEncoding = [1,-1]; //down-left
+            sliceEncoding = [1, -1]; //down-left
         }
         else if (rand < 0.875) {
-            sliceEncoding = [-1,1]; //up-right
+            sliceEncoding = [-1, 1]; //up-right
         }
         else {
-            sliceEncoding = [1,1]; //down-right
+            sliceEncoding = [1, 1]; //down-right
         }
     }
 
@@ -485,19 +487,19 @@ function SliceState(parent, relatedStates) {
         else if (Input.getKey("right")) {
             xMult = 1;
         }
-        
-        if (xMult!=0 && yMult!=0) {
-            xMult *= 1/Math.sqrt(2);
-            yMult *= 1/Math.sqrt(2);
+
+        if (xMult != 0 && yMult != 0) {
+            xMult *= 1 / Math.sqrt(2);
+            yMult *= 1 / Math.sqrt(2);
         }
-        
+
         if (xMult === 0 && yMult === 0) {
 
             dashDone = true;
             timer = 0;
             return;
         }
-        
+
         destination.x = parent.x + dashDistance * xMult;
         destination.y = parent.y + dashDistance * yMult;
         //console.log(parent.x, parent.y);
@@ -526,12 +528,12 @@ function SliceState(parent, relatedStates) {
     this.enter = function () {
 
         this.reset();
-        
+
     }
 
     this.exit = function () {
-        if (this.lockedOn) { this.unlock();}
-        sliceEncoding = [0,0];
+        if (this.lockedOn) { this.unlock(); }
+        sliceEncoding = [0, 0];
     }
 };
 SliceState.prototype = baseState;
@@ -543,7 +545,7 @@ function StunnedState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("playerCrouch"), kangarobotStunnedData, {holdLastFrame:true});
+    this.animation = new Animation(parent, Images.getImage("playerCrouch"), kangarobotStunnedData, { holdLastFrame: true });
 
     let duration = 0.5; //seconds
     let timer = duration;
@@ -555,8 +557,8 @@ function StunnedState(parent, relatedStates) {
         timer -= dt;
         if (timer <= 0) {
 
-                timer = duration;
-                return "previous";
+            timer = duration;
+            return "previous";
         }
     }
 
@@ -566,7 +568,7 @@ function StunnedState(parent, relatedStates) {
 
     this.enter = function () {
 
-        
+
     }
 
     this.exit = function () {
