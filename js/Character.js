@@ -5,6 +5,9 @@ characters = [];
 function Character(x, y) {
     characters.push(this);
 
+    const JIGGLE_WHEN_HIT = true; // visual effect only, does not touch simulation position
+    const GOTHIT_JIGGLE_FRAMECOUNT = 16; // how many frames to jiggle for when we get hit
+
     this.x = x;
     this.y = y;
     this.velocity = { x: 0, y: 0 };
@@ -37,7 +40,20 @@ function Character(x, y) {
 
     this.draw = function () {
         if (this.trail) { this.trail.draw(this.x, this.y); }
+
+        if (JIGGLE_WHEN_HIT) {
+            canvasContext.save();
+            // makes the character sprite shake after getting hit
+            // without affecting the x,y position for gameplay simulation
+            this.jiggle();
+        }
+
         this.getAnimation().draw();
+
+        if (JIGGLE_WHEN_HIT) {
+            canvasContext.restore();
+        }
+
         //this.feetCollider.draw();
         if (debug) { this.getAnimation().drawColliders(); }
     }
@@ -126,11 +142,42 @@ function Character(x, y) {
         }
     };
 
+    // a visual effect that temporarily shakes something in reaction to an impact
+    // NOTE: this function needs a canvasContext.save() and canvasContext.restore() around it
+    var jigglesPending = 0;
+
+    this.jiggle = function () { // an update function
+
+        var jiggleSpeedX = 3; // larger values make the wobble slower
+        var jiggleSpeedY = 1;
+
+        var jiggleSizeX = 6; // wobble range in pixels
+        var jiggleSizeY = 6;
+
+        var jiggleX = 0;
+        var jiggleY = 0;
+
+        if (jigglesPending > 0) {
+            jiggleX = Math.sin(jigglesPending / jiggleSpeedX) / Math.PI * jiggleSizeX;
+            jiggleY = -1 * Math.abs(Math.sin(jigglesPending / jiggleSpeedY) / Math.PI * jiggleSizeY);
+            //console.log(jigglesPending + ' jiggles ' + jiggleX.toFixed(1) + ',' + jiggleY.toFixed(1));
+            jigglesPending--;
+        } else {
+            jiggleX = 0;
+            jiggleY = 0;
+        }
+
+        canvasContext.translate(jiggleX, jiggleY); // draw the next sprite offset from true world position
+    }
+
     this.gotHit = function (otherChar) {
 
         //console.log("hit");
 
         new ParticleEmitter(this.x, this.y - 10, gotHitParticlesConfig);
+
+        // a special effect added at draw time only - fake "bounce" jiggle state when hit
+        if (JIGGLE_WHEN_HIT) jigglesPending = GOTHIT_JIGGLE_FRAMECOUNT;
 
         // a special effect where we pause the game for a very short amount of time when we get hit
         //impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
