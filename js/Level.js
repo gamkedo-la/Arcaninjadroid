@@ -67,7 +67,6 @@ class Level {
   _tickAndSpawnIfNeeded() {
 
     this.spawnTimer--;
-    console.log(this.spawnTimer);
     
     if (this.spawnTimer<=0 && this.enemiesCurrentlyOnscreen < this.enemyList.limit){
       this._spawnRandomEnemy();

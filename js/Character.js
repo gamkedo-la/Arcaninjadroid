@@ -34,6 +34,8 @@ function Character(x, y) {
     this.alive = true;
     this.explosionSequence = [robotExplosionParticlesConfig1, robotExplosionParticlesConfig2, robotExplosionParticlesConfig3];
 
+    this.hitSfx = punch_HardSfx; //assigned at character creation
+
     const HP_FLASH_PERCENT = 0.3; // when below this ratio, the health bar flashes
     const HP_FRAMES_PER_FLASH = 10;
     var hpFlashFrameCounter = 0;
@@ -172,31 +174,12 @@ function Character(x, y) {
 
     this.gotHit = function (otherChar) {
 
-        //console.log("hit");
-
-        new ParticleEmitter(this.x, this.y - 10, gotHitParticlesConfig);
-
-        // a special effect added at draw time only - fake "bounce" jiggle state when hit
-        if (JIGGLE_WHEN_HIT) jigglesPending = GOTHIT_JIGGLE_FRAMECOUNT;
-
-        // a special effect where we pause the game for a very short amount of time when we get hit
-        //impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
-        pauseNextFrame = true;
-
         let myState = this.actionMachine.getCurrentState();
         let attackerState = otherChar.actionMachine.getCurrentState();
 
-        if (attackerState.attackDamage) {
-            this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
-            this.hitThisFrame = true;
-            if (myState.onHit) { myState.onHit(); }
 
-            //handle death
-            if (this.stats.getNewHP() <= 0) {
-                this.die();
-            }
-        }
         if (attackerState.knockup && this.canBeKnockedUp) {
+            console.log("here")
             this.knockupThisFrame = true;
         }
         if (attackerState.sliceProperty) {
@@ -206,6 +189,34 @@ function Character(x, y) {
                 this.lockedOnto = true;
             }
         }
+
+        if (attackerState.attackDamage) {
+
+            //ignore any "hit" that deals no damage
+            if (attackerState.attackDamage === 0) {
+                return;
+            }
+            new ParticleEmitter(this.x, this.y - 10, gotHitParticlesConfig);
+            this.hitSfx.play();
+            // a special effect added at draw time only - fake "bounce" jiggle state when hit
+            if (JIGGLE_WHEN_HIT) jigglesPending = GOTHIT_JIGGLE_FRAMECOUNT;
+
+            // a special effect where we pause the game for a very short amount of time when we get hit
+            //impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
+            pauseNextFrame = true;
+
+
+
+            this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
+            this.hitThisFrame = true;
+            if (myState.onHit) { myState.onHit(); }
+
+            //handle death
+            if (this.stats.getNewHP() <= 0) {
+                this.die();
+            }
+        }
+
 
     }
 

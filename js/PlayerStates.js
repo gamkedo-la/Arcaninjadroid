@@ -192,6 +192,8 @@ function PunchState(parent, relatedStates) {
 
     this.enter = function () {
         if (parent != player) parent.flipped = -Math.sign(parent.x - player.x);
+
+        punch_LightSfx.play();
     }
 
     this.exit = function () {
@@ -206,6 +208,7 @@ function UppercutState(parent, relatedStates) {
 
     var parent = parent;
     var states = relatedStates;
+    //this.attackDamage = 1; //low because we're setting up for more
 
     this.animation = new Animation(parent, Images.getImage("playerUppercut"), playerUppercutData);
 
@@ -236,6 +239,7 @@ function UppercutState(parent, relatedStates) {
         //parent.y -= 10;
 
         new ParticleEmitter(parent.x + 10, parent.y - 25, fastFallParticlesConfig);
+        punch_UppercutSfx.play();
     }
 
     this.exit = function () {
@@ -247,7 +251,7 @@ UppercutState.prototype = baseState;
 
 /////////////////      Ninja slice state     ///////////////////
 function SliceState(parent, relatedStates) {
-    this.sliceProperty = true; //jank
+    this.sliceProperty = true; //jankier than Lylat Cruise
     var parent = parent;
     let states = relatedStates;
 
@@ -286,6 +290,7 @@ function SliceState(parent, relatedStates) {
     this.lockOn = function (char) {
         this.generateRandomSliceDirection();
         this.lockedOn = true;
+        this.animation = lockAnim;
         timer = gravityDelay;
         target = char;
         if (target.slicesNeeded) { remainingSlices = target.slicesNeeded; }
@@ -445,6 +450,7 @@ function SliceState(parent, relatedStates) {
             }
 
             this.slicing = true;
+            sliceSfx.play();
             this.animation.loop();
             if (remainingSlices != 1) this.generateRandomSliceDirection();
         }
@@ -456,7 +462,7 @@ function SliceState(parent, relatedStates) {
         remainingSlices--;
         timer = gravityDelay;
         this.slicing = false;
-        this.animation = dashAnim;
+        this.animation = lockAnim;
         if (remainingSlices <= 0) {
             target.die();
             this.unlock();

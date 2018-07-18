@@ -22,6 +22,8 @@ function Kangarobot(x, y) {
     char.initAI(states);
     char.trail = new WooshTrail("wooshTrailKangarobot");
 
+    char.hitSfx = kangarobotHitSfx;
+
     var enemyXP = new XPclass();
     var enemyStats = new StatsClass(enemyXP.getCurrentLVL(), 1.0, 1.0, 1.0);
     enemyStats.setStats();
