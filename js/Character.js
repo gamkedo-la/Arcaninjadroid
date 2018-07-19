@@ -232,6 +232,11 @@ function Character(x, y) {
         } else {
             new ParticleEmitter(this.x, this.y, this.explosionSequence);
         }
+
+        // Game over!!! :O
+        if (this === player) {
+            GameStateMachine.handleReceivedState(GameStates.gameOverState);
+        }
     }
 
     this.getHurtboxes = function () {

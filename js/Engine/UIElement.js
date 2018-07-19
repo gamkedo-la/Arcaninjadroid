@@ -83,13 +83,20 @@ function UITextImage(initX, initY, image) {
     this.image = image;
     this.canHaveFocus = false;
 
-    this.draw = function () {
+    this.draw = function (alpha) {
 
         width = this.image.width;
         height = this.image.height;
         if (width === 0 || height === 0) { return; } //something is horribly wrong here (I'm scared)
 
-        canvasContext.drawImage(this.image, x, y, width, height);
+        if (typeof alpha != "undefined") {
+            drawImageAlpha(this.image, x, y, width, height, alpha);
+        }
+        else { canvasContext.drawImage(this.image, x, y, width, height); }
+
+    }
+
+    this.drawAlpha = function (alpha) {
 
     }
 

@@ -29,6 +29,11 @@ function InGameState() {
         if (Input.getKeyDown("p")) {
             return GameStates.pauseState;
         }
+
+        // D stands for "die" :P
+        if (Input.getKeyDown("d")) {
+            return GameStates.gameOverState;
+        }
     };
 
     this.draw = function () {
@@ -84,6 +89,8 @@ function InGameState() {
 
 };
 InGameState.prototype = baseState;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function PauseState() {
 
@@ -306,12 +313,79 @@ function CreditsState() {
 }
 CreditsState.prototype = baseState;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+function GameOverState() {
+
+    this.background = Images.getImage("moonlitForest");
+
+    let gameOverText = new UITextImage(20,10, Images.getImage("gameOverText"));
+    let pressEscapeText = new UITextImage(50,90, Images.getImage("pressEscape"));
+
+    let _mainAlpha = 0; //darkness fades in until fully opaque
+    let _secondAlpha = 0; //Game Over image becomes visible after screen is black
+
+    let alphaIncreaseRate = 0.005; //per frame
+    //let secAlphaIncreaseRate = 0.001;
+
+    this.update = function () {
+
+        if (_mainAlpha < 1) { _mainAlpha += alphaIncreaseRate; }
+            
+        else if (_mainAlpha >= 1 && _secondAlpha <= 1) { _secondAlpha += alphaIncreaseRate; }
+
+    };
+
+    this.handleInput = function () {
+
+        if (Input.getKeyDown("escape")) {
+            return GameStates.mainMenuState;
+        }
+
+    };
+
+    this.draw = function () {
+
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (_mainAlpha <= 1) {
+
+            canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+            drawAllCharacters();
+            drawAllTerrain();
+            ParticleRenderer.renderAll(canvasContext);
+
+        }
+
+        colorRectAlpha(0, 0, canvas.width, canvas.height, [0, 0, 0, _mainAlpha]);
+        //canvasContext.drawImage(gamePausedText, 0, 35);
+        gameOverText.draw(_mainAlpha);
+        pressEscapeText.draw(_secondAlpha);
+
+    };
+
+    this.tickFadeIn = function () {
+
+
+    }
+
+    this.enter = function () {
+        pauseAudio();
+    };
+
+    this.exit = function () {
+        resumeAudio();
+    };
+}
+GameOverState.prototype = baseState;
+
 
 var GameStates = {
     inGameState: new InGameState(),
     mainMenuState: new MainMenuState(),
     creditsState: new CreditsState(),
-    pauseState: new PauseState()
+    pauseState: new PauseState(),
+    gameOverState: new GameOverState(),
 };
 
 var GameStateMachine = new StateMachine(GameStates.mainMenuState);

@@ -47,6 +47,13 @@ function drawBitmapClippedWithRotationAndFlip(useBitmap, x, y, clipStartX, clipS
 
 }
 
+function drawImageAlpha (image, x,y, width,height, alpha) {
+
+    canvasContext.globalAlpha = alpha;
+    canvasContext.drawImage(image, x, y, width, height);
+    canvasContext.globalAlpha = 1;
+}
+
 function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
 
     canvasContext.fillStyle = fillColor;
