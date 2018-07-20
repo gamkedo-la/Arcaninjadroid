@@ -179,7 +179,6 @@ function Character(x, y) {
 
 
         if (attackerState.knockup && this.canBeKnockedUp) {
-            console.log("here")
             this.knockupThisFrame = true;
         }
         if (attackerState.sliceProperty) {

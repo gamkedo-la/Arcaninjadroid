@@ -17,6 +17,7 @@ class Level {
     
     this.startWait = 1 * 60; //time before the first enemy is spawned
     this.enemiesCurrentlyOnscreen = 0;
+    this.enemiesLeftToSpawn = enemyList.total;
     this.spawnInterval = 5 * 60;
     this.spawnTimer = this.startWait;
   }
@@ -33,7 +34,11 @@ class Level {
   _removeOneEnemy() {
 
     this.enemiesCurrentlyOnscreen--;
-    console.log(this.enemiesCurrentlyOnscreen);
+    console.log(this.enemiesLeftToSpawn);
+
+    if (this.enemiesCurrentlyOnscreen === 0 && this.enemiesLeftToSpawn === 0) {
+      console.log("Level won!");
+    }
     
   }
 
@@ -50,10 +55,14 @@ class Level {
   }
 
   _spawnRandomEnemy () {
+
     this.enemiesCurrentlyOnscreen++;
+    this.enemiesLeftToSpawn--;
+
     let rand = Math.floor(Math.random() * this.enemyList.enemyTypes.length);
     let randX = Math.random() * 240;
     new this.enemyList.enemyTypes[rand](randX, 60);
+
   }
 
   _debug() {
@@ -68,7 +77,7 @@ class Level {
 
     this.spawnTimer--;
     
-    if (this.spawnTimer<=0 && this.enemiesCurrentlyOnscreen < this.enemyList.limit){
+    if (this.enemiesLeftToSpawn > 0 && this.spawnTimer<=0 && this.enemiesCurrentlyOnscreen < this.enemyList.limit){
       this._spawnRandomEnemy();
       this.spawnTimer = this.spawnInterval;
     }
@@ -90,11 +99,10 @@ var level1Data = {
   background: Images.getImage("moonlitForest"),
   enemyList: {
       enemyTypes: [Kangarobot],
-      limit: 5
+      limit: 5,
+      total: 10,
   }
 }
 var level1 = new Level(level1Data);
 //level1._setEnemies();
 GameStates.inGameState.currentLevel = level1;
-
-console.log(level1);

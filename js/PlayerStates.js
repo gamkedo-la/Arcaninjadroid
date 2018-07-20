@@ -306,7 +306,7 @@ function SliceState(parent, relatedStates) {
         this.lockedOn = false;
         this.slicing = false;
         target.lockedOnto = false;
-        console.log("unlock");
+        //console.log("unlock");
         sliceEncoding = [0, 0];
         parent.velocity.y += -parent.jumpVelocity;
     }

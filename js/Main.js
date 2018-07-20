@@ -206,4 +206,5 @@ function drawOnScaledCanvas() {
     scaledContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
 }
 
+//function resetGame
 

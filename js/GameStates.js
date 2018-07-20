@@ -30,6 +30,11 @@ function InGameState() {
             return GameStates.pauseState;
         }
 
+        // W stands for "win"
+        if (Input.getKeyDown("w")) {
+            return GameStates.levelClearedState;
+        }
+
         // D stands for "die" :P
         if (Input.getKeyDown("d")) {
             return GameStates.gameOverState;
@@ -364,11 +369,6 @@ function GameOverState() {
 
     };
 
-    this.tickFadeIn = function () {
-
-
-    }
-
     this.enter = function () {
         pauseAudio();
     };
@@ -379,6 +379,83 @@ function GameOverState() {
 }
 GameOverState.prototype = baseState;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+function LevelClearedState() {
+
+    this.background = Images.getImage("moonlitForest");
+
+    let levelClearedText = new UITextImage(20,10, Images.getImage("levelCleared"));
+    //let pressEscapeText = new UITextImage(50,90, Images.getImage("pressEscape"));
+
+    //let _mainAlpha = 0; //darkness fades in until fully opaque
+    //let _secondAlpha = 0; //Game Over image becomes visible after screen is black
+
+    //let alphaIncreaseRate = 0.005; //per frame
+    //let secAlphaIncreaseRate = 0.001;
+
+    let interacted = false;
+    let leaping = false;
+
+    let crouchDuration = 1 * 60;
+    let crouchTimer = crouchDuration;
+
+    //let playerStates = new PlayerStates(player); //lol easier to create a new one for quick use
+
+    this.update = function () {
+
+        if (interacted) {
+            crouchTimer--;
+            //player.actionMachine.handleReceivedState(playerStates.crouchState);
+        }
+
+        if (crouchTimer <= 0 && leaping === false) {
+            //player.velocity.y = -2;
+            leaping = true;
+            //player.actionMachine.handleReceivedState(playerStates.jumpState);
+        }
+
+    };
+
+    this.handleInput = function () {
+
+        if (Input.getKeyDown("enter")) {
+            
+            interacted = true;
+
+        }
+
+    };
+
+    this.draw = function () {
+
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+        canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+        drawAllCharacters();
+        drawAllTerrain();
+        ParticleRenderer.renderAll(canvasContext);
+
+        //colorRectAlpha(0, 0, canvas.width, canvas.height, [0, 0, 0, _mainAlpha]);
+        //canvasContext.drawImage(gamePausedText, 0, 35);
+        levelClearedText.draw();
+        //pressEscapeText.draw(_secondAlpha);
+
+    };
+
+
+    this.enter = function () {
+        pauseAudio();
+        interacted = false;
+        leaping = false;
+        crouchTimer = crouchDuration;
+    };
+
+    this.exit = function () {
+        resumeAudio();
+    };
+}
+LevelClearedState.prototype = baseState;
 
 var GameStates = {
     inGameState: new InGameState(),
@@ -386,6 +463,7 @@ var GameStates = {
     creditsState: new CreditsState(),
     pauseState: new PauseState(),
     gameOverState: new GameOverState(),
+    levelClearedState: new LevelClearedState(),
 };
 
 var GameStateMachine = new StateMachine(GameStates.mainMenuState);
