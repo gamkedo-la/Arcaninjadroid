@@ -583,6 +583,63 @@ function StunnedState(parent, relatedStates) {
 };
 StunnedState.prototype = baseState;
 
+////////////////////////            Level clear animation             ///////////////////////////////////
+
+function LevelClearAnimState(parent) {
+
+    var parent = parent;
+
+    let leaping = false;
+
+    this.animation = new Animation(parent, Images.getImage("playerCrouch"), playerCrouchData, { holdLastFrame: true });
+
+    let crouchDuration = 1; //seconds
+    let timer = crouchDuration;
+
+    this.update = function () {
+
+        if (parent.y === 0) {
+            this.animation = null; // LOL kill the anim so it looks like AND flew above the screen! 
+        }
+        parent.applyBasicPhysics();
+        if (!leaping){
+
+            timer -= dt;
+            if (timer <= 0) {
+                leaping = true;
+                this.animation = new Animation(parent, Images.getImage("playerJump"), playerJumpData, { loop: true });
+                parent.velocity.y = -parent.jumpVelocity;
+            }
+        } else {
+            parent.velocity.y = -parent.jumpVelocity;
+        }
+
+
+    }
+
+    this.handleInput = function () {
+
+        if (this.animation === null && Input.getKeyDown("enter")) {
+            GameStateMachine.handleReceivedState(GameStates.mainMenuState);
+        }
+    }
+
+    this.enter = function () {
+
+        leaping = false;
+        timer = crouchDuration;
+        this.animation = new Animation(parent, Images.getImage("playerCrouch"), playerCrouchData, { holdLastFrame: true });
+    }
+
+    this.exit = function () {
+        
+    }
+
+};
+StunnedState.prototype = baseState;
+
+StunnedState.prototype = baseState;
+
 // parent must be a Character
 function PlayerStates(parent) {
 

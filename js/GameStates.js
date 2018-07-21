@@ -141,7 +141,9 @@ function MainMenuState() {
     this.background = Images.getImage("mainMenu_ver2");
 
     this.uiElements = [
-        new Button(180, 30, Images.getImage("startGame"), function () { return GameStates.inGameState; }),
+        new Button(180, 30, Images.getImage("startGame"), function () {
+            resetGame();
+            return GameStates.inGameState; }),
         new Button(180, 50, Images.getImage("loadGame"), function () { console.log("load game") }, { unavailable: true }),
         new Button(180, 70, Images.getImage("options"), function () { console.log("load game") }, { unavailable: true }),
         new Button(180, 90, Images.getImage("credits"), function () { return GameStates.creditsState; }),
@@ -163,6 +165,7 @@ function MainMenuState() {
     };
 
     this.handleInput = function () {
+
         if (Input.getKeyDown("enter") ||
             Input.getKeyDown("space") ||    // allow an alternate input
             Input.getKeyDown("z")) {        // allow gamepads to use attack button
@@ -386,42 +389,20 @@ function LevelClearedState() {
     this.background = Images.getImage("moonlitForest");
 
     let levelClearedText = new UITextImage(20,10, Images.getImage("levelCleared"));
-    //let pressEscapeText = new UITextImage(50,90, Images.getImage("pressEscape"));
-
-    //let _mainAlpha = 0; //darkness fades in until fully opaque
-    //let _secondAlpha = 0; //Game Over image becomes visible after screen is black
-
-    //let alphaIncreaseRate = 0.005; //per frame
-    //let secAlphaIncreaseRate = 0.001;
 
     let interacted = false;
-    let leaping = false;
-
-    let crouchDuration = 1 * 60;
-    let crouchTimer = crouchDuration;
-
-    //let playerStates = new PlayerStates(player); //lol easier to create a new one for quick use
 
     this.update = function () {
-
-        if (interacted) {
-            crouchTimer--;
-            //player.actionMachine.handleReceivedState(playerStates.crouchState);
-        }
-
-        if (crouchTimer <= 0 && leaping === false) {
-            //player.velocity.y = -2;
-            leaping = true;
-            //player.actionMachine.handleReceivedState(playerStates.jumpState);
-        }
-
+        
+        updateAllEmitters();
     };
 
     this.handleInput = function () {
 
-        if (Input.getKeyDown("enter")) {
+        if (Input.getKeyDown("enter") && !interacted) {
             
             interacted = true;
+            player.actionMachine.handleReceivedState(new LevelClearAnimState(player));
 
         }
 
@@ -429,17 +410,17 @@ function LevelClearedState() {
 
     this.draw = function () {
 
+        updateAllCharacters(); //don't move this in update breaks the transition to main menu! ;D
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+
+
         drawAllCharacters();
         drawAllTerrain();
         ParticleRenderer.renderAll(canvasContext);
 
-        //colorRectAlpha(0, 0, canvas.width, canvas.height, [0, 0, 0, _mainAlpha]);
-        //canvasContext.drawImage(gamePausedText, 0, 35);
         levelClearedText.draw();
-        //pressEscapeText.draw(_secondAlpha);
 
     };
 
@@ -447,8 +428,6 @@ function LevelClearedState() {
     this.enter = function () {
         pauseAudio();
         interacted = false;
-        leaping = false;
-        crouchTimer = crouchDuration;
     };
 
     this.exit = function () {

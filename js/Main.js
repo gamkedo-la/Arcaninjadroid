@@ -206,5 +206,12 @@ function drawOnScaledCanvas() {
     scaledContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
 }
 
-//function resetGame
+
+// Resets everything from character stats, states, anims, level progress, essentially what happens when you press Start Game
+function resetGame () {
+
+    characters = [];
+    player = new Player ();
+    console.log("reset")
+} 
 

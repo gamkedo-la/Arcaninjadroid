@@ -41,6 +41,11 @@ function Character(x, y) {
     var hpFlashFrameCounter = 0;
 
     this.draw = function () {
+
+        if (!this.getAnimation()) {
+            return;
+        } 
+
         if (this.trail) { this.trail.draw(this.x, this.y); }
 
         if (JIGGLE_WHEN_HIT) {
@@ -129,6 +134,7 @@ function Character(x, y) {
 
     this.checkForHits = function (otherChar) {
 
+        if (!this.getAnimation() || !otherChar.getAnimation()) {return;}
         if (this.hitThisFrame) { return; } //avoid multi-hits (or maybe we don't want to?)
         hit = otherChar.getHitboxes();
         hurt = this.getHurtboxes();

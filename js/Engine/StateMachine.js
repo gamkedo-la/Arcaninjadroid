@@ -120,7 +120,7 @@ function StateMachine(defaultState) {
         if (currentState && currentState.animation) {
             return currentState.animation;
         } else {
-            console.log("No animation to access for state machine:", this);
+            //console.log("No animation to access for state machine:", this);
         }
     }
 

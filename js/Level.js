@@ -34,10 +34,10 @@ class Level {
   _removeOneEnemy() {
 
     this.enemiesCurrentlyOnscreen--;
-    console.log(this.enemiesLeftToSpawn);
+    console.log(this.enemiesLeftToSpawn, this.enemiesCurrentlyOnscreen);
 
     if (this.enemiesCurrentlyOnscreen === 0 && this.enemiesLeftToSpawn === 0) {
-      console.log("Level won!");
+      GameStateMachine.handleReceivedState(GameStates.levelClearedState);
     }
     
   }
