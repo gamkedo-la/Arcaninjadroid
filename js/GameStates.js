@@ -47,11 +47,14 @@ function InGameState() {
 
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         canvasContext.drawImage(this.currentLevel.background, 0, 0, canvas.width, canvas.height);
-        
+
         drawAllCharacters();
         drawAllTerrain();
         ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
         this.drawSliceArrows();
+
+        drawHUD(); // on screen heads-up-display (score etc)
+
     }
 
     this.enter = function () {
@@ -143,7 +146,8 @@ function MainMenuState() {
     this.uiElements = [
         new Button(180, 30, Images.getImage("startGame"), function () {
             resetGame();
-            return GameStates.inGameState; }),
+            return GameStates.inGameState;
+        }),
         new Button(180, 50, Images.getImage("loadGame"), function () { console.log("load game") }, { unavailable: true }),
         new Button(180, 70, Images.getImage("options"), function () { console.log("load game") }, { unavailable: true }),
         new Button(180, 90, Images.getImage("credits"), function () { return GameStates.creditsState; }),
@@ -327,8 +331,8 @@ function GameOverState() {
 
     this.background = Images.getImage("moonlitForest");
 
-    let gameOverText = new UITextImage(20,10, Images.getImage("gameOverText"));
-    let pressEscapeText = new UITextImage(50,90, Images.getImage("pressEscape"));
+    let gameOverText = new UITextImage(20, 10, Images.getImage("gameOverText"));
+    let pressEscapeText = new UITextImage(50, 90, Images.getImage("pressEscape"));
 
     let _mainAlpha = 0; //darkness fades in until fully opaque
     let _secondAlpha = 0; //Game Over image becomes visible after screen is black
@@ -339,7 +343,7 @@ function GameOverState() {
     this.update = function () {
 
         if (_mainAlpha < 1) { _mainAlpha += alphaIncreaseRate; }
-            
+
         else if (_mainAlpha >= 1 && _secondAlpha <= 1) { _secondAlpha += alphaIncreaseRate; }
 
     };
@@ -388,19 +392,19 @@ function LevelClearedState() {
 
     this.background = Images.getImage("moonlitForest");
 
-    let levelClearedText = new UITextImage(20,10, Images.getImage("levelCleared"));
+    let levelClearedText = new UITextImage(20, 10, Images.getImage("levelCleared"));
 
     let interacted = false;
 
     this.update = function () {
-        
+
         updateAllEmitters();
     };
 
     this.handleInput = function () {
 
         if (Input.getKeyDown("enter") && !interacted) {
-            
+
             interacted = true;
             player.actionMachine.handleReceivedState(new LevelClearAnimState(player));
 

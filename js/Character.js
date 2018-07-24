@@ -44,7 +44,7 @@ function Character(x, y) {
 
         if (!this.getAnimation()) {
             return;
-        } 
+        }
 
         if (this.trail) { this.trail.draw(this.x, this.y); }
 
@@ -134,7 +134,7 @@ function Character(x, y) {
 
     this.checkForHits = function (otherChar) {
 
-        if (!this.getAnimation() || !otherChar.getAnimation()) {return;}
+        if (!this.getAnimation() || !otherChar.getAnimation()) { return; }
         if (this.hitThisFrame) { return; } //avoid multi-hits (or maybe we don't want to?)
         hit = otherChar.getHitboxes();
         hurt = this.getHurtboxes();
@@ -210,7 +210,9 @@ function Character(x, y) {
             //impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
             pauseNextFrame = true;
 
-
+            if (this != player) { // an enemy got hit
+                player.stats.score += POINTS_PER_HIT;
+            }
 
             this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
             this.hitThisFrame = true;
@@ -226,6 +228,10 @@ function Character(x, y) {
     }
 
     this.die = function () {
+
+        if (this != player) { // an enemy was defeated
+            player.stats.score += POINTS_PER_KILL;
+        }
 
         this.alive = false;
         GameStates.inGameState.currentLevel._removeOneEnemy(); //hard references FTW (use Unity if you don't like it ;) 
