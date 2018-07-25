@@ -103,6 +103,10 @@ var level1Data = {
       total: 10,
   }
 }
+var level2Data = Object.create(level1Data);
+level2Data.background = Images.getImage("enemyBase");
+
 var level1 = new Level(level1Data);
-//level1._setEnemies();
-GameStates.inGameState.currentLevel = level1;
+var level2 = new Level(level2Data);
+
+GameStates.inGameState.currentLevel = level2;

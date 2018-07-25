@@ -81,6 +81,7 @@ var fileNames = [
 
     //Backgrounds
     "images/Backgrounds/moonlitForest.png",
+    "images/Backgrounds/enemyBase.png",
 
     //UI and menu art
     "images/UI/mainMenu_ver2.png",
