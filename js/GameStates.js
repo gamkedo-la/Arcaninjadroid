@@ -225,6 +225,7 @@ function MainMenuState() {
     this.enter = function () {
 
         this.uiElements[currentFocus].hasFocus = true;
+        this.background = GameStates.inGameState.currentLevel.background;
     };
 
     this.exit = function () {
@@ -240,16 +241,16 @@ function CreditsState() {
     this.background = Images.getImage("creditsScreen");
 
 
-    let lockonX = 5;
+    let lockonX = 2;
     let lockonY = 35;
     let nextDistance = ORIG_WORLD_W;
-
+    let scrollX = nextDistance;
 
     let scrollSpeed = 1;
     let timer = 0;
-    let scrollDuration = (nextDistance / scrollSpeed) / 60; // because we're at 60 FPS
     let scrollWait = 2;
     let waiting = true;
+
     let nameCounter = 0;
 
     this.uiElements = [];
@@ -262,6 +263,7 @@ function CreditsState() {
 
         if (!waiting) {
             let currentX;
+            scrollX -= scrollSpeed;
             for (var i = 0, l = this.uiElements.length; i < l; i++) {
                 currentX = this.uiElements[i].getX();
                 this.uiElements[i].setX(currentX - scrollSpeed);
@@ -271,12 +273,16 @@ function CreditsState() {
         timer += dt;
 
         if (waiting) {
+
             if (timer >= scrollWait) {
                 timer = 0;
                 waiting = false;
             }
         } else {
-            if (timer >= scrollDuration) {
+
+            if (scrollX < lockonX) {
+                scrollX = nextDistance;
+                
                 timer = 0;
                 waiting = true;
                 nameCounter++;
@@ -292,6 +298,12 @@ function CreditsState() {
 
         if (Input.getKeyDown("enter") || Input.getKeyDown("escape")) {
             return GameStates.mainMenuState;
+        }
+
+        if(Input.getKey("right")) {
+            scrollSpeed = 2;
+        } else {
+            scrollSpeed = 1;
         }
 
     };
@@ -390,7 +402,7 @@ GameOverState.prototype = baseState;
 
 function LevelClearedState() {
 
-    this.background = Images.getImage("moonlitForest");
+    //this.background = Images.getImage("moonlitForest");
 
     let levelClearedText = new UITextImage(20, 10, Images.getImage("levelCleared"));
 
@@ -430,7 +442,13 @@ function LevelClearedState() {
 
 
     this.enter = function () {
+        
         pauseAudio();
+
+        this.background = GameStates.inGameState.currentLevel.background;
+        levelProgression++;
+        GameStates.inGameState.currentLevel = allLevels[levelProgression];
+        
         interacted = false;
     };
 

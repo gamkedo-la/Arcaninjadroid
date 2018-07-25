@@ -21,8 +21,8 @@ function AIModule (parent, possibleStates, config) {
  
     let _attackDistance = 0; //changes depending on the attack we're currently trying to do
 
-    let thinkDelayRangeMin = config.thinkDelayRangeMin || 20;
-    let thinkDelayRangeMax = config.thinkDelayRangeMax || 50;
+    let thinkDelayRangeMin = config.thinkDelayRangeMin || 10;
+    let thinkDelayRangeMax = config.thinkDelayRangeMax || 30;
     let scaredTargetDistance = config.scaredTargetDistance || 120;
 
     let _timeUntilThink = 0; //resetThinkTimer is called at init

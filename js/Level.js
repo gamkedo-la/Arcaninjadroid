@@ -109,4 +109,6 @@ level2Data.background = Images.getImage("enemyBase");
 var level1 = new Level(level1Data);
 var level2 = new Level(level2Data);
 
-GameStates.inGameState.currentLevel = level2;
+var levelProgression = 0;
+var allLevels = [level1,level2];
+GameStates.inGameState.currentLevel = allLevels[levelProgression];

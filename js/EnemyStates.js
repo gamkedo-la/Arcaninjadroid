@@ -200,11 +200,15 @@ function StunnedEnemyState(parent, relatedStates) {
     this.animation = parent.stunnedAnim;
 
     this.update = function () {
-        //parent.applyBasicPhysics();
+
+
 
         if (parent.knockupThisFrame) {
             parent.velocity.y = -30 * randomRange(0.8, 1); //this value is strangely affected by other things... suspicious
             return states.knockupState;
+        }
+        else {
+            parent.applyBasicPhysics();
         }
 
         timer -= dt;
@@ -223,11 +227,15 @@ function StunnedEnemyState(parent, relatedStates) {
     }
 
     this.enter = function () {
+
         if (parent.stats.getNewHP() <= parent.stats.getModifiedHP() / 4) {
 
             parent.canBeKnockedUp = true;
 
         }
+        
+        parent.velocity.x = parent.x < player.x ? -5:5; //Bump the character so we can't stand still and punch
+
     }
     this.exit = function () {
     }
