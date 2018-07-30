@@ -128,6 +128,9 @@ var fileNames = [
     "images/Characters/Kangarobot/kangarobotWalk.png",
     "images/Characters/Kangarobot/kangarobotStunned.png",
 
+    //Tigerobot
+    "images/Characters/Tigerobot/tigerobotWalk.png",
+
 ];
 
 var picsToLoad = fileNames.length;

@@ -98,7 +98,7 @@ var level1Data = {
   music: musicFight,
   background: Images.getImage("moonlitForest"),
   enemyList: {
-      enemyTypes: [Kangarobot],
+      enemyTypes: [Tigerobot],
       limit: 5,
       total: 10,
   }
