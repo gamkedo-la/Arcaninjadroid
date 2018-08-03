@@ -154,7 +154,7 @@ function JumpState(parent, relatedStates) {
     this.enter = function () {
         this.fastfall = false;
         parent.grounded = false;
-
+        playerJumpSfx.play(0.2);
     }
     this.exit = function () {
     }
@@ -190,10 +190,13 @@ function PunchState(parent, relatedStates) {
         }
     }
 
-    this.enter = function () {
-        if (parent != player) parent.flipped = -Math.sign(parent.x - player.x);
+    this.onHit = function () {
 
         punch_LightSfx.play();
+    }
+    this.enter = function () {
+        if (parent != player) parent.flipped = -Math.sign(parent.x - player.x);
+        whiff_LightSfx.play();
     }
 
     this.exit = function () {
@@ -232,14 +235,14 @@ function UppercutState(parent, relatedStates) {
 
     }
 
+    this.onHit = function () {
+        punch_UppercutSfx.play();
+    }
+
     this.enter = function () {
 
-        //parent.velocity.y = -parent.jumpVelocity;
-        //parent.grounded = false;
-        //parent.y -= 10;
-
         new ParticleEmitter(parent.x + 10, parent.y - 25, fastFallParticlesConfig);
-        punch_UppercutSfx.play();
+
     }
 
     this.exit = function () {
@@ -477,6 +480,7 @@ function SliceState(parent, relatedStates) {
 
         dashDone = false;
         parent.boundsCheck();
+        airDashSfx.play();
 
         let xMult = 0;
         let yMult = 0;

@@ -13,6 +13,7 @@ var hit_Kangaroo01 = new sfxClip("Hit_Kangaroo01");
 var hit_Kangaroo02 = new sfxClip("Hit_Kangaroo02");
 var hit_Kangaroo03 = new sfxClip("Hit_Kangaroo03");
 var kangarobotHitSfx = new sfxContainerRandom([hit_Kangaroo01, hit_Kangaroo02, hit_Kangaroo03]);
+kangarobotHitSfx.setVolume(0.6);
 
 var sliceSfx = new sfxClip("SwordSlice");
 
@@ -32,6 +33,28 @@ var punch_Uppercut01 = new sfxClip("Punch_Uppercut01");
 var punch_Uppercut02 = new sfxClip("Punch_Uppercut02");
 var punch_UppercutSfx = new sfxContainerRandom([punch_Uppercut01, punch_Uppercut02]);
 
+var whiff_Hard01 = new sfxClip("Whiff_Hard01");
+var whiff_Hard02 = new sfxClip("Whiff_Hard02");
+var whiff_HardSfx = new sfxContainerRandom([whiff_Hard01, whiff_Hard02]);
+
+var whiff_Med01 = new sfxClip("Whiff_Medium01");
+var whiff_Med02 = new sfxClip("Whiff_Medium02");
+var whiff_MedSfx = new sfxContainerRandom([whiff_Med01, whiff_Med02]);
+
+var whiff_Light01 = new sfxClip("Whiff_Light01");
+var whiff_Light02 = new sfxClip("Whiff_Light02");
+var whiff_Light03 = new sfxClip("Whiff_Light03");
+var whiff_LightSfx = new sfxContainerRandom([whiff_Light01, whiff_Light02, whiff_Light03]);
+whiff_LightSfx.setVolume(0.6);
+
+var explosion01 = new sfxClip("Explosion01");
+var explosion02 = new sfxClip("Explosion02");
+var explosionSFX = new sfxContainerRandom([explosion01, explosion02]);
+
+var airDashSfx = new sfxClip("AirDash");
+airDashSfx.setVolume(0.35);
+var playerJumpSfx = new sfxClip("DroidJump");
+playerJumpSfx.setVolume(0.6);
 
 //Functions
 function startAudio() {

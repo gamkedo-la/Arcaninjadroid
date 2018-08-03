@@ -186,6 +186,7 @@ function Character(x, y) {
 
         if (attackerState.knockup && this.canBeKnockedUp) {
             this.knockupThisFrame = true;
+            if (attackerState.onHit) { attackerState.onHit(); }
         }
         if (attackerState.sliceProperty) {
             if (this.grounded) { return; }
@@ -203,6 +204,7 @@ function Character(x, y) {
             }
             new ParticleEmitter(this.x, this.y - 10, gotHitParticlesConfig);
             this.hitSfx.play();
+
             // a special effect added at draw time only - fake "bounce" jiggle state when hit
             if (JIGGLE_WHEN_HIT) jigglesPending = GOTHIT_JIGGLE_FRAMECOUNT;
 
@@ -217,6 +219,7 @@ function Character(x, y) {
             this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
             this.hitThisFrame = true;
             if (myState.onHit) { myState.onHit(); }
+            if (attackerState.onHit) { attackerState.onHit(); }
 
             //handle death
             if (this.stats.getNewHP() <= 0) {
@@ -229,12 +232,14 @@ function Character(x, y) {
 
     this.die = function () {
 
+        explosionSFX.play();
+
         if (this != player) { // an enemy was defeated
             player.stats.score += POINTS_PER_KILL;
         }
 
         this.alive = false;
-        if (this != player)GameStates.inGameState.currentLevel._removeOneEnemy(); //hard references FTW (use Unity if you don't like it ;) 
+        if (this != player) GameStates.inGameState.currentLevel._removeOneEnemy(); //hard references FTW (use Unity if you don't like it ;) 
 
         if (Array.isArray(this.explosionSequence)) {
             for (var i = 0, l = this.explosionSequence.length; i < l; i++) {
