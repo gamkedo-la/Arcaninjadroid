@@ -3,6 +3,11 @@
 // My intention is simply to extract the AI code from the states in order to generate a simple "state generator"
 // with multiple configurations available
 
+// Update: turns out this has become the single worst piece of AI code I've ever made (also the first lol).
+// Never ever use this as reference, inspiration, save it anywhere permanently, and don't read through it because I want to preserve my facade as a decent coder
+// Thanks,
+// Remy
+
 /*
 possibleStates should be an object litteral with the format 
 {
@@ -48,9 +53,9 @@ function AIModule (parent, possibleStates, config) {
     let _currentDecision = decisionAggro;
 
     // go towards the player unless too close
-    //when standing between TOOCLOSE and ATTACKRANGE, attacks will be triggered
+    //when standing between TOOCLOSE and attackRange, attacks will be triggered
     const TOOCLOSE = 5;
-    const ATTACKRANGE = 20;
+    let attackRange = config.attackRange || 20;
     
     //when an enemy is scared, they'll run away from the player until they are far away
     const FARENOUGH = 80;
@@ -122,8 +127,14 @@ function AIModule (parent, possibleStates, config) {
         }
 
 
-        if (Math.abs(getXDistanceFrom(player)) > TOOCLOSE && Math.abs(getXDistanceFrom(player)) < ATTACKRANGE) {
-            return states["punchState"];
+        if (Math.abs(getXDistanceFrom(player)) > TOOCLOSE && Math.abs(getXDistanceFrom(player)) < attackRange) {
+            
+            if (states["uppercutState"] && rand <= 0.5){
+                return states["uppercutState"];
+            }
+            else if (states["punchState"]){
+                return states["punchState"];
+            }
         }
 
         // Generates a STATE based on the current DECISION

@@ -98,9 +98,9 @@ var level1Data = {
   music: musicFight,
   background: Images.getImage("moonlitForest"),
   enemyList: {
-      enemyTypes: [Tigerobot],
+      enemyTypes: [Kangarobot],
       limit: 5,
-      total: 10,
+      total: 1,
   }
 }
 var level2Data = Object.create(level1Data);

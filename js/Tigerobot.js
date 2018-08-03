@@ -8,13 +8,12 @@ function Tigerobot(x, y) {
     char.jumpAnim = new Animation(char, Images.getImage("kangarobotJump"), kangarobotJumpData, { loop: true });
     char.walkAnim = new Animation(char, Images.getImage("tigerobotWalk"), tigerobotWalkData, { loop: true });
     char.punchAnim = new Animation(char, Images.getImage("kangarobotPunch"), kangarobotPunchData);
-    char.uppercutAnim = new Animation(char, Images.getImage("kangarobotUppercut"), kangarobotUppercutData);
     char.crouchAnim = new Animation(char, Images.getImage("kangarobotCrouch"), kangarobotCrouchData, { loop: true });
     char.stunnedAnim = new Animation(char, Images.getImage("kangarobotStunned"), kangarobotStunnedData, { loop: true });
     char.knockedUpAnim = new Animation(char, Images.getImage("kangarobotStunned"), kangarobotKnockedUpData, { loop: true });
 
-    char.walkSpeed = 0.75;
-    char.slicesNeeded = 3;
+    char.walkSpeed = 1;
+    char.slicesNeeded = 5;
 
     var states = new EnemyStates(char);
 

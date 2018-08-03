@@ -25,7 +25,7 @@ function IdleEnemyState(parent, relatedStates) {
 
 
         var distanceToPlayer = parent.x - player.x;
-        /*if (TOOCLOSE < Math.abs(distanceToPlayer) && Math.abs(distanceToPlayer) < ATTACKRANGE) {
+        /*if (TOOCLOSE < Math.abs(distanceToPlayer) && Math.abs(distanceToPlayer) < attackRange) {
             
             if (Math.random() < 0.5) {
                 return states.punchState;
@@ -101,11 +101,13 @@ function WalkEnemyState(parent, relatedStates) {
 
     this.update = function () {
 
+        console.log(parent.velocity.x);
         parent.applyBasicPhysics();
         if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
         // apply our walking velocity
         parent.velocity.x = parent.walkSpeed * this.AIWalkDirection; // left or right
+
 
     }
 
@@ -330,6 +332,7 @@ CrouchEnemyState.prototype = baseState;
 function UppercutEnemyState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
+    this.attackDamage = 20;
 
     this.animation = parent.uppercutAnim;
 
@@ -393,13 +396,15 @@ function EnemyStates(parent) {
     // Might refactor?
     this.idleState = new IdleEnemyState(parent, this);
     this.walkState = new WalkEnemyState(parent, this);
-    this.uppercutState = new UppercutEnemyState(parent, this); // this might become specific to kangarobot, therefore removed from here
     this.crouchState = new CrouchEnemyState(parent, this);
     this.stunnedState = new StunnedEnemyState(parent, this);
     this.punchState = new PunchEnemyState(parent, this);
     this.jumpState = new JumpEnemyState(parent, this);
     this.knockupState = new KnockupEnemyState(parent, this);
 
+    if (parent.uppercutAnim) {
+        this.uppercutState = new UppercutEnemyState(parent, this); // this might become specific to kangarobot, therefore removed from here
+    }
 
     this.initial = this.jumpState;
 }

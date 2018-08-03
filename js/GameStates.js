@@ -358,6 +358,7 @@ function GameOverState() {
 
         else if (_mainAlpha >= 1 && _secondAlpha <= 1) { _secondAlpha += alphaIncreaseRate; }
 
+        updateAllEmitters();
     };
 
     this.handleInput = function () {
