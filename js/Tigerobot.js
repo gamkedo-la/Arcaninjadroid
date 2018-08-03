@@ -4,13 +4,13 @@ function Tigerobot(x, y) {
 
     var char = new Character(x, y);
 
-    char.idleAnim = new Animation(char, Images.getImage("kangarobotIdle"), kangarobotIdleData, { loop: true });
+    char.idleAnim = new Animation(char, Images.getImage("tigerobotIdle"), tigerobotIdleData, { loop: true });
     char.jumpAnim = new Animation(char, Images.getImage("kangarobotJump"), kangarobotJumpData, { loop: true });
     char.walkAnim = new Animation(char, Images.getImage("tigerobotWalk"), tigerobotWalkData, { loop: true });
-    char.punchAnim = new Animation(char, Images.getImage("kangarobotPunch"), kangarobotPunchData);
-    char.crouchAnim = new Animation(char, Images.getImage("kangarobotCrouch"), kangarobotCrouchData, { loop: true });
-    char.stunnedAnim = new Animation(char, Images.getImage("kangarobotStunned"), kangarobotStunnedData, { loop: true });
-    char.knockedUpAnim = new Animation(char, Images.getImage("kangarobotStunned"), kangarobotKnockedUpData, { loop: true });
+    char.punchAnim = new Animation(char, Images.getImage("tigerobotAttack"), tigerobotAttackData);
+    char.crouchAnim = new Animation(char, Images.getImage("tigerobotCrouch"), tigerobotCrouchData, { loop: true });
+    char.stunnedAnim = new Animation(char, Images.getImage("tigerobotStunned"), tigerobotStunnedData, { loop: true });
+    char.knockedUpAnim = new Animation(char, Images.getImage("tigerobotStunned"), tigerobotKnockedUpData, { loop: true });
 
     char.walkSpeed = 1;
     char.slicesNeeded = 5;
@@ -19,7 +19,7 @@ function Tigerobot(x, y) {
 
     char.initMachine(states);
     char.initAI(states);
-    char.trail = new WooshTrail("wooshTrailKangarobot");
+    //char.trail = new WooshTrail("wooshTrailKangarobot");
 
     char.hitSfx = kangarobotHitSfx;
 

@@ -101,7 +101,6 @@ function WalkEnemyState(parent, relatedStates) {
 
     this.update = function () {
 
-        console.log(parent.velocity.x);
         parent.applyBasicPhysics();
         if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
