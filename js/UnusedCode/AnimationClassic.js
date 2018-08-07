@@ -78,7 +78,7 @@ function Animation (sheet, config) {
         this.isActive = true;
     }
 
-    this.getcurrentFrameNumNumber = function () {
+    this.getCurrentFrameNumNumber = function () {
         return currentFrameNum;
     }
 

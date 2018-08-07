@@ -39,11 +39,13 @@ var tigerobotWalkData = { "frames": [
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.9-x64",
-  "image": "C:\\Users\\Remy\\Documents\\Gamkedo\\Arcaninjadroid\\images\\Characters\\Tigerobot\\tigerobotWalk.png",
   "format": "RGBA8888",
   "size": { "w": 192, "h": 32 },
   "scale": "1",
   "slices": [
+   { "name": "Hurt", "color": "#6acd5bff", "data": "Hurt", "keys": [{ "frame": 0, "bounds": {"x": 6, "y": 9, "w": 24, "h": 13 } }, { "frame": 1, "bounds": {"x": 6, "y": 9, "w": 24, "h": 13 } }, { "frame": 2, "bounds": {"x": 6, "y": 9, "w": 24, "h": 13 } }, { "frame": 3, "bounds": {"x": 6, "y": 9, "w": 24, "h": 13 } }] },
+   { "name": "Hurt", "color": "#6acd5bff", "data": "Hurt", "keys": [{ "frame": 0, "bounds": {"x": 29, "y": 4, "w": 15, "h": 16 } }, { "frame": 1, "bounds": {"x": 29, "y": 4, "w": 15, "h": 16 } }, { "frame": 2, "bounds": {"x": 29, "y": 4, "w": 15, "h": 16 } }, { "frame": 3, "bounds": {"x": 29, "y": 4, "w": 15, "h": 16 } }] },
+   
   ]
  }
 }

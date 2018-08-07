@@ -17,6 +17,7 @@ var tigerobotKnockedUpData= { "frames": [
   "size": { "w": 48, "h": 32 },
   "scale": "1",
   "slices": [
+    { "name": "Hurt", "color": "#6acd5bff", "keys": [{ "frame": 0, "bounds": {"x": 6, "y": 7, "w": 39, "h": 20 } }] }
   ]
  }
 }

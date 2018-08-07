@@ -154,7 +154,7 @@ function Animation (parent, image, data, config) {
         holding = false;
     }
 
-    this.getcurrentFrameNumNumber = function () {
+    this.getCurrentFrameNumber = function () {
         return currentFrameNum;
     }
 

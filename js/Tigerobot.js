@@ -19,6 +19,7 @@ function Tigerobot(x, y) {
 
     char.initMachine(states);
     char.initAI(states);
+    char.jumpAttack = true;
     //char.trail = new WooshTrail("wooshTrailKangarobot");
 
     char.hitSfx = kangarobotHitSfx;

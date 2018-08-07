@@ -17,6 +17,8 @@ var tigerobotIdleData = { "frames": [
   "size": { "w": 48, "h": 32 },
   "scale": "1",
   "slices": [
+    { "name": "Hurt", "color": "#6acd5bff", "data": "Hurt", "keys": [{ "frame": 0, "bounds": {"x": 6, "y": 9, "w": 24, "h": 13 } }]},
+    { "name": "Hurt", "color": "#6acd5bff", "data": "Hurt", "keys": [{ "frame": 0, "bounds": {"x": 29, "y": 4, "w": 15, "h": 16 } }]}
   ]
  }
 }

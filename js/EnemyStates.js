@@ -203,7 +203,6 @@ function StunnedEnemyState(parent, relatedStates) {
     this.update = function () {
 
 
-
         if (parent.knockupThisFrame) {
             parent.velocity.y = -30 * randomRange(0.8, 1); //this value is strangely affected by other things... suspicious
             return states.knockupState;
@@ -364,6 +363,8 @@ function PunchEnemyState(parent, relatedStates) {
     var states = relatedStates;
     this.attackDamage = 50;
 
+    let jumped = false;
+
     this.animation = parent.punchAnim;
 
     this.update = function () {
@@ -374,6 +375,12 @@ function PunchEnemyState(parent, relatedStates) {
         if (this.animation.isActive === false) {
             return states.idleState;
         }
+
+        if (parent.jumpAttack && !jumped && this.animation.getCurrentFrameNumber()===1) {
+            parent.velocity.x = 10*parent.flipped ? -10:10;
+            parent.velocity.y = -8;
+            jumped = true;
+        }
     }
 
     this.handleInput = function () {
@@ -381,6 +388,8 @@ function PunchEnemyState(parent, relatedStates) {
     }
 
     this.enter = function () {
+        jumped = false;
+
     }
     this.exit = function () {
     }
