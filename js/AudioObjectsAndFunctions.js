@@ -33,6 +33,12 @@ var punch_Uppercut01 = new sfxClip("Punch_Uppercut01");
 var punch_Uppercut02 = new sfxClip("Punch_Uppercut02");
 var punch_UppercutSfx = new sfxContainerRandom([punch_Uppercut01, punch_Uppercut02]);
 
+var tigerobotRoar01 = new sfxClip("TigerobotRoar01");
+var tigerobotRoar02 = new sfxClip("TigerobotRoar02");
+var tigerobotRoar03 = new sfxClip("TigerobotRoar03");
+var tigerobotRoarSfx = new sfxContainerRandom([tigerobotRoar01, tigerobotRoar02, tigerobotRoar03]);
+tigerobotRoarSfx.setVolume(0.7);
+
 var whiff_Hard01 = new sfxClip("Whiff_Hard01");
 var whiff_Hard02 = new sfxClip("Whiff_Hard02");
 var whiff_HardSfx = new sfxContainerRandom([whiff_Hard01, whiff_Hard02]);

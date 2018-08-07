@@ -59,7 +59,7 @@ function InGameState() {
 
     this.enter = function () {
         justEntered = true;
-
+        
         if (currentMusic.getPaused() === true) {
             startAudio();
         }
@@ -128,10 +128,13 @@ function PauseState() {
     };
 
     this.enter = function () {
+        punch_Light02.play();
         pauseAudio();
+
     };
 
     this.exit = function () {
+        punch_Light02.play();
         resumeAudio();
     };
 }
@@ -146,6 +149,7 @@ function MainMenuState() {
     this.uiElements = [
         new Button(180, 30, Images.getImage("startGame"), function () {
             resetGame();
+            punch_Uppercut01.play();
             return GameStates.inGameState;
         }),
         new Button(180, 50, Images.getImage("loadGame"), function () { console.log("load game") }, { unavailable: true }),
@@ -177,6 +181,8 @@ function MainMenuState() {
             if (this.uiElements[currentFocus].callback) {
                 state = this.uiElements[currentFocus].callback();
                 if (state) {
+
+                    punch_Light02.play();
                     return state;
                 }
             }
@@ -211,6 +217,7 @@ function MainMenuState() {
         else {
             this.uiElements[currentFocus].hasFocus = true; //give focus to new
         }
+        whiff_Light01.play();
     }
 
     this.draw = function () {

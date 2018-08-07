@@ -380,6 +380,7 @@ function PunchEnemyState(parent, relatedStates) {
             parent.velocity.x = 10*parent.flipped ? -10:10;
             parent.velocity.y = -8;
             jumped = true;
+            tigerobotRoarSfx.play();
         }
     }
 
