@@ -5,7 +5,7 @@ function Tigerobot(x, y) {
     var char = new Character(x, y);
 
     char.idleAnim = new Animation(char, Images.getImage("tigerobotIdle"), tigerobotIdleData, { loop: true });
-    char.jumpAnim = new Animation(char, Images.getImage("kangarobotJump"), kangarobotJumpData, { loop: true });
+    char.jumpAnim = new Animation(char, Images.getImage("tigerobotJump"), tigerobotJumpData, { loop: true });
     char.walkAnim = new Animation(char, Images.getImage("tigerobotWalk"), tigerobotWalkData, { loop: true });
     char.punchAnim = new Animation(char, Images.getImage("tigerobotAttack"), tigerobotAttackData);
     char.crouchAnim = new Animation(char, Images.getImage("tigerobotCrouch"), tigerobotCrouchData, { loop: true });

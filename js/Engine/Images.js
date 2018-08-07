@@ -134,6 +134,7 @@ var fileNames = [
     "images/Characters/Tigerobot/tigerobotIdle.png",
     "images/Characters/Tigerobot/tigerobotCrouch.png",
     "images/Characters/Tigerobot/tigerobotAttack.png",
+    "images/Characters/Tigerobot/tigerobotJump.png",
 
 ];
 
