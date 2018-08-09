@@ -6,7 +6,34 @@ var playerIdleData = { "frames": [
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 1500
+    "duration": 120
+   },
+   {
+    "filename": "arcaninjadroid #Fist.aseprite",
+    "frame": { "x": 32, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 120
+   },
+   {
+    "filename": "arcaninjadroid #Fist.aseprite",
+    "frame": { "x": 64, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 120
+   },
+   {
+    "filename": "arcaninjadroid #Fist.aseprite",
+    "frame": { "x": 96, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 120
    }
  ],
  "meta": {

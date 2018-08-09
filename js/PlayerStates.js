@@ -16,7 +16,7 @@ function IdleAndroidState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("playerIdle"), playerIdleData, { loop: true });
+    this.animation = new Animation(parent, Images.getImage("playerIdle2"), playerIdleData, { loop: true });
 
     this.update = function () {
 
@@ -213,7 +213,7 @@ function UppercutState(parent, relatedStates) {
     var states = relatedStates;
     //this.attackDamage = 1; //low because we're setting up for more
 
-    this.animation = new Animation(parent, Images.getImage("playerUppercut"), playerUppercutData);
+    this.animation = new Animation(parent, Images.getImage("playerUppercut2"), playerUppercutData);
 
     this.knockup = true;
 
@@ -222,7 +222,8 @@ function UppercutState(parent, relatedStates) {
         if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
         if (this.animation.isActive === false) {
             if (Input.getKey("down")) {
-                return states.crouchState;
+                //return states.crouchState;
+                return states.idleState;
             } else {
                 return states.idleState;
             }

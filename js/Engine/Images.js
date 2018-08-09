@@ -114,7 +114,9 @@ var fileNames = [
 
     //Player
     "images/Characters/Player/playerUppercut.png",
+    "images/Characters/Player/playerUppercut2.png",
     "images/Characters/Player/playerIdle.png",
+    "images/Characters/Player/playerIdle2.png",
     "images/Characters/Player/playerJump.png",
     "images/Characters/Player/playerCrouch.png",
     "images/Characters/Player/playerPunch.png",
