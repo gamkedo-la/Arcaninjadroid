@@ -44,10 +44,12 @@ function IdleAndroidState(parent, relatedStates) {
         if (Input.getKey("left")) {
             parent.flipped = true;
             parent.velocity.x = -parent.walkSpeed;
+            return states.walkState;
         }
         else if (Input.getKey("right")) {
             parent.flipped = false;
             parent.velocity.x = parent.walkSpeed;
+            return states.walkState;
         } else { parent.velocity.x = 0; }
     }
 
@@ -58,6 +60,60 @@ function IdleAndroidState(parent, relatedStates) {
 }
 IdleAndroidState.prototype = baseState;
 
+function WalkingAndroidState(parent, relatedStates) {
+    var parent = parent;
+    var states = relatedStates;
+    var timeIdling = 0
+    this.animation = new Animation(parent, Images.getImage("playerWalk"), playerIdleData, { loop: true });
+
+    this.update = function () {
+
+        if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
+        parent.applyBasicPhysics();
+
+    }
+
+    this.handleInput = function () {
+
+        if (Input.getKeyDown("z")) {
+            return states.punchingState;
+        }
+
+        // Basic movement
+        if (Input.getKey("up")) {
+            new ParticleEmitter(parent.x, parent.y + 10, jumpDustParticlesConfig); // jump thrust dust puff
+            parent.velocity.y = -parent.jumpVelocity;
+            parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
+            return states.jumpState;
+        } else if (Input.getKey("down")) {
+            return states.crouchState;
+        }
+
+        if (Input.getKey("left")) {
+            parent.flipped = true;
+            parent.velocity.x = -parent.walkSpeed;
+            timeIdling = 0
+        }
+        else if (Input.getKey("right")) {
+            parent.flipped = false;
+            parent.velocity.x = parent.walkSpeed;
+            timeIdling = 0
+        } else { parent.velocity.x = 0; }
+        if(parent.velocity.x == 0){
+            timeIdling += 1;
+            console.log(timeIdling)
+            if(timeIdling > 10){
+                return states.idleState;
+            }
+        }
+    }
+
+    this.enter = function () {
+    }
+    this.exit = function () {
+    }
+}
+WalkingAndroidState.prototype = baseState;
 
 
 ///////////////////       Android crouch state       ////////////////////////
@@ -650,6 +706,7 @@ function PlayerStates(parent) {
 
     // Might refactor?
     this.idleState = new IdleAndroidState(parent, this);
+    this.walkState = new WalkingAndroidState(parent, this);
     this.crouchState = new CrouchState(parent, this);
     this.uppercutState = new UppercutState(parent, this);
     this.punchingState = new PunchState(parent, this);
