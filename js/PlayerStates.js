@@ -612,7 +612,7 @@ function StunnedState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
 
-    this.animation = new Animation(parent, Images.getImage("playerCrouch"), kangarobotStunnedData, { holdLastFrame: true });
+    this.animation = new Animation(parent, Images.getImage("playerStunned"), playerStunnedData, { holdLastFrame: true });
 
     let duration = 0.5; //seconds
     let timer = duration;

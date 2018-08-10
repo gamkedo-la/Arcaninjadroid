@@ -1,4 +1,4 @@
-var playerWalkData = { "frames": [
+var playerStunnedData = { "frames": [
    {
     "filename": "arcaninjadroid #Fist.aseprite",
     "frame": { "x": 0, "y": 0, "w": 32, "h": 32 },
