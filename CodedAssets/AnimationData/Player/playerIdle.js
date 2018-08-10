@@ -44,7 +44,13 @@ var playerIdleData = { "frames": [
   "size": { "w": 32, "h": 32 },
   "scale": "1",
   "slices": [
-    { "name": "Hurt", "color": "#6acd5bff", "data": "2", "keys": [{ "frame": 0, "bounds": {"x": 9, "y": 0, "w": 16, "h": 32 } }] }
+    { "name": "Hurt", "color": "#6acd5bff", "data": "2", "keys": [
+      { "frame": 0, "bounds": {"x": 9, "y": 0, "w": 16, "h": 32 }},
+      { "frame": 1, "bounds": {"x": 9, "y": 0, "w": 16, "h": 32 }}, 
+      { "frame": 2, "bounds": {"x": 9, "y": 0, "w": 16, "h": 32 }},
+      { "frame": 3, "bounds": {"x": 9, "y": 0, "w": 16, "h": 32 }}
+    ] }
   ]
+  
  }
 }
