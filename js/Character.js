@@ -214,6 +214,7 @@ function Character(x, y) {
 
             if (this != player) { // an enemy got hit
                 player.stats.score += POINTS_PER_HIT;
+                registerHitForCombo(); // 2x 3x 4x etc
             }
 
             this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);

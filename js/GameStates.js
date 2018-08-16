@@ -54,12 +54,13 @@ function InGameState() {
         this.drawSliceArrows();
 
         drawHUD(); // on screen heads-up-display (score etc)
+        drawComboGUI(); // 2x 3x 4x
 
     }
 
     this.enter = function () {
         justEntered = true;
-        
+
         if (currentMusic.getPaused() === true) {
             startAudio();
         }
@@ -289,7 +290,7 @@ function CreditsState() {
 
             if (scrollX < lockonX) {
                 scrollX = nextDistance;
-                
+
                 timer = 0;
                 waiting = true;
                 nameCounter++;
@@ -307,7 +308,7 @@ function CreditsState() {
             return GameStates.mainMenuState;
         }
 
-        if(Input.getKey("right")) {
+        if (Input.getKey("right")) {
             scrollSpeed = 2;
         } else {
             scrollSpeed = 1;
@@ -450,13 +451,13 @@ function LevelClearedState() {
 
 
     this.enter = function () {
-        
+
         pauseAudio();
 
         this.background = GameStates.inGameState.currentLevel.background;
         levelProgression++;
         GameStates.inGameState.currentLevel = allLevels[levelProgression];
-        
+
         interacted = false;
     };
 

@@ -8,13 +8,13 @@ class Level {
    * @param {number} enemyList.limit - Total number of enemies allowed on the level
    */
 
-  constructor({music, background, enemyList, title}){
+  constructor({ music, background, enemyList, title }) {
     this.music = music;
     this.background = background;
     this.enemyList = enemyList;
     //this.enemySet = [];
     this.title = title;
-    
+
     this.startWait = 1 * 60; //time before the first enemy is spawned
     this.enemiesCurrentlyOnscreen = 0;
     this.enemiesLeftToSpawn = enemyList.total;
@@ -26,7 +26,7 @@ class Level {
   _setEnemies() {
     //this.enemySet = [];
     for (let i = 0; i < this.enemyList.limit; i++) {
-      this._spawnRandomEnemy ();
+      this._spawnRandomEnemy();
     }
     this.enemiesCurrentlyOnscreen = this.enemyList.limit;
   }
@@ -34,27 +34,27 @@ class Level {
   _removeOneEnemy() {
 
     this.enemiesCurrentlyOnscreen--;
-    console.log(this.enemiesLeftToSpawn, this.enemiesCurrentlyOnscreen);
+    console.log("Enemies left to spawn: " + this.enemiesLeftToSpawn, "Enemies Currently Onscreen: " + this.enemiesCurrentlyOnscreen);
 
     if (this.enemiesCurrentlyOnscreen === 0 && this.enemiesLeftToSpawn === 0) {
       GameStateMachine.handleReceivedState(GameStates.levelClearedState);
     }
-    
+
   }
 
-  _playMusic(){
-    if(this.music){
+  _playMusic() {
+    if (this.music) {
       this.music.pause();
     }
   }
 
-  _setBackground(newBg){
-    
+  _setBackground(newBg) {
+
     this.background = newBg;
 
   }
 
-  _spawnRandomEnemy () {
+  _spawnRandomEnemy() {
 
     this.enemiesCurrentlyOnscreen++;
     this.enemiesLeftToSpawn--;
@@ -76,8 +76,8 @@ class Level {
   _tickAndSpawnIfNeeded() {
 
     this.spawnTimer--;
-    
-    if (this.enemiesLeftToSpawn > 0 && this.spawnTimer<=0 && this.enemiesCurrentlyOnscreen < this.enemyList.limit){
+
+    if (this.enemiesLeftToSpawn > 0 && this.spawnTimer <= 0 && this.enemiesCurrentlyOnscreen < this.enemyList.limit) {
       this._spawnRandomEnemy();
       this.spawnTimer = this.spawnInterval;
     }
@@ -98,9 +98,9 @@ var level1Data = {
   music: musicFight,
   background: Images.getImage("moonlitForest"),
   enemyList: {
-      enemyTypes: [Tigerobot],
-      limit: 5,
-      total: 1,
+    enemyTypes: [Tigerobot, Kangarobot],
+    limit: 50,
+    total: 10,
   }
 }
 var level2Data = Object.create(level1Data);
@@ -110,5 +110,5 @@ var level1 = new Level(level1Data);
 var level2 = new Level(level2Data);
 
 var levelProgression = 0;
-var allLevels = [level1,level2];
+var allLevels = [level1, level2];
 GameStates.inGameState.currentLevel = allLevels[levelProgression];

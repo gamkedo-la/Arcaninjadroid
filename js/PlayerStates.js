@@ -99,10 +99,10 @@ function WalkingAndroidState(parent, relatedStates) {
             parent.velocity.x = parent.walkSpeed;
             timeIdling = 0
         } else { parent.velocity.x = 0; }
-        if(parent.velocity.x == 0){
+        if (parent.velocity.x == 0) {
             timeIdling += 1;
-            console.log(timeIdling)
-            if(timeIdling > 10){
+            //console.log(timeIdling);
+            if (timeIdling > 10) {
                 return states.idleState;
             }
         }
@@ -663,7 +663,7 @@ function LevelClearAnimState(parent) {
             this.animation = null; // LOL kill the anim so it looks like AND flew above the screen! 
         }
         parent.applyBasicPhysics();
-        if (!leaping){
+        if (!leaping) {
 
             timer -= dt;
             if (timer <= 0) {
@@ -693,7 +693,7 @@ function LevelClearAnimState(parent) {
     }
 
     this.exit = function () {
-        
+
     }
 
 };

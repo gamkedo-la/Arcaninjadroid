@@ -27,3 +27,4 @@ function drawHUD() {
     drawPixelfont(lvlstr, canvas.width - 2 - lenPx, 2);
 
 }
+
