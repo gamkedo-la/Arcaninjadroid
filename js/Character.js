@@ -135,7 +135,7 @@ function Character(x, y) {
     this.checkForHits = function (otherChar) {
 
         if (!this.getAnimation() || !otherChar.getAnimation()) { return; }
-        if (this.hitThisFrame) { return; } //avoid multi-hits (or maybe we don't want to?)
+        if (this.hitThisFrame) { return; } //avoid hits from different opponents
         hit = otherChar.getHitboxes();
         hurt = this.getHurtboxes();
 
@@ -146,6 +146,9 @@ function Character(x, y) {
                     this.gotHit(otherChar); //this method will go get the information and handle the hit
                     break; //break...the game?
                 }
+            }
+            if (this.hitThisFrame) {
+                break; //avoid multi-hits from the same opponent
             }
         }
     };

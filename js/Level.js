@@ -94,21 +94,39 @@ class Level {
 // level1._setEnemies();
 // level1._debug();
 
+// "Tutorial" with only one enemy at a time
 var level1Data = {
   music: musicFight,
   background: Images.getImage("moonlitForest"),
   enemyList: {
-    enemyTypes: [Tigerobot, Kangarobot],
-    limit: 50,
-    total: 10,
+      enemyTypes: [Kangarobot],
+      limit: 1,
+      total: 5,
   }
 }
-var level2Data = Object.create(level1Data);
-level2Data.background = Images.getImage("enemyBase");
+var level2Data = {
+  music: musicFight,
+  background: Images.getImage("moonlitForest"),
+  enemyList: {
+      enemyTypes: [Kangarobot,Tigerobot],
+      limit: 3,
+      total: 10,
+  }
+}
+var level3Data = {
+  music: musicFight,
+  background: Images.getImage("enemyBase"),
+  enemyList: {
+      enemyTypes: [Tigerobot],
+      limit: 4,
+      total: 10,
+  }
+}
 
 var level1 = new Level(level1Data);
 var level2 = new Level(level2Data);
+var level3 = new Level(level3Data);
 
-var levelProgression = 0;
-var allLevels = [level1, level2];
+var levelProgression = 1;
+var allLevels = [level1,level2,level3];
 GameStates.inGameState.currentLevel = allLevels[levelProgression];
