@@ -680,7 +680,7 @@ function LevelClearAnimState(parent) {
 
     this.handleInput = function () {
 
-        if (this.animation === null && Input.getKeyDown("enter")) {
+        if (this.animation === null) {
             GameStateMachine.handleReceivedState(GameStates.mainMenuState);
         }
     }

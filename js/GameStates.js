@@ -64,8 +64,6 @@ function InGameState() {
         if (currentMusic.getPaused() === true) {
             startAudio();
         }
-
-
     };
 
     this.exit = function () {
@@ -358,7 +356,6 @@ function GameOverState() {
     let _secondAlpha = 0; //Game Over image becomes visible after screen is black
 
     let alphaIncreaseRate = 0.005; //per frame
-    //let secAlphaIncreaseRate = 0.001;
 
     this.update = function () {
 
@@ -391,7 +388,6 @@ function GameOverState() {
         }
 
         colorRectAlpha(0, 0, canvas.width, canvas.height, [0, 0, 0, _mainAlpha]);
-        //canvasContext.drawImage(gamePausedText, 0, 35);
         gameOverText.draw(_mainAlpha);
         pressEscapeText.draw(_secondAlpha);
 
@@ -411,8 +407,6 @@ GameOverState.prototype = baseState;
 
 function LevelClearedState() {
 
-    //this.background = Images.getImage("moonlitForest");
-
     let levelClearedText = new UITextImage(20, 10, Images.getImage("levelCleared"));
 
     let interacted = false;
@@ -424,7 +418,7 @@ function LevelClearedState() {
 
     this.handleInput = function () {
 
-        if (Input.getKeyDown("enter") && !interacted) {
+        if ((Input.getKeyDown("enter") || Input.getKeyDown("escape") || Input.getKeyDown("space")) && !interacted) {
 
             interacted = true;
             player.actionMachine.handleReceivedState(new LevelClearAnimState(player));
@@ -435,7 +429,7 @@ function LevelClearedState() {
 
     this.draw = function () {
 
-        updateAllCharacters(); //don't move this in update breaks the transition to main menu! ;D
+        updateAllCharacters(); //don't move this in update, breaks the transition to main menu! ;D
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
