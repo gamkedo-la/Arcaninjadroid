@@ -23,7 +23,8 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
 	this.isThisHitTheFirstHit = false;
 
 	this.lvl = LVL;
-	this.score = 0;
+	this.score = 0; //note: in Arcaninjadroid, score is actually NUMBER OF KITTENS SAVED :D
+	this.arcaneMeter = 0;
 
 	this.setStats = function () {
 		this.setModifiedHP();

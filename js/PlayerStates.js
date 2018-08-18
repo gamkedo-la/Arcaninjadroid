@@ -298,7 +298,7 @@ function UppercutState(parent, relatedStates) {
 
     this.enter = function () {
 
-        new ParticleEmitter(parent.x + 10, parent.y - 25, fastFallParticlesConfig);
+        //new ParticleEmitter(parent.x + 10, parent.y - 25, robotExplosionParticlesConfig1);
 
     }
 
