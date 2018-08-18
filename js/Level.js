@@ -84,6 +84,14 @@ class Level {
 
   }
 
+  // Returns to initial state, for example when retrying a level
+  _reset() {
+
+    this.enemiesCurrentlyOnscreen = 0;
+    this.enemiesLeftToSpawn = this.enemyList.total;
+    this.spawnTimer = this.startWait;
+
+  }
 
 }
 

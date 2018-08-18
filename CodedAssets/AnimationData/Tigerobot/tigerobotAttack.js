@@ -26,7 +26,7 @@ var tigerobotAttackData = { "frames": [
   "scale": "1",
   "slices": [
    //{ "name": "Hurt", "color": "#6acd5bff", "keys": [{ "frame": 0, "bounds": {"x": 6, "y": 19, "w": 40, "h": 7 } }, { "frame": 1, "bounds": {"x": 7, "y": 9, "w": 25, "h": 13 } }] },
-   { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 1, "bounds": {"x": 37, "y": 11, "w": 8, "h": 7 } }] }
+   { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 1, "bounds": {"x": 37, "y": 11, "w": 8, "h": 12 } }] }
   ]
  }
 }

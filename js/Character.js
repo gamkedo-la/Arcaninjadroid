@@ -19,6 +19,7 @@ function Character(x, y) {
     this.feetCollider = new RectCollider(this, 20, 0.2, { offsetY: 12 });
 
     this.grounded = false;
+    this.canDash = true; //can the player do an air dash? (resets when touching ground)
     this.movable = true; //can be affected (pushed) by collisions
     this.flipped = false; //non-flipped is facing right
 
@@ -83,6 +84,7 @@ function Character(x, y) {
         for (var i = 0, l = terrain.length; i < l; i++) {
             if (this.feetCollider.intersects(terrain[i].collider)) {
                 this.grounded = true;
+                this.canDash = true;
                 this.feetCollider.pushOutBothParents(terrain[i].collider); //keep character above ground
                 return;
             }

@@ -9,7 +9,7 @@ var impactPauseFramesRemaining = 0; // how many frames should the game be in "hi
 var pauseNextFrame = false;
 const IMPACT_PAUSE_FRAMES = 0; // delay the game if we get hit
 
-var debug = true; // global toggle for debug mode. Most notably, draws colliders on the screen
+var debug = false; // global toggle for debug mode. Most notably, draws colliders on the screen
 
 //Used to generate delta time
 var lastTime;
@@ -207,11 +207,12 @@ function drawOnScaledCanvas() {
 }
 
 
-// Resets everything from character stats, states, anims, level progress, essentially what happens when you press Start Game
+// Resets everything from character stats, states, anims, current level progress, essentially what happens when you press Start Game
 function resetGame () {
 
     characters = [];
     player = new Player ();
-    console.log("reset")
+    GameStates.inGameState.currentLevel._reset();
+    console.log("reset");
 } 
 

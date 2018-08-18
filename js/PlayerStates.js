@@ -199,7 +199,7 @@ function JumpState(parent, relatedStates) {
             parent.velocity.x = parent.walkSpeed;
         }
 
-        if (Input.getKeyDown("z")) {
+        if (Input.getKeyDown("z") && parent.canDash) {
 
             return states.sliceState;
         }
@@ -395,6 +395,7 @@ function SliceState(parent, relatedStates) {
         } else {
             timer -= dt;
             if (timer <= 0) {
+                parent.canDash = false;
                 return states.jumpState;
                 //parent.applyBasicPhysics();
             }
@@ -403,6 +404,9 @@ function SliceState(parent, relatedStates) {
 
         if (parent.grounded) {
             return states.idleState;
+        } else if (dashDone) {
+            parent.canDash = false;
+            return states.jumpState;
         }
 
     }
