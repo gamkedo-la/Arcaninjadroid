@@ -346,13 +346,18 @@ function updateAllCharacters() {
 
     // Check for hits on hitbox-hurtbox
     for (var i = 0, l = characters.length; i < l; i++) {
+
         characters[i].hitThisFrame = false;
         characters[i].knockupThisFrame = false;
-        //this loop implies we can get hit by multiple attacks on a single frame
+        if (characters[i] === player) { continue; }
+        //only check for player/enemy contact, no longer enemy/enemy
+        characters[i].checkForHits(player);
+        player.checkForHits(characters[i]);
+        /*
         for (var j = 0, l; j < l; j++) {
             if (i == j) { continue; } // to avoid hitting oneself
             characters[i].checkForHits(characters[j]);
-        }
+        }*/
     }
 
     // Remove dead characters
