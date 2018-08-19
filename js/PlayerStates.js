@@ -91,12 +91,12 @@ function WalkingAndroidState(parent, relatedStates) {
 
         if (Input.getKey("left")) {
             parent.flipped = true;
-            parent.velocity.x = -parent.walkSpeed;
+            parent.velocity.x = Input.getDoublePress("left") ? -35 : -parent.walkSpeed;
             timeIdling = 0;
         }
         else if (Input.getKey("right")) {
             parent.flipped = false;
-            parent.velocity.x = parent.walkSpeed;
+            parent.velocity.x = Input.getDoublePress("right") ? 35 : parent.walkSpeed;
             timeIdling = 0
         } else { parent.velocity.x = 0; }
         if (parent.velocity.x == 0) {
@@ -241,7 +241,7 @@ function PunchState(parent, relatedStates) {
             if (Input.getKey("down")) {
                 return states.crouchState;
             } else {
-                return states.crouchState;
+                return states.idleState;
             }
         }
     }

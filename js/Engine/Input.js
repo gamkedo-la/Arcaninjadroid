@@ -23,7 +23,8 @@ function Input() {
     var doublePressAllowedInterval = 1000;
     var timeSinceLastPress = 0;
     var lastKeyPressedCode = 0; //used for detecting double presses. Stores the number value, not the # string.
-
+    var currentKeyPressedCode = 0;
+    
     //Dict mapping keycodes with their "currently pressed" value
     var codeValuePairs = [];
 
@@ -98,6 +99,7 @@ function Input() {
     Input.getDoublePress = function (name) {
 
         let toCheck = codeValuePairs["#" + nameCodePairs[name]];
+        console.log(nameCodePairs[name],lastKeyPressedCode)
         
         return (toCheck[0] === 0 && toCheck[1] === 1
             && nameCodePairs[name] === lastKeyPressedCode
@@ -134,11 +136,12 @@ function Input() {
             return; //assumes that if we want normal browser behavior, the game doesn't use this key ;)
         }
 
-        
+
         evt.preventDefault(); //prevents normal functionalities such as scrolling with arrows
         
         //for detecting double-presses
-        lastKeyPressedCode = evt.which; 
+        lastKeyPressedCode = currentKeyPressedCode; 
+        currentKeyPressedCode = evt.which;
         timeSinceLastPress = 0;
 
         var toCheck = codeValuePairs["#" + evt.which];
