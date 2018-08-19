@@ -20,6 +20,10 @@ function Input() {
     var mouseX = 0;
     var mouseY = 0;
 
+    var doublePressAllowedInterval = 1000;
+    var timeSinceLastPress = 0;
+    var lastKeyPressedCode = 0; //used for detecting double presses. Stores the number value, not the # string.
+
     //Dict mapping keycodes with their "currently pressed" value
     var codeValuePairs = [];
 
@@ -35,7 +39,15 @@ function Input() {
         }
     }
 
-    // Call this every frame (pls)
+    // To be called every frame. Argument is "dt" in milliseconds
+    Input.update = function (dt) {
+
+        Input.resetGetKeyDown();
+
+        timeSinceLastPress += dt;
+    }
+
+    // Resets all the values for the getKeyDown function. If not called every frame, getKeyDown will be unusable
     Input.resetGetKeyDown = function () {
 
         for (var code in codeValuePairs) {
@@ -82,6 +94,17 @@ function Input() {
         return (toCheck[0] === 0 && toCheck[1] === 1);
     }
 
+    // Returns true if pressed key "name" twice within doublePressAllowedInterval (Input parameter)
+    Input.getDoublePress = function (name) {
+
+        let toCheck = codeValuePairs["#" + nameCodePairs[name]];
+        
+        return (toCheck[0] === 0 && toCheck[1] === 1
+            && nameCodePairs[name] === lastKeyPressedCode
+            && timeSinceLastPress < doublePressAllowedInterval);
+
+    }
+
     Input.getMouseX = function () {
         return mouseX;
     }
@@ -104,17 +127,26 @@ function Input() {
     //////     Event handlers for key and mouse events (mouse clicks treated as key down)  ////
     Input.keyDown = function (evt) {
 
-        if (evt.which != 122 && // allow F11 for fullscreen
-            evt.which != 123) { // allow F12 for developer console
-            evt.preventDefault(); //prevents normal functionalities such as scrolling with arrows
+        // Ignore the exceptions where we want the normal browser functionalities
+        if (evt.which === 122 || // allow F11 for fullscreen
+            evt.which === 123) // allow F12 for developer console
+        {
+            return; //assumes that if we want normal browser behavior, the game doesn't use this key ;)
         }
+
+        
+        evt.preventDefault(); //prevents normal functionalities such as scrolling with arrows
+        
+        //for detecting double-presses
+        lastKeyPressedCode = evt.which; 
+        timeSinceLastPress = 0;
 
         var toCheck = codeValuePairs["#" + evt.which];
         if (toCheck[0] == 0 && toCheck[1] == 0) {
             codeValuePairs["#" + evt.which] = [1, 0];
         } else {
             codeValuePairs["#" + evt.which] = [1, 1];
-        } // see encodings explained above, before method declarations
+        } // see encodings explained at class definition
     };
 
     Input.keyUp = function (evt) {

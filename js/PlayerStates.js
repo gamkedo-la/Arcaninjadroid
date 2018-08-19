@@ -92,7 +92,7 @@ function WalkingAndroidState(parent, relatedStates) {
         if (Input.getKey("left")) {
             parent.flipped = true;
             parent.velocity.x = -parent.walkSpeed;
-            timeIdling = 0
+            timeIdling = 0;
         }
         else if (Input.getKey("right")) {
             parent.flipped = false;

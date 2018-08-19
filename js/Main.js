@@ -154,10 +154,9 @@ function updateAll() {
     now = (new Date()).getTime();
     dt = now - lastTime; //note: dt is a GLOBAL variable accessed freely in many update functions
     lastTime = now;
-
     dt = dt / 1000; //convert to seconds
 
-    if (typeof Input.resetGetKeyDown != "undefined") { Input.resetGetKeyDown(); }
+    if (typeof Input.update != "undefined") { Input.update(dt*1000); }
     //updates the states of all keys for checking the single frame, Input.getKeyDown function
 
     if (pauseNextFrame) {
