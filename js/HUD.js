@@ -48,7 +48,7 @@ function drawHPBar() {
     */
     colorRect(  hpBarX,
                 1,
-                percHealthLeft * HP_HUD_W,
+                Math.floor(percHealthLeft * HP_HUD_W),
                 HP_HUD_H,
                 'red');
 }
@@ -72,7 +72,7 @@ function drawArcaneBar() {
     */
     colorRect(  arcaneBarX,
                 ARCANE_HUD_H + 2,
-                percOfArcane * ARCANE_HUD_W,
+                Math.floor(percOfArcane * ARCANE_HUD_W),
                 ARCANE_HUD_H,
                 'blue');
 }
