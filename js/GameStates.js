@@ -50,6 +50,7 @@ function InGameState() {
 
         drawAllCharacters();
         drawAllTerrain();
+        drawAllArcane();
         ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
         this.drawSliceArrows();
 

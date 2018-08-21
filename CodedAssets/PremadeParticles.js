@@ -48,6 +48,21 @@ fastFallParticlesConfig = {
     particleLife: 0.1
 }
 
+arcaneTrailParticlesConfig1 = {
+    emissionRate: 250,
+    size: 2.5,
+    color: [88, 128, 204, 1],
+    duration: 5,
+    speed: 200,
+    yVar:12,
+    angle: 180,
+    angleVar: 15,
+    fadeSpeed: true,
+    fadeSize: true,
+    particleLifeVar: 0.1,
+    particleLife: 0.25
+}
+
 robotExplosionParticlesConfig1 = {
     emissionRate: 200,
     size: 2.5,

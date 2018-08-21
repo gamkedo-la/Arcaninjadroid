@@ -99,7 +99,6 @@ function Input() {
     Input.getDoublePress = function (name) {
 
         let toCheck = codeValuePairs["#" + nameCodePairs[name]];
-        console.log(nameCodePairs[name],lastKeyPressedCode)
         
         return (toCheck[0] === 0 && toCheck[1] === 1
             && nameCodePairs[name] === lastKeyPressedCode

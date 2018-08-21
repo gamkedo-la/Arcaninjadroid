@@ -31,6 +31,10 @@ function IdleAndroidState(parent, relatedStates) {
             return states.punchingState;
         }
 
+        if (Input.getKeyDown("x")) {
+            new ArcaneShot(100,110);
+        }
+
         // Basic movement
         if (Input.getKey("up")) {
             new ParticleEmitter(parent.x, parent.y + 10, jumpDustParticlesConfig); // jump thrust dust puff

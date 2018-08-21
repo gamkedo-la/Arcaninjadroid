@@ -140,6 +140,9 @@ var fileNames = [
     "images/Characters/Tigerobot/tigerobotAttack.png",
     "images/Characters/Tigerobot/tigerobotJump.png",
 
+    //Arcane
+    "images/Arcane/arcaneBig.png",
+
 ];
 
 var picsToLoad = fileNames.length;
