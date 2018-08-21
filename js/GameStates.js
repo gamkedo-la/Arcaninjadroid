@@ -395,6 +395,7 @@ function GameOverState() {
 
     this.enter = function () {
         pauseAudio();
+        gameOver.play();
     };
 
     this.exit = function () {
