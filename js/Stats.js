@@ -9,6 +9,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
 	*/
 	this.baseHP = 300.0;
 	this.hpMultiplier = HpMultiplier;
+	this.maxHP = this.baseHP * this.HpMultiplier;
 	this.baseDEF = 20.0;
 	this.defMultiplier = DefMultiplier;
 	this.baseATK = 30.0;
@@ -25,10 +26,11 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
 	this.lvl = LVL;
 	this.score = 0; //note: in Arcaninjadroid, score is actually NUMBER OF KITTENS SAVED :D
 	this.arcaneMeter = 0;
-
+	this.maxArcane = 100;
 	this.setStats = function () {
 		this.setModifiedHP();
 		this.newHP = this.modifiedHP;
+		this.maxHP = this.baseHP * this.hpMultiplier;
 		this.setATK();
 		this.setDEF();
 	}
@@ -84,6 +86,10 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
 
 	this.getNewHP = function () {
 		return this.newHP;
+	}
+
+	this.getMaxHP = function () {
+		return this.baseHP * this.hpMultiplier;
 	}
 
 	this.hasModifiedHPBeenSet = false;
