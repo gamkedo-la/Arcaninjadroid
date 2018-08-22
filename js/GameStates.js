@@ -15,6 +15,7 @@ function InGameState() {
 
         this.currentLevel._tickAndSpawnIfNeeded();
         updateAllCharacters();
+        updateAllArcane();
         updateAllEmitters();
 
         resolveAllCollisions();

@@ -48,6 +48,8 @@ fastFallParticlesConfig = {
     particleLife: 0.1
 }
 
+
+////////////////////////////    Arcane particles    ////////////////////////////
 arcaneTrailParticlesConfig1 = {
     emissionRate: 250,
     size: 2.5,
@@ -63,6 +65,23 @@ arcaneTrailParticlesConfig1 = {
     particleLife: 0.25
 }
 
+arcaneTrailParticlesConfig2 = {
+    emissionRate: 150,
+    size: 2,
+    color: [155, 240, 253, 1],
+    duration: 5,
+    speed: 100,
+    xVar:8,
+    yVar:8,
+    angle: 0,
+    angleVar: 180,
+    fadeSpeed: true,
+    fadeSize: true,
+    particleLifeVar: 0.1,
+    particleLife: 0.25
+}
+
+////////////////////////////     Robot explosion     ////////////////////////////
 robotExplosionParticlesConfig1 = {
     emissionRate: 200,
     size: 2.5,
