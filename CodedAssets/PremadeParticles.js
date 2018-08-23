@@ -80,7 +80,41 @@ arcaneTrailParticlesConfig2 = {
     particleLifeVar: 0.1,
     particleLife: 0.25
 }
+////////////////////////////    HP and Arcane meter effects    ////////////////////////////
+hpMeterParticlesConfig = {
+    emissionRate: 12,
+    size: 2,
+    //color: [88, 128, 204, 1],
+    duration: 5,
+    speed: 35,
+    yVar:4,
+    angle: Math.PI,
+    angleVar: 1, //because 0 is interpreted as false and ignored in the particle system. Will fix when I do the system optimizations
+    //fadeSpeed: true,
+    fadeSize: true,
+    speedVar: 15,
+    sizeVar: 1,
+    particleLifeVar: 0.1,
+    particleLife: 0.25
+}
 
+//Same thing as hp but with blue color!!!
+arcaneMeterParticlesConfig = {
+    emissionRate: 12,
+    size: 2,
+    color: [98, 171, 212, 1],
+    duration: 5,
+    speed: 35,
+    yVar:4,
+    angle: Math.PI,
+    angleVar: 1, //because 0 is interpreted as false and ignored in the particle system. Will fix when I do the system optimizations
+    //fadeSpeed: true,
+    fadeSize: true,
+    speedVar: 15,
+    sizeVar: 1,
+    particleLifeVar: 0.1,
+    particleLife: 0.25
+}
 ////////////////////////////     Robot explosion     ////////////////////////////
 robotExplosionParticlesConfig1 = {
     emissionRate: 200,

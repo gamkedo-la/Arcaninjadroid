@@ -36,9 +36,14 @@ function drawHUD() {
 
 }
 
+var hpBarEmitter = new ParticleEmitter(200,6, hpMeterParticlesConfig);
 function drawHPBar() {
     var percHealthLeft = player.stats.getNewHP() / player.stats.getMaxHP();
     var hpBarX = Math.round(canvas.width / 2) - 28;
+
+    hpBarEmitter.x = hpBarX + Math.floor(percHealthLeft * HP_HUD_W);
+    hpBarEmitter.timeLeft = 5; //just to keep it alive as long as it is drawn
+
     /* // Commenting this out, I think it looks better without the black background
     colorRect(  hpBarX,
                 1,
@@ -53,6 +58,7 @@ function drawHPBar() {
                 'red');
 }
 
+var arcaneBarEmitter = new ParticleEmitter(200,15, arcaneMeterParticlesConfig);
 function drawArcaneBar() {
     var arcaneBarX = Math.round(canvas.width / 2) - 40;
     var amountOfArcane = player.stats.arcaneMeter;
@@ -63,6 +69,10 @@ function drawArcaneBar() {
 
     var percOfArcane = amountOfArcane / player.stats.maxArcane;
 
+    if (percOfArcane != 0) {
+        arcaneBarEmitter.x = arcaneBarX + Math.floor(percOfArcane * ARCANE_HUD_W);
+    } else { arcaneBarEmitter.x = -100; } //move it outside screen if inactive ;)
+    arcaneBarEmitter.timeLeft = 5; //just to keep it alive as long as it is drawn
     /* // Commenting this out, I think it looks better without the black background
     colorRect(  arcaneBarX,
                 HP_HUD_H + 3,
@@ -70,9 +80,9 @@ function drawArcaneBar() {
                 ARCANE_HUD_H,
                 'black');
     */
-    colorRect(  arcaneBarX,
+    colorRectAlpha(  arcaneBarX,
                 ARCANE_HUD_H + 2,
                 Math.floor(percOfArcane * ARCANE_HUD_W),
                 ARCANE_HUD_H,
-                'blue');
+                [98, 171, 212, 1]);
 }
