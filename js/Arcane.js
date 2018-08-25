@@ -1,4 +1,5 @@
 
+
 function ArcaneShot (x,y, config) {
 
     arcaneShots.push(this);
@@ -8,8 +9,10 @@ function ArcaneShot (x,y, config) {
     this.flipped = player.flipped;
     this.animation = new Animation(this, Images.getImage("arcaneBig"), arcaneBigData, { holdLastFrame : true });
     
-    this.x = player.x;
-    this.y = player.y;
+    this.attackDamage = 50;
+
+    this.x = x;
+    this.y = y;
     this.xParticleOffset1 = this.flipped? 10:-10;
     this.yParticleOffset1 = 0;
     this.xParticleOffset2 = this.flipped? -10:10;
@@ -46,6 +49,17 @@ function ArcaneShot (x,y, config) {
             this.removeShot();
         }
     };
+
+    this.getAnimation = function () {
+        return this.animation;
+    }
+    this.getHurtboxes = function () {
+        return this.animation.getHurtboxes();
+    }
+
+    this.getHitboxes = function () {
+        return this.animation.getHitboxes();
+    }
 
     this.removeShot = function () {
 

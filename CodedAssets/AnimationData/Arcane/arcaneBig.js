@@ -17,6 +17,7 @@ var arcaneBigData = { "frames": [
   "size": { "w": 40, "h": 32 },
   "scale": "1",
   "slices": [
+    { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 0, "bounds": {"x": 7, "y": 0, "w": 19, "h": 32 } }] }
   ]
  }
 }

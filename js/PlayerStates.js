@@ -32,7 +32,7 @@ function IdleAndroidState(parent, relatedStates) {
         }
 
         if (Input.getKeyDown("x") && player.stats.arcaneMeter >= 50) {
-            new ArcaneShot(100,110);
+            new ArcaneShot(player.x,player.y);
             player.stats.arcaneMeter -= 50;
         }
 

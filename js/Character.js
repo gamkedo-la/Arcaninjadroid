@@ -145,7 +145,11 @@ function Character(x, y) {
         for (var i = 0, l = hurt.length; i < l; i++) {
             for (var j = 0, k = hit.length; j < k; j++) {
                 if (hurt[i].intersects(hit[j])) {
-                    this.gotHit(otherChar); //this method will go get the information and handle the hit
+                    if (otherChar.actionMachine) {
+                        this.gotHit(otherChar);
+                    } else {
+                        this.gotHitArcane(otherChar);
+                    } //this method will go get the information and handle the hit
                     break; //break...the game?
                 }
             }
@@ -232,8 +236,26 @@ function Character(x, y) {
                 this.die();
             }
         }
+    }
 
+    this.gotHitArcane = function (arcaneShot) {
 
+        let myState = this.actionMachine.getCurrentState();
+
+        new ParticleEmitter (this.x, this.y, robotExplosionParticlesConfig1);
+        // a special effect added at draw time only - fake "bounce" jiggle state when hit
+        if (JIGGLE_WHEN_HIT) jigglesPending = GOTHIT_JIGGLE_FRAMECOUNT;
+
+        this.stats.characterHasBeenHitSoCalculateNewHP(0, arcaneShot.attackDamage);
+        this.hitThisFrame = true;
+
+        if (myState.onHit) { myState.onHit(); }
+        //remove shot here?
+
+        //handle death
+        if (this.stats.getNewHP() <= 0) {
+            this.die();
+        }
     }
 
     this.die = function () {
@@ -353,6 +375,10 @@ function updateAllCharacters() {
         //only check for player/enemy contact, no longer enemy/enemy
         characters[i].checkForHits(player);
         player.checkForHits(characters[i]);
+
+        for (var j = arcaneShots.length - 1; j >= 0; j--) {
+            characters[i].checkForHits(arcaneShots[j]);
+        }
         /*
         for (var j = 0, l; j < l; j++) {
             if (i == j) { continue; } // to avoid hitting oneself
