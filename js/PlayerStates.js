@@ -31,8 +31,9 @@ function IdleAndroidState(parent, relatedStates) {
             return states.punchingState;
         }
 
-        if (Input.getKeyDown("x")) {
+        if (Input.getKeyDown("x") && player.stats.arcaneMeter >= 50) {
             new ArcaneShot(100,110);
+            player.stats.arcaneMeter -= 50;
         }
 
         // Basic movement

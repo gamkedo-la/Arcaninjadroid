@@ -55,6 +55,8 @@ function ArcaneShot (x,y, config) {
         this.emitterTrail1.timeLeft = 0;
         this.emitterTrail2.timeLeft = 0;
     }
+
+    arcaneFireSFX.play();
 }
 
 
