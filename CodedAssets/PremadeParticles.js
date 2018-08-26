@@ -1,9 +1,35 @@
 // Particles emitters use config data when initialized. These define almost the entirety of the particle system. You can hard code some of these reusable config objects here.
 
+// when dizzy and vulnerable to knockup uppercuts (health below a threshold)
+dizzyParticlesConfig = {
+    emissionRate: 20,
+    size: 1,
+    sizeVar: 1,
+    xVar: 10,
+    yVar: 10,
+    color: [50, 200, 255, 0.5],
+    colorVar: [150,150,150,0.1],
+    endColor: [255, 255, 255, 0.0],
+    endColorVar: [150,150,150,0],
+    duration: 0.025,
+    speed: 20,
+    speedVar: 10,
+    particleLife: 0.7,
+    angle: 90,
+    angleVar: 120,
+    fadeSpeed: true,
+    fadeAlpha: false,
+    fadeSize: true,
+    gravity: -1 // unimplemented?
+}
+
+// when stunned IN THE AIR
 stunnedParticlesConfig = {
     emissionRate: 20,
     size: 1,
     sizeVar: 1,
+    xVar: 4,
+    yVar: 4,
     color: [255, 255, 50, 0.5],
     endColor: [255, 255, 255, 0.0],
     duration: 0.025,

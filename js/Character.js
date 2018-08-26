@@ -56,6 +56,12 @@ function Character(x, y) {
             this.jiggle();
         }
 
+        // "dizzy stars" above their head when vulnerable to knockup
+        if (this.canBeKnockedUp) {
+            //console.log('spawning dizzy stars: canBeKnockedUp!');
+            var starz = new ParticleEmitter(this.x, this.y - 10, dizzyParticlesConfig);
+        }
+
         this.getAnimation().draw();
 
         if (JIGGLE_WHEN_HIT) {
