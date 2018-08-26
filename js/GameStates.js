@@ -416,6 +416,7 @@ function LevelClearedState() {
 
     this.update = function () {
 
+        updateAllArcane();
         updateAllEmitters();
     };
 
@@ -440,6 +441,7 @@ function LevelClearedState() {
 
         drawAllCharacters();
         drawAllTerrain();
+        drawAllArcane();
         ParticleRenderer.renderAll(canvasContext);
 
         levelClearedText.draw();

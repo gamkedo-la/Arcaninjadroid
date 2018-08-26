@@ -1,5 +1,6 @@
 const POINTS_PER_HIT = 5;
 const POINTS_PER_KILL = 25;
+const POINTS_PER_SLICE = 10;
 
 //base class for HP and ATK
 function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
@@ -26,7 +27,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
 	this.lvl = LVL;
 	this.score = 0; //note: in Arcaninjadroid, score is actually NUMBER OF KITTENS SAVED :D
 	this.arcaneMeter = 0;
-	this.maxArcane = 100;
+	this.maxArcane = 150;
 
 	this.setStats = function () {
 		this.setModifiedHP();
@@ -50,6 +51,17 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
 
 		this.isThisHitTheFirstHit = true;
 		this.isCharacterDead = false;
+	}
+
+	//can be used with negative values too
+	this.addArcanePoints = function(numPoints) {
+
+		this.arcaneMeter += numPoints;
+		if (this.arcaneMeter > this.maxArcane) {
+			this.arcaneMeter = this.maxArcane;
+		} else if (this.arcaneMeter < 0) {
+			this.arcaneMeter = 0;
+		}
 	}
 
 	//call this when the character is hit to update HP

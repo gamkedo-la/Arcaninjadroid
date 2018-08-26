@@ -210,8 +210,9 @@ function drawOnScaledCanvas() {
 function resetGame () {
 
     characters = [];
+    arcaneShots = [];
     player = new Player ();
     GameStates.inGameState.currentLevel._reset();
-    console.log("reset");
+    console.log("Reset game state");
 } 
 

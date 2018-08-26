@@ -1,4 +1,4 @@
-
+var arcaneShotCost = 50;
 
 function ArcaneShot (x,y, config) {
 

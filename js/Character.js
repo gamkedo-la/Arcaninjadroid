@@ -228,7 +228,7 @@ function Character(x, y) {
             pauseNextFrame = true;
 
             if (this != player) { // an enemy got hit
-                player.stats.arcaneMeter += POINTS_PER_HIT;
+                player.stats.addArcanePoints(POINTS_PER_HIT);
                 registerHitForCombo(); // 2x 3x 4x etc
             }
 
@@ -269,7 +269,7 @@ function Character(x, y) {
         explosionSFX.play();
 
         if (this != player) { // an enemy was defeated
-            player.stats.arcaneMeter += POINTS_PER_KILL;
+            //player.stats.arcaneMeter += POINTS_PER_KILL;
             player.stats.score += 1;
         }
 

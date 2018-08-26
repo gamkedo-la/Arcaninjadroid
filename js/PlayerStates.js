@@ -33,9 +33,9 @@ function IdleAndroidState(parent, relatedStates) {
             return states.punchingState;
         }
 
-        if (Input.getKeyDown("x") && player.stats.arcaneMeter >= 50) {
+        if (Input.getKeyDown("x") && player.stats.arcaneMeter >= arcaneShotCost) {
             new ArcaneShot(player.x,player.y);
-            player.stats.arcaneMeter -= 50;
+            player.stats.addArcanePoints(-arcaneShotCost);
         }
 
         // Basic movement
@@ -524,6 +524,8 @@ function SliceState(parent, relatedStates) {
             sliceSfx.play();
             this.animation.loop();
             if (remainingSlices != 1) this.generateRandomSliceDirection();
+
+            player.stats.addArcanePoints(POINTS_PER_SLICE*comboCurrent);
         }
     }
 
@@ -537,6 +539,7 @@ function SliceState(parent, relatedStates) {
         if (remainingSlices <= 0) {
             target.die();
             this.unlock();
+            player.stats.addArcanePoints(POINTS_PER_KILL);
             parent.velocity.y = -parent.jumpVelocity;
             parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
             return states.jumpState;
