@@ -7,6 +7,8 @@
 // CRUCIAL Add to PlayerStates at the end of the file, just like shown
 // Give it to the player and try it out! :D
 
+const PLAYER_STUNNED_STATE_LENGTH = 0.5; // seconds
+
 var baseState = new State(); //give a reference to this state when declaring your custom state's prototype (see above, or below...)
 
 
@@ -623,7 +625,7 @@ function StunnedState(parent, relatedStates) {
 
     this.animation = new Animation(parent, Images.getImage("playerStunned"), playerStunnedData, { holdLastFrame: true });
 
-    let duration = 0.5; //seconds
+    let duration = PLAYER_STUNNED_STATE_LENGTH; //seconds
     let timer = duration;
 
     this.update = function () {

@@ -3,6 +3,8 @@
 /// They will take the anims defined in the enemy constructor (see (EnemyName).js)
 /// There might also be enemy-specific states created here; they will be clearly marked with their names
 
+const DIZZY_FX_WHEN_STUNNED_IN_AIR = true; // particles when stunned and immobile in the air
+
 function IdleEnemyState(parent, relatedStates) {
     var parent = parent;
     var states = relatedStates;
@@ -204,6 +206,7 @@ function StunnedEnemyState(parent, relatedStates) {
 
 
         if (parent.knockupThisFrame) {
+        
             parent.velocity.y = -30 * randomRange(0.8, 1); //this value is strangely affected by other things... suspicious
             return states.knockupState;
         }
@@ -256,6 +259,11 @@ function KnockupEnemyState(parent, relatedStates) {
 
     this.update = function () {
 
+        if (DIZZY_FX_WHEN_STUNNED_IN_AIR) {
+            // dizzy stars
+            var starz = new ParticleEmitter(parent.x, parent.y - 10, stunnedParticlesConfig);
+        }
+        
         if (parent.lockedOnto) { return; }
 
         if (parent.hitThisFrame) { return states.stunnedState; }
