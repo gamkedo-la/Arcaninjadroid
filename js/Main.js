@@ -156,8 +156,7 @@ function updateAll() {
     lastTime = now;
     dt = dt / 1000; //convert to seconds
 
-    if (typeof Input.update != "undefined") { Input.update(dt*1000); }
-    //updates the states of all keys for checking the single frame, Input.getKeyDown function
+    Input.update(dt*1000);
 
     if (pauseNextFrame) {
         impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;

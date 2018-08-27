@@ -9,7 +9,7 @@ const debug_combos = true;
 
 function registerHitForCombo() {
 
-    var resetCombo = true;
+    var mustResetCombo = true;
     var now = performance.now();
 
     if (debug_combos) console.log('registerHitForCombo at ' + now.toFixed(2));
@@ -23,15 +23,14 @@ function registerHitForCombo() {
         if (timeSince <= comboMaxTimespan) { // soon enough?
             if (debug_combos) console.log(timeSince.toFixed(2) + ' was soon enough! in-combo time: ' + timeSinceStart.toFixed(2));
             comboCurrent++;
-            resetCombo = false;
+            mustResetCombo = false;
         } else { // too long
             if (debug_combos) console.log(timeSince.toFixed(2) + ' was too slow: combo reset.');
         }
     }
 
-    if (resetCombo) {
-        comboCurrent = 1;
-        comboStartedTimestamp = now;
+    if (mustResetCombo) {
+        resetCombo();
     }
 
     comboLastHitTimestamp = now;
@@ -56,4 +55,9 @@ function drawComboGUI() { // 2x 3x 4x etc
         drawPixelfont(comboCurrent + 'x combo', 2, 16);
         canvasContext.globalAlpha = 1;
     }
+}
+
+function resetCombo() {
+    comboCurrent = 1;
+    comboStartedTimestamp = now;
 }

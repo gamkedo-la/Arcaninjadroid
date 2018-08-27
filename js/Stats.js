@@ -1,5 +1,5 @@
 const POINTS_PER_HIT = 5;
-const POINTS_PER_KILL = 25;
+const POINTS_PER_KILL = 20;
 const POINTS_PER_SLICE = 10;
 
 //base class for HP and ATK

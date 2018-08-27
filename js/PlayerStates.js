@@ -85,6 +85,10 @@ function WalkingAndroidState(parent, relatedStates) {
         if (Input.getKeyDown("z")) {
             return states.punchingState;
         }
+        if (Input.getKeyDown("x") && player.stats.arcaneMeter >= arcaneShotCost) {
+            new ArcaneShot(player.x,player.y);
+            player.stats.addArcanePoints(-arcaneShotCost);
+        }
 
         // Basic movement
         if (Input.getKey("up")) {
@@ -403,6 +407,7 @@ function SliceState(parent, relatedStates) {
             timer -= dt;
             if (timer <= 0) {
                 parent.canDash = false;
+                resetCombo();
                 return states.jumpState;
                 //parent.applyBasicPhysics();
             }
@@ -525,6 +530,7 @@ function SliceState(parent, relatedStates) {
             this.animation.loop();
             if (remainingSlices != 1) this.generateRandomSliceDirection();
 
+            registerHitForCombo();
             player.stats.addArcanePoints(POINTS_PER_SLICE*comboCurrent);
         }
     }

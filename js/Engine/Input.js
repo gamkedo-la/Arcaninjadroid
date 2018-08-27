@@ -20,10 +20,16 @@ function Input() {
     var mouseX = 0;
     var mouseY = 0;
 
-    var doublePressAllowedInterval = 1000;
+    //Related to double presses and press intervals
+    var doublePressAllowedInterval = 500;
     var timeSinceLastPress = 0;
-    var lastKeyPressedCode = 0; //used for detecting double presses. Stores the number value, not the # string.
+
+    var lastKeyPressedCode = 0; //Stores the number value, not the # string.
     var currentKeyPressedCode = 0;
+
+    let pressRecordedThisFrame = false;
+    let pressRecordedLastFrame = false;
+    let resetDoublePressNextFrame = false; //flag prevents "double press chaining", 3 presses 2 doubles, which is wrong 
     
     //Dict mapping keycodes with their "currently pressed" value
     var codeValuePairs = [];
@@ -45,6 +51,25 @@ function Input() {
 
         Input.resetGetKeyDown();
 
+        // Things you wanna do THE SAME FRAME as the key down (before checks)
+        if (pressRecordedThisFrame) {
+            //timeSinceLastPress = 0;
+            //console.log("Time now 0")
+            pressRecordedLastFrame = true;
+            pressRecordedThisFrame = false;
+        }
+        // Things you wanna do THE NEXT FRAME after the key down (before checks)
+        else if (pressRecordedLastFrame) {
+            timeSinceLastPress = 0;
+            pressRecordedLastFrame = false;
+        }
+
+        // Force the press interval to be after the allowed double press window (to avoid triples being recorded as two doubles)
+        if (resetDoublePressNextFrame) {
+            timeSinceLastPress = doublePressAllowedInterval + 1;
+            resetDoublePressNextFrame = false;
+        }
+
         timeSinceLastPress += dt;
     }
 
@@ -64,6 +89,7 @@ function Input() {
         }
 
     }
+
 
     // Call this when needing to reset all keys, like when minimizing the window
     Input.allKeysUp = function () {
@@ -99,10 +125,14 @@ function Input() {
     Input.getDoublePress = function (name) {
 
         let toCheck = codeValuePairs["#" + nameCodePairs[name]];
-        
-        return (toCheck[0] === 0 && toCheck[1] === 1
+
+        let val = (toCheck[0] === 0 && toCheck[1] === 1
             && nameCodePairs[name] === lastKeyPressedCode
             && timeSinceLastPress < doublePressAllowedInterval);
+        
+        if (val) { resetDoublePressNextFrame = true; } //prevents chain presses (pressing three times quickly triggering two double presses)
+
+        return (val);
 
     }
 
@@ -135,13 +165,13 @@ function Input() {
             return; //assumes that if we want normal browser behavior, the game doesn't use this key ;)
         }
 
-
         evt.preventDefault(); //prevents normal functionalities such as scrolling with arrows
         
         //for detecting double-presses
         lastKeyPressedCode = currentKeyPressedCode; 
         currentKeyPressedCode = evt.which;
-        timeSinceLastPress = 0;
+
+        pressRecordedThisFrame = true; //flag used in Update method
 
         var toCheck = codeValuePairs["#" + evt.which];
         if (toCheck[0] == 0 && toCheck[1] == 0) {
@@ -195,10 +225,10 @@ function Input() {
 
 
 // Keycodes for the entire keyboard (probably). You can look up / change which string needs to be
-// passed to the Get methods here
+// passed to the "Get" methods here
 var keycodes = {
     mouseleft: 1,
-    mousemiddle: 2, //does this matter depending on the mouse model?
+    mousemiddle: 2, //does this matter depending on the mouse model? :thinking-face:
     mouseright: 3,
     backspace: 8,
     tab: 9,

@@ -60,6 +60,7 @@ var explosionSFX = new sfxContainerRandom([explosion01, explosion02]);
 var gameOver = new sfxClip("gameOver");
 
 var arcaneFireSFX = new sfxClip("arcaneFire");
+whiff_LightSfx.setVolume(1);
 
 var airDashSfx = new sfxClip("AirDash");
 airDashSfx.setVolume(0.35);
