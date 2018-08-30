@@ -16,7 +16,7 @@ function InGameState() {
         this.currentLevel._tickAndSpawnIfNeeded();
         updateAllCharacters();
         updateAllArcane();
-        updateAllEmitters();
+        ParticleEmitterManager.updateAllEmitters(dt);
 
         resolveAllCollisions();
         justEntered = false;

@@ -53,8 +53,7 @@ function Input() {
 
         // Things you wanna do THE SAME FRAME as the key down (before checks)
         if (pressRecordedThisFrame) {
-            //timeSinceLastPress = 0;
-            //console.log("Time now 0")
+
             pressRecordedLastFrame = true;
             pressRecordedThisFrame = false;
         }

@@ -22,9 +22,9 @@ function ArcaneShot (x,y, config) {
     this.velocity.x = this.flipped ? -2:2;
     this.velocity.y = 0;
 
-    this.emitterTrail1 = new ParticleEmitter (this.x-10, this.y, arcaneTrailParticlesConfig1); //gets drawn with all other emitters
+    this.emitterTrail1 = createParticleEmitter (this.x-10, this.y, arcaneTrailParticlesConfig1); //gets drawn with all other emitters
     this.emitterTrail1.angle = this.flipped ? 0:Math.PI;
-    this.emitterTrail2 = new ParticleEmitter (this.x, this.y, arcaneTrailParticlesConfig2); //gets drawn with all other emitters
+    this.emitterTrail2 = createParticleEmitter (this.x, this.y, arcaneTrailParticlesConfig2); //gets drawn with all other emitters
 
     this.draw = function () {
         this.animation.draw();

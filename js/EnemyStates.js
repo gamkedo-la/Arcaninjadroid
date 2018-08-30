@@ -261,7 +261,7 @@ function KnockupEnemyState(parent, relatedStates) {
 
         if (DIZZY_FX_WHEN_STUNNED_IN_AIR) {
             // dizzy stars
-            var starz = new ParticleEmitter(parent.x, parent.y - 10, stunnedParticlesConfig);
+            var starz = createParticleEmitter(parent.x, parent.y - 10, stunnedParticlesConfig);
         }
         
         if (parent.lockedOnto) { return; }
@@ -290,7 +290,7 @@ function KnockupEnemyState(parent, relatedStates) {
 
     this.enter = function () {
         //parent.velocity.x = 15 * randomMin1To1();
-        new ParticleEmitter(parent.x + 10, parent.y - 25, robotExplosionParticlesConfig1);
+        createParticleEmitter(parent.x + 10, parent.y - 25, robotExplosionParticlesConfig1);
 
     }
     this.exit = function () {

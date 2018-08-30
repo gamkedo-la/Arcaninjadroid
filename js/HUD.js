@@ -36,7 +36,7 @@ function drawHUD() {
 
 }
 
-var hpBarEmitter = new ParticleEmitter(200,6, hpMeterParticlesConfig);
+var hpBarEmitter = createParticleEmitter(200,6, hpMeterParticlesConfig);
 function drawHPBar() {
     var percHealthLeft = player.stats.getNewHP() / player.stats.getMaxHP();
     var hpBarX = Math.round(canvas.width / 2) - 28;
@@ -58,7 +58,7 @@ function drawHPBar() {
                 'red');
 }
 
-var arcaneBarEmitter = new ParticleEmitter(200,15, arcaneMeterParticlesConfig);
+var arcaneBarEmitter = createParticleEmitter(200,15, arcaneMeterParticlesConfig);
 function drawArcaneBar() {
     var arcaneBarX = Math.round(canvas.width / 2) - 40;
     var amountOfArcane = player.stats.arcaneMeter;

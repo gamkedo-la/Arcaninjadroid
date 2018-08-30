@@ -40,7 +40,7 @@ function IdleAndroidState(parent, relatedStates) {
 
         // Basic movement
         if (Input.getKey("up")) {
-            new ParticleEmitter(parent.x, parent.y + 10, jumpDustParticlesConfig); // jump thrust dust puff
+            createParticleEmitter(parent.x, parent.y + 10, jumpDustParticlesConfig); // jump thrust dust puff
             parent.velocity.y = -parent.jumpVelocity;
             parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
             return states.jumpState;
@@ -92,7 +92,7 @@ function WalkingAndroidState(parent, relatedStates) {
 
         // Basic movement
         if (Input.getKey("up")) {
-            new ParticleEmitter(parent.x, parent.y + 10, jumpDustParticlesConfig); // jump thrust dust puff
+            createParticleEmitter(parent.x, parent.y + 10, jumpDustParticlesConfig); // jump thrust dust puff
             parent.velocity.y = -parent.jumpVelocity;
             parent.y -= 10; //lifts the player so he doesn't get insta-grounded ;)
             return states.jumpState;
@@ -182,7 +182,7 @@ function JumpState(parent, relatedStates) {
 
 
         if (parent.grounded) {
-            new ParticleEmitter(parent.x, parent.y + 12, landingDustParticlesConfig); // just hit the ground fx
+            createParticleEmitter(parent.x, parent.y + 12, landingDustParticlesConfig); // just hit the ground fx
             return states.idleState;
         }
     }
@@ -199,7 +199,7 @@ function JumpState(parent, relatedStates) {
 
         if (Input.getKeyDown("down")) {
             this.fastfall = true;
-            new ParticleEmitter(parent.x - 10, parent.y - 15, fastFallParticlesConfig); //spawn fast fall blinking particles (visual only)
+            createParticleEmitter(parent.x - 10, parent.y - 15, fastFallParticlesConfig); //spawn fast fall blinking particles (visual only)
         }
 
         if (Input.getKey("left")) {
@@ -309,7 +309,7 @@ function UppercutState(parent, relatedStates) {
 
     this.enter = function () {
 
-        //new ParticleEmitter(parent.x + 10, parent.y - 25, robotExplosionParticlesConfig1);
+        //createParticleEmitter(parent.x + 10, parent.y - 25, robotExplosionParticlesConfig1);
 
     }
 

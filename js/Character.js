@@ -59,7 +59,7 @@ function Character(x, y) {
         // "dizzy stars" above their head when vulnerable to knockup
         if (this.canBeKnockedUp) {
             //console.log('spawning dizzy stars: canBeKnockedUp!');
-            var starz = new ParticleEmitter(this.x, this.y - 10, dizzyParticlesConfig);
+            var starz = createParticleEmitter(this.x, this.y - 10, dizzyParticlesConfig);
         }
 
         this.getAnimation().draw();
@@ -217,7 +217,7 @@ function Character(x, y) {
             if (attackerState.attackDamage === 0) {
                 return;
             }
-            new ParticleEmitter(this.x, this.y - 10, gotHitParticlesConfig);
+            createParticleEmitter(this.x, this.y - 10, gotHitParticlesConfig);
             this.hitSfx.play();
 
             // a special effect added at draw time only - fake "bounce" jiggle state when hit
@@ -248,7 +248,7 @@ function Character(x, y) {
 
         let myState = this.actionMachine.getCurrentState();
 
-        new ParticleEmitter (this.x, this.y, robotExplosionParticlesConfig1);
+        createParticleEmitter (this.x, this.y, robotExplosionParticlesConfig1);
         // a special effect added at draw time only - fake "bounce" jiggle state when hit
         if (JIGGLE_WHEN_HIT) jigglesPending = GOTHIT_JIGGLE_FRAMECOUNT;
 
@@ -278,10 +278,10 @@ function Character(x, y) {
 
         if (Array.isArray(this.explosionSequence)) {
             for (var i = 0, l = this.explosionSequence.length; i < l; i++) {
-                new ParticleEmitter(this.x, this.y, this.explosionSequence[i]);
+                createParticleEmitter(this.x, this.y, this.explosionSequence[i]);
             }
         } else {
-            new ParticleEmitter(this.x, this.y, this.explosionSequence);
+            createParticleEmitter(this.x, this.y, this.explosionSequence);
         }
 
         // Game over!!! :O
