@@ -437,7 +437,9 @@ ParticleRenderer = {
 
         tintCanvas.width = particle.size;
         tintCanvas.height = particle.size;
-        tintContext.fillStyle = context.fillStyle = "rgba(" + particle.color[0] + ","+ particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")";
+
+        //parseInt is required for Safari; if more browser specifics arise we could develop different versions
+        tintContext.fillStyle = context.fillStyle = "rgba(" + parseInt(particle.color[0]) + ","+ parseInt(particle.color[1]) + "," + parseInt(particle.color[2]) + "," + parseInt(particle.color[3]) + ")";
 
         tintContext.drawImage(particle.texture, 0, 0, tintCanvas.width, tintCanvas.height);
         tintContext.globalCompositeOperation = "source-atop";

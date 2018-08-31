@@ -12,13 +12,16 @@
 
 
 // IMPORTANT: The constructor, Input(), must be called in the Main.js file, after the game is started and canvas created
-//            In addition, the method resetGetKeyDown must be called every frame, otherwise getKeyDown will not work
+//            In addition, the update method must be called every frame, otherwise getKeyDown will not work
 function Input() {
 
     console.log("Initializing Input module.");
 
     var mouseX = 0;
     var mouseY = 0;
+    let mouseIsOverCanvas = false;
+
+    let useScaled = false;
 
     //Related to double presses and press intervals
     var doublePressAllowedInterval = 500;
@@ -53,7 +56,8 @@ function Input() {
 
         // Things you wanna do THE SAME FRAME as the key down (before checks)
         if (pressRecordedThisFrame) {
-
+            //timeSinceLastPress = 0;
+            //console.log("Time now 0")
             pressRecordedLastFrame = true;
             pressRecordedThisFrame = false;
         }
@@ -159,8 +163,10 @@ function Input() {
 
         // Ignore the exceptions where we want the normal browser functionalities
         if (evt.which === 122 || // allow F11 for fullscreen
-            evt.which === 123) // allow F12 for developer console
+            evt.which === 123 || // allow F12 for developer console
+            (mouseIsOverCanvas === false && (keycodesAllowedOutsideCanvas.indexOf(evt.which) != -1))) //allow clicking when outside canvas
         {
+            //console.log("allowed")
             return; //assumes that if we want normal browser behavior, the game doesn't use this key ;)
         }
 
@@ -188,17 +194,26 @@ function Input() {
     //Requires "canvas" and "scaledCanvas" global vars. Returns x,y in SMALL canvas coordinates, rounded
     Input.setMousePos = function (evt) {
 
-        var rect = scaledCanvas.getBoundingClientRect();
-        var root = document.documentElement;
+        if (useScaled) {
+            var rect = scaledCanvas.getBoundingClientRect();
+        } else {
+            var rect = canvas.getBoundingClientRect();
+        }
+
+        //let rect = canvasUsed.getBoundingClientRect();
+        let root = document.documentElement;
 
         mouseX = evt.clientX - rect.left - root.scrollLeft;
         mouseY = evt.clientY - rect.top - root.scrollTop;
 
-        var scalingRatioX = canvas.width/scaledCanvas.width;
-        var scalingRatioY = canvas.height/scaledCanvas.height;
+        if (useScaled) {
+            var scalingRatioX = canvas.width/scaledCanvas.width;
+            var scalingRatioY = canvas.height/scaledCanvas.height;
+    
+            mouseX = Math.round(mouseX * scalingRatioX);
+            mouseY = Math.round(mouseY * scalingRatioY);
+        }
 
-        mouseX = Math.round(mouseX * scalingRatioX);
-        mouseY = Math.round(mouseY * scalingRatioY);
         //console.log(mouseX, mouseY);
 
     };
@@ -211,17 +226,43 @@ function Input() {
     document.addEventListener("mouseup", Input.keyUp);
 
     // Mouse movement requires an object named "canvas". Otherwise, only keyboard input works
-    if (typeof canvas === "undefined") {
+    if (!canvas) {
         console.log("Error: no canvas object. Mouse movement detection is not supported.");
         return;
     }
+    if (typeof scaledCanvas !== "undefined") {
 
-    scaledCanvas.addEventListener("mousemove", Input.setMousePos);
+        scaledCanvas.addEventListener("mousemove", Input.setMousePos);
+        scaledCanvas.addEventListener("mouseover", function () { mouseIsOverCanvas = true; });
+        scaledCanvas.addEventListener("mouseout", function () { mouseIsOverCanvas = false; });
+
+        useScaled = true;
+        console.log("Canvas mode detected: using scaled canvas ('scaledCanvas variable').");
+
+    } else {
+
+        canvas.addEventListener("mousemove", Input.setMousePos);
+        canvas.addEventListener("mouseover", function () { mouseIsOverCanvas = true; });
+        canvas.addEventListener("mouseout", function () { mouseIsOverCanvas = false; });
+
+        useScaled = false;
+        console.log("Canvas mode detected: no scaled canvas used (use regular 'canvas' variable).");
+    }
+
 
 };
 
+// This was added for when certain HTML functionalities are needed, otherwise simply leave the content commented
+// Edit this at your leisure to allow only certain keys, comment out certain lines etc.
+var keycodesAllowedOutsideCanvas = [
+    1, 2, 3, //mouse clicks
+    48,49,50,51,52,53,54,55,56,57, //number keys
+    37,38,39,40, //arrow keys
+    8, 110, 188, 189, 190, //backspace, dash, comma and period
 
-
+    //the entire alphabet
+    48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 
+]
 
 // Keycodes for the entire keyboard (probably). You can look up / change which string needs to be
 // passed to the "Get" methods here
