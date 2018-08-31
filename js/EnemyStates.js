@@ -383,12 +383,15 @@ function PunchEnemyState(parent, relatedStates) {
 
         if (this.animation.isActive === false) {
             return states.idleState;
+        } else if (jumped && parent.grounded) {
+            return states.idleState;
         }
 
         if (parent.jumpAttack && !jumped && this.animation.getCurrentFrameNumber()===1) {
             parent.velocity.x = 10*parent.flipped ? -10:10;
             parent.velocity.y = -8;
             jumped = true;
+            parent.grounded = false;
             tigerobotRoarSfx.play();
         }
     }

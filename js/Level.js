@@ -131,10 +131,21 @@ var level3Data = {
   }
 }
 
+var level4Data = {
+  music: musicFight,
+  background: Images.getImage("enemyBase"),
+  enemyList: {
+      enemyTypes: [Frogbot],
+      limit: 4,
+      total: 10,
+  }
+}
+
 var level1 = new Level(level1Data);
 var level2 = new Level(level2Data);
 var level3 = new Level(level3Data);
+var level4 = new Level(level4Data);
 
-var levelProgression = 1;
-var allLevels = [level1,level2,level3];
+var levelProgression = 3;
+var allLevels = [level1,level2,level3,level4];
 GameStates.inGameState.currentLevel = allLevels[levelProgression];
