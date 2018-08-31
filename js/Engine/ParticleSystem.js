@@ -1,5 +1,5 @@
 
-//Current version: v1.1.0
+//Current version: v1.1.1
 
 // Particle system for club JS games. Made by your Gamkedo friend Remy, with original code from Christer
 // and much inspiration from this tutorial: http://buildnewgames.com/particle-systems/ .
@@ -25,6 +25,7 @@
 // <3 Remy
 
 
+const DEFAULT_PARTICLE_HAS_GRADIENT = false; // if true, outer edge fades out, if false use filled opaque circles
 
 // Use this to create emitters in your game!
 function createParticleEmitter(x,y, config) {
@@ -224,6 +225,15 @@ function ParticleEmitter () {
         ];
         p.color = startColor;
 
+        if (DEFAULT_PARTICLE_HAS_GRADIENT) {
+            if (!this.gradient) { // only create one per emitter
+                this.gradient = context.createRadialGradient(x, y, 0, x, y, p.size); // no context!! FIXME!!!!!!!
+                this.gradient.addColorStop(0, "rgba(" + this.startColor[0] + "," + this.startColor[1] + "," + this.startColor[2] + ",0)");
+                this.gradient.addColorStop(1, "rgba(" + this.startColor[0] + "," + this.startColor[1] + "," + this.startColor[2] + "," + this.startColor[3] + ")");
+            }
+            p.gradient = this.gradient;
+        }
+
         //The variation between colors.This is applied each frame over lifetime
         p.deltaColor = [
     	(endColor[0] - startColor[0]) / p.lifeLeft,
@@ -409,11 +419,19 @@ ParticleRenderer = {
 
         //default to drawing a filled circle
         else {
-            //copied from GraphicsCommon.js to remove dependency
-            context.fillStyle = "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")";
+
             context.beginPath();
             context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2, true); //Début, fin, horaire ou anti horaire
+
+            if (DEFAULT_PARTICLE_HAS_GRADIENT) { 
+                console.log("grad!");
+                context.fillStyle = particle.gradient; 
+            } else { // opaque fill
+                context.fillStyle = "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")";
+            }
+
             context.fill();
+
         }
     },
 
