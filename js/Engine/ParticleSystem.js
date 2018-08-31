@@ -414,8 +414,8 @@ ParticleRenderer = {
 
             if (DEFAULT_PARTICLE_HAS_GRADIENT) { // transparent edges, like a glow or spark
                 var gradient = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.size);
-                gradient.addColorStop(0, "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + ",0)");
-                gradient.addColorStop(1, "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")");
+                gradient.addColorStop(0, "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")");
+                gradient.addColorStop(1, "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + ",0)");
                 context.fillStyle = gradient; 
             } else { // opaque fill - like confetti
                 context.fillStyle = "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")";
