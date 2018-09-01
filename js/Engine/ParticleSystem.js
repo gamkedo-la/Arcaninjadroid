@@ -1,5 +1,5 @@
 
-//Current version: v1.1.1
+//Current version: v1.1.2
 
 // Particle system for club JS games. Made by your Gamkedo friend Remy, with original code from Christer
 // and much inspiration from this tutorial: http://buildnewgames.com/particle-systems/ .
@@ -398,6 +398,8 @@ ParticleRenderer = {
 
     renderParticle : function (particle, context) {
 
+        if (!particle.texture) particle.texture = document.getElementById('default_texture');  // ONLY USED BY PARTICLE EDITOR
+        
         if (particle.useTexture && particle.texture){
 
             context.globalAlpha = particle.color[3];
@@ -407,14 +409,14 @@ ParticleRenderer = {
             }
             if (particle.tint) {
 
-                this.tintAndDraw(particle,context);
+                this.tintAndDraw(particle,context); // TODO: this version does not scale the particle size
 
             } else {
                 
                 //copied from GraphicsCommon.js to remove dependency
                 context.save();
                 //context.translate(particle.x - particle.texture.width, particle.y - particle.texture.height); // unscaled version
-                context.translate(particle.x - particle.size, particle.y - particle.size);
+                context.translate(particle.x, particle.y);
                 context.rotate(-particle.angle);
                 //context.drawImage(particle.texture, -particle.texture.width / 2, -particle.texture.height / 2); // unscaled version
                 context.drawImage(particle.texture, -particle.size / 2, -particle.size / 2, particle.size, particle.size);

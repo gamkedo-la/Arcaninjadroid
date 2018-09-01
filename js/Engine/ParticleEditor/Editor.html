@@ -8,7 +8,9 @@
     <title>Remy's particle editor</title>
 
     <style>
-
+		
+		body { background:silver; }
+		
         canvas {
             text-align: center;
             display: block;
@@ -24,6 +26,8 @@
         .numInput {
             width: 50px
         }
+		
+		#default_texture { border:2px solid black; margin:0; padding:0; }
     </style>
 </head>
 
@@ -31,10 +35,8 @@
 
 
 
-
-
     <h1>Remy's particle editor</h1>
-    <h3>Current version: v.1.0.0</h3>
+    <h3>Current version: v.1.1.2</h3>
     <canvas id="canvas"></canvas>
 
     <form action="" method="GET">
@@ -67,7 +69,10 @@
         Gravity (does nothing): <input class="slider" type="range" name="gravity" value="0" min="0" max="5" step="0.1"/> <input class="numInput" type="number" id="gravity"/>
         <br/>
         <h2>Texture</h2>
-        <p>(File input not yet functional, please add manually to output data)</p>
+		
+		<p><img id='default_texture' src='default_texture.png'></p>
+        
+		<p>(File input not yet functional, please add manually to output data)</p>
         Texture: <input class="file" type="file" name="emissionRate" value="10" />
         Texture additive: <input class="check" type="checkbox" name="textureAdditive" value="false" />
         Use texture: <input class="check" type="checkbox" name="useTexture" value="false" />
