@@ -212,6 +212,7 @@ function resetGame () {
     arcaneShots = [];
     player = new Player ();
     GameStates.inGameState.currentLevel._reset();
+    ParticleEmitterManager.killAllEmittersHard();
     console.log("Reset game state");
 } 
 

@@ -146,6 +146,6 @@ var level2 = new Level(level2Data);
 var level3 = new Level(level3Data);
 var level4 = new Level(level4Data);
 
-var levelProgression = 3;
+var levelProgression = 1;
 var allLevels = [level1,level2,level3,level4];
 GameStates.inGameState.currentLevel = allLevels[levelProgression];

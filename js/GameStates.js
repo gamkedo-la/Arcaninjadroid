@@ -365,7 +365,7 @@ function GameOverState() {
 
         else if (_mainAlpha >= 1 && _secondAlpha <= 1) { _secondAlpha += alphaIncreaseRate; }
 
-        updateAllEmitters();
+        ParticleEmitterManager.updateAllEmitters(dt);
     };
 
     this.handleInput = function () {
@@ -417,7 +417,7 @@ function LevelClearedState() {
     this.update = function () {
 
         updateAllArcane();
-        updateAllEmitters();
+        ParticleEmitterManager.updateAllEmitters(dt)();
     };
 
     this.handleInput = function () {

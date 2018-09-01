@@ -2,7 +2,7 @@ setFormat();
 setAudioPath("./audio/");
 //music
 var musicFight = new musicTrackOverlapLoop("arcaninjadroidfightV2", 114.5);  //By Stebs. Note: duration is set for self looping and wouldn't work for transitions
-musicFight.setMixVolume(0.38);
+musicFight.setMixVolume(0.3);
 
 var currentMusic = new musicContainer([musicFight]);
 
@@ -13,7 +13,7 @@ var hit_Kangaroo01 = new sfxClip("Hit_Kangaroo01");
 var hit_Kangaroo02 = new sfxClip("Hit_Kangaroo02");
 var hit_Kangaroo03 = new sfxClip("Hit_Kangaroo03");
 var kangarobotHitSfx = new sfxContainerRandom([hit_Kangaroo01, hit_Kangaroo02, hit_Kangaroo03]);
-kangarobotHitSfx.setVolume(0.6);
+kangarobotHitSfx.setVolume(0.4);
 
 var sliceSfx = new sfxClip("SwordSlice");
 
@@ -37,7 +37,7 @@ var tigerobotRoar01 = new sfxClip("TigerobotRoar01");
 var tigerobotRoar02 = new sfxClip("TigerobotRoar02");
 var tigerobotRoar03 = new sfxClip("TigerobotRoar03");
 var tigerobotRoarSfx = new sfxContainerRandom([tigerobotRoar01, tigerobotRoar02, tigerobotRoar03]);
-tigerobotRoarSfx.setVolume(0.7);
+tigerobotRoarSfx.setVolume(0.55);
 
 var whiff_Hard01 = new sfxClip("Whiff_Hard01");
 var whiff_Hard02 = new sfxClip("Whiff_Hard02");
@@ -51,7 +51,7 @@ var whiff_Light01 = new sfxClip("Whiff_Light01");
 var whiff_Light02 = new sfxClip("Whiff_Light02");
 var whiff_Light03 = new sfxClip("Whiff_Light03");
 var whiff_LightSfx = new sfxContainerRandom([whiff_Light01, whiff_Light02, whiff_Light03]);
-whiff_LightSfx.setVolume(0.6);
+whiff_LightSfx.setVolume(0.4);
 
 var explosion01 = new sfxClip("Explosion01");
 var explosion02 = new sfxClip("Explosion02");
@@ -63,7 +63,7 @@ var arcaneFireSFX = new sfxClip("arcaneFire");
 whiff_LightSfx.setVolume(1);
 
 var airDashSfx = new sfxClip("AirDash");
-airDashSfx.setVolume(0.35);
+airDashSfx.setVolume(0.5);
 var playerJumpSfx = new sfxClip("DroidJump");
 playerJumpSfx.setVolume(0.6);
 
