@@ -3,8 +3,7 @@
  * Remy's particle editor (name still TBD)
  * 
  * Required files: Editor.html, Main.js, ParticleSystem.js, Input.js, GraphicsCommon.js
- * Current version: v.1.0.0 (29th of August 2018)
- * Author: Remy Lapointe
+ * Current version: v.1.1.3 (29th of August 2018)
  * 
  * Homemade JavaScript particle editor for Gamkedo Club games and more.
  * Export your configurations and use 'createParticleEmitter(x,y, config)' in your code for sparks to fly!
