@@ -25,8 +25,6 @@
 // <3 Remy
 
 
-const DEFAULT_PARTICLE_HAS_GRADIENT = true; // if true, outer edge fades out (glows), if false use filled opaque circles (confetti)
-
 // Use this to create emitters in your game!
 function createParticleEmitter(x,y, config) {
     return ParticleEmitterManager.createParticleEmitter(x,y, config);
@@ -74,6 +72,8 @@ function ParticleEmitter () {
 
         this.startColor = config.color || [247,46,0, 1]; //default is rgb for a nice orange (with alpha = 1)
         this.endColor = config.endColor || this.startColor;
+
+        this.useGradient = config.useGradient || false; // if true, outer edge fades out (glows), if false use filled opaque circles (confetti)
 
         this.useTexture = config.useTexture || false; //this can be turned off to improve performance
         this.texture = config.texture; // add a default texture?
@@ -233,6 +233,7 @@ function ParticleEmitter () {
     	(endColor[3] - startColor[3]) / p.lifeLeft
         ];
 
+        p.useGradient = this.useGradient;
         p.useTexture = this.useTexture;
         p.textureAdditive = this.textureAdditive;
         p.texture = this.texture;
@@ -272,6 +273,12 @@ function ParticleEmitter () {
 
         //now our pool is still organised and separates the alive and dead, but we have one more dead
 
+    }
+
+    // Simple stuff, but sounds really brutal...
+    ParticleEmitter.prototype.killAllParticles = function () {
+
+        this.poolPointer = 0;
     }
 
 };
@@ -346,6 +353,7 @@ ParticleEmitterManager = {
 
     },
 
+    //Soft because the currently alive particles get to see their lifetime to completion
     killAllEmittersSoft : function () {
 
         for (var i = 0, l = this.poolPointer; i < l; i++) {
@@ -353,10 +361,20 @@ ParticleEmitterManager = {
             this.pool[i].isActive = false;
 
         }
+    },
+
+    //Also kills all the particles. Not optimal, remember to test this when we have multiple emitters in a game
+    killAllEmittersHard : function () {
+
+        for (var i = 0, l = this.poolPointer; i < l; i++) {
+
+            this.pool[i].isActive = false;
+            this.pool[i].killAllParticles();
+        }
+        this.poolPointer = 0;
     }
 
-}
-
+};
 
 
 
@@ -412,7 +430,7 @@ ParticleRenderer = {
             context.beginPath();
             context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2, true); //Début, fin, horaire ou anti horaire
 
-            if (DEFAULT_PARTICLE_HAS_GRADIENT) { // transparent edges, like a glow or spark
+            if (particle.useGradient) { // transparent edges, like a glow or spark
                 var gradient = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.size);
                 gradient.addColorStop(0, "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")");
                 gradient.addColorStop(1, "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + ",0)");
