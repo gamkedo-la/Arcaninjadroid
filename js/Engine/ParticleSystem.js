@@ -436,11 +436,11 @@ ParticleRenderer = {
 
             if (particle.useGradient) { // transparent edges, like a glow or spark
                 var gradient = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.size);
-                gradient.addColorStop(0, "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")");
+                gradient.addColorStop(0, arrayToRGBA(particle.color));
                 gradient.addColorStop(1, "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + ",0)");
                 context.fillStyle = gradient; 
             } else { // opaque fill - like confetti
-                context.fillStyle = "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.color[3] + ")";
+                context.fillStyle = arrayToRGBA(particle.color);
             }
 
             context.fill();
@@ -461,7 +461,7 @@ ParticleRenderer = {
         tintCanvas.height = particle.size;
 
         //parseInt is required for Safari; if more browser specifics arise we could develop different versions
-        tintContext.fillStyle = context.fillStyle = "rgba(" + parseInt(particle.color[0]) + ","+ parseInt(particle.color[1]) + "," + parseInt(particle.color[2]) + "," + parseInt(particle.color[3]) + ")";
+        tintContext.fillStyle = context.fillStyle = arrayToRGBA(particle.color);
 
         tintContext.drawImage(particle.texture, 0, 0, tintCanvas.width, tintCanvas.height);
         tintContext.globalCompositeOperation = "source-atop";
@@ -485,7 +485,11 @@ function randomMin1To1() {
 }
 
 
+function arrayToRGBA (rgbaArray) {
 
+    //parseInt because Safari needs int values, implies alpha fading not supported
+    return "rgba(" + parseInt(rgbaArray[0]) + ","+ parseInt(rgbaArray[1]) + "," + parseInt(rgbaArray[2]) + "," + rgbaArray[3] + ")";
+};
 
 
 
