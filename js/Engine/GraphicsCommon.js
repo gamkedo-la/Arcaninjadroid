@@ -9,6 +9,14 @@ function drawBitmapWithRotation(useBitmap, atX, atY, withAng) {
 
 }
 
+function drawBitmapWithSizeAndRotation(useBitmap, atX, atY, withWidth, withHeight, withAng) {
+	canvasContext.save();
+	canvasContext.translate(atX, atY);
+	canvasContext.rotate(-withAng);
+	canvasContext.drawImage(useBitmap, -withWidth / 2, -withHeight / 2, withWidth, withHeight);
+	canvasContext.restore();
+}
+
 // rotates and stretches a bitmap to go from point A to point B, used by Woosh Lines FX
 function drawBitmapLine(useBitmap, startX, startY, endX, endY) {
     var lineLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));

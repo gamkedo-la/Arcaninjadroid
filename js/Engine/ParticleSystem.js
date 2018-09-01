@@ -398,7 +398,7 @@ ParticleRenderer = {
 
     renderParticle : function (particle, context) {
 
-        if (particle.useTexture){
+        if (particle.useTexture && particle.texture){
 
             context.globalAlpha = particle.color[3];
 
@@ -413,9 +413,11 @@ ParticleRenderer = {
                 
                 //copied from GraphicsCommon.js to remove dependency
                 context.save();
-                context.translate(particle.x - particle.texture.width, particle.y - particle.texture.height);
+                //context.translate(particle.x - particle.texture.width, particle.y - particle.texture.height); // unscaled version
+                context.translate(particle.x - particle.size, particle.y - particle.size);
                 context.rotate(-particle.angle);
-                context.drawImage(particle.texture, -particle.texture.width / 2, -particle.texture.height / 2);
+                //context.drawImage(particle.texture, -particle.texture.width / 2, -particle.texture.height / 2); // unscaled version
+                context.drawImage(particle.texture, -particle.size / 2, -particle.size / 2, particle.size, particle.size);
                 context.restore();
              
             }
