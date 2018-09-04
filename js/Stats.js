@@ -26,7 +26,7 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
 
 	this.lvl = LVL;
 	this.score = 0; //note: in Arcaninjadroid, score is actually NUMBER OF KITTENS SAVED :D
-	this.arcaneMeter = 0;
+	this.arcaneMeter = 50;
 	this.maxArcane = 150;
 
 	this.setStats = function () {
