@@ -55,6 +55,14 @@ function InGameState() {
         ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
         this.drawSliceArrows();
 
+        // draw the camera view on the big TV screen in the final level
+        if (levelProgression === 4) {
+
+            //canvasContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 77, 7, 96, 54); //somehow 55 is the correct height...
+            tintCanvasAndDraw(77,7, canvas, 96,54, "rgba(198,217,235,0.4)", canvasContext);
+            drawAllCharacters(); //lulululul draw twice cross ur fingers
+        }
+
         drawHUD(); // on screen heads-up-display (score etc)
         drawComboGUI(); // 2x 3x 4x
 

@@ -178,6 +178,7 @@ function updateAll() {
     GameStateMachine.update(); //updates game state depending on if we are ingame, paused, in menu etc.
     GameStateMachine.draw();
 
+
     drawOnScaledCanvas(); //once everything is done, we draw everything on our enlarged canvas, which is the one the player sees
 
     animationRequestID = requestAnimationFrame(updateAll); //once we're done, we ask for the next animation frame
@@ -216,3 +217,25 @@ function resetGame () {
     console.log("Reset game state");
 } 
 
+
+function tintCanvasAndDraw(x,y, srcCanvas, destW,destH, colorString, context) {
+
+    // A canvas must have integer width that is more than zero
+    if (destW < 1 || destH < 1) {
+        return;
+    }
+
+    tintCanvas.width = destW;
+    tintCanvas.height = destH;
+
+    //parseInt is required for Safari; if more browser specifics arise we could develop different versions
+    tintContext.fillStyle = context.fillStyle = colorString;
+
+    tintContext.drawImage(srcCanvas, 0, 0, tintCanvas.width, tintCanvas.height);
+    tintContext.globalCompositeOperation = "source-atop";
+    tintContext.fillRect(0,0, tintCanvas.width,tintCanvas.height);
+    tintContext.globalCompositeOperation = "source-over";
+    
+    //canvasContext.drawImage(tintCanvas, particle.x, particle.x, tintCanvas.width, tintCanvas.height);
+    context.drawImage(tintCanvas, x, y, tintCanvas.width, tintCanvas.height);
+}
