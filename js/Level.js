@@ -142,8 +142,8 @@ var level4Data = {
 }
 
 var level5Data = {
-  music: musicFight,
-  background: Images.getImage("finalArena"),
+  music: musicFight3,
+  background: Images.getImage("controlRoom"),
   enemyList: {
       enemyTypes: [Frogbot],
       limit: 1,

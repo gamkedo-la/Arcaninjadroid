@@ -59,7 +59,7 @@ function InGameState() {
         if (levelProgression === 4) {
 
             //canvasContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 77, 7, 96, 54); //somehow 55 is the correct height...
-            tintCanvasAndDraw(77,7, canvas, 96,54, "rgba(198,217,235,0.4)", canvasContext);
+            tintCanvasAndDraw(73,7, canvas, 96,54, "rgba(198,217,235,0.4)", canvasContext);
             drawAllCharacters(); //lulululul draw twice cross ur fingers
         }
 
@@ -70,6 +70,9 @@ function InGameState() {
 
     this.enter = function () {
         justEntered = true;
+
+        //currentMusic.removeTrack(0);
+        currentMusic.loadTrack(this.currentLevel.music, 0);
 
         if (currentMusic.getPaused() === true) {
             startAudio();
@@ -242,6 +245,7 @@ function MainMenuState() {
 
         this.uiElements[currentFocus].hasFocus = true;
         this.background = GameStates.inGameState.currentLevel.background;
+
     };
 
     this.exit = function () {

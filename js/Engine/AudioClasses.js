@@ -2170,6 +2170,7 @@ function musicContainer(trackList) {//Basic containers
 	}
 
 	this.loadTrack = function(newTrack, slot) {
+
 		var timeNow = musicTrack[currentTrack].getTime();
 		if(!musicTrack[slot].getPaused()) {
 			musicTrack[slot].pause();

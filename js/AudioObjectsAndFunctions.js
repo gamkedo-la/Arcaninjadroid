@@ -2,9 +2,11 @@ setFormat();
 setAudioPath("./audio/");
 //music
 var musicFight = new musicTrackOverlapLoop("arcaninjadroidfightV2", 114.5);  //By Stebs. Note: duration is set for self looping and wouldn't work for transitions
-musicFight.setMixVolume(0.3);
+//musicFight.setMixVolume(0.3);
+var musicFight3 = new musicTrackOverlapLoop("arcaninjadroidLevel2or3(2)", 114.5);  //By Stebs. Note: duration is set for self looping and wouldn't work for transitions
 
 var currentMusic = new musicContainer([musicFight]);
+currentMusic.setVolume(0.3);
 
 //SFX
 var sfxTemp = new sfxClip("temp_placeholder");
