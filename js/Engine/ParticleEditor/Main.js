@@ -21,7 +21,7 @@
 
 const CANVAS_W = 1000;
 const CANVAS_H = 750;
-
+//T. practicing github
 var editorRunning = true;
 
 window.onload = function () {
