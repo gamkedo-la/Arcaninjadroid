@@ -40,6 +40,10 @@ function InGameState() {
         if (Input.getKeyDown("d")) {
             return GameStates.gameOverState;
         }
+
+        if (Input.getKeyDown("e")) {
+            createParticleEmitter(100,100, frogbotExplosion);
+        }
     };
 
     this.draw = function () {
@@ -429,7 +433,7 @@ function LevelClearedState() {
     this.update = function () {
 
         updateAllArcane();
-        ParticleEmitterManager.updateAllEmitters(dt)();
+        ParticleEmitterManager.updateAllEmitters(dt);
     };
 
     this.handleInput = function () {
@@ -464,6 +468,8 @@ function LevelClearedState() {
     this.enter = function () {
 
         pauseAudio();
+
+        createParticleEmitter(120,35, victoryParticle);
 
         this.background = GameStates.inGameState.currentLevel.background;
         levelProgression++;

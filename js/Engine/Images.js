@@ -142,7 +142,10 @@ var fileNames = [
     "images/Characters/Tigerobot/tigerobotJump.png",
 
     //Frogbot
-    "images/Characters/Frogbot/frogbot_v2_idle.png",
+    "images/Characters/Frogbot/frogbot.png",
+    "images/Characters/Frogbot/frogbotJump.png",
+    "images/Characters/Frogbot/frogbotCountdown.png",
+    "images/Characters/Frogbot/frogbotStunned.png",
 
     //Arcane
     "images/Arcane/arcaneBig.png",

@@ -220,7 +220,7 @@ function StunnedEnemyState(parent, relatedStates) {
                 this.animation = parent.knockedUpAnim;
             } else {
                 timer = duration;
-                return "previous";
+                return states.idleState;
             }
         }
     }
@@ -363,7 +363,7 @@ function UppercutEnemyState(parent, relatedStates) {
     this.exit = function () {
     }
 }
-StunnedEnemyState.prototype = baseState;
+UppercutEnemyState.prototype = baseState;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -381,6 +381,14 @@ function PunchEnemyState(parent, relatedStates) {
         parent.applyBasicPhysics();
         if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
+        if (parent.SDAttack && this.animation.isActive === false) {
+            console.log("Boom!");
+            //parent.stats.characterHasBeenHitSoCalculateNewHP(0, parent.stats.getMaxHP());
+            parent.die();
+            createParticleEmitter(parent.x, parent.y, frogbotExplosion);
+            player.stats.characterHasBeenHitSoCalculateNewHP(0, 100);
+            player.hitThisFrame = true;
+        }
         if (this.animation.isActive === false) {
             return states.idleState;
         } else if (jumped && parent.grounded) {
@@ -391,9 +399,11 @@ function PunchEnemyState(parent, relatedStates) {
             parent.velocity.x = 10*parent.flipped ? -10:10;
             parent.velocity.y = -8;
             jumped = true;
-            parent.grounded = false;
+            //parent.grounded = false;
+            console.log("here")
             tigerobotRoarSfx.play();
         }
+
     }
 
     this.handleInput = function () {

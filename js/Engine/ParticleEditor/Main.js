@@ -373,10 +373,10 @@ function convertColorsHexToArray (config) {
 
     let converted = JSON.parse(JSON.stringify(config));
 
-    converted.color = hexInputToArray(config.color, 1);
-    converted.endColor = hexInputToArray(config.endColor, 1);
-    converted.startColorVar = hexInputToArray(config.startColorVar, 0);
-    converted.endColorVar = hexInputToArray(config.endColorVar, 0);
+    if (converted.color) converted.color = hexInputToArray(config.color, 1);
+    if (converted.endColor) converted.endColor = hexInputToArray(config.endColor, 1);
+    if (converted.startColorVar) converted.startColorVar = hexInputToArray(config.startColorVar, 0);
+    if (converted.endColorVar) converted.endColorVar = hexInputToArray(config.endColorVar, 0);
 
     return converted;
 
@@ -387,10 +387,10 @@ function convertColorsArrayToHex (config) {
 
     let converted = JSON.parse(JSON.stringify(config));
 
-    converted.color = arrayInputToHex(config.color);
-    converted.endColor = arrayInputToHex(config.endColor);
-    converted.startColorVar = arrayInputToHex(config.startColorVar);
-    converted.endColorVar = arrayInputToHex(config.endColorVar);
+    if (converted.color) converted.color = arrayInputToHex(config.color);
+    if (converted.endColor) converted.endColor = arrayInputToHex(config.endColor);
+    if (converted.startColorVar) converted.startColorVar = arrayInputToHex(config.startColorVar);
+    if (converted.endColorVar) converted.endColorVar = arrayInputToHex(config.endColorVar);
 
     return converted;
 

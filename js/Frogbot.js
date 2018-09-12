@@ -4,22 +4,23 @@ function Frogbot(x, y) {
 
     var char = new Character(x, y);
 
-    char.idleAnim = new Animation(char, Images.getImage("frogbot_v2_idle"), frogbotIdleData, { loop: true });
-    char.jumpAnim = new Animation(char, Images.getImage("frogbot_v2_idle"), frogbotIdleData, { loop: true });
-    char.walkAnim = new Animation(char, Images.getImage("frogbot_v2_idle"), frogbotIdleData, { loop: true });
-    char.punchAnim = new Animation(char, Images.getImage("frogbot_v2_idle"), frogbotIdleData, { loop: true });
-    char.crouchAnim = new Animation(char, Images.getImage("frogbot_v2_idle"), frogbotIdleData, { loop: true });
-    char.stunnedAnim = new Animation(char, Images.getImage("frogbot_v2_idle"), frogbotIdleData, { loop: true });
-    char.knockedUpAnim = new Animation(char, Images.getImage("frogbot_v2_idle"), frogbotIdleData, { loop: true });
+    char.idleAnim = new Animation(char, Images.getImage("frogbot"), frogbotIdleData, { loop: true });
+    char.jumpAnim = new Animation(char, Images.getImage("frogbotJump"), frogbotJumpData, { loop: true });
+    char.walkAnim = new Animation(char, Images.getImage("frogbot"), frogbotIdleData, { loop: true });
+    char.punchAnim = new Animation(char, Images.getImage("frogbotCountdown"), frogbotAttackData, { });
+    char.crouchAnim = new Animation(char, Images.getImage("frogbot"), frogbotIdleData, { loop: true });
+    char.stunnedAnim = new Animation(char, Images.getImage("frogbotStunned"), frogbotStunnedData, { loop: true });
+    char.knockedUpAnim = new Animation(char, Images.getImage("frogbot"), frogbotIdleData, { loop: true });
 
     char.walkSpeed = 1;
     char.slicesNeeded = 3;
 
     var states = new EnemyStates(char);
+    states.walkState = null; //end of project hack omegalul
 
     char.initMachine(states);
     char.initAI(states);
-    char.jumpAttack = true;
+    char.SDAttack = true; //self-destructs after attack end
     //char.trail = new WooshTrail("wooshTrailKangarobot");
 
     char.hitSfx = tigerobotRoarSfx;
@@ -29,4 +30,5 @@ function Frogbot(x, y) {
     enemyStats.setStats();
 
     return char;
+    
 }

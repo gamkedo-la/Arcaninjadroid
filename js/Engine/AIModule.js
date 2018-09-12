@@ -41,13 +41,22 @@ function AIModule (parent, possibleStates, config) {
         idle:0.5
     }
 
+
     let decisionScared = {
         walk: 1
     }
 
     let decisionAggro = {
-        walk: 0.9,
-        crouch: 0.1
+        walk: 0.7,
+        crouch: 0.1,
+        jump: 0.2
+    }
+    
+    //Frogbot can't walk
+    if (!states.walkState) {
+        decisionPassive = { jump: 1}; //this is the worst code I've ever written
+        decisionScared = { jump: 1};
+        decisionAggro = { jump: 0.6, crouch: 0.4 };
     }
 
     let _currentDecision = decisionAggro;
@@ -58,7 +67,7 @@ function AIModule (parent, possibleStates, config) {
     let attackRange = config.attackRange || 20;
     
     //when an enemy is scared, they'll run away from the player until they are far away
-    const FARENOUGH = 80;
+    const FARENOUGH = 50;
 
     this.update = function () {
 
@@ -101,19 +110,22 @@ function AIModule (parent, possibleStates, config) {
 
             let direction = Math.random() < 0.5 ? 1:-1;
 
-            states.walkState.AIWalkDirection = direction;
+            if (states.walkState) states.walkState.AIWalkDirection = direction;
             parent.flipped = (direction === -1);
         }
         // for "scared" decision
         else if (_currentDecision === decisionScared) {
 
             let direction = Math.sign(getXDistanceFrom(player));
-            states.walkState.AIWalkDirection = direction;
+            if (states.walkState) states.walkState.AIWalkDirection = direction;
             parent.flipped = (direction === -1);
             if (Math.abs(getXDistanceFrom(player)) >= FARENOUGH) {
                 //return states["idleState"];
-                states.walkState.AIWalkDirection = -direction;
-                parent.flipped = (direction === 1);
+                if (states.walkState) states.walkState.AIWalkDirection = -direction;
+                else {
+                    parent.velocity.x += 5 * direction; 
+                }
+                parent.flipped = (direction === -1);
             }
         }
 
@@ -122,7 +134,10 @@ function AIModule (parent, possibleStates, config) {
 
             let direction = -Math.sign(getXDistanceFrom(player));
 
-            states.walkState.AIWalkDirection = direction;
+            if (states.walkState) states.walkState.AIWalkDirection = direction;
+            else {
+                parent.velocity.x += 5 * direction; 
+            }
             parent.flipped = (direction === -1);
         }
 
