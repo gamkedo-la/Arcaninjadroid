@@ -537,11 +537,25 @@ function OptionsState() {
         
         drawPixelfont("OPTIONS", 48, 16);
 
-        drawPixelfont("[z,x] Sound FX Volume: " + this.sfx_vol, 48, 48);
-        drawPixelfont("[c,v] Music Volume: " + this.mus_vol, 48, 64);
+        var barstr = "[";
+        var loop = 0;
+
+        drawPixelfont("[z,x] Sound FX Volume: ", 48, 48);
+        for (loop=0; loop<Math.round(this.sfx_vol/5); loop++) { barstr += "=" }
+        for (loop=Math.round(this.sfx_vol/5); loop<20; loop++) { barstr += "-" }
+        barstr += "] " + this.sfx_vol;
+        drawPixelfont(barstr, 48, 56);
+
+        drawPixelfont("[c,v] Music Volume: ", 48, 64);
+        barstr = "[";
+        for (loop=0; loop<Math.round(this.mus_vol/5); loop++) { barstr += "=" }
+        for (loop=Math.round(this.mus_vol/5); loop<20; loop++) { barstr += "-" }
+        barstr += "] " + this.mus_vol;
+        drawPixelfont(barstr, 48, 72);
+
         
         drawPixelfont("[ESC] to return", 48, 96);
-        drawPixelfont("to the main menu.", 48, 112);
+        drawPixelfont("to the main menu.", 48, 104);
 
     };
     this.enter = function () {
