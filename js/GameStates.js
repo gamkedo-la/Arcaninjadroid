@@ -169,7 +169,7 @@ function MainMenuState() {
             return GameStates.inGameState;
         }),
         new Button(180, 50, Images.getImage("loadGame"), function () { console.log("load game") }, { unavailable: true }),
-        new Button(180, 70, Images.getImage("options"), function () { console.log("load game") }, { unavailable: true }),
+        new Button(180, 70, Images.getImage("options"), function () { return GameStates.optionsState; }),
         new Button(180, 90, Images.getImage("credits"), function () { return GameStates.creditsState; }),
         new UITextImage(-200, -200, Images.getImage("arca")),
         new UITextImage(-200, -160, Images.getImage("ninja")),
@@ -484,6 +484,35 @@ function LevelClearedState() {
 }
 LevelClearedState.prototype = baseState;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+function OptionsState() {
+    this.background = Images.getImage("mainMenu_ver2");
+    this.update = function () {
+        //timer += dt;
+        console.log("OptionsState.update");
+    };
+    this.handleInput = function () {
+        if (Input.getKeyDown("enter") || Input.getKeyDown("escape")) {
+            return GameStates.mainMenuState;
+        }
+    };
+    this.draw = function () {
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+        if (this.background) canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+        console.log("OptionsState.draw");
+    };
+    this.enter = function () {
+        console.log("entering options menu");
+    };
+    this.exit = function () {
+        console.log("exiting options menu");
+    };
+}
+OptionsState.prototype = baseState;
+
+
+
 var GameStates = {
     inGameState: new InGameState(),
     mainMenuState: new MainMenuState(),
@@ -491,6 +520,7 @@ var GameStates = {
     pauseState: new PauseState(),
     gameOverState: new GameOverState(),
     levelClearedState: new LevelClearedState(),
+    optionsState: new OptionsState(),
 };
 
 var GameStateMachine = new StateMachine(GameStates.mainMenuState);
