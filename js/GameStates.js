@@ -487,20 +487,62 @@ LevelClearedState.prototype = baseState;
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 function OptionsState() {
+    
+    // TODO store and read from localstorage
+    this.sfx_vol = Math.round(SFXVolumeManager.getVolume() * 100);
+    this.mus_vol = Math.round(MusicVolumeManager.getVolume() * 100);
+    
     this.background = Images.getImage("mainMenu_ver2");
+
     this.update = function () {
         //timer += dt;
-        console.log("OptionsState.update");
+        //console.log("OptionsState.update");
     };
     this.handleInput = function () {
         if (Input.getKeyDown("enter") || Input.getKeyDown("escape")) {
             return GameStates.mainMenuState;
         }
+
+        if (Input.getKeyDown("z")) {
+            this.sfx_vol -= 10;
+            if (this.sfx_vol < 0) this.sfx_vol = 0;
+            punch_Light02.play(); // to preview the new volume
+        }
+
+        if (Input.getKeyDown("x")) {
+            this.sfx_vol += 10;
+            if (this.sfx_vol>100) this.sfx_vol = 100;
+            punch_Light02.play(); // to preview the new volume
+        }
+
+        if (Input.getKeyDown("c")) {
+            this.mus_vol -= 10;
+            if (this.mus_vol < 0) this.mus_vol = 0;
+        }
+
+        if (Input.getKeyDown("v")) {
+            this.mus_vol += 10;
+            if (this.mus_vol>100) this.mus_vol = 100;
+        }
+
+        SFXVolumeManager.setVolume(this.sfx_vol/100);
+        MusicVolumeManager.setVolume(this.mus_vol/100);
+
+
     };
     this.draw = function () {
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         if (this.background) canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
-        console.log("OptionsState.draw");
+        //console.log("OptionsState.draw");
+        
+        drawPixelfont("OPTIONS", 48, 16);
+
+        drawPixelfont("[z,x] Sound FX Volume: " + this.sfx_vol, 48, 48);
+        drawPixelfont("[c,v] Music Volume: " + this.mus_vol, 48, 64);
+        
+        drawPixelfont("[ESC] to return", 48, 96);
+        drawPixelfont("to the main menu.", 48, 112);
+
     };
     this.enter = function () {
         console.log("entering options menu");
