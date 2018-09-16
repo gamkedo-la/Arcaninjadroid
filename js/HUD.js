@@ -34,6 +34,8 @@ function drawHUD() {
     var lenPx = measurePixelfont(lvlstr);
     drawPixelfont(lvlstr, canvas.width - 2 - lenPx, 2);
 
+    drawSliceArrows();
+
 }
 
 var hpBarEmitter = createParticleEmitter(200,6, hpMeterParticlesConfig);
@@ -85,4 +87,31 @@ function drawArcaneBar() {
                 Math.floor(percOfArcane * ARCANE_HUD_W),
                 ARCANE_HUD_H,
                 [98, 171, 212, 1]);
+}
+
+
+let arrowImage = Images.getImage("sliceArrow");
+drawSliceArrows = function () {
+
+    let drawXMiddle = 120;
+    let drawYMiddle = 36;
+    let drawYUpper = 15;
+    let drawXMiddleDist = 35; // absolute x distance from vertical arrow
+    let drawYLower = 56;
+
+    if (sliceEncoding[0] === -1) {
+
+        drawBitmapWithRotation(arrowImage, drawXMiddle, drawYUpper, Math.PI / 2);
+
+    } else if (sliceEncoding[0] === 1) {
+
+        drawBitmapWithRotation(arrowImage, drawXMiddle, drawYLower, -Math.PI / 2);
+    }
+
+    if (sliceEncoding[1] === -1) {
+        drawBitmapWithRotation(arrowImage, drawXMiddle - drawXMiddleDist, drawYMiddle, Math.PI);
+    } else if (sliceEncoding[1] === 1) {
+        drawBitmapWithRotation(arrowImage, drawXMiddle + drawXMiddleDist, drawYMiddle, 0);
+    }
+
 }

@@ -69,6 +69,14 @@ airDashSfx.setVolume(0.5);
 var playerJumpSfx = new sfxClip("DroidJump");
 playerJumpSfx.setVolume(0.6);
 
+var frogbotCountdownSfx = new sfxClip("FrogbotCountdown");
+frogbotCountdownSfx.setVolume(0.5);
+var frogbotCroak1 = new sfxClip("FrogbotCroak01");
+var frogbotCroak2 = new sfxClip("FrogbotCroak02");
+var frogbotCroak3 = new sfxClip("FrogbotCroak03");
+var frogbotCroakSfx = new sfxContainerRandom([frogbotCroak1, frogbotCroak2, frogbotCroak3]);
+//frogbotCroakSfx.setVolume();
+
 //Functions
 function startAudio() {
 	MusicVolumeManager.updateVolume();

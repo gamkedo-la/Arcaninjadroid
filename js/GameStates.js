@@ -7,7 +7,7 @@ function InGameState() {
 
 
     //this.background = Images.getImage("moonlitForest");
-    let arrowImage = Images.getImage("sliceArrow");
+
 
     this.currentLevel;
 
@@ -57,7 +57,7 @@ function InGameState() {
         drawAllTerrain();
         drawAllArcane();
         ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
-        this.drawSliceArrows();
+
 
         // draw the camera view on the big TV screen in the final level
         if (levelProgression === 4) {
@@ -86,30 +86,6 @@ function InGameState() {
     this.exit = function () {
     };
 
-    this.drawSliceArrows = function () {
-
-        let drawXMiddle = 120;
-        let drawYMiddle = 36;
-        let drawYUpper = 15;
-        let drawXMiddleDist = 35; // absolute x distance from vertical arrow
-        let drawYLower = 56;
-
-        if (sliceEncoding[0] === -1) {
-
-            drawBitmapWithRotation(arrowImage, drawXMiddle, drawYUpper, Math.PI / 2);
-
-        } else if (sliceEncoding[0] === 1) {
-
-            drawBitmapWithRotation(arrowImage, drawXMiddle, drawYLower, -Math.PI / 2);
-        }
-
-        if (sliceEncoding[1] === -1) {
-            drawBitmapWithRotation(arrowImage, drawXMiddle - drawXMiddleDist, drawYMiddle, Math.PI);
-        } else if (sliceEncoding[1] === 1) {
-            drawBitmapWithRotation(arrowImage, drawXMiddle + drawXMiddleDist, drawYMiddle, 0);
-        }
-
-    }
 
 };
 InGameState.prototype = baseState;
