@@ -1,6 +1,6 @@
 const POINTS_PER_HIT = 5;
 const POINTS_PER_KILL = 20;
-const POINTS_PER_SLICE = 10;
+const POINTS_PER_SLICE = 5;
 
 //base class for HP and ATK
 function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
@@ -26,7 +26,8 @@ function StatsClass(LVL, HpMultiplier, DefMultiplier, AtkMultiplier) {
 
 	this.lvl = LVL;
 	this.score = 0; //note: in Arcaninjadroid, score is actually NUMBER OF KITTENS SAVED :D
-	this.arcaneMeter = 50;
+	//this.arcaneMeter = 50;
+	this.arcaneMeter = 0;
 	this.maxArcane = 150;
 
 	this.setStats = function () {

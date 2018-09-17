@@ -531,7 +531,8 @@ function SliceState(parent, relatedStates) {
             if (remainingSlices != 1) this.generateRandomSliceDirection();
 
             registerHitForCombo();
-            player.stats.addArcanePoints(POINTS_PER_SLICE*comboCurrent);
+            //player.stats.addArcanePoints(POINTS_PER_SLICE*comboCurrent);
+            player.stats.addArcanePoints(POINTS_PER_SLICE);
         }
     }
 

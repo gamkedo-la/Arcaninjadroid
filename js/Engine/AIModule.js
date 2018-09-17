@@ -67,7 +67,7 @@ function AIModule (parent, possibleStates, config) {
     let attackRange = config.attackRange || 20;
     
     //when an enemy is scared, they'll run away from the player until they are far away
-    const FARENOUGH = 50;
+    const FARENOUGH = 125;
 
     this.update = function () {
 
@@ -116,17 +116,25 @@ function AIModule (parent, possibleStates, config) {
         // for "scared" decision
         else if (_currentDecision === decisionScared) {
 
+
             let direction = Math.sign(getXDistanceFrom(player));
-            if (states.walkState) states.walkState.AIWalkDirection = direction;
-            parent.flipped = (direction === -1);
             if (Math.abs(getXDistanceFrom(player)) >= FARENOUGH) {
-                //return states["idleState"];
+                
                 if (states.walkState) states.walkState.AIWalkDirection = -direction;
                 else {
                     parent.velocity.x += 5 * direction; 
                 }
+                parent.flipped = (direction === 1);
+            }
+            else if (ORIG_WORLD_W - parent.x < 50 || parent.x < 50){
+                //console.log("I'm at the edge");
+                return states["idleState"];
+            }
+            else {
+                if (states.walkState) states.walkState.AIWalkDirection = direction;
                 parent.flipped = (direction === -1);
             }
+
         }
 
         // for "aggro" decision

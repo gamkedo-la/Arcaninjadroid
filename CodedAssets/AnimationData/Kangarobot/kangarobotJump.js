@@ -43,7 +43,7 @@ var kangarobotJumpData = { "frames": [
   "size": { "w": 128, "h": 32 },
   "scale": "1",
   "slices": [
-   { "name": "Hurt", "color": "#6acd5bff", "keys": [{ "frame": 0, "bounds": {"x": 8, "y": 4, "w": 15, "h": 24 } }, { "frame": 1, "bounds": {"x": 3, "y": 8, "w": 26, "h": 15 } }, { "frame": 2, "bounds": {"x": 9, "y": 3, "w": 14, "h": 24 } }, { "frame": 3, "bounds": {"x": 4, "y": 9, "w": 25, "h": 14 } }] }
+   //{ "name": "Hurt", "color": "#6acd5bff", "keys": [{ "frame": 0, "bounds": {"x": 8, "y": 4, "w": 15, "h": 24 } }, { "frame": 1, "bounds": {"x": 3, "y": 8, "w": 26, "h": 15 } }, { "frame": 2, "bounds": {"x": 9, "y": 3, "w": 14, "h": 24 } }, { "frame": 3, "bounds": {"x": 4, "y": 9, "w": 25, "h": 14 } }] }
   ]
  }
 }

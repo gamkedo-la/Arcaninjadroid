@@ -8,7 +8,7 @@ class Level {
    * @param {number} enemyList.limit - Total number of enemies allowed on the level
    */
 
-  constructor({ music, background, enemyList, title }) {
+  constructor({ music, background, enemyList, title, spawnInterval }) {
     this.music = music;
     this.background = background;
     this.enemyList = enemyList;
@@ -18,7 +18,7 @@ class Level {
     this.startWait = 1 * 60; //time before the first enemy is spawned
     this.enemiesCurrentlyOnscreen = 0;
     this.enemiesLeftToSpawn = enemyList.total;
-    this.spawnInterval = 5 * 60;
+    this.spawnInterval = 60*spawnInterval || 3 * 60;
     this.spawnTimer = this.startWait;
   }
 
@@ -102,61 +102,115 @@ class Level {
 // level1._setEnemies();
 // level1._debug();
 
-// "Tutorial" with only one enemy at a time
-var level1Data = {
+// "Tutorial" with only one enemy at a time would be level 0 here
+
+/////
+
+var level0Data = {
   music: musicFight,
   background: Images.getImage("moonlitForest"),
   enemyList: {
       enemyTypes: [Kangarobot],
       limit: 1,
-      total: 5,
+      total: 2,
   }
+}
+var level1Data = {
+  music: musicFight,
+  background: Images.getImage("moonlitForest"),
+  enemyList: {
+      enemyTypes: [Kangarobot],
+      limit: 2,
+      total: 3,
+  },
+  spawnInterval:1
 }
 var level2Data = {
   music: musicFight,
   background: Images.getImage("moonlitForest"),
   enemyList: {
-      enemyTypes: [Kangarobot,Tigerobot],
-      limit: 3,
-      total: 10,
+      enemyTypes: [Kangarobot],
+      limit: 2,
+      total: 5,
   }
 }
 var level3Data = {
   music: musicFight,
-  background: Images.getImage("enemyBase"),
+  background: Images.getImage("moonlitForest"),
   enemyList: {
-      enemyTypes: [Tigerobot],
-      limit: 4,
-      total: 10,
+      enemyTypes: [Kangarobot],
+      limit: 3,
+      total: 8,
   }
 }
-
 var level4Data = {
   music: musicFight,
   background: Images.getImage("enemyBase"),
   enemyList: {
-      enemyTypes: [Frogbot],
-      limit: 4,
+      enemyTypes: [Kangarobot,Frogbot],
+      limit: 3,
       total: 10,
   }
 }
-
 var level5Data = {
+  music: musicFight,
+  background: Images.getImage("enemyBase"),
+  enemyList: {
+      enemyTypes: [Kangarobot,Frogbot],
+      limit: 7,
+      total: 7,
+  },
+  spawnInterval:0.5
+}
+var level6Data = {
+  music: musicFight,
+  background: Images.getImage("enemyBase"),
+  enemyList: {
+      enemyTypes: [Kangarobot,Frogbot],
+      limit: 3,
+      total: 10,
+  }
+}
+var level7Data = {
   music: musicFight3,
   background: Images.getImage("controlRoom"),
   enemyList: {
-      enemyTypes: [Megabot],
-      limit: 1,
+      enemyTypes: [Kangarobot,Frogbot,Tigerobot],
+      limit: 3,
+      total: 8,
+  }
+}
+var level8Data = {
+  music: musicFight3,
+  background: Images.getImage("controlRoom"),
+  enemyList: {
+      enemyTypes: [Kangarobot,Frogbot,Tigerobot],
+      limit: 5,
       total: 10,
   }
 }
+var level9Data = {
+  music: musicFight3,
+  background: Images.getImage("controlRoom"),
+  enemyList: {
+      enemyTypes: [Kangarobot,Frogbot,Tigerobot],
+      limit: 7,
+      total: 15,
+  },
+  spawnInterval: 2
+}
 
+var level0 = new Level(level0Data);
 var level1 = new Level(level1Data);
 var level2 = new Level(level2Data);
 var level3 = new Level(level3Data);
 var level4 = new Level(level4Data);
 var level5 = new Level(level5Data);
+var level6 = new Level(level6Data);
+var level7 = new Level(level7Data);
+var level8 = new Level(level8Data);
+var level9 = new Level(level9Data);
 
-var levelProgression = 4;
-var allLevels = [level1,level2,level3,level4,level5];
+var levelProgression = 1;
+var allLevels = [level0,level1,level2,level3,level4,level5,level6,level7,level8,level9];
 GameStates.inGameState.currentLevel = allLevels[levelProgression];
