@@ -157,6 +157,7 @@ var fileNames = [
 
     //Arcane
     "images/Arcane/arcaneBig.png",
+    "images/Arcane/fireBreath.png",
 
 ];
 

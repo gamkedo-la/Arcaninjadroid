@@ -34,7 +34,7 @@ function IdleAndroidState(parent, relatedStates) {
         }
 
         if (Input.getKeyDown("x") && player.stats.arcaneMeter >= arcaneShotCost) {
-            new ArcaneShot(player.x,player.y);
+            new ArcaneShot(player.x + (25*(parent.flipped?-1:1)),player.y);
             player.stats.addArcanePoints(-arcaneShotCost);
         }
 
@@ -86,7 +86,7 @@ function WalkingAndroidState(parent, relatedStates) {
             return states.punchingState;
         }
         if (Input.getKeyDown("x") && player.stats.arcaneMeter >= arcaneShotCost) {
-            new ArcaneShot(player.x,player.y);
+            new ArcaneShot(player.x + (25*(parent.flipped?-1:1)),player.y);
             player.stats.addArcanePoints(-arcaneShotCost);
         }
 

@@ -155,6 +155,7 @@ function Character(x, y) {
                         this.gotHit(otherChar);
                     } else {
                         this.gotHitArcane(otherChar);
+                        
                     } //this method will go get the information and handle the hit
                     break; //break...the game?
                 }
@@ -377,14 +378,16 @@ function updateAllCharacters() {
 
         characters[i].hitThisFrame = false;
         characters[i].knockupThisFrame = false;
+
+        for (var j = arcaneShots.length - 1; j >= 0; j--) {
+            characters[i].checkForHits(arcaneShots[j]);
+        }
         if (characters[i] === player) { continue; }
         //only check for player/enemy contact, no longer enemy/enemy
         characters[i].checkForHits(player);
         player.checkForHits(characters[i]);
 
-        for (var j = arcaneShots.length - 1; j >= 0; j--) {
-            characters[i].checkForHits(arcaneShots[j]);
-        }
+
         /*
         for (var j = 0, l; j < l; j++) {
             if (i == j) { continue; } // to avoid hitting oneself

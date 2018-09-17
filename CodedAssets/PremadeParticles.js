@@ -124,6 +124,53 @@ arcaneTrailParticlesConfig2 = {
     "particleLifeVar": 0.1,
     "particleLife": 0.25
 }
+///////////////////////   Variants for Fire Breath   ////////////////////
+var fireBreathTrailConfig1 = {
+    "emissionRate":250,
+    "size":2.5,
+    "color":[251,
+    219,
+    40,
+    1],
+    "duration":5,
+    "speed":200,
+    "yVar":12,
+    "angle":180,
+    "angleVar":15,
+    "fadeSpeed":true,
+    "fadeSize":true,
+    "particleLifeVar":0.1,
+    "particleLife":0.25,
+    "endColor":[251,
+    2,
+    2,
+    1],
+    "endColorToggle":true
+    }
+
+var fireBreathTrailConfig2 = {
+    "emissionRate":150,
+    "size":2,
+    "color":[243,
+    233,
+    29,
+    1],
+    "duration":5,
+    "speed":100,
+    "xVar":8,
+    "yVar":8,
+    "angle":0,
+    "angleVar":180,
+    "fadeSpeed":true,
+    "fadeSize":true,
+    "particleLifeVar":0.1,
+    "particleLife":0.25,
+    "endColor":[217,
+    43,
+    23,
+    1],
+    "endColorToggle":true
+    }
 ////////////////////////////    HP and Arcane meter effects    ////////////////////////////
 hpMeterParticlesConfig = {
     "emissionRate": 12,

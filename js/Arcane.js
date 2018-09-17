@@ -7,6 +7,7 @@ function ArcaneShot (x,y, config) {
     if (!config) { config = {}; }
 
     this.flipped = player.flipped;
+    if (config.flipped) {this.flipped = true;}
     this.animation = new Animation(this, Images.getImage("arcaneBig"), arcaneBigData, { holdLastFrame : true });
     
     this.attackDamage = 50;
@@ -22,9 +23,19 @@ function ArcaneShot (x,y, config) {
     this.velocity.x = this.flipped ? -2:2;
     this.velocity.y = 0;
 
-    this.emitterTrail1 = createParticleEmitter (this.x-10, this.y, arcaneTrailParticlesConfig1); //gets drawn with all other emitters
+    if (config.emitterTrail1) {
+        this.emitterTrail1 = createParticleEmitter (this.x-10, this.y, config.emitterTrail1); //gets drawn with all other emitters    
+    } else {
+        this.emitterTrail1 = createParticleEmitter (this.x-10, this.y, arcaneTrailParticlesConfig1); //gets drawn with all other emitters
+    }
     this.emitterTrail1.angle = this.flipped ? 0:Math.PI;
-    this.emitterTrail2 = createParticleEmitter (this.x, this.y, arcaneTrailParticlesConfig2); //gets drawn with all other emitters
+
+    if (config.emitterTrail2) {
+        this.emitterTrail2 = createParticleEmitter (this.x, this.y, config.emitterTrail2); //gets drawn with all other emitters
+    } else {
+        this.emitterTrail2 = createParticleEmitter (this.x, this.y, arcaneTrailParticlesConfig2); //gets drawn with all other emitters
+    }
+    
 
     this.draw = function () {
         this.animation.draw();
