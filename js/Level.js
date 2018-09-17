@@ -145,7 +145,7 @@ var level5Data = {
   music: musicFight3,
   background: Images.getImage("controlRoom"),
   enemyList: {
-      enemyTypes: [Frogbot],
+      enemyTypes: [Megabot],
       limit: 1,
       total: 10,
   }

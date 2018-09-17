@@ -13,7 +13,7 @@ function Character(x, y) {
     this.velocity = { x: 0, y: 0 };
 
     this.walkSpeed = 1.75;
-    this.jumpVelocity = 8; //initial y velocity when jumping
+    this.jumpVelocity = 10; //initial y velocity when jumping
     this.slicesNeeded = 2;
 
     this.feetCollider = new RectCollider(this, 20, 0.2, { offsetY: 12 });

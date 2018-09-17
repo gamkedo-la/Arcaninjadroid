@@ -182,7 +182,7 @@ function JumpEnemyState(parent, relatedStates) {
     }
 
     this.enter = function () {
-        parent.velocity.y = -10;
+        parent.velocity.y = -parent.jumpVelocity;
         parent.grounded = false;
         parent.y -= 10; //avoid being insta-grounded
     }
