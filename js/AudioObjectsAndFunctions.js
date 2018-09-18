@@ -6,6 +6,7 @@ var musicFight = new musicTrackOverlapLoop("arcaninjadroidfightV2", 114.5);  //B
 var musicFight3 = new musicTrackOverlapLoop("arcaninjadroidLevel2or3(2)", 114.5);  //By Stebs. Note: duration is set for self looping and wouldn't work for transitions
 
 var currentMusic = new musicContainer([musicFight]);
+//var currentMusic = new musicContainer([]);
 currentMusic.setVolume(0.3);
 
 //SFX

@@ -56,15 +56,16 @@ function InGameState() {
         drawAllCharacters();
         drawAllTerrain();
         drawAllArcane();
-        ParticleRenderer.renderAll(canvasContext); //for now, we draw our particles on top. prob will be expanded later in the project
+        ParticleRenderer.renderAll(canvasContext); 
 
 
         // draw the camera view on the big TV screen in the final level
-        if (levelProgression === 4) {
+        if (levelProgression >= 7) {
 
             //canvasContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 77, 7, 96, 54); //somehow 55 is the correct height...
             tintCanvasAndDraw(73,7, canvas, 96,54, "rgba(198,217,235,0.4)", canvasContext);
             drawAllCharacters(); //lulululul draw twice cross ur fingers
+            ParticleRenderer.renderAll(canvasContext); 
         }
 
         drawHUD(); // on screen heads-up-display (score etc)
@@ -77,13 +78,18 @@ function InGameState() {
 
         //currentMusic.removeTrack(0);
         currentMusic.loadTrack(this.currentLevel.music, 0);
+        currentMusic.play();
 
+        hpBarEmitter = createParticleEmitter(200,6, hpMeterParticlesConfig);
+        arcaneBarEmitter = createParticleEmitter(200,15, arcaneMeterParticlesConfig);
+        /*
         if (currentMusic.getPaused() === true) {
             startAudio();
-        }
+        }*/
     };
 
     this.exit = function () {
+        //currentMusic.stop();
     };
 
 
@@ -122,6 +128,7 @@ function PauseState() {
     this.enter = function () {
         punch_Light02.play();
         pauseAudio();
+        this.background = GameStates.inGameState.currentLevel.background;
 
     };
 
@@ -187,8 +194,40 @@ function MainMenuState() {
 
             this.changeFocus("down");
         }
-    };
 
+        if (Input.getKeyDown("1")) {
+            levelProgression = 1;
+            this.updateCurrentLevel();
+        } else if (Input.getKeyDown("2")) {
+            levelProgression = 2;
+            this.updateCurrentLevel();
+        } else if (Input.getKeyDown("3")) {
+            levelProgression = 3;
+            this.updateCurrentLevel();
+        } else if (Input.getKeyDown("4")) {
+            levelProgression = 4;
+            this.updateCurrentLevel();
+        } else if (Input.getKeyDown("5")) {
+            levelProgression = 5;
+            this.updateCurrentLevel();
+        } else if (Input.getKeyDown("6")) {
+            levelProgression = 6;
+            this.updateCurrentLevel();
+        } else if (Input.getKeyDown("7")) {
+            levelProgression = 7;
+            this.updateCurrentLevel();
+        } else if (Input.getKeyDown("8")) {
+            levelProgression = 8;
+            this.updateCurrentLevel();
+        } else if (Input.getKeyDown("9")) {
+            levelProgression = 9;
+            this.updateCurrentLevel();
+        }
+    };
+    //for demo only
+    this.updateCurrentLevel = function () {
+        GameStates.inGameState.currentLevel = allLevels[levelProgression];
+    }
     this.changeFocus = function (direction) {
 
         this.uiElements[currentFocus].hasFocus = false; //remove focus from current
@@ -328,11 +367,14 @@ function CreditsState() {
         timer = 0;
         nameCounter = 0;
         waiting = true;
+        this.background = GameStates.inGameState.currentLevel.background;
 
     };
 
     this.exit = function () {
         this.resetText();
+
+
     };
 }
 CreditsState.prototype = baseState;
@@ -390,10 +432,12 @@ function GameOverState() {
     this.enter = function () {
         pauseAudio();
         gameOver.play();
+        this.background = GameStates.inGameState.currentLevel.background;
     };
 
     this.exit = function () {
-        resumeAudio();
+        currentMusic.stop();
+        //resumeAudio();
     };
 }
 GameOverState.prototype = baseState;
@@ -443,8 +487,9 @@ function LevelClearedState() {
 
     this.enter = function () {
 
-        pauseAudio();
-
+        //pauseAudio();
+        currentMusic.stop();
+        ParticleEmitterManager.killAllEmittersSoft();
         createParticleEmitter(120,35, victoryParticle);
 
         this.background = GameStates.inGameState.currentLevel.background;
@@ -468,7 +513,7 @@ function OptionsState() {
     this.sfx_vol = Math.round(SFXVolumeManager.getVolume() * 100);
     this.mus_vol = Math.round(MusicVolumeManager.getVolume() * 100);
     
-    this.background = Images.getImage("mainMenu_ver2");
+    //this.background = GameStates.inGameState.currentLevel.background;
 
     this.update = function () {
         //timer += dt;
@@ -536,6 +581,7 @@ function OptionsState() {
     };
     this.enter = function () {
         console.log("entering options menu");
+        this.background = GameStates.inGameState.currentLevel.background;
     };
     this.exit = function () {
         console.log("exiting options menu");

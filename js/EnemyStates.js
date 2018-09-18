@@ -237,7 +237,7 @@ function StunnedEnemyState(parent, relatedStates) {
 
         }
         
-        parent.velocity.x = parent.x < player.x ? -5:5; //Bump the character so we can't stand still and punch
+        parent.velocity.x = parent.x < player.x ? -10:10; //Bump the character so we can't stand still and punch
 
     }
     this.exit = function () {
@@ -269,6 +269,7 @@ function KnockupEnemyState(parent, relatedStates) {
         if (parent.hitThisFrame) { return states.stunnedState; }
         if (parent.grounded) {
             timer = duration;
+            parent.canBeKnockedUp = true;
             return states.idleState;
         }
 
@@ -387,6 +388,9 @@ function PunchEnemyState(parent, relatedStates) {
             createParticleEmitter(parent.x, parent.y, frogbotExplosion);
             player.stats.characterHasBeenHitSoCalculateNewHP(0, 100);
             player.hitThisFrame = true;
+            if (player.stats.getNewHP() === 0) {
+                player.die();
+            }
         }
         if (this.animation.isActive === false) {
             return states.idleState;
@@ -395,10 +399,11 @@ function PunchEnemyState(parent, relatedStates) {
         }
 
         if (parent.jumpAttack && !jumped && this.animation.getCurrentFrameNumber()===1) {
-            parent.velocity.x = 10*parent.flipped ? -10:10;
+            parent.velocity.x = parent.flipped ? -10:10;
             parent.velocity.y = -8;
+            parent.y -= 8;
             jumped = true;
-            //parent.grounded = false;
+            parent.grounded = false;
             tigerobotRoarSfx.play();
         }
 

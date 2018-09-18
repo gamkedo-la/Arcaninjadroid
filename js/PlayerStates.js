@@ -398,6 +398,9 @@ function SliceState(parent, relatedStates) {
         }
 
         if (!dashDone && !this.lockedOn && !this.slicing) {
+            if (parent.x === 0 || parent.x === ORIG_WORLD_W) {
+                this.finishDash();
+            }
             parent.x += dx;
             parent.y += dy;
             if ((dx >= 0 && parent.x > destination.x) || (dx < 0 && parent.x < destination.x) || (dy >= 0 && parent.y > destination.y) || (dy < 0 && parent.y < destination.y)) {
