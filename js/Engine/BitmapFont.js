@@ -177,7 +177,7 @@ function stringWithoutEmotes(str) {
 }
 
 // animate the letters of a string if now is within range
-function npcText(message, x, y, starttime, endtime, faceImage) {
+function npcText(message, x, y, starttime, endtime, faceImage, bubbleLeftImg, bubbleRightImg) {
 
     if (!message || !message.length) return; // sanity
     x = Math.round(x);
@@ -203,11 +203,11 @@ function npcText(message, x, y, starttime, endtime, faceImage) {
     message = message.substring(0, count); // FIXME: we need to SKIP (include all the) $emote chars
 
 
-    if (!faceImage) // word bubble mode
+    if (!faceImage && bubbleLeftImg && bubbleRightImg) // word bubble mode and images are defined
     {
         canvasContext.globalAlpha = 0.25;
         // draw the word bubble left side
-        canvasContext.drawImage(sprites.UI.pixelFont, // see imgPayload.js
+        canvasContext.drawImage(bubbleLeftImg,
             0, // sx
             0, // sy
             bubbleWidth, // sw
@@ -218,7 +218,7 @@ function npcText(message, x, y, starttime, endtime, faceImage) {
             32); // dh
 
         // draw the word bubble right side (for liquid layout to fit text)
-        canvasContext.drawImage(sprites.UI.pixelFont, // see imgPayload.js
+        canvasContext.drawImage(bubbleRightImg, 
             252, // sx
             0, // sy
             4, // sw
@@ -231,7 +231,7 @@ function npcText(message, x, y, starttime, endtime, faceImage) {
         canvasContext.globalAlpha = 1.0;
     }
 
-    //console.log("npc_text:["+message+"] pos:"+x+","+y+" "+~~starttime+" to "+~~endtime+" now="+~~now+" percent:"+~~percent*100);
+    //console.log("npc_text:["+message+"] pos:"+x+","+y+" "+~~starttime+" to "+~~endtime+" now="+~~now+" percent:"+~~(percent*100)+" count:"+count);
     drawPixelfont(message, x, y);
 }
 

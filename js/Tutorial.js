@@ -2,20 +2,20 @@
 
 function TutorialClass() {
 
-    const MESSAGE_TIMESPAN = 5000; // ms messages are displayed
-    const MESSAGE_DELAY = 1000; // space between the messages
+    const MESSAGE_TIMESPAN = 1500; // ms messages are displayed
+    const MESSAGE_DELAY = 3000; // space between the messages
+    const TUTORIAL_START_DELAY = 1000; // time from game begin
     
     const messages = [
-        {txt:"Welcome to ArcaNinjaDroid!",x:100,y:200},
-        {txt:"Use the arrow keys, WASD, or the gamepad to move.",x:100,y:200},
-        {txt:"Press SPACE or gamepad A to jump.",x:100,y:200},
-        {txt:"Press Z or gamepad B to punch.",x:100,y:200},
-        {txt:"Press X or gamepad X to kick.",x:100,y:200},
-        {txt:"Hold DOWN to crouch.",x:100,y:200},
-        {txt:"While crouching, attacks are UPPERCUTS.",x:100,y:200},
-        {txt:"When an enemy is stunned, UPPERCUT to launch them!",x:100,y:200},
-        {txt:"When an enemy is in the air, jump and attack!",x:100,y:200},
-        {txt:"Good luck! Save the kitties!",x:100,y:200}
+        {txt:"Welcome to ArcaNinjaDroid!",y:40},
+        {txt:"Arrows, WASD, or gamepad to move.",y:120},
+        {txt:"Press SPACE or gamepad A to jump.",y:40},
+        {txt:"Press Z or gamepad B to attack.",y:56},
+        {txt:"Hold DOWN to crouch.",y:120},
+        {txt:"While crouching, attacks are UPPERCUTS.",y:120},
+        {txt:"When an enemy is stunned,\nUPPERCUT to launch them!",y:40},
+        {txt:"When an enemy is in the air,\njump and attack!",y:40},
+        {txt:"Good luck! Save the kitties!",y:120}
     ];
 
     this.active = false; // can turn off
@@ -26,7 +26,7 @@ function TutorialClass() {
         console.log('Starting tutorial...');
         this.active = true;
         this.stage = -1;
-        this.nextTimestamp = performance.now() + MESSAGE_TIMESPAN;
+        this.nextTimestamp = performance.now() + TUTORIAL_START_DELAY;
     }
 
     this.update = function() {
@@ -41,9 +41,13 @@ function TutorialClass() {
                 this.end();
             }
             else {
-                console.log('Tutorial message '+this.stage+': ' + messages[this.stage].txt); 
+                console.log('Tutorial message '+this.stage+' at '+messages[this.stage].x+','+messages[this.stage].y+': ' + messages[this.stage].txt); 
                 this.msgStart = now;
                 this.msgEnd = now + MESSAGE_TIMESPAN;
+                // if x not specified, center on screen
+                if (messages[this.stage].x == undefined) {
+                    messages[this.stage].x = Math.round(canvas.width/2);
+                }
             }
         }
     }
@@ -52,7 +56,7 @@ function TutorialClass() {
         if (!this.active) return;
         if (!messages[this.stage]) return;
         //console.log('Drawing tutorial...');
-        //npcWordBubble(messages[this.stage].txt,messages[this.stage].x,messages[this.stage].y,this.msgStart,this.msgEnd);
+        npcWordBubble(messages[this.stage].txt,messages[this.stage].x,messages[this.stage].y,this.msgStart,this.msgEnd);
     }
     
     this.end = function() {
