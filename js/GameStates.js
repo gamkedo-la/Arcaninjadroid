@@ -4,6 +4,7 @@ var baseState = new State();
 function InGameState() {
 
     var justEntered; //hackity hack
+    var tutorial = new TutorialClass();
 
 
     //this.background = Images.getImage("moonlitForest");
@@ -21,12 +22,16 @@ function InGameState() {
         resolveAllCollisions();
         justEntered = false;
 
+        tutorial.update();
+
     };
 
     this.handleInput = function () {
+        
         if (Input.getKeyDown("q")) {
             debug = !debug;
         }
+
         if (Input.getKeyDown("p")) {
             return GameStates.pauseState;
         }
@@ -71,6 +76,8 @@ function InGameState() {
         drawHUD(); // on screen heads-up-display (score etc)
         drawComboGUI(); // 2x 3x 4x
 
+        tutorial.draw();
+
     }
 
     this.enter = function () {
@@ -86,10 +93,16 @@ function InGameState() {
         if (currentMusic.getPaused() === true) {
             startAudio();
         }*/
+
+        tutorial.start();
+
     };
 
     this.exit = function () {
         //currentMusic.stop();
+
+        if (tutorial.active) tutorial.end(); // perhaps this is not needed
+
     };
 
 
