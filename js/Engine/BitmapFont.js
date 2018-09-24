@@ -36,7 +36,7 @@ function measurePixelfont(str) {
     var max = 0; // multiple lines count from 0
 
     // delete any "$emotes "
-    str = stringWithoutEmotes(str);
+    // str = stringWithoutEmotes(str); // unused in this project: removed to keep things clean
 
     for (var c = 0, len = str.length; c < len; c++) {
         index = str.charCodeAt(c) - 32 - 1;

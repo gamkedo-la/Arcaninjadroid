@@ -1,5 +1,8 @@
 // tutorial for arcaninjadroid by mcfunkypants
 
+// if this is true, nothing will take real HP damage while tutorial.active
+const NO_DAMAGE_DURING_TUTORIAL = true; // see Character.js near line 235
+
 function TutorialClass() {
 
     const MESSAGE_TIMESPAN = 1500; // ms messages are displayed
@@ -31,6 +34,7 @@ function TutorialClass() {
 
     this.update = function() {
         if (!this.active) return;
+
         var now = performance.now();
         if (now >= this.nextTimestamp) {
             console.log('Time for the next message! now:'+now.toFixed(2));
@@ -66,4 +70,8 @@ function TutorialClass() {
         this.active = false;
     }
 
+
 };
+
+// referred to in GameState.js and Character.js
+var tutorial = new TutorialClass();

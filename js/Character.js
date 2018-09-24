@@ -199,7 +199,6 @@ function Character(x, y) {
         let myState = this.actionMachine.getCurrentState();
         let attackerState = otherChar.actionMachine.getCurrentState();
 
-
         if (attackerState.knockup && this.canBeKnockedUp) {
             this.knockupThisFrame = true;
             if (attackerState.onHit) { attackerState.onHit(); }
@@ -233,7 +232,12 @@ function Character(x, y) {
                 //registerHitForCombo(); // 2x 3x 4x etc
             }
 
-            this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
+            if (!(tutorial.active && NO_DAMAGE_DURING_TUTORIAL)) { // nothing takes damage during the tutorial
+                this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
+            } else {
+                console.log("Tutorial is active: no damage taken.");
+            }
+
             this.hitThisFrame = true;
             if (myState.onHit) { myState.onHit(); }
             if (attackerState.onHit) { attackerState.onHit(); }

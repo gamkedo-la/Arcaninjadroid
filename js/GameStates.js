@@ -4,7 +4,6 @@ var baseState = new State();
 function InGameState() {
 
     var justEntered; //hackity hack
-    var tutorial = new TutorialClass();
 
 
     //this.background = Images.getImage("moonlitForest");
