@@ -74,4 +74,5 @@ function TutorialClass() {
 };
 
 // referred to in GameState.js and Character.js
+
 var tutorial = new TutorialClass();

@@ -27,6 +27,11 @@ function InGameState() {
 
     this.handleInput = function () {
         
+        if (tutorial.active && Input.getKeyDown("escape")) { 
+            console.log('Esc pressed during tutorial: skipping.');
+            tutorial.end();
+        }
+        
         if (Input.getKeyDown("q")) {
             debug = !debug;
         }
