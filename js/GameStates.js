@@ -18,7 +18,7 @@ function InGameState() {
         updateAllArcane();
         ParticleEmitterManager.updateAllEmitters(dt);
 
-        resolveAllCollisions();
+        //resolveAllCollisions();
         justEntered = false;
 
         tutorial.update();
@@ -30,6 +30,8 @@ function InGameState() {
         if (tutorial.active && Input.getKeyDown("escape")) { 
             console.log('Esc pressed during tutorial: skipping.');
             tutorial.end();
+            return GameStates.levelClearedState;
+
         }
         
         if (Input.getKeyDown("q")) {
@@ -39,8 +41,9 @@ function InGameState() {
         if (Input.getKeyDown("p")) {
             return GameStates.pauseState;
         }
-
+/*
         // W stands for "win"
+        
         if (Input.getKeyDown("w")) {
             return GameStates.levelClearedState;
         }
@@ -52,7 +55,7 @@ function InGameState() {
 
         if (Input.getKeyDown("e")) {
             createParticleEmitter(100,100, frogbotExplosion);
-        }
+        }*/
     };
 
     this.draw = function () {
@@ -98,7 +101,7 @@ function InGameState() {
             startAudio();
         }*/
 
-        tutorial.start();
+        if (levelProgression === 1) tutorial.start();
 
     };
 

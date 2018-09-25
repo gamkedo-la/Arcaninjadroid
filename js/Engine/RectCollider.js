@@ -147,6 +147,7 @@ function resolveAllCollisions() {
             if (collider1.parent === collider2.parent) continue;
 
             if (collider1.intersects(collider2)){
+                
                 if (!collider1.isTrigger && !collider2.isTrigger){
                     //collider1.pushOutBothParents(collider2);
                 }
