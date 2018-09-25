@@ -30,7 +30,8 @@ function InGameState() {
         if (tutorial.active && Input.getKeyDown("escape")) { 
             console.log('Esc pressed during tutorial: skipping.');
             tutorial.end();
-            return GameStates.levelClearedState;
+            this.currentLevel._removeAllOnscreenEnemies();
+            killAllEnemies();
 
         }
         
@@ -101,7 +102,7 @@ function InGameState() {
             startAudio();
         }*/
 
-        if (levelProgression === 1) tutorial.start();
+        if (levelProgression === 0) tutorial.start();
 
     };
 

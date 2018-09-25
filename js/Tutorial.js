@@ -10,14 +10,16 @@ function TutorialClass() {
     const TUTORIAL_START_DELAY = 1000; // time from game begin
     
     const messages = [
-        {txt:"Welcome to ArcaNinjaDroid!",y:40},
+        {txt:"Welcome to Arcaninjadroid!",y:40},
         {txt:"Arrows, WASD, or gamepad to move.",y:120},
-        {txt:"Press SPACE or gamepad A to jump.",y:40},
+        {txt:"Press UP or gamepad A to jump.",y:40},
         {txt:"Press Z or gamepad B to attack.",y:56},
         {txt:"Hold DOWN to crouch.",y:120},
-        {txt:"While crouching, attacks are UPPERCUTS.",y:120},
+        {txt:"While crouching, attacks are UPPERCUTS.",x:130,y:120},
         {txt:"When an enemy is stunned,\nUPPERCUT to launch them!",y:40},
         {txt:"When an enemy is in the air,\njump and attack!",y:40},
+        {txt:"Then, press Z + Arrows to slice!",y:40},
+        {txt:"Press X for the Arcane spell (costs 50)",x:130,y:40},
         {txt:"Good luck! Save the kitties!",y:120}
     ];
 
@@ -29,7 +31,9 @@ function TutorialClass() {
         console.log('Starting tutorial...');
         this.active = true;
         this.stage = -1;
+        //this.stage = 8;
         this.nextTimestamp = performance.now() + TUTORIAL_START_DELAY;
+        //player.stats
     }
 
     this.update = function() {

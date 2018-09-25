@@ -199,12 +199,27 @@ function StunnedEnemyState(parent, relatedStates) {
 
     let duration = 0.5; //seconds
     let timer = duration;
+    let bounced = false;
 
     this.animation = parent.stunnedAnim;
 
     this.update = function () {
 
 
+        if (!bounced) {
+            if (parent.x === 0) {
+                parent.velocity.x = 10;
+                parent.x += 1;
+                console.log("Bounce");
+                bounced = true;
+            }
+            else if (parent.x === 240) {
+                parent.velocity.x = -10;
+                parent.x -= 1;
+                console.log("Bounce");
+                bounced = true;
+            }
+        }
         if (parent.knockupThisFrame) {
         
             parent.velocity.y = -30 * randomRange(0.8, 1); //this value is strangely affected by other things... suspicious
@@ -236,9 +251,9 @@ function StunnedEnemyState(parent, relatedStates) {
             parent.canBeKnockedUp = true;
 
         }
-        
+        bounced = false;
         parent.velocity.x = parent.x < player.x ? -10:10; //Bump the character so we can't stand still and punch
-
+        parent.velocity.x *= randomRange(0.5,1.5);
     }
     this.exit = function () {
     }

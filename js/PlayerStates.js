@@ -102,12 +102,14 @@ function WalkingAndroidState(parent, relatedStates) {
 
         if (Input.getKey("left")) {
             parent.flipped = true;
-            parent.velocity.x = Input.getDoublePress("left") ? -35 : -parent.walkSpeed;
+            //parent.velocity.x = Input.getDoublePress("left") ? -35 : -parent.walkSpeed;
+            parent.velocity.x = -parent.walkSpeed;
             timeIdling = 0;
         }
         else if (Input.getKey("right")) {
             parent.flipped = false;
-            parent.velocity.x = Input.getDoublePress("right") ? 35 : parent.walkSpeed;
+            //parent.velocity.x = Input.getDoublePress("right") ? 35 : parent.walkSpeed;
+            parent.velocity.x = parent.walkSpeed;
             timeIdling = 0
         } else { parent.velocity.x = 0; }
         if (parent.velocity.x == 0) {

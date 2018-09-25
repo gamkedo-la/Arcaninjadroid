@@ -407,3 +407,13 @@ function updateAllCharacters() {
     }
 
 }
+
+function killAllEnemies() {
+
+    for (var i = 0, l = characters.length; i < l; i++) {
+        if (characters[i] != player) {
+            characters[i].die();
+        }
+    }
+
+}

@@ -42,6 +42,15 @@ class Level {
 
   }
 
+  _removeAllOnscreenEnemies() {
+
+    this.enemiesLeftToSpawn = 0;
+    while (this.enemiesCurrentlyOnscreen > 0) {
+      this._removeOneEnemy();
+    }
+    
+  }
+
   _playMusic() {
     if (this.music) {
       this.music.pause();
@@ -211,6 +220,6 @@ var level7 = new Level(level7Data);
 var level8 = new Level(level8Data);
 var level9 = new Level(level9Data);
 
-var levelProgression = 1;
+var levelProgression = 0;
 var allLevels = [level0,level1,level2,level3,level4,level5,level6,level7,level8,level9];
 GameStates.inGameState.currentLevel = allLevels[levelProgression];
