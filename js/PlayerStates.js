@@ -535,6 +535,7 @@ function SliceState(parent, relatedStates) {
             this.animation.loop();
             if (remainingSlices != 1) this.generateRandomSliceDirection();
 
+
             registerHitForCombo();
             //player.stats.addArcanePoints(POINTS_PER_SLICE*comboCurrent);
             player.stats.addArcanePoints(POINTS_PER_SLICE);
@@ -548,6 +549,11 @@ function SliceState(parent, relatedStates) {
         timer = gravityDelay;
         this.slicing = false;
         this.animation = lockAnim;
+
+        if (target.enemySpawnAnim) {
+            createParticleEmitter(target.x,target.y, frogbotExplosion);
+        }
+
         if (remainingSlices <= 0) {
             target.die();
             this.unlock();

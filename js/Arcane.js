@@ -6,8 +6,12 @@ function ArcaneShot (x,y, config) {
 
     if (!config) { config = {}; }
 
-    this.flipped = player.flipped;
-    if (config.flipped) {this.flipped = true;}
+    
+    if (typeof config.flipped !== undefined) {
+        this.flipped = config.flipped;}
+    else {
+        this.flipped = player.flipped;}
+        
     this.animation = new Animation(this, Images.getImage("arcaneBig"), arcaneBigData, { holdLastFrame : true });
     
     this.attackDamage = 50;
@@ -81,7 +85,11 @@ function ArcaneShot (x,y, config) {
         this.emitterTrail2.timeLeft = 0;
     }
 
-    arcaneFireSFX.play();
+    if (config.sfx) {
+        config.sfx.play();
+    } else {
+        arcaneFireSFX.play();
+    }
 }
 
 

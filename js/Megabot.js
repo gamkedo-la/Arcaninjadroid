@@ -23,16 +23,19 @@ function Megabot(x, y) {
     states.walkState = null; //end of project hack omegalul
 
     char.initMachine(states);
-    char.initAI(states);
+    char.AIModule = new MegabotAI(char, states);
     //char.SDAttack = true; //self-destructs after attack end
     //char.trail = new WooshTrail("wooshTrailKangarobot");
 
     char.hitSfx = frogbotCroakSfx;
-    char.attackSfx = punch_HardSfx;
+    char.attackSfx = megabotPunch;
+
+    char.jumpVelocity = 15;
+    //char.walkSpeed = 2;
 
     var enemyXP = new XPclass();
-    var enemyStats = new StatsClass(enemyXP.getCurrentLVL(), 1.0, 1.0, 1.0);
-    enemyStats.setStats();
+    char.stats = new StatsClass(enemyXP.getCurrentLVL(), 2, 1.0, 1.0);
+    char.stats.setStats();
     //enemyStats
 
     return char;
@@ -50,7 +53,7 @@ function MegabotStates(parent) {
     this.knockupState = new KnockupEnemyState(parent, this);
 
     this.punchState = new PunchEnemyState(parent, this);
-    this.punchState = new FireBreathState(parent, this);
+    this.fireBreathState = new FireBreathState(parent, this);
     this.enemySpawnState = new PunchEnemyState(parent, this);
 
     this.initial = this.jumpState;
@@ -74,7 +77,7 @@ function FireBreathState(parent, relatedStates) {
         if (this.animation.isActive === false) {
             return states.idleState;
         } else if (!fired && this.animation.getCurrentFrameNumber() === 6) {
-            let fireShot = new ArcaneShot (parent.x,parent.y, {flipped: parent.flipped, emitterTrail1:fireBreathTrailConfig1, emitterTrail2:fireBreathTrailConfig2});
+            let fireShot = new ArcaneShot (parent.x,parent.y, {flipped: parent.flipped, emitterTrail1:fireBreathTrailConfig1, emitterTrail2:fireBreathTrailConfig2, sfx:megabotFire});
             fireShot.animation = new Animation(fireShot, Images.getImage("fireBreath"), arcaneBigData, { holdLastFrame : true });
 
             fired = true;
@@ -89,16 +92,13 @@ function FireBreathState(parent, relatedStates) {
     this.enter = function () {
 
         fired = false;
-        if (parent.attackSfx) {
-            parent.attackSfx.play();
-        }
+
+        parent.flipped = (Math.sign(getXDistanceBetween(parent,player)) === 1);
+        
 
         
     }
     this.exit = function () {
-        if (parent.attackSfx) {
-            parent.attackSfx.stop();
-        }
     }
 }
 FireBreathState.prototype = baseState;

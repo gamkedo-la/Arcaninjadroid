@@ -48,7 +48,7 @@ class Level {
     while (this.enemiesCurrentlyOnscreen > 0) {
       this._removeOneEnemy();
     }
-    
+
   }
 
   _playMusic() {
@@ -202,9 +202,9 @@ var level9Data = {
   music: musicFight3,
   background: Images.getImage("controlRoom"),
   enemyList: {
-      enemyTypes: [Kangarobot,Frogbot,Tigerobot],
-      limit: 7,
-      total: 15,
+      enemyTypes: [Megabot],
+      limit: 1,
+      total: 1,
   },
   spawnInterval: 2
 }
@@ -220,6 +220,6 @@ var level7 = new Level(level7Data);
 var level8 = new Level(level8Data);
 var level9 = new Level(level9Data);
 
-var levelProgression = 0;
+var levelProgression = 9;
 var allLevels = [level0,level1,level2,level3,level4,level5,level6,level7,level8,level9];
 GameStates.inGameState.currentLevel = allLevels[levelProgression];

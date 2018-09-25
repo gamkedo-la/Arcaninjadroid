@@ -183,6 +183,7 @@ function JumpEnemyState(parent, relatedStates) {
 
     this.enter = function () {
         parent.velocity.y = -parent.jumpVelocity;
+        parent.velocity.x += parent.x < player.x ? 12:-12;;
         parent.grounded = false;
         parent.y -= 10; //avoid being insta-grounded
     }
@@ -252,10 +253,11 @@ function StunnedEnemyState(parent, relatedStates) {
 
         }
         bounced = false;
-        parent.velocity.x = parent.x < player.x ? -10:10; //Bump the character so we can't stand still and punch
-        parent.velocity.x *= randomRange(0.5,1.5);
+        parent.velocity.x = parent.x < player.x ? -12:12; //Bump the character so we can't stand still and punch
+        parent.velocity.x *= randomRange(0.75,1.5);
     }
     this.exit = function () {
+        parent.AIModule.forceThink();
     }
 }
 StunnedEnemyState.prototype = baseState;
@@ -306,6 +308,14 @@ function KnockupEnemyState(parent, relatedStates) {
 
     this.enter = function () {
         //parent.velocity.x = 15 * randomMin1To1();
+        if(parent.enemySpawnAnim) {
+            if (parent.x > 160) {
+                parent.velocity.x = -10;
+            }
+            else if (parent.x < 80) {
+                parent.velocity.x = 10;
+            }
+        }
         createParticleEmitter(parent.x + 10, parent.y - 25, robotExplosionParticlesConfig1);
 
     }
@@ -433,6 +443,9 @@ function PunchEnemyState(parent, relatedStates) {
         if (parent.attackSfx) {
             parent.attackSfx.play();
         }
+
+        parent.flipped = (Math.sign(getXDistanceBetween(parent,player)) === -1);
+        
     }
     this.exit = function () {
         if (parent.attackSfx) {

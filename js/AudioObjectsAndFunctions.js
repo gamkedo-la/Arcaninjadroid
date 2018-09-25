@@ -78,6 +78,19 @@ var frogbotCroak3 = new sfxClip("FrogbotCroak03");
 var frogbotCroakSfx = new sfxContainerRandom([frogbotCroak1, frogbotCroak2, frogbotCroak3]);
 //frogbotCroakSfx.setVolume();
 
+var megabotFire = new sfxClip("MegabotFireAttack");
+
+var megabotLaugh1 = new sfxClip("MegabotLaugh01");
+var megabotLaugh2 = new sfxClip("MegabotLaugh02");
+var megabotLaugh = new sfxContainerRandom([megabotLaugh1, megabotLaugh2]);
+
+var megabotPunchLong = new sfxClip("MegabotPunchLong");
+var megabotPunchShort = new sfxClip("MegabotPunchShort");
+var megabotPunch = new sfxContainerRandom([megabotPunchShort, megabotPunchLong]);
+
+
+
+
 //Functions
 function startAudio() {
 	MusicVolumeManager.updateVolume();
