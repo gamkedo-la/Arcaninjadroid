@@ -10,7 +10,8 @@ var currentMusic = new musicContainer([musicFight]);
 currentMusic.setVolume(0.3);
 
 //SFX
-var sfxTemp = new sfxClip("temp_placeholder");
+var victoryFanfare = new sfxClip("victoryFanfare");
+victoryFanfare.setVolume(0.3);
 
 var hit_Kangaroo01 = new sfxClip("Hit_Kangaroo01");
 var hit_Kangaroo02 = new sfxClip("Hit_Kangaroo02");

@@ -46,7 +46,7 @@ function InGameState() {
         // W stands for "win"
         
         if (Input.getKeyDown("w")) {
-            return GameStates.endGameState;
+            return GameStates.levelClearedState;
         }
 /*
         // D stands for "die" :P
@@ -510,6 +510,7 @@ function LevelClearedState() {
 
         //pauseAudio();
         currentMusic.stop();
+        victoryFanfare.play();
         ParticleEmitterManager.killAllEmittersSoft();
         createParticleEmitter(120,35, victoryParticle);
 
@@ -518,7 +519,9 @@ function LevelClearedState() {
         GameStates.inGameState.currentLevel = allLevels[levelProgression];
 
         interacted = false;
+        killAllEnemies();
     };
+    
 
     this.exit = function () {
         resumeAudio();
