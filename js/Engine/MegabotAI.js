@@ -66,7 +66,7 @@ function MegabotAI (parent, possibleStates, config) {
 
     // just to make it clear that this is for extraordinary cases
     this.forceThink = function () {
-        think();
+        return think();
     }
 
     let resetThinkTimer = function () {
@@ -90,7 +90,7 @@ function MegabotAI (parent, possibleStates, config) {
         }*/
 
 
-
+/*
         // Parent changes for "passive" decision
         if (_currentDecision === decisionPassive){
 
@@ -121,10 +121,10 @@ function MegabotAI (parent, possibleStates, config) {
                 parent.flipped = (direction === -1);
             }
 
-        }
+        }*/
 
         // for "aggro" decision
-        else if (_currentDecision === decisionAggro) {
+        if (_currentDecision === decisionAggro) {
 
             let direction = -Math.sign(_currentPlayerDist);
 
@@ -135,6 +135,13 @@ function MegabotAI (parent, possibleStates, config) {
             parent.flipped = (direction === -1);
         }
 
+        if ( spawnsRemaining === 2 && (parent.getCurrentHP() < 3*parent.getMaxHP()/4)) {
+            spawnsRemaining--;
+            return states["enemySpawnState"];
+        } else if (spawnsRemaining == 1 && parent.getCurrentHP() < parent.getMaxHP()/2) {
+            spawnsRemaining--;
+            return states["enemySpawnState"];
+        }
 
         if (Math.abs(_currentPlayerDist) > TOOCLOSE && Math.abs(_currentPlayerDist) < attackRange) {
                 

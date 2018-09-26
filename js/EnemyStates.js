@@ -211,13 +211,13 @@ function StunnedEnemyState(parent, relatedStates) {
             if (parent.x === 0) {
                 parent.velocity.x = 10;
                 parent.x += 1;
-                console.log("Bounce");
+
                 bounced = true;
             }
             else if (parent.x === 240) {
                 parent.velocity.x = -10;
                 parent.x -= 1;
-                console.log("Bounce");
+
                 bounced = true;
             }
         }
@@ -234,9 +234,14 @@ function StunnedEnemyState(parent, relatedStates) {
         if (timer <= 0) {
             if (parent.canBeKnockedUp) {
                 this.animation = parent.knockedUpAnim;
+                if (parent.enemySpawnAnim) {
+                    currentMusic.stop();
+                }
             } else {
                 timer = duration;
-                return states.idleState;
+                //let newState = 
+                return parent.AIModule.forceThink();
+                //return states.idleState;
             }
         }
     }
@@ -257,7 +262,7 @@ function StunnedEnemyState(parent, relatedStates) {
         parent.velocity.x *= randomRange(0.75,1.5);
     }
     this.exit = function () {
-        parent.AIModule.forceThink();
+        
     }
 }
 StunnedEnemyState.prototype = baseState;
@@ -310,10 +315,10 @@ function KnockupEnemyState(parent, relatedStates) {
         //parent.velocity.x = 15 * randomMin1To1();
         if(parent.enemySpawnAnim) {
             if (parent.x > 160) {
-                parent.velocity.x = -10;
+                parent.velocity.x = -20;
             }
             else if (parent.x < 80) {
-                parent.velocity.x = 10;
+                parent.velocity.x = 20;
             }
         }
         createParticleEmitter(parent.x + 10, parent.y - 25, robotExplosionParticlesConfig1);

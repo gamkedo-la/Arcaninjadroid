@@ -82,7 +82,7 @@ var megabotFire = new sfxClip("MegabotFireAttack");
 
 var megabotLaugh1 = new sfxClip("MegabotLaugh01");
 var megabotLaugh2 = new sfxClip("MegabotLaugh02");
-var megabotLaugh = new sfxContainerRandom([megabotLaugh1, megabotLaugh2]);
+var megabotLaugh = new sfxContainerLoopRandom([megabotLaugh1, megabotLaugh2]);
 
 var megabotPunchLong = new sfxClip("MegabotPunchLong");
 var megabotPunchShort = new sfxClip("MegabotPunchShort");

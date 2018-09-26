@@ -552,6 +552,7 @@ function SliceState(parent, relatedStates) {
 
         if (target.enemySpawnAnim) {
             createParticleEmitter(target.x,target.y, frogbotExplosion);
+            explosionSFX.play();
         }
 
         if (remainingSlices <= 0) {

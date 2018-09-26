@@ -12,8 +12,8 @@ function Tigerobot(x, y) {
     char.stunnedAnim = new Animation(char, Images.getImage("tigerobotStunned"), tigerobotStunnedData, { loop: true });
     char.knockedUpAnim = new Animation(char, Images.getImage("tigerobotStunned"), tigerobotKnockedUpData, { loop: true });
 
-    char.walkSpeed = 1;
-    char.slicesNeeded = 5;
+    char.walkSpeed = 2;
+    char.slicesNeeded = 4;
 
     var states = new EnemyStates(char);
 

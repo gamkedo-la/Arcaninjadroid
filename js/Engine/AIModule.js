@@ -82,7 +82,7 @@ function AIModule (parent, possibleStates, config) {
 
     // just to make it clear that this is for extraordinary cases
     this.forceThink = function () {
-        think();
+        return think();
     }
 
     let resetThinkTimer = function () {

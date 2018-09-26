@@ -12,7 +12,7 @@ function Megabot(x, y) {
     char.knockedUpAnim = new Animation(char, Images.getImage("megabotStunned"), megabotIdleData, { loop: true });
     
     char.punchAnim = new Animation(char, Images.getImage("megabotPunch"), megabotPunchData, { });
-    char.enemySpawnAnim = new Animation(char, Images.getImage("megabotSpawning"), megabotSpawningData, { });
+    char.enemySpawnAnim = new Animation(char, Images.getImage("megabotSpawning"), megabotSpawningData, { loop:true });
     char.openMouthAnim = new Animation(char, Images.getImage("megabotOpenMouth"), megabotOpenMouthData, { });
     
     char.walkSpeed = 2;
@@ -34,9 +34,8 @@ function Megabot(x, y) {
     //char.walkSpeed = 2;
 
     var enemyXP = new XPclass();
-    char.stats = new StatsClass(enemyXP.getCurrentLVL(), 2, 1.0, 1.0);
+    char.stats = new StatsClass(enemyXP.getCurrentLVL(), 3, 1.0, 1.0);
     char.stats.setStats();
-    //enemyStats
 
     return char;
     
@@ -54,7 +53,7 @@ function MegabotStates(parent) {
 
     this.punchState = new PunchEnemyState(parent, this);
     this.fireBreathState = new FireBreathState(parent, this);
-    this.enemySpawnState = new PunchEnemyState(parent, this);
+    this.enemySpawnState = new EnemySpawnState(parent, this);
 
     this.initial = this.jumpState;
 }
@@ -102,3 +101,63 @@ function FireBreathState(parent, relatedStates) {
     }
 }
 FireBreathState.prototype = baseState;
+
+/////////////////////////////////////////////////////////
+function EnemySpawnState(parent, relatedStates) {
+    var parent = parent;
+    var states = relatedStates;
+    
+    let duration = 4; //seconds
+    let timer = 0;
+    let numEnemies = 3;
+    let step = duration/numEnemies;
+    let remaining = numEnemies;
+
+    this.animation = parent.enemySpawnAnim;
+
+    this.update = function () {
+
+        parent.applyBasicPhysics();
+        //if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
+
+        timer += dt;
+        if (timer > step) {
+
+            timer = 0;
+            remaining--; 
+            megabotSpawn(parent.x);          
+
+            if (remaining <= 0) { return parent.AIModule.forceThink(); }
+            
+        }
+        
+    }
+
+    this.handleInput = function () {
+
+    }
+
+    this.enter = function () {
+
+        remaining = numEnemies;
+        megabotLaugh.play();
+        //parent.flipped = (Math.sign(getXDistanceBetween(parent,player)) === 1);
+        
+    }
+    this.exit = function () {
+        megabotLaugh.stop();
+    }
+}
+EnemySpawnState.prototype = baseState;
+
+
+function megabotSpawn(x) {
+
+    GameStates.inGameState.currentLevel.enemiesCurrentlyOnscreen++;
+    //this.enemiesLeftToSpawn--;
+
+    let rand = Math.floor(Math.random() * allEnemies.length);
+
+    new allEnemies[rand](x, 120);
+
+}

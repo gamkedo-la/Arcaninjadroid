@@ -37,7 +37,11 @@ class Level {
     console.log("Enemies left to spawn: " + this.enemiesLeftToSpawn, "Enemies Currently Onscreen: " + this.enemiesCurrentlyOnscreen);
 
     if (this.enemiesCurrentlyOnscreen === 0 && this.enemiesLeftToSpawn === 0) {
-      GameStateMachine.handleReceivedState(GameStates.levelClearedState);
+      if (levelProgression < allLevels.length-1) {
+        GameStateMachine.handleReceivedState(GameStates.levelClearedState);
+      } else {
+        GameStateMachine.handleReceivedState(GameStates.endGameState);
+      }
     }
 
   }
@@ -208,6 +212,7 @@ var level9Data = {
   },
   spawnInterval: 2
 }
+allEnemies = [Kangarobot, Frogbot, Tigerobot];
 
 var level0 = new Level(level0Data);
 var level1 = new Level(level1Data);

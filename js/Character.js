@@ -203,6 +203,7 @@ function Character(x, y) {
             this.knockupThisFrame = true;
             if (attackerState.onHit) { attackerState.onHit(); }
         }
+
         if (attackerState.sliceProperty) {
             if (this.grounded) { return; }
             if (attackerState.lockedOn === false && this.lockedOnto === false) {
@@ -210,6 +211,8 @@ function Character(x, y) {
                 this.lockedOnto = true;
             }
         }
+        
+        if (this.enemySpawnAnim && this.canBeKnockedUp) {return;}
 
         if (attackerState.attackDamage) {
 

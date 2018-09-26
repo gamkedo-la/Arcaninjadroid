@@ -7,7 +7,7 @@ function ArcaneShot (x,y, config) {
     if (!config) { config = {}; }
 
     
-    if (typeof config.flipped !== undefined) {
+    if (typeof config.flipped !== "undefined") {
         this.flipped = config.flipped;}
     else {
         this.flipped = player.flipped;}

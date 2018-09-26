@@ -42,13 +42,13 @@ function InGameState() {
         if (Input.getKeyDown("p")) {
             return GameStates.pauseState;
         }
-/*
+
         // W stands for "win"
         
         if (Input.getKeyDown("w")) {
-            return GameStates.levelClearedState;
+            return GameStates.endGameState;
         }
-
+/*
         // D stands for "die" :P
         if (Input.getKeyDown("d")) {
             return GameStates.gameOverState;
@@ -610,7 +610,70 @@ function OptionsState() {
 }
 OptionsState.prototype = baseState;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
+function EndGameState() {
+
+    //this.background = Images.getImage("moonlitForest");
+
+    //let gameOverText = new UITextImage(20, 10, Images.getImage("gameOverText"));
+    //let pressEscapeText = new UITextImage(50, 90, Images.getImage("pressEscape"));
+
+    let _mainAlpha = 0; //darkness fades in until fully opaque
+    let _secondAlpha = 0; //Game Over image becomes visible after screen is black
+
+    let alphaIncreaseRate = 0.005; //per frame
+
+    this.update = function () {
+
+        if (_mainAlpha < 1) { _mainAlpha += alphaIncreaseRate; }
+
+        else if (_mainAlpha >= 1 && _secondAlpha <= 1) { _secondAlpha += alphaIncreaseRate; }
+
+        ParticleEmitterManager.updateAllEmitters(dt/6);
+    };
+
+    this.handleInput = function () {
+
+        /*
+        if (Input.getKeyDown("escape")) {
+            return GameStates.mainMenuState;
+        }*/
+
+    };
+
+    this.draw = function () {
+
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (_mainAlpha <= 1) {
+
+            canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+            drawAllCharacters();
+            drawAllTerrain();
+            ParticleRenderer.renderAll(canvasContext);
+
+        }
+
+        colorRectAlpha(0, 0, canvas.width, canvas.height, [255, 255, 255, _mainAlpha]);
+        //gameOverText.draw(_mainAlpha);
+        //pressEscapeText.draw(_secondAlpha);
+
+    };
+
+    this.enter = function () {
+        //createParticleEmitter(100,100,frogbotExplosion);
+        pauseAudio();
+        //gameOver.play();
+        this.background = GameStates.inGameState.currentLevel.background;
+    };
+
+    this.exit = function () {
+        currentMusic.stop();
+        //resumeAudio();
+    };
+}
+GameOverState.prototype = baseState;
 
 var GameStates = {
     inGameState: new InGameState(),
@@ -620,6 +683,7 @@ var GameStates = {
     gameOverState: new GameOverState(),
     levelClearedState: new LevelClearedState(),
     optionsState: new OptionsState(),
+    endGameState: new EndGameState(),
 };
 
 var GameStateMachine = new StateMachine(GameStates.mainMenuState);
