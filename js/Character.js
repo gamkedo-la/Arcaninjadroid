@@ -254,6 +254,8 @@ function Character(x, y) {
 
     this.gotHitArcane = function (arcaneShot) {
 
+        if (this.enemySpawnAnim && this.canBeKnockedUp) {return;}
+
         let myState = this.actionMachine.getCurrentState();
 
         createParticleEmitter (this.x, this.y, robotExplosionParticlesConfig1);

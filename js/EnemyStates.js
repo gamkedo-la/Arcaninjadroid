@@ -222,8 +222,7 @@ function StunnedEnemyState(parent, relatedStates) {
             }
         }
         if (parent.knockupThisFrame) {
-        
-            parent.velocity.y = -30 * randomRange(0.8, 1); //this value is strangely affected by other things... suspicious
+
             return states.knockupState;
         }
         else {
@@ -288,11 +287,23 @@ function KnockupEnemyState(parent, relatedStates) {
         
         if (parent.lockedOnto) { return; }
 
+
+
         if (parent.hitThisFrame) { return states.stunnedState; }
         if (parent.grounded) {
-            timer = duration;
+            //timer = duration;
             parent.canBeKnockedUp = true;
-            return states.idleState;
+
+            console.log("here")
+            if (parent.knockupThisFrame) {
+
+                return states.knockupState;
+            }
+            if (!parent.enemySpawnAnim) {
+                return states.idleState;                
+            }
+
+
         }
 
         if (parent.velocity.y < 0) {
@@ -313,6 +324,8 @@ function KnockupEnemyState(parent, relatedStates) {
 
     this.enter = function () {
         //parent.velocity.x = 15 * randomMin1To1();
+        timer = duration;
+        parent.velocity.y = -30 * randomRange(0.8, 1); //this value is strangely affected by other things... suspicious
         if(parent.enemySpawnAnim) {
             if (parent.x > 160) {
                 parent.velocity.x = -20;

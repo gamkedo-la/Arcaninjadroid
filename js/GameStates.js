@@ -89,6 +89,7 @@ function InGameState() {
     }
 
     this.enter = function () {
+
         justEntered = true;
 
         //currentMusic.removeTrack(0);
@@ -170,6 +171,10 @@ function MainMenuState() {
         new Button(180, 30, Images.getImage("startGame"), function () {
             resetGame();
             punch_Uppercut01.play();
+
+            if (levelProgression === 1 || levelProgression === 4 || levelProgression === 7 || levelProgression === 9) {
+                return GameStates.storySequenceState;
+            }
             return GameStates.inGameState;
         }),
         new Button(180, 50, Images.getImage("loadGame"), function () { console.log("load game") }, { unavailable: true }),
@@ -457,6 +462,8 @@ function GameOverState() {
     };
 
     this.exit = function () {
+        _mainAlpha = 0;
+        _secondAlpha = 0;
         currentMusic.stop();
         //resumeAudio();
     };
@@ -480,6 +487,11 @@ function LevelClearedState() {
     this.handleInput = function () {
 
         if ((Input.getKeyDown("enter") || Input.getKeyDown("escape") || Input.getKeyDown("space")) && !interacted) {
+
+            if (levelProgression === 9) {
+                resetGame();
+                return GameStates.storySequenceState; //we're almost done
+            }
 
             interacted = true;
             player.actionMachine.handleReceivedState(new LevelClearAnimState(player));
@@ -676,7 +688,74 @@ function EndGameState() {
         //resumeAudio();
     };
 }
-GameOverState.prototype = baseState;
+EndGameState.prototype = baseState;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+function StorySequenceState() {
+
+    let activeSequence;
+
+    this.background;
+
+    this.update = function () {
+
+        activeSequence.update();
+
+        if (levelProgression === 7 && activeSequence.stage === 3) {
+            setPixelFont(Images.getImage("bitmapFontEvil"));
+        }
+
+        if (!activeSequence.active) {
+            return GameStates.inGameState;
+        }
+    };
+
+    this.handleInput = function () {
+
+        
+        if (Input.getKeyDown("escape")) {
+            activeSequence.end();
+            return GameStates.inGameState;
+        }
+
+    };
+
+    this.draw = function () {
+
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+        canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+
+        activeSequence.draw();
+
+
+    };
+
+    this.enter = function () {
+
+        pauseAudio();
+        this.background = GameStates.inGameState.currentLevel.background;
+
+        if (levelProgression === 1) {
+            activeSequence = area1Sequence;
+        } else if (levelProgression === 4) {
+            activeSequence = area2Sequence;
+        } else if (levelProgression === 7) {
+            activeSequence = area3Sequence;
+        } else if (levelProgression === 9) {
+            activeSequence = finalLevelSequence;
+            setPixelFont(Images.getImage("bitmapFontEvil"));
+        }
+        activeSequence.start();
+    };
+
+    this.exit = function () {
+        currentMusic.stop();
+        setPixelFont(Images.getImage("bitmapFont"));
+    };
+}
+StorySequenceState.prototype = baseState;
 
 var GameStates = {
     inGameState: new InGameState(),
@@ -687,6 +766,7 @@ var GameStates = {
     levelClearedState: new LevelClearedState(),
     optionsState: new OptionsState(),
     endGameState: new EndGameState(),
+    storySequenceState: new StorySequenceState(),
 };
 
 var GameStateMachine = new StateMachine(GameStates.mainMenuState);

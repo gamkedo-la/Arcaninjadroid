@@ -203,7 +203,7 @@ var level8Data = {
   }
 }
 var level9Data = {
-  music: musicFight3,
+  music: musicFight,
   background: Images.getImage("controlRoom"),
   enemyList: {
       enemyTypes: [Megabot],

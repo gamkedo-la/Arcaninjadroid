@@ -37,6 +37,8 @@ function Megabot(x, y) {
     char.stats = new StatsClass(enemyXP.getCurrentLVL(), 3, 1.0, 1.0);
     char.stats.setStats();
 
+    //char.stats.characterHasBeenHitSoCalculateNewHP(0,5*char.stats.getMaxHP()/8)
+
     return char;
     
 }

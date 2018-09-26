@@ -12,6 +12,8 @@ var pixelfont_x = 0; // where we last were
 var pixelfont_y = 0; // current line
 var pixelfont_line_height = 8; // pixels
 
+var fontmap = Images.getImage("bitmapFont"); //the image variable
+
 // data for letter widths and sprite locations
 // specific to the /img/UI/pixelFont.png image
 var pixelfont_h = 8; // sprite heights
@@ -53,6 +55,10 @@ function handleEmote(emoteCode) {
     //console.log("handleEmote: "+emoteCode); // FIXME implement!
 }
 
+function setPixelFont(newFontmap) {
+    fontmap = newFontmap;
+}
+
 function drawPixelfontCentered(str, x, y) {
     drawPixelfont(str, x - Math.round(measurePixelfont(str) / 2), y);
 }
@@ -64,7 +70,7 @@ function drawPixelfont(str, x, y) {
         return;
     }
 
-    var fontmap = Images.getImage("bitmapFont");
+    //fontmap = Images.getImage("bitmapFont");
     if (!fontmap) {
         console.log("pixelfont_draw: missing image!");
         return;

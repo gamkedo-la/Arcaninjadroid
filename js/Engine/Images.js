@@ -102,6 +102,7 @@ var fileNames = [
     "images/UI/pressEscape.png",
     "images/UI/levelCleared.png",
     "images/UI/bitmapFont.png",
+    "images/UI/bitmapFontEvil.png",
 
     //Credit screen text blocks 
     "images/UI/CreditsText/remy.png",
