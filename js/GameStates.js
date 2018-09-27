@@ -289,7 +289,7 @@ function MainMenuState() {
     this.enter = function () {
 
         this.uiElements[currentFocus].hasFocus = true;
-        if (GameStates && GameStates.inGameState && inGameState.currentLevelGameStates) {
+        if (GameStates && GameStates.inGameState && GameStates.inGameState.currentLevel) {
             // this can be undefined after the boss battle
             this.background = GameStates.inGameState.currentLevel.background;
         } else {

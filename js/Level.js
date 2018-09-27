@@ -40,6 +40,7 @@ class Level {
       if (levelProgression < allLevels.length-1) {
         GameStateMachine.handleReceivedState(GameStates.levelClearedState);
       } else {
+        console.log("All enemies eliminated and all levels complete: time for endgame!");
         GameStateMachine.handleReceivedState(GameStates.endGameState);
       }
     }
