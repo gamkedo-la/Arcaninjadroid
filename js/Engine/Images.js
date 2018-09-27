@@ -108,10 +108,16 @@ var fileNames = [
     "images/UI/CreditsText/remy.png",
     "images/UI/CreditsText/christer.png",
     "images/UI/CreditsText/jaime.png",
-    "images/UI/CreditsText/stebs.png",
-    "images/UI/CreditsText/ashleeTrenton.png",
+    "images/UI/CreditsText/chrisMarkle.png",
     "images/UI/CreditsText/misha.png",
+    "images/UI/CreditsText/stebs.png",
+    "images/UI/CreditsText/marcSilva.png",
+    "images/UI/CreditsText/brandon.png",
+    "images/UI/CreditsText/T.png",
     "images/UI/CreditsText/baris.png",
+    "images/UI/CreditsText/sam.png",
+    "images/UI/CreditsText/kyle.png",
+    "images/UI/CreditsText/ashleeTrenton.png",
     "images/UI/CreditsText/gamkedo.png",
 
     //Player

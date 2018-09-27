@@ -303,58 +303,39 @@ MainMenuState.prototype = baseState;
 
 function CreditsState() {
 
-    this.background = Images.getImage("creditsScreen");
-
+    this.background;
 
     let lockonX = 2;
-    let lockonY = 35;
-    let nextDistance = ORIG_WORLD_W;
-    let scrollX = nextDistance;
+    let startY = 145;
 
-    let scrollSpeed = 1;
-    let timer = 0;
-    let scrollWait = 2;
-    let waiting = true;
+    let totalYDisplacement = 0;
+    let yPadBetween = 25;
 
-    let nameCounter = 0;
+    let baseScrollSpeed = 0.5;
+    let scrollSpeedMult = 4;
+    let _currentScrollSpeed = 0.2;
+
+    let finished = false;
+
 
     this.uiElements = [];
-    let names = ["remy", "christer", "jaime", "stebs", "misha", "baris", "ashleeTrenton", "gamkedo"];
-    for (var i = 0, l = names.length; i < l; i++) {
-        this.uiElements[i] = new UITextImage(lockonX + nextDistance * i, lockonY, Images.getImage(names[i]));
-    }
+
+    let imgNames = ["remy", "christer", "jaime", "chrisMarkle", "misha", "stebs", "marcSilva", "brandon", "T", "baris", "sam", "kyle", "ashleeTrenton", "gamkedo"];
 
     this.update = function () {
 
-        if (!waiting) {
-            let currentX;
-            scrollX -= scrollSpeed;
-            for (var i = 0, l = this.uiElements.length; i < l; i++) {
-                currentX = this.uiElements[i].getX();
-                this.uiElements[i].setX(currentX - scrollSpeed);
-            }
+        if (finished) { return; }
+
+        let currentY;
+
+        for (var i = 0, l = this.uiElements.length; i < l; i++) {
+            currentY = this.uiElements[i].getY();
+            this.uiElements[i].setY(currentY - _currentScrollSpeed);
         }
 
-        timer += dt;
-
-        if (waiting) {
-
-            if (timer >= scrollWait) {
-                timer = 0;
-                waiting = false;
-            }
-        } else {
-
-            if (scrollX < lockonX) {
-                scrollX = nextDistance;
-
-                timer = 0;
-                waiting = true;
-                nameCounter++;
-            }
-        }
-        if (nameCounter === this.uiElements.length - 1) {
-            waiting = true; //permalock in wait when we're done scrolling
+        //permalock when we're done scrolling
+        if (currentY <= yPadBetween) {
+            finished = true;
         }
 
     };
@@ -365,41 +346,50 @@ function CreditsState() {
             return GameStates.mainMenuState;
         }
 
-        if (Input.getKey("right")) {
-            scrollSpeed = 2;
-        } else {
-            scrollSpeed = 1;
+        if (Input.getKey("down") || Input.getKey("right")) {
+            _currentScrollSpeed = baseScrollSpeed * scrollSpeedMult;
+        } else if (Input.getKey("up") || Input.getKey("left")) {
+            _currentScrollSpeed = -baseScrollSpeed * scrollSpeedMult;
+        }
+        else {
+            _currentScrollSpeed = baseScrollSpeed;
         }
 
     };
 
     this.draw = function () {
+
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
         canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
+        
         for (var i = 0, l = this.uiElements.length; i < l; i++) {
             this.uiElements[i].draw();
         }
-        //ParticleRenderer.renderAll(canvasContext);
     };
 
     this.resetText = function () {
-        for (var i = 0, l = this.uiElements.length; i < l; i++) {
-            this.uiElements[i].setX(lockonX + nextDistance * i);
-            this.uiElements[i].setY(lockonY);
+
+        this.uiElements = [];    
+
+        totalYDisplacement = 0;
+        for (var i = 0, l = imgNames.length; i < l; i++) {
+            this.uiElements[i] = new UITextImage(lockonX, startY + totalYDisplacement, Images.getImage(imgNames[i]));
+            totalYDisplacement += Images.getImage(imgNames[i]).height;
+            totalYDisplacement += yPadBetween;
         }
     }
 
     this.enter = function () {
-        timer = 0;
-        nameCounter = 0;
-        waiting = true;
+
+        finished = false;
         this.background = GameStates.inGameState.currentLevel.background;
+        this.resetText();
 
     };
 
     this.exit = function () {
-        this.resetText();
 
+        this.resetText();
 
     };
 }
