@@ -35,6 +35,11 @@ function InGameState() {
 
         }
         
+        if (tutorial.active && Input.getKeyDown("space")) {
+            console.log('Space pressed during tutorial: skipping to end of current line.');
+            tutorial.hurryUp(); // skip to next line
+        }
+
         if (Input.getKeyDown("q")) {
             debug = !debug;
         }
@@ -713,6 +718,12 @@ function StorySequenceState() {
             activeSequence.end();
             return GameStates.inGameState;
         }
+
+        if (Input.getKeyDown("space")) {
+            console.log('Space pressed during StorySequence: skipping to end of current line.');
+            activeSequence.hurryUp(); // skip to next line
+        }
+
 
     };
 

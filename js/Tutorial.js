@@ -53,6 +53,13 @@ function MessageSequence(messages) {
         npcWordBubble(messages[this.stage].txt,messages[this.stage].x,messages[this.stage].y,this.msgStart,this.msgEnd);
     }
     
+    this.hurryUp = function() {
+        if (!this.active) return;
+        if (!messages[this.stage]) return;
+        console.log('Hurrying up sequence...');
+        this.msgEnd = performance.now(); // skips to end of the line
+    }
+
     this.end = function() {
         console.log('Ending message sequence...');
         this.stage = -1;
