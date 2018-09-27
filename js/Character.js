@@ -284,7 +284,14 @@ function Character(x, y) {
         }
 
         this.alive = false;
-        if (this != player) GameStates.inGameState.currentLevel._removeOneEnemy(); //hard references FTW (use Unity if you don't like it ;) 
+        if (this != player) {
+            if (GameStates && GameStates.inGameState && GameStates.currentLevel) {
+                // during boss battle, this is undefined:
+                GameStates.inGameState.currentLevel._removeOneEnemy(); //hard references FTW (use Unity if you don't like it ;) 
+            } else {
+                console.log("ERROR: undefined game state current level in Character.die() - ignoring!");
+            }
+        }
 
         if (Array.isArray(this.explosionSequence)) {
             for (var i = 0, l = this.explosionSequence.length; i < l; i++) {
