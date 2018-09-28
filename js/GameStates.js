@@ -648,25 +648,48 @@ OptionsState.prototype = baseState;
 
 function EndGameState() {
 
-    //this.background = Images.getImage("moonlitForest");
+    let _mainAlpha = 0;
 
-    //let gameOverText = new UITextImage(20, 10, Images.getImage("gameOverText"));
-    //let pressEscapeText = new UITextImage(50, 90, Images.getImage("pressEscape"));
-
-    let _mainAlpha = 0; //darkness fades in until fully opaque
-    let _secondAlpha = 0; //Game Over image becomes visible after screen is black
+    let timer = 0;
+    let whiteScreenDuration = 1;
 
     let alphaIncreaseRate = 0.005; //per frame
+    let reversingFade = false;
 
     let kittiesplosion = new KittieSplosionClass();
 
     this.update = function () {
 
-        if (_mainAlpha < 1) { _mainAlpha += alphaIncreaseRate; }
+        if (!reversingFade) {
+            _mainAlpha += alphaIncreaseRate;
+        }
 
-        else if (_mainAlpha >= 1 && _secondAlpha <= 1) { _secondAlpha += alphaIncreaseRate; }
+        //We're back to game screen
+        else {
+            _mainAlpha -= alphaIncreaseRate;
+            if (_mainAlpha < 0) { _mainAlpha = 0; }
+            kittiesplosion.update();
+            endGameSequence.update();
+            updateAllCharacters();
+        }
 
-        kittiesplosion.update();
+        if (_mainAlpha >= 1 && !reversingFade) {
+
+            timer += dt;
+            if (timer >= whiteScreenDuration) {
+                
+                reversingFade = true;
+
+                timer = 0;
+                endGameSequence.start();
+                
+                player.actionMachine.handleReceivedState(new EndGameIdleState(player));
+                player.x = ORIG_WORLD_W/2;
+
+                killAllEnemies();
+                //GameStates.inGameState.currentLevel._removeAllOnscreenEnemies();
+            }
+        }
 
         ParticleEmitterManager.updateAllEmitters(dt/6);
     };
@@ -675,7 +698,7 @@ function EndGameState() {
 
         // cut to credits for now
         if (Input.getKeyDown("enter") || Input.getKeyDown("space") || Input.getKeyDown("escape")) {
-            if (_mainAlpha >= 1) {
+            if (!endGameSequence.active) {
                 return GameStates.creditsState;
             }
         }
@@ -694,16 +717,15 @@ function EndGameState() {
 
         }
 
-        colorRectAlpha(0, 0, canvas.width, canvas.height, [255, 255, 255, _mainAlpha]);
-        //gameOverText.draw(_mainAlpha);
-        //pressEscapeText.draw(_secondAlpha);
-
         ParticleRenderer.renderAll(canvasContext); // over top of white, due to kittiesplosion
+        colorRectAlpha(0, 0, canvas.width, canvas.height, [255, 255, 255, _mainAlpha]);
+        endGameSequence.draw();
+
 
     };
 
     this.enter = function () {
-        //createParticleEmitter(100,100,frogbotExplosion);
+        reversingFade = false;
         pauseAudio();
         //gameOver.play();
         this.background = GameStates.inGameState.currentLevel.background;

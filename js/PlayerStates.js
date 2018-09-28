@@ -732,7 +732,17 @@ function LevelClearAnimState(parent) {
 };
 StunnedState.prototype = baseState;
 
-StunnedState.prototype = baseState;
+function EndGameIdleState(parent) {
+    
+    var parent = parent;
+
+    this.animation = new Animation(parent, Images.getImage("playerIdle2"), playerIdleData, { loop: true });
+
+    this.update = function () {}
+    this.handleInput = function () {}
+    this.enter = function () {}
+    this.exit = function () {}
+}
 
 // parent must be a Character
 function PlayerStates(parent) {

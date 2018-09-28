@@ -110,7 +110,7 @@ const area2Messages = [
 ];
 
 const area3Messages = [
-    {txt:"Wait... this isn't it!",y:40},
+    {txt:"Wait... something's not right...",y:40},
     {txt:"The doors are locked; \n you're trapped!!!",y:40},
     {txt:"You hear a voice coming \n through a speaker",x:130,y:40},
     {txt:"Haha! You thought we'd let you grab \n our precious kitties?!?",y:40},
@@ -128,6 +128,15 @@ const finalLevelMessages = [
     {txt:"See you never, \n Arcaninjadroid!",y:30},
 ];
 
+const endGameMessages = [
+    {txt:"And so, Megabot was no more.",x:130,y:40},
+    {txt:"All the kitties in this area \n are now free...",x:130,y:40},
+    {txt:"...but there are still \n many more to rescue!",x:130,y:40},
+    {txt:"Who knows what evil machinations \n you'll encounter next?",x:125,y:40},
+    {txt:"The world needs you, Arcaninjadroid!",x:130,y:40},
+    {txt:"You must save all our kitties! \n Go, prepare for your next adventure!",x:125,y:40},
+];
+
 var tutorial = new MessageSequence(tutorialMessages);
 tutorial.messageTimespan = 1500; // ms messages are displayed
 tutorial.messageDelay = 3000; // space between the messages
@@ -137,5 +146,8 @@ var area1Sequence = new MessageSequence(area1Messages);
 var area2Sequence = new MessageSequence(area2Messages);
 var area3Sequence = new MessageSequence(area3Messages);
 var finalLevelSequence = new MessageSequence(finalLevelMessages);
+var endGameSequence = new MessageSequence(endGameMessages);
+endGameSequence.messageTimespan = 1500;
+endGameSequence.messageDelay = 3000; // space between the messages
 
 
