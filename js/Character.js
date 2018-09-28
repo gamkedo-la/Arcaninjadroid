@@ -285,7 +285,7 @@ function Character(x, y) {
 
         this.alive = false;
         if (this != player) {
-            if (GameStates && GameStates.inGameState && GameStates.currentLevel) {
+            if (GameStates && GameStates.inGameState && GameStates.inGameState.currentLevel) {
                 // during boss battle, this is undefined:
                 GameStates.inGameState.currentLevel._removeOneEnemy(); //hard references FTW (use Unity if you don't like it ;) 
             } else {

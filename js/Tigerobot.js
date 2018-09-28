@@ -18,7 +18,8 @@ function Tigerobot(x, y) {
     var states = new EnemyStates(char);
 
     char.initMachine(states);
-    char.initAI(states);
+    char.AIModule = new AIModule(char, states, {attackRange:80,TOOCLOSE:40});
+    //char.initAI(states);
     char.jumpAttack = true;
     //char.trail = new WooshTrail("wooshTrailKangarobot");
 

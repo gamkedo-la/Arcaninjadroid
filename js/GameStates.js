@@ -42,6 +42,7 @@ function InGameState() {
 
         if (Input.getKeyDown("q")) {
             debug = !debug;
+            //return GameStates.endGameState;
         }
 
         if (Input.getKeyDown("p")) {
@@ -288,7 +289,7 @@ function MainMenuState() {
         for (var i = 0, l = this.uiElements.length; i < l; i++) {
             this.uiElements[i].draw();
         }
-        ParticleRenderer.renderAll(canvasContext);
+        //ParticleRenderer.renderAll(canvasContext);
     };
 
     this.enter = function () {
@@ -299,6 +300,11 @@ function MainMenuState() {
             this.background = GameStates.inGameState.currentLevel.background;
         } else {
             console.log("ERROR: GameStates.inGameState.currentLevel is undefined. Ignoring!");
+        }
+
+        if (currentMusic.getPaused()) {
+            //currentMusic.loadTrack(musicFight, 0);
+            currentMusic.play();
         }
 
     };
@@ -394,6 +400,11 @@ function CreditsState() {
         finished = false;
         this.background = GameStates.inGameState.currentLevel.background;
         this.resetText();
+
+        if (currentMusic.getPaused()) {
+            currentMusic.loadTrack(musicFight, 0);
+            currentMusic.play();
+        }
 
     };
 
@@ -650,10 +661,12 @@ function EndGameState() {
 
     this.handleInput = function () {
 
-        /*
-        if (Input.getKeyDown("escape")) {
-            return GameStates.mainMenuState;
-        }*/
+        // cut to credits for now
+        if (Input.getKeyDown("enter") || Input.getKeyDown("space") || Input.getKeyDown("escape")) {
+            if (_mainAlpha >= 1) {
+                return GameStates.creditsState;
+            }
+        }
 
     };
 

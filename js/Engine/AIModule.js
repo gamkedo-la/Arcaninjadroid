@@ -63,7 +63,7 @@ function AIModule (parent, possibleStates, config) {
 
     // go towards the player unless too close
     //when standing between TOOCLOSE and attackRange, attacks will be triggered
-    const TOOCLOSE = 5;
+    let TOOCLOSE = config.TOOCLOSE || 5;
     let attackRange = config.attackRange || 20;
     
     //when an enemy is scared, they'll run away from the player until they are far away
@@ -116,7 +116,6 @@ function AIModule (parent, possibleStates, config) {
         // for "scared" decision
         else if (_currentDecision === decisionScared) {
 
-
             let direction = Math.sign(getXDistanceFrom(player));
             if (Math.abs(getXDistanceFrom(player)) >= FARENOUGH) {
                 
@@ -128,7 +127,18 @@ function AIModule (parent, possibleStates, config) {
             }
             else if (ORIG_WORLD_W - parent.x < 50 || parent.x < 50){
                 //console.log("I'm at the edge");
-                return states["idleState"];
+                direction *= -1;
+                if (states.walkState) states.walkState.AIWalkDirection = -direction;
+                else {
+                    parent.velocity.x += 5 * direction; 
+                }
+                parent.flipped = (direction === 1);
+                /*if (states.walkState) {
+
+                }
+                states.walkState.AIWalkDirection = -direction;
+                parent.flipped = (direction === 1);
+                return states["walkState"];*/
             }
             else {
                 if (states.walkState) states.walkState.AIWalkDirection = direction;

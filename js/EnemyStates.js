@@ -209,13 +209,13 @@ function StunnedEnemyState(parent, relatedStates) {
 
         if (!bounced) {
             if (parent.x === 0) {
-                parent.velocity.x = 10;
+                parent.velocity.x = 10*randomRange(0.75,1.25);
                 parent.x += 1;
 
                 bounced = true;
             }
             else if (parent.x === 240) {
-                parent.velocity.x = -10;
+                parent.velocity.x = -10*randomRange(0.75,1.25);
                 parent.x -= 1;
 
                 bounced = true;
@@ -462,7 +462,11 @@ function PunchEnemyState(parent, relatedStates) {
             parent.attackSfx.play();
         }
 
-        parent.flipped = (Math.sign(getXDistanceBetween(parent,player)) === -1);
+        if (parent.enemySpawnAnim) {
+            parent.flipped = (Math.sign(getXDistanceBetween(parent,player)) === -1);
+        } else {
+            parent.flipped = (Math.sign(getXDistanceBetween(parent,player)) === 1);
+        }
         
     }
     this.exit = function () {

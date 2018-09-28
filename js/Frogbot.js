@@ -19,7 +19,8 @@ function Frogbot(x, y) {
     states.walkState = null; //end of project hack omegalul
 
     char.initMachine(states);
-    char.initAI(states);
+    char.AIModule = new AIModule(char, states, {attackRange:120});
+    //char.initAI(states);
     char.SDAttack = true; //self-destructs after attack end
     //char.trail = new WooshTrail("wooshTrailKangarobot");
 

@@ -126,7 +126,7 @@ var level0Data = {
   enemyList: {
       enemyTypes: [Kangarobot],
       limit: 1,
-      total: 2,
+      total: 5,
   }
 }
 var level1Data = {
@@ -135,29 +135,40 @@ var level1Data = {
   enemyList: {
       enemyTypes: [Kangarobot],
       limit: 2,
-      total: 3,
+      total: 4,
   },
-  spawnInterval:1
+  //spawnInterval:1
 }
 var level2Data = {
   music: musicFight,
   background: Images.getImage("moonlitForest"),
   enemyList: {
       enemyTypes: [Kangarobot],
-      limit: 2,
+      limit: 3,
       total: 5,
-  }
+  },
+  spawnInterval:1
 }
 var level3Data = {
   music: musicFight,
   background: Images.getImage("moonlitForest"),
   enemyList: {
       enemyTypes: [Kangarobot],
-      limit: 3,
+      limit: 4,
       total: 8,
   }
 }
 var level4Data = {
+  music: musicFight,
+  background: Images.getImage("enemyBase"),
+  enemyList: {
+      enemyTypes: [Frogbot],
+      limit: 2,
+      total: 6,
+  },
+  spawnInterval:2
+}
+var level5Data = {
   music: musicFight,
   background: Images.getImage("enemyBase"),
   enemyList: {
@@ -166,7 +177,7 @@ var level4Data = {
       total: 10,
   }
 }
-var level5Data = {
+var level6Data = {
   music: musicFight,
   background: Images.getImage("enemyBase"),
   enemyList: {
@@ -176,29 +187,20 @@ var level5Data = {
   },
   spawnInterval:0.5
 }
-var level6Data = {
-  music: musicFight,
-  background: Images.getImage("enemyBase"),
-  enemyList: {
-      enemyTypes: [Kangarobot,Frogbot],
-      limit: 3,
-      total: 10,
-  }
-}
 var level7Data = {
   music: musicFight3,
   background: Images.getImage("controlRoom"),
   enemyList: {
-      enemyTypes: [Kangarobot,Frogbot,Tigerobot],
-      limit: 3,
-      total: 8,
+      enemyTypes: [Tigerobot],
+      limit: 2,
+      total: 5,
   }
 }
 var level8Data = {
   music: musicFight3,
   background: Images.getImage("controlRoom"),
   enemyList: {
-      enemyTypes: [Kangarobot,Frogbot,Tigerobot],
+      enemyTypes: [Frogbot,Tigerobot],
       limit: 5,
       total: 10,
   }
