@@ -89,7 +89,7 @@ var megabotPunchLong = new sfxClip("MegabotPunchLongDelayed");
 var megabotPunchShort = new sfxClip("MegabotPunchShortDelayed");
 var megabotPunch = new sfxContainerRandom([megabotPunchShort, megabotPunchLong]);
 
-
+var thudSFX = new sfxClip("MegabotThud");
 
 
 //Functions

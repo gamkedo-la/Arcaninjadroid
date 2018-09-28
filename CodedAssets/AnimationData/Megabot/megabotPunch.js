@@ -84,12 +84,12 @@ var megabotPunchData = { "frames": [
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.9-x64",
-  "image": "C:\\Users\\Remy\\Documents\\Gamkedo\\Arcaninjadroid\\images\\Characters\\Megabot\\megabotPunch.png",
   "format": "RGBA8888",
   "size": { "w": 675, "h": 48 },
   "scale": "1",
   "slices": [
-   { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 4, "bounds": {"x": 58, "y": 12, "w": 17, "h": 20 } }, { "frame": 6, "bounds": {"x": 58, "y": 12, "w": 17, "h": 20 } }, { "frame": 8, "bounds": {"x": 45, "y": 4, "w": 30, "h": 34 } }] }
+   { "name": "Hit", "color": "#fe5b59ff", "keys": [{ "frame": 6, "bounds": {"x": 58, "y": 12, "w": 17, "h": 20 } }, { "frame": 8, "bounds": {"x": 45, "y": 4, "w": 30, "h": 34 } }] },
+   { "name": "Hurt", "color": "#6acd5bff", "keys": [{ "frame": 0, "bounds": {"x": 9, "y": 6, "w": 52, "h": 40 } }, { "frame": 1, "bounds": {"x": 9, "y": 6, "w": 52, "h": 40 } }, { "frame": 2, "bounds": {"x": 9, "y": 6, "w": 52, "h": 40 } }, { "frame": 3, "bounds": {"x": 9, "y": 6, "w": 52, "h": 40 } }, { "frame": 4, "bounds": {"x": 9, "y": 6, "w": 52, "h": 40 } }, { "frame": 5, "bounds": {"x": 9, "y": 6, "w": 52, "h": 40 } }, { "frame": 6, "bounds": {"x": 9, "y": 6, "w": 52, "h": 40 } }, { "frame": 7, "bounds": {"x": 9, "y": 6, "w": 52, "h": 40 } }, { "frame": 8, "bounds": {"x": 9, "y": 6, "w": 52, "h": 40 } }] }
   ]
  }
 }

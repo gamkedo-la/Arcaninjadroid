@@ -420,10 +420,30 @@ function PunchEnemyState(parent, relatedStates) {
 
     this.animation = parent.punchAnim;
 
+    this.badHit = false;
+
     this.update = function () {
 
         parent.applyBasicPhysics();
-        if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
+
+        if (this.animation.isActive === false) {
+            return states.idleState;
+        } else if (jumped && parent.grounded) {
+            return states.idleState;
+        }
+
+        if (parent.hitThisFrame) {
+            if (parent.enemySpawnAnim) {
+                if (!this.badHit) {
+                    thudSFX.play();
+                    console.log("play")
+                    this.badHit = true;
+                }
+                //parent.stats.characterHasBeenHitSoCalculateNewHP(0,-50);
+                return;
+            }
+            return states.stunnedState;
+        } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
 
         if (parent.SDAttack && this.animation.isActive === false) {
 
@@ -435,11 +455,7 @@ function PunchEnemyState(parent, relatedStates) {
                 player.die();
             }
         }
-        if (this.animation.isActive === false) {
-            return states.idleState;
-        } else if (jumped && parent.grounded) {
-            return states.idleState;
-        }
+
 
         if (parent.jumpAttack && !jumped && this.animation.getCurrentFrameNumber()===1) {
             parent.velocity.x = parent.flipped ? -10:10;
@@ -467,7 +483,7 @@ function PunchEnemyState(parent, relatedStates) {
         } else {
             parent.flipped = (Math.sign(getXDistanceBetween(parent,player)) === 1);
         }
-        
+        this.badHit = false;
     }
     this.exit = function () {
         if (parent.attackSfx) {
