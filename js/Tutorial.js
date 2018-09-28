@@ -58,6 +58,7 @@ function MessageSequence(messages) {
         if (!messages[this.stage]) return;
         console.log('Hurrying up sequence...');
         this.msgEnd = performance.now(); // skips to end of the line
+        this.nextTimestamp = performance.now(); // and past the pause between lines
     }
 
     this.end = function() {
