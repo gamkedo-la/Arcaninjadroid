@@ -75,7 +75,7 @@ function MessageSequence(messages) {
 
     
 const tutorialMessages = [
-    {txt:"Welcome, Arcaninjadroid!",y:40},
+    {txt:"Welcome to Arcaninjadroid!",y:40},
     {txt:"Arrows, WASD, or gamepad to move.",y:120},
     {txt:"Press UP or gamepad A to jump.",y:40},
     {txt:"Press Z or gamepad B to attack.",y:56},

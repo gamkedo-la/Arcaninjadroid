@@ -186,12 +186,21 @@ function MainMenuState() {
             resetGame();
             punch_Uppercut01.play();
 
+            levelProgression = 0;
+            GameStates.inGameState.currentLevel = allLevels[levelProgression];
+            //no saving until the player completes the level!
+            
+            return GameStates.inGameState;
+        }),
+        new Button(180, 50, Images.getImage("loadGame"), function () { 
+            resetGame();
+            punch_Uppercut01.play();
             if (levelProgression === 1 || levelProgression === 4 || levelProgression === 7 || levelProgression === 9) {
                 return GameStates.storySequenceState;
             }
             return GameStates.inGameState;
         }),
-        new Button(180, 50, Images.getImage("loadGame"), function () { console.log("load game") }, { unavailable: true }),
+
         new Button(180, 70, Images.getImage("options"), function () { return GameStates.optionsState; }),
         new Button(180, 90, Images.getImage("credits"), function () { return GameStates.creditsState; }),
         new UITextImage(-200, -200, Images.getImage("arca")),
@@ -302,6 +311,11 @@ function MainMenuState() {
 
     this.enter = function () {
 
+        //console.log(localStorage.getItem("currentLevel"))
+        if (localStorage.getItem("currentLevel") < allLevels.length) {
+            levelProgression = localStorage.getItem("currentLevel");
+            GameStates.inGameState.currentLevel = allLevels[levelProgression];
+        }
         this.uiElements[currentFocus].hasFocus = true;
         if (GameStates && GameStates.inGameState && GameStates.inGameState.currentLevel) {
             // this can be undefined after the boss battle
@@ -546,7 +560,9 @@ function LevelClearedState() {
         createParticleEmitter(120,35, victoryParticle);
 
         this.background = GameStates.inGameState.currentLevel.background;
+
         levelProgression++;
+        localStorage.setItem("currentLevel",levelProgression);
         GameStates.inGameState.currentLevel = allLevels[levelProgression];
 
         interacted = false;
@@ -702,7 +718,7 @@ function EndGameState() {
                 return GameStates.creditsState;
             }
         }
-
+        
     };
 
     this.draw = function () {
