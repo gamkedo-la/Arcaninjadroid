@@ -66,6 +66,8 @@ function Images() {
 var fileNames = [
 
     // VFX
+    "images/VFX/loveParticle.png",
+    "images/VFX/kittieParticleImage.png",
     "images/VFX/testTexture.png",
     "images/VFX/screwParticle.png",
     "images/VFX/wooshTrail.png",

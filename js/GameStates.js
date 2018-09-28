@@ -50,10 +50,18 @@ function InGameState() {
         }
 
         // W stands for "win"
-        
         if (Input.getKeyDown("w")) {
+            console.log("CHEAT KEY [W]: winning current level");
             return GameStates.levelClearedState;
         }
+
+        // E stands for endgame
+        if (Input.getKeyDown("e")) {
+            console.log("CHEAT KEY [E]: triggering endgame");
+            //GameStateMachine.handleReceivedState(GameStates.endGameState);
+            return GameStates.endGameState; // hmm fades to white but never ends or inits
+        }
+
 /*
         // D stands for "die" :P
         if (Input.getKeyDown("d")) {
@@ -683,14 +691,14 @@ function EndGameState() {
             canvasContext.drawImage(this.background, 0, 0, canvas.width, canvas.height);
             drawAllCharacters();
             drawAllTerrain();
-            ParticleRenderer.renderAll(canvasContext);
-            kittiesplosion.draw();
 
         }
 
         colorRectAlpha(0, 0, canvas.width, canvas.height, [255, 255, 255, _mainAlpha]);
         //gameOverText.draw(_mainAlpha);
         //pressEscapeText.draw(_secondAlpha);
+
+        ParticleRenderer.renderAll(canvasContext); // over top of white, due to kittiesplosion
 
     };
 
