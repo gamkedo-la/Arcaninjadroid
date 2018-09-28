@@ -650,11 +650,15 @@ function EndGameState() {
 
     let alphaIncreaseRate = 0.005; //per frame
 
+    let kittiesplosion = new KittieSplosionClass();
+
     this.update = function () {
 
         if (_mainAlpha < 1) { _mainAlpha += alphaIncreaseRate; }
 
         else if (_mainAlpha >= 1 && _secondAlpha <= 1) { _secondAlpha += alphaIncreaseRate; }
+
+        kittiesplosion.update();
 
         ParticleEmitterManager.updateAllEmitters(dt/6);
     };
@@ -680,6 +684,7 @@ function EndGameState() {
             drawAllCharacters();
             drawAllTerrain();
             ParticleRenderer.renderAll(canvasContext);
+            kittiesplosion.draw();
 
         }
 
