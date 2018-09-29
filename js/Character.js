@@ -58,7 +58,6 @@ function Character(x, y) {
 
         // "dizzy stars" above their head when vulnerable to knockup
         if (this.canBeKnockedUp) {
-            //console.log('spawning dizzy stars: canBeKnockedUp!');
             var starz = createParticleEmitter(this.x, this.y - 10, dizzyParticlesConfig);
         }
 

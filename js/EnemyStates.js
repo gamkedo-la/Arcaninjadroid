@@ -54,25 +54,6 @@ function IdleEnemyState(parent, relatedStates) {
 
         //return idleStateWeightedChoices[Math.floor(Math.random() * idleStateWeightedChoices.length)];
 
-        // PLAYER example input detection for reference:
-        /*
-        if (Input.getKey("up")){
-            return states.jumpState;
-        }
-        else if (Input.getKey("down")) {
-            return states.crouchState;
-        }
-        else if (Input.getKeyDown("z")) {
-            return states.punchState;
-        }
-
-        else if (Input.getKey("left") || Input.getKey("right")) {
-            return states.walkState;
-        }
-        else if (Input.getKey("down")) {
-            return states.crouchState;
-        }
-        */
     }
 
     this.onHit = function () {
@@ -114,31 +95,6 @@ function WalkEnemyState(parent, relatedStates) {
 
     this.handleInput = function () {
 
-
-
-
-        // PLAYER version that uses inputs for reference:
-        /*
-        if (Input.getKey("up")) {
-            return states.jumpState;
-        }
-        else if (Input.getKey("down")) {
-            return states.crouchState;
-        }
-        else if (Input.getKeyDown("z")) {
-            return states.punchState;
-        }
-
-        if (Input.getKey("left")) {
-            parent.velocity.x = -parent.walkSpeed;
-        }
-        else if (Input.getKey("right")) {
-            parent.velocity.x = parent.walkSpeed;
-        }
-        else {
-            return states.idleState;
-        }
-        */
 
     }
 

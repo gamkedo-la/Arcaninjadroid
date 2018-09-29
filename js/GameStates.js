@@ -6,9 +6,6 @@ function InGameState() {
     var justEntered; //hackity hack
 
 
-    //this.background = Images.getImage("moonlitForest");
-
-
     this.currentLevel;
 
     this.update = function () {
@@ -39,14 +36,15 @@ function InGameState() {
             console.log('Space pressed during tutorial: skipping to end of current line.');
             tutorial.hurryUp(); // skip to next line
         }
+        
+        if (Input.getKeyDown("enter")) {
+            return GameStates.pauseState;
+        }
 
+        /*
         if (Input.getKeyDown("q")) {
             debug = !debug;
             //return GameStates.endGameState;
-        }
-
-        if (Input.getKeyDown("p")) {
-            return GameStates.pauseState;
         }
 
         // W stands for "win"
@@ -62,7 +60,7 @@ function InGameState() {
             return GameStates.endGameState; // hmm fades to white but never ends or inits
         }
 
-/*
+
         // D stands for "die" :P
         if (Input.getKeyDown("d")) {
             return GameStates.gameOverState;
@@ -143,11 +141,11 @@ function PauseState() {
     };
 
     this.handleInput = function () {
-        if (Input.getKeyDown("p")) {
-            return GameStates.inGameState;
-        }
-        if (Input.getKeyDown("escape")) {
+        if (Input.getKey("z") && Input.getKey("x") && Input.getKey("enter")) {
             return GameStates.mainMenuState;
+        }
+        else if (Input.getKeyDown("enter")) {
+            return GameStates.inGameState;
         }
     };
 
@@ -392,7 +390,7 @@ function CreditsState() {
 
     this.handleInput = function () {
 
-        if (Input.getKeyDown("enter") || Input.getKeyDown("escape")) {
+        if (Input.getKeyDown("x") || Input.getKeyDown("escape")) {
             return GameStates.mainMenuState;
         }
 
@@ -475,7 +473,7 @@ function GameOverState() {
 
     this.handleInput = function () {
 
-        if (Input.getKeyDown("escape")) {
+        if (Input.getKeyDown("enter")) {
             return GameStates.mainMenuState;
         }
 
@@ -603,7 +601,7 @@ function OptionsState() {
         //console.log("OptionsState.update");
     };
     this.handleInput = function () {
-        if (Input.getKeyDown("enter") || Input.getKeyDown("escape")) {
+        if (Input.getKeyDown("escape")) {
             return GameStates.mainMenuState;
         }
 
@@ -796,8 +794,8 @@ function StorySequenceState() {
             return GameStates.inGameState;
         }
 
-        if (Input.getKeyDown("space")) {
-            console.log('Space pressed during StorySequence: skipping to end of current line.');
+        if (Input.getKeyDown("z")) {
+            console.log('Z pressed during StorySequence: skipping to end of current line.');
             activeSequence.hurryUp(); // skip to next line
         }
 

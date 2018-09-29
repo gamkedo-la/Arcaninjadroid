@@ -35,7 +35,7 @@ function MessageSequence(messages) {
                 console.log('Reached the end of the sequence!');
                 if (this.holdLastMessage) {
                     this.stage = messages.length -1;
-                    this.nextTimestamp = 100000;
+                    this.nextTimestamp = now + 100000000;
                 }
                 else {
                     this.end();

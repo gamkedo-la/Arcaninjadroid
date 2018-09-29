@@ -20,6 +20,7 @@ function GamepadSupport() {
     var SIMULATED_KEY_B_BUTTON = keycodes.z;
     var SIMULATED_KEY_X_BUTTON = keycodes.x;
     var SIMULATED_KEY_Y_BUTTON = keycodes.enter;
+    //var SIMULATED_KEY_START_BUTTON = keycodes.p;
 
     // internal states
     var gamepad = null;
