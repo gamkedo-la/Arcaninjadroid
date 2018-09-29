@@ -44,7 +44,7 @@ var megabotSpawningData = { "frames": [
   "size": { "w": 240, "h": 48 },
   "scale": "1",
   "slices": [
-   //{ "name": "Hurt", "color": "#6acd5bff", "keys": [{ "frame": 0, "bounds": {"x": 6, "y": 0, "w": 54, "h": 48 } }, { "frame": 1, "bounds": {"x": 6, "y": 0, "w": 54, "h": 48 } }, { "frame": 2, "bounds": {"x": 6, "y": 0, "w": 54, "h": 48 } }, { "frame": 3, "bounds": {"x": 6, "y": 0, "w": 54, "h": 48 } }] }
+   { "name": "Hurt", "color": "#6acd5bff", "keys": [{ "frame": 0, "bounds": {"x": 6, "y": 0, "w": 54, "h": 48 } }, { "frame": 1, "bounds": {"x": 6, "y": 0, "w": 54, "h": 48 } }, { "frame": 2, "bounds": {"x": 6, "y": 0, "w": 54, "h": 48 } }, { "frame": 3, "bounds": {"x": 6, "y": 0, "w": 54, "h": 48 } }] }
   ]
  }
 }

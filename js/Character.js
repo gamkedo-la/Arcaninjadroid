@@ -220,11 +220,18 @@ function Character(x, y) {
             if (attackerState.attackDamage === 0) {
                 return;
             }
-            createParticleEmitter(this.x, this.y - 10, gotHitParticlesConfig);
-            this.hitSfx.play();
+            
+            this.hitThisFrame = true;
 
             // a special effect added at draw time only - fake "bounce" jiggle state when hit
             if (JIGGLE_WHEN_HIT) jigglesPending = GOTHIT_JIGGLE_FRAMECOUNT;
+            if (myState.hitArmor && this.enemySpawnAnim) {
+                return;
+            }
+
+            createParticleEmitter(this.x, this.y - 10, gotHitParticlesConfig);
+            this.hitSfx.play();
+
 
             // a special effect where we pause the game for a very short amount of time when we get hit
             //impactPauseFramesRemaining = IMPACT_PAUSE_FRAMES;
@@ -241,7 +248,6 @@ function Character(x, y) {
                 console.log("Tutorial is active: no damage taken.");
             }
 
-            this.hitThisFrame = true;
             if (myState.onHit) { myState.onHit(); }
             if (attackerState.onHit) { attackerState.onHit(); }
 
@@ -258,12 +264,17 @@ function Character(x, y) {
 
         let myState = this.actionMachine.getCurrentState();
 
+        this.hitThisFrame = true;
+        if (myState.hitArmor && this.enemySpawnAnim) {
+            return;
+        }
+
         createParticleEmitter (this.x, this.y, robotExplosionParticlesConfig1);
         // a special effect added at draw time only - fake "bounce" jiggle state when hit
         if (JIGGLE_WHEN_HIT) jigglesPending = GOTHIT_JIGGLE_FRAMECOUNT;
 
         this.stats.characterHasBeenHitSoCalculateNewHP(0, arcaneShot.attackDamage);
-        this.hitThisFrame = true;
+
 
         if (myState.onHit) { myState.onHit(); }
         //remove shot here?

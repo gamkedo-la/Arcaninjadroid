@@ -421,6 +421,7 @@ function PunchEnemyState(parent, relatedStates) {
     this.animation = parent.punchAnim;
 
     this.badHit = false;
+    this.hitArmor = true;
 
     this.update = function () {
 
@@ -439,7 +440,6 @@ function PunchEnemyState(parent, relatedStates) {
                     console.log("play")
                     this.badHit = true;
                 }
-                //parent.stats.characterHasBeenHitSoCalculateNewHP(0,-50);
                 return;
             }
             return states.stunnedState;

@@ -701,6 +701,7 @@ function EndGameState() {
                 
                 player.actionMachine.handleReceivedState(new EndGameIdleState(player));
                 player.x = ORIG_WORLD_W/2;
+                player.y = GROUNDED_Y;
 
                 killAllEnemies();
                 //GameStates.inGameState.currentLevel._removeAllOnscreenEnemies();

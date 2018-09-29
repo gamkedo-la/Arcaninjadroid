@@ -557,6 +557,9 @@ function SliceState(parent, relatedStates) {
 
         if (remainingSlices <= 0) {
             target.die();
+            if (target.enemySpawnAnim) {
+                GameStateMachine.handleReceivedState(GameStates.endGameState);
+            }
             this.unlock();
             player.stats.addArcanePoints(POINTS_PER_KILL);
             parent.velocity.y = -parent.jumpVelocity;

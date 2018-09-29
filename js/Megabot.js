@@ -115,12 +115,27 @@ function EnemySpawnState(parent, relatedStates) {
     let step = duration/numEnemies;
     let remaining = numEnemies;
 
+    this.badHit = false;
+    this.hitArmor = true;
+
     this.animation = parent.enemySpawnAnim;
 
     this.update = function () {
 
         parent.applyBasicPhysics();
-        //if (parent.hitThisFrame) { return states.stunnedState; } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
+
+        if (parent.hitThisFrame) {
+            if (parent.enemySpawnAnim) {
+                if (!this.badHit) {
+                    thudSFX.play();
+                    console.log("play")
+                    this.badHit = true;
+                }
+                //parent.stats.characterHasBeenHitSoCalculateNewHP(0,-50);
+                return;
+            }
+            return states.stunnedState;
+        }
 
         timer += dt;
         if (timer > step) {
@@ -144,6 +159,7 @@ function EnemySpawnState(parent, relatedStates) {
         remaining = numEnemies;
         megabotLaugh.play();
         //parent.flipped = (Math.sign(getXDistanceBetween(parent,player)) === 1);
+        this.badHit = false;
         
     }
     this.exit = function () {
