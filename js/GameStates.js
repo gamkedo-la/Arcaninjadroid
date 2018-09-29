@@ -315,6 +315,11 @@ function MainMenuState() {
         if (localStorage.getItem("currentLevel") < allLevels.length) {
             levelProgression = localStorage.getItem("currentLevel");
             GameStates.inGameState.currentLevel = allLevels[levelProgression];
+            if (levelProgression != 0) {
+                this.uiElements[currentFocus].hasFocus = false;
+                currentFocus = 1;
+                this.uiElements[currentFocus].hasFocus = true;
+            }
         }
         this.uiElements[currentFocus].hasFocus = true;
         if (GameStates && GameStates.inGameState && GameStates.inGameState.currentLevel) {

@@ -68,7 +68,9 @@ var fileNames = [
     // VFX
     "images/VFX/loveParticle.png",
     "images/VFX/kittieParticleImage.png",
-    "images/VFX/testTexture.png",
+    "images/VFX/kittieParticleImage2.png",
+    "images/VFX/kittieParticleImage3.png",
+
     "images/VFX/screwParticle.png",
     "images/VFX/wooshTrail.png",
     "images/VFX/wooshTrailKangarobot.png",

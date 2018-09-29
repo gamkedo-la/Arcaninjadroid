@@ -344,11 +344,11 @@ var victoryParticle = {
     "colorVarToggle":false
     }
 
-var kittieParticles = {
+var kittieParticles1 = {
     "speed":300,
     "size":32,
     "angle":270,
-    "emissionRate":1,
+    "emissionRate":0.2,
     "duration":1,
     "immortal":false,
     "particleLife":4,
@@ -374,11 +374,71 @@ var kittieParticles = {
     "texture": Images.getImage("kittieParticleImage"),
     }
 
-    var loveParticles = {
+var kittieParticles2 = {
+        "speed":300,
+        "size":32,
+        "angle":270,
+        "emissionRate":0.2,
+        "duration":1,
+        "immortal":false,
+        "particleLife":4,
+        "color":[255,255,255,1],
+        "endColor":[255,255,255,1],
+        "useGradient":false,
+        "useTexture":true,
+        "textureAdditive":false,
+        "fadeAlpha":false,
+        "fadeSpeed":false,
+        "fadeSize":false,
+        "gravity":4,
+        "xVar":32,
+        "yVar":32,
+        "speedVar":200,
+        "sizeVar":0,
+        "angleVar":0,
+        "particleLifeVar":0,
+        "startColorVar":[15,15,15,0],
+        "endColorVar":[15,15,15,0],
+        "endColorToggle":false,
+        "colorVarToggle":false,
+        "texture": Images.getImage("kittieParticleImage2"),
+        }
+
+var kittieParticles3 = {
+            "speed":300,
+            "size":32,
+            "angle":270,
+            "emissionRate":0.2,
+            "duration":1,
+            "immortal":false,
+            "particleLife":4,
+            "color":[255,255,255,1],
+            "endColor":[255,255,255,1],
+            "useGradient":false,
+            "useTexture":true,
+            "textureAdditive":false,
+            "fadeAlpha":false,
+            "fadeSpeed":false,
+            "fadeSize":false,
+            "gravity":4,
+            "xVar":32,
+            "yVar":32,
+            "speedVar":200,
+            "sizeVar":0,
+            "angleVar":0,
+            "particleLifeVar":0,
+            "startColorVar":[15,15,15,0],
+            "endColorVar":[15,15,15,0],
+            "endColorToggle":false,
+            "colorVarToggle":false,
+            "texture": Images.getImage("kittieParticleImage3"),
+            }
+
+var loveParticles = {
         "speed":200,
         "size":8,
         "angle":270,
-        "emissionRate":10,
+        "emissionRate":7,
         "duration":1,
         "immortal":false,
         "particleLife":4,
