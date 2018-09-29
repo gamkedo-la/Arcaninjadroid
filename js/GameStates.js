@@ -315,7 +315,7 @@ function MainMenuState() {
 
         //console.log(localStorage.getItem("currentLevel"))
         if (localStorage.getItem("currentLevel") < allLevels.length) {
-            levelProgression = localStorage.getItem("currentLevel");
+            levelProgression = localStorage.getItem("currentLevel")*1;
             GameStates.inGameState.currentLevel = allLevels[levelProgression];
             
             this.uiElements[currentFocus].hasFocus = false;
@@ -433,6 +433,7 @@ function CreditsState() {
         this.background = GameStates.inGameState.currentLevel.background;
         this.resetText();
 
+        console.log(currentMusic.getPaused())
         if (currentMusic.getPaused()) {
             currentMusic.loadTrack(musicFight, 0);
             currentMusic.play();

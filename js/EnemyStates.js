@@ -383,24 +383,7 @@ function PunchEnemyState(parent, relatedStates) {
 
         parent.applyBasicPhysics();
 
-        if (this.animation.isActive === false) {
-            return states.idleState;
-        } else if (jumped && parent.grounded) {
-            return states.idleState;
-        }
-
-        if (parent.hitThisFrame) {
-            if (parent.enemySpawnAnim) {
-                if (!this.badHit) {
-                    thudSFX.play();
-                    console.log("play")
-                    this.badHit = true;
-                }
-                return;
-            }
-            return states.stunnedState;
-        } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
-
+        
         if (parent.SDAttack && this.animation.isActive === false) {
 
             parent.die();
@@ -411,6 +394,23 @@ function PunchEnemyState(parent, relatedStates) {
                 player.die();
             }
         }
+        if (this.animation.isActive === false) {
+            return states.idleState;
+        } else if (jumped && parent.grounded) {
+            return states.idleState;
+        }
+
+        if (parent.hitThisFrame) {
+            if (parent.enemySpawnAnim) {
+                if (!this.badHit) {
+                    thudSFX.play();
+                    this.badHit = true;
+                }
+                return;
+            }
+            return states.stunnedState;
+        } //hacky, but saves us a coding rabbit hole. Stick this everywhere that needs to be able to receive hits
+
 
 
         if (parent.jumpAttack && !jumped && this.animation.getCurrentFrameNumber()===1) {

@@ -159,7 +159,7 @@ var level3Data = {
   }
 }
 var level4Data = {
-  music: musicFight,
+  music: musicFight2,
   background: Images.getImage("enemyBase"),
   enemyList: {
       enemyTypes: [Frogbot],
@@ -169,7 +169,7 @@ var level4Data = {
   spawnInterval:2
 }
 var level5Data = {
-  music: musicFight,
+  music: musicFight2,
   background: Images.getImage("enemyBase"),
   enemyList: {
       enemyTypes: [Kangarobot,Frogbot],
@@ -178,7 +178,7 @@ var level5Data = {
   }
 }
 var level6Data = {
-  music: musicFight,
+  music: musicFight2,
   background: Images.getImage("enemyBase"),
   enemyList: {
       enemyTypes: [Kangarobot,Frogbot],
@@ -228,6 +228,6 @@ var level7 = new Level(level7Data);
 var level8 = new Level(level8Data);
 var level9 = new Level(level9Data);
 
-var levelProgression = 9;
+var levelProgression = 0;
 var allLevels = [level0,level1,level2,level3,level4,level5,level6,level7,level8,level9];
 GameStates.inGameState.currentLevel = allLevels[levelProgression];
