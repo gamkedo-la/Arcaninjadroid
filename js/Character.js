@@ -242,7 +242,7 @@ function Character(x, y) {
                 //registerHitForCombo(); // 2x 3x 4x etc
             }
 
-            if (!(tutorial.active && NO_DAMAGE_DURING_TUTORIAL)) { // nothing takes damage during the tutorial
+            if (!(this === player && tutorial.active && NO_DAMAGE_DURING_TUTORIAL)) { // nothing takes damage during the tutorial
                 this.stats.characterHasBeenHitSoCalculateNewHP(0, attackerState.attackDamage);
             } else {
                 console.log("Tutorial is active: no damage taken.");

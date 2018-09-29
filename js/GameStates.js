@@ -195,7 +195,7 @@ function MainMenuState() {
         new Button(180, 50, Images.getImage("loadGame"), function () { 
             resetGame();
             punch_Uppercut01.play();
-            if (levelProgression === 1 || levelProgression === 4 || levelProgression === 7 || levelProgression === 9) {
+            if (levelProgression === 0 || levelProgression === 1 || levelProgression === 4 || levelProgression === 7 || levelProgression === 9) {
                 return GameStates.storySequenceState;
             }
             return GameStates.inGameState;
@@ -244,7 +244,11 @@ function MainMenuState() {
             this.changeFocus("down");
         }
 
-        if (Input.getKeyDown("1")) {
+        if (Input.getKeyDown("0")) {
+            levelProgression = 0;
+            this.updateCurrentLevel();
+        }
+        else if (Input.getKeyDown("1")) {
             levelProgression = 1;
             this.updateCurrentLevel();
         } else if (Input.getKeyDown("2")) {
@@ -315,11 +319,14 @@ function MainMenuState() {
         if (localStorage.getItem("currentLevel") < allLevels.length) {
             levelProgression = localStorage.getItem("currentLevel");
             GameStates.inGameState.currentLevel = allLevels[levelProgression];
+            
+            this.uiElements[currentFocus].hasFocus = false;
             if (levelProgression != 0) {
-                this.uiElements[currentFocus].hasFocus = false;
                 currentFocus = 1;
-                this.uiElements[currentFocus].hasFocus = true;
+            } else {
+                currentFocus = 0;
             }
+            this.uiElements[currentFocus].hasFocus = true;
         }
         this.uiElements[currentFocus].hasFocus = true;
         if (GameStates && GameStates.inGameState && GameStates.inGameState.currentLevel) {
@@ -813,7 +820,9 @@ function StorySequenceState() {
         pauseAudio();
         this.background = GameStates.inGameState.currentLevel.background;
 
-        if (levelProgression === 1) {
+        if (levelProgression === 0) {
+            activeSequence = introSequence;
+        } else if (levelProgression === 1) {
             activeSequence = area1Sequence;
         } else if (levelProgression === 4) {
             activeSequence = area2Sequence;

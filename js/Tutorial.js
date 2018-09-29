@@ -9,6 +9,7 @@ function MessageSequence(messages) {
     this.messageDelay = 1750; // space between the messages
     this.startDelay = 500; // time from game begin
 
+    this.holdLastMessage = false;
 
     this.active = false; // can turn off
     this.stage = 0; // which message are we currently at
@@ -32,7 +33,13 @@ function MessageSequence(messages) {
             this.nextTimestamp = now + this.messageTimespan + this.messageDelay;
             if (this.stage >= messages.length) {
                 console.log('Reached the end of the sequence!');
-                this.end();
+                if (this.holdLastMessage) {
+                    this.stage = messages.length -1;
+                    this.nextTimestamp = 100000;
+                }
+                else {
+                    this.end();
+                }
             }
             else {
                 console.log('Sequence message '+this.stage+' at '+messages[this.stage].x+','+messages[this.stage].y+': ' + messages[this.stage].txt); 
@@ -73,7 +80,21 @@ function MessageSequence(messages) {
 
 // referred to in GameState.js and Character.js
 
-    
+const introStory = [
+    {txt:"It was humanity's darkest day.",y:40},
+    {txt:"8 years ago, aliens landed \n on planet Earth.",y:40},
+    {txt:"Their weaponry was beyond imagination.\n We had no chance.",x:130,y:40},
+    {txt:"In an act of mercy, the aliens \n offered a deal.",y:40},
+    {txt:"They would leave Earth forever, \n in exchange for ALL of its kittens.",y:40},
+    {txt:"Everyone accepted this outcome...",x:130,y:40},
+    {txt:"...but you never did.",y:50},
+    {txt:"With the intention of retrieving \n your furry feline friends,",y:50},
+    {txt:"you've endured harduous \n mental and physical training,",y:40},
+    {txt:"and become humanity's \n one-man superweapon.",x:130,y:40},
+    {txt:"A combination of mage, ninja and robot...",x:130,y:40},
+    {txt:"You are ARCANINJADROID!",y:60}
+]
+
 const tutorialMessages = [
     {txt:"Welcome to Arcaninjadroid!",y:40},
     {txt:"Arrows, WASD, or gamepad to move.",y:120},
@@ -85,7 +106,8 @@ const tutorialMessages = [
     {txt:"When an enemy is in the air,\njump and attack!",y:40},
     {txt:"Then, press Z + Arrows to slice!",y:40},
     {txt:"Press X for the Arcane spell (costs 50)",x:130,y:40},
-    {txt:"Good luck! Save our kitties!",y:120}
+    {txt:"Good luck! Save our kitties!",y:120},
+    {txt:"Press ESCAPE to finish tutorial.",x:130,y:60}
 ];
 
 const area1Messages = [
@@ -141,7 +163,9 @@ var tutorial = new MessageSequence(tutorialMessages);
 tutorial.messageTimespan = 1500; // ms messages are displayed
 tutorial.messageDelay = 3000; // space between the messages
 tutorial.startDelay = 1000; // time from game begin
+tutorial.holdLastMessage = true;
 
+var introSequence = new MessageSequence(introStory);
 var area1Sequence = new MessageSequence(area1Messages);
 var area2Sequence = new MessageSequence(area2Messages);
 var area3Sequence = new MessageSequence(area3Messages);

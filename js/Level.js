@@ -126,7 +126,7 @@ var level0Data = {
   enemyList: {
       enemyTypes: [Kangarobot],
       limit: 1,
-      total: 5,
+      total: 15, //you're not meant to kill all these, just press Escape
   }
 }
 var level1Data = {
