@@ -16,11 +16,11 @@ function GamepadSupport() {
     var SIMULATED_KEY_RIGHT = keycodes.right; //keycodes.d;
 
     // action buttons
-    var SIMULATED_KEY_A_BUTTON = keycodes.up; //keycodes.space; // jump in this game is the up arrow key
-    var SIMULATED_KEY_B_BUTTON = keycodes.z;
-    var SIMULATED_KEY_X_BUTTON = keycodes.x;
-    var SIMULATED_KEY_Y_BUTTON = keycodes.enter;
-    //var SIMULATED_KEY_START_BUTTON = keycodes.p;
+    var SIMULATED_KEY_A_BUTTON = keycodes.z;
+    var SIMULATED_KEY_B_BUTTON = keycodes.escape;
+    var SIMULATED_KEY_Y_BUTTON = keycodes.x;
+    var SIMULATED_KEY_X_BUTTON = keycodes.up;
+    var SIMULATED_KEY_START_BUTTON = keycodes.enter;
 
     // internal states
     var gamepad = null;
@@ -32,6 +32,8 @@ function GamepadSupport() {
     var gamepad_a = false;
     var gamepad_x = false;
     var gamepad_y = false;
+    var gamepad_start = false;
+
     var prev_gamepad_left = false;
     var prev_gamepad_right = false;
     var prev_gamepad_up = false;
@@ -40,6 +42,7 @@ function GamepadSupport() {
     var prev_gamepad_jump = false;
     var prev_gamepad_x = false;
     var prev_gamepad_y = false;
+    var prev_gamepad_start = false;
 
     window.addEventListener("gamepadconnected", function (e) {
         // Gamepad connected
@@ -88,6 +91,12 @@ function GamepadSupport() {
             butt = applyDeadzone(gamepad.buttons[3].value, 0.25);
             gamepad_y = (butt > 0);
             //console.log("Gamepad buttons: A:" + gamepad.buttons[0].value + " B:" + + gamepad.buttons[1].value + " X:" + + gamepad.buttons[2].value + " Y:" + + gamepad.buttons[3].value);
+            
+            // start button
+            butt = applyDeadzone(gamepad.buttons[9].value, 0.25);
+            gamepad_start = (butt > 0);
+
+
         }
         else {
             //console.log("No gamepad detected! YET..."); // spammy before button press
@@ -110,6 +119,8 @@ function GamepadSupport() {
         if (!prev_gamepad_jump && gamepad_a) simulateKeyDown(SIMULATED_KEY_A_BUTTON);
         if (!prev_gamepad_x && gamepad_x) simulateKeyDown(SIMULATED_KEY_X_BUTTON);
         if (!prev_gamepad_y && gamepad_y) simulateKeyDown(SIMULATED_KEY_Y_BUTTON);
+        if (!prev_gamepad_start && gamepad_start) simulateKeyDown(SIMULATED_KEY_START_BUTTON);
+        
         // only sends events if state has changed
         if (prev_gamepad_left && !gamepad_left) simulateKeyUp(SIMULATED_KEY_LEFT);
         if (prev_gamepad_right && !gamepad_right) simulateKeyUp(SIMULATED_KEY_RIGHT);
@@ -119,6 +130,9 @@ function GamepadSupport() {
         if (prev_gamepad_jump && !gamepad_a) simulateKeyUp(SIMULATED_KEY_A_BUTTON);
         if (prev_gamepad_x && !gamepad_x) simulateKeyUp(SIMULATED_KEY_X_BUTTON);
         if (prev_gamepad_y && !gamepad_y) simulateKeyUp(SIMULATED_KEY_Y_BUTTON);
+        if (prev_gamepad_start && !gamepad_start) simulateKeyUp(SIMULATED_KEY_START_BUTTON);
+
+
         // now remember current state
         prev_gamepad_left = gamepad_left;
         prev_gamepad_right = gamepad_right;
@@ -128,6 +142,7 @@ function GamepadSupport() {
         prev_gamepad_jump = gamepad_a;
         prev_gamepad_x = gamepad_x;
         prev_gamepad_y = gamepad_y;
+        prev_gamepad_start = gamepad_start;
     }
 
     function simulateKeyDown(thisKey) {
