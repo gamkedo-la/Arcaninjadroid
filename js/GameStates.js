@@ -241,7 +241,7 @@ function MainMenuState() {
 
             this.changeFocus("down");
         }
-
+/*
         if (Input.getKeyDown("0")) {
             levelProgression = 0;
             this.updateCurrentLevel();
@@ -273,7 +273,8 @@ function MainMenuState() {
         } else if (Input.getKeyDown("9")) {
             levelProgression = 9;
             this.updateCurrentLevel();
-        }
+        }*/
+
     };
     //for demo only
     this.updateCurrentLevel = function () {
@@ -390,7 +391,7 @@ function CreditsState() {
 
     this.handleInput = function () {
 
-        if (Input.getKeyDown("x") || Input.getKeyDown("escape")) {
+        if (Input.getKeyDown("escape")) {
             return GameStates.mainMenuState;
         }
 
