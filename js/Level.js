@@ -200,9 +200,9 @@ var level8Data = {
   music: musicFight3,
   background: Images.getImage("controlRoom"),
   enemyList: {
-      enemyTypes: [Frogbot,Tigerobot],
-      limit: 5,
-      total: 10,
+      enemyTypes: [Frogbot,Tigerobot, Kangarobot],
+      limit: 4,
+      total: 9,
   }
 }
 var level9Data = {

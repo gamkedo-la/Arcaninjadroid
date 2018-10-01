@@ -141,7 +141,7 @@ function PauseState() {
     };
 
     this.handleInput = function () {
-        if (Input.getKey("z") && Input.getKey("x") && Input.getKey("enter")) {
+        if (Input.getKeyDown("escape")) {
             return GameStates.mainMenuState;
         }
         else if (Input.getKeyDown("enter")) {
@@ -188,7 +188,7 @@ function MainMenuState() {
             GameStates.inGameState.currentLevel = allLevels[levelProgression];
             //no saving until the player completes the level!
             
-            return GameStates.inGameState;
+            return GameStates.storySequenceState;
         }),
         new Button(180, 50, Images.getImage("loadGame"), function () { 
             resetGame();
@@ -475,7 +475,7 @@ function GameOverState() {
 
     this.handleInput = function () {
 
-        if (Input.getKeyDown("enter")) {
+        if (Input.getKeyDown("escape")) {
             return GameStates.mainMenuState;
         }
 
@@ -619,12 +619,12 @@ function OptionsState() {
             punch_Light02.play(); // to preview the new volume
         }
 
-        if (Input.getKeyDown("c")) {
+        if (Input.getKeyDown("left")) {
             this.mus_vol -= 10;
             if (this.mus_vol < 0) this.mus_vol = 0;
         }
 
-        if (Input.getKeyDown("v")) {
+        if (Input.getKeyDown("right")) {
             this.mus_vol += 10;
             if (this.mus_vol>100) this.mus_vol = 100;
         }
@@ -650,7 +650,7 @@ function OptionsState() {
         barstr += "] " + this.sfx_vol;
         drawPixelfont(barstr, 48, 56);
 
-        drawPixelfont("[c,v] Music Volume: ", 48, 64);
+        drawPixelfont("[Left,Right] Music Volume: ", 48, 64);
         barstr = "[";
         for (loop=0; loop<Math.round(this.mus_vol/5); loop++) { barstr += "=" }
         for (loop=Math.round(this.mus_vol/5); loop<20; loop++) { barstr += "-" }
